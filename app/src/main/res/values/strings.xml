@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">TimeTable 2.0</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_timetable">Занятия</string>
+    <string name="title_exams">Экзамены</string>
+    <string name="title_settings">Настройки</string>
+    <string name="exams_header">Экзамены %1$s</string>
+    <string name="exams_list_message">Экзаменов нет</string>
 </resources>

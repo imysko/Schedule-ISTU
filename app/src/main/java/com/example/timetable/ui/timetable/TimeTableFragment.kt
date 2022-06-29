@@ -1,4 +1,4 @@
-package com.example.timetable.ui.home
+package com.example.timetable.ui.timetable
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.timetable.databinding.FragmentHomeBinding
+import com.example.timetable.databinding.FragmentTimetableBinding
 
-class HomeFragment : Fragment() {
+class TimeTableFragment : Fragment() {
 
-    private var _binding: FragmentHomeBinding? = null
+    private var _binding: FragmentTimetableBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,9 +22,9 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
+            ViewModelProvider(this)[TimeTableViewModel::class.java]
 
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        _binding = FragmentTimetableBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         // bind to TextView

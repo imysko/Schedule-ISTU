@@ -1,8 +1,7 @@
 package com.example.timetable.repositories
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.timetable.objects.Exam
+import com.example.timetable.entities.Exam
 import com.google.firebase.database.*
 
 class ExamFirebaseRepository {
@@ -13,9 +12,6 @@ class ExamFirebaseRepository {
     }
     val listRecords: MutableLiveData<ArrayList<Exam>> = _listRecords
 
-    private val _examListIsEmpty = MutableLiveData(true)
-    var examListIsEmpty: MutableLiveData<Boolean> = _examListIsEmpty
-
     private fun fetchingRecords() {
         _reference.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -25,7 +21,6 @@ class ExamFirebaseRepository {
                 }
 
                 _listRecords.value = list
-                _examListIsEmpty.value = list.isEmpty()
             }
 
             override fun onCancelled(error: DatabaseError) {

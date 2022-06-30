@@ -1,4 +1,4 @@
-package com.example.timetable.ui.settings
+package com.example.timetable.ui.fragments.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,8 +13,6 @@ class SettingsFragment : Fragment() {
 
     private var _binding: FragmentSettingsBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(

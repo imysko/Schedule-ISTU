@@ -8,11 +8,11 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.example.timetable.ui.exams.ExamsViewModel" />
+            type="com.example.timetable.ui.fragments.exams.ExamsViewModel" />
     </data>
 
     <FrameLayout
-        tools:context=".ui.exams.ExamsFragment"
+        tools:context=".ui.fragments.exams.ExamsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/light_gray" >
@@ -54,7 +54,7 @@
                     android:text="@string/exams_list_message"
                     android:textSize="24sp"
                     android:textAlignment="center"
-                    android:visibility="@{View.INVISIBLE}"
+                    android:visibility="@{viewmodel.examList.size() == 0 ? View.VISIBLE : View.GONE}"
                     tools:visibility="invisible" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

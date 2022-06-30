@@ -1,4 +1,4 @@
-package com.example.timetable.ui.exams
+package com.example.timetable.ui.fragments.exams
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.fragment_exams.*
 class ExamsFragment : Fragment() {
 
     private val _repository = ExamFirebaseRepository()
-    private val _examsViewModel: ExamsViewModel by viewModels {ExamsViewModelFactory(_repository)}
+    private val _viewModel: ExamsViewModel by viewModels {ExamsViewModelFactory(_repository)}
     private var _binding: FragmentExamsBinding? = null
 
     private val binding get() = _binding!!
@@ -31,7 +31,9 @@ class ExamsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentExamsBinding.inflate(inflater, container, false)
-            .apply { viewmodel = _examsViewModel }
+            .apply { viewmodel = _viewModel }
+        _binding!!.lifecycleOwner = this.viewLifecycleOwner
+
         val root: View = binding.root
 
         return root
@@ -42,12 +44,11 @@ class ExamsFragment : Fragment() {
 
         setupListAdapter()
 
-        _examsViewModel.updateGroup("ИСТб-20-2", "Институт информационных технологий и анализа данных")
-        //_examsViewModel.updateGroup("ЭПЭБ-20-1", "Институт экономики, управления и права")
+        _viewModel.updateGroup("ИСТб-20-4", "Институт информационных технологий и анализа данных")
     }
 
     private fun setupListAdapter() {
-        _examsViewModel.examList.observe(viewLifecycleOwner, Observer { exams ->
+        _viewModel.examList.observe(viewLifecycleOwner, Observer { exams ->
             exams_recycle_view.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(false)

@@ -3,7 +3,7 @@ package com.example.timetable.ui.factory
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.timetable.repositories.ExamFirebaseRepository
-import com.example.timetable.ui.exams.ExamsViewModel
+import com.example.timetable.ui.fragments.exams.ExamsViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ExamsViewModelFactory(

@@ -1,4 +1,4 @@
-package com.example.timetable.ui.settings
+package com.example.timetable.ui.fragments.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

@@ -1,4 +1,4 @@
-package com.example.timetable.objects
+package com.example.timetable.entities
 
 abstract class Record {
     abstract val time: String

@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.databinding.BindingAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.timetable.R
 import com.example.timetable.databinding.FragmentExamsBinding
 import com.example.timetable.ui.factory.ExamsViewModelFactory
 import com.example.timetable.repositories.ExamFirebaseRepository
@@ -48,22 +45,17 @@ class ExamsFragment : Fragment() {
     }
 
     private fun setupListAdapter() {
-        _viewModel.examList.observe(viewLifecycleOwner, Observer { exams ->
+        _viewModel.examList.observe(viewLifecycleOwner) { exams ->
             exams_recycle_view.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(false)
                 it.adapter = ExamListAdapter(exams)
             }
-        })
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-}
-
-@BindingAdapter("bind_exams_header")
-fun TextView.bindExamHeader(companion: String) {
-    this.text = resources.getString(R.string.exams_header, companion)
 }

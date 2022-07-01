@@ -1,7 +1,6 @@
 package com.example.timetable.entities
 
 data class Lesson(
-    val number: String,
     val group: String,
     val type: String,
     override val time: String,
@@ -10,5 +9,5 @@ data class Lesson(
     override val classroom: String
 ) : Record() {
     // for serialize data from firebase to class
-    constructor() : this("1", "", "type", "", "", "", "")
+    constructor() : this("", "type", "", "", "", "")
 }

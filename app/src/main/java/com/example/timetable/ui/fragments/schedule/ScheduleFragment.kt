@@ -45,13 +45,13 @@ class ScheduleFragment : Fragment() {
     }
 
     private fun setupListAdapter() {
-        _viewModel.lessonList.observe(viewLifecycleOwner, Observer { lessons ->
+        _viewModel.lessonList.observe(viewLifecycleOwner) { lessons ->
             lessons_recycle_view.also {
                 it.layoutManager = LinearLayoutManager(requireContext())
                 it.setHasFixedSize(false)
                 it.adapter = ScheduleListAdapter(lessons)
             }
-        })
+        }
     }
 
     override fun onDestroyView() {

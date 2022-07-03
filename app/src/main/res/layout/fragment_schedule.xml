@@ -74,11 +74,12 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/horizontal_calendar_recycle_view"
+                android:id="@+id/horizontal_calendar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 tools:itemCount="1"
+                tools:listitem="@layout/item_horizontal_calendar_date"
                  />
 
             <androidx.constraintlayout.widget.ConstraintLayout

@@ -19,6 +19,7 @@ fun TextView.bindExamHeader(companion: String) {
 fun TextView.bindLessonTime(companion: String) {
     var localTime = LocalTime.parse(companion, DateTimeFormatter.ofPattern("H:mm"))
     localTime = localTime.plusMinutes(90)
+
     this.text = "$companion - $localTime"
 }
 

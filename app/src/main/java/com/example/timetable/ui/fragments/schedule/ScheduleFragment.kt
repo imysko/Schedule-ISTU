@@ -6,18 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.timetable.databinding.FragmentScheduleBinding
 import com.example.timetable.repositories.ScheduleFirebaseRepository
 import com.example.timetable.ui.adapters.ScheduleListAdapter
 import com.example.timetable.ui.factory.ScheduleViewModelFactory
+import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarAdapter
+import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarFactory
 import kotlinx.android.synthetic.main.fragment_schedule.*
+import java.time.Instant
 
 class ScheduleFragment : Fragment() {
 
     private val _repository = ScheduleFirebaseRepository()
-    private val _viewModel: ScheduleViewModel by viewModels { ScheduleViewModelFactory(_repository) }
+
+    private val _horizontalCalendarFactory = HorizontalCalendarFactory { Instant.now() }
+    private val _horizontalCalendarAdapter = HorizontalCalendarAdapter()
+
+    private val _viewModel: ScheduleViewModel by viewModels {
+        ScheduleViewModelFactory(_repository, _horizontalCalendarFactory)
+    }
     private var _binding: FragmentScheduleBinding? = null
 
     private val binding get() = _binding!!
@@ -40,8 +48,21 @@ class ScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupListAdapter()
+        setupHorizontalCalendar()
 
         _viewModel.updateGroup("ИСТб-20-4", "Институт информационных технологий и анализа данных")
+    }
+
+    private fun setupHorizontalCalendar() {
+        _viewModel.horizontalCalendarSource.observe(viewLifecycleOwner) { dates ->
+            _horizontalCalendarAdapter.submitList(dates)
+        }
+
+        binding.horizontalCalendar.apply {
+            adapter = _horizontalCalendarAdapter
+            layoutManager = LinearLayoutManager(this.context,
+                LinearLayoutManager.HORIZONTAL, false)
+        }
     }
 
     private fun setupListAdapter() {

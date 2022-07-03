@@ -3,13 +3,21 @@ package com.example.timetable.ui.fragments.schedule
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.paging.PagedList
+import androidx.paging.toLiveData
 import com.example.timetable.entities.Lesson
 import com.example.timetable.repositories.ScheduleFirebaseRepository
+import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarFactory
 import java.time.LocalDate
 
 class ScheduleViewModel(
-    private val _repository: ScheduleFirebaseRepository
+    private val _repository: ScheduleFirebaseRepository,
+    _horizontalCalendarFactory: HorizontalCalendarFactory
 ) : ViewModel() {
+
+    private val _horizontalCalendarSource: LiveData<PagedList<LocalDate>> =
+        _horizontalCalendarFactory.toLiveData(30)
+    val horizontalCalendarSource: LiveData<PagedList<LocalDate>> = _horizontalCalendarSource
 
     private val _institute = MutableLiveData<String>("")
     private val _group = MutableLiveData<String>("")

@@ -14,4 +14,7 @@
     <string name="lecture">лекция</string>
     <string name="practice">практика</string>
     <string name="laboratory_work">лабораторная работа</string>
+
+    <string name="even_week">чётная</string>
+    <string name="odd_week">нечётная</string>
 </resources>

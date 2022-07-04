@@ -10,8 +10,9 @@ import com.example.timetable.R
 import com.example.timetable.databinding.ItemHorizontalCalendarDateBinding
 import java.time.LocalDate
 
-class HorizontalCalendarAdapter
-    : PagedListAdapter<LocalDate, HorizontalCalendarAdapter.CalendarDateViewHolder>(DIFF_CALLBACK) {
+class HorizontalCalendarAdapter(
+    private val clickListener: (LocalDate) -> Unit
+) : PagedListAdapter<LocalDate, HorizontalCalendarAdapter.CalendarDateViewHolder>(DIFF_CALLBACK) {
 
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<LocalDate>() {
@@ -32,6 +33,10 @@ class HorizontalCalendarAdapter
     override fun onBindViewHolder(holder: CalendarDateViewHolder, position: Int) {
         getItem(position)?.let { day ->
             holder.binding.day = day
+
+            holder.itemView.setOnClickListener {
+                clickListener(day)
+            }
         }
     }
 

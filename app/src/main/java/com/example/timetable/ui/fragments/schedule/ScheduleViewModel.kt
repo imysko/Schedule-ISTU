@@ -19,9 +19,10 @@ class ScheduleViewModel(
         _horizontalCalendarFactory.toLiveData(30)
     val horizontalCalendarSource: LiveData<PagedList<LocalDate>> = _horizontalCalendarSource
 
-    private val _institute = MutableLiveData<String>("")
-    private val _group = MutableLiveData<String>("")
-    private val _date = MutableLiveData<LocalDate>(LocalDate.of(2022, 5, 25))
+    private val _institute = MutableLiveData<String>()
+    private val _group = MutableLiveData<String>()
+    private val _date = MutableLiveData(LocalDate.now())
+    val selectedDate: LiveData<LocalDate> = _date
 
     private val _lessonList: MutableLiveData<ArrayList<Lesson>> = _repository.listRecords
     val lessonList: LiveData<ArrayList<Lesson>> = _lessonList

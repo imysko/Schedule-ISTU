@@ -6,13 +6,30 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import com.example.timetable.R
 import com.example.timetable.entities.Lesson
+import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.WeekFields
 import java.util.*
 
 @BindingAdapter("bind_exams_header")
 fun TextView.bindExamHeader(companion: String) {
     this.text = resources.getString(R.string.exams_header, companion)
+}
+
+@BindingAdapter("bind_selected_date")
+fun TextView.bindSelectedDate(companion: LocalDate) {
+    this.text = "${companion.dayOfMonth} ${companion.month} ${companion.year}"
+}
+
+@BindingAdapter("bind_type_week")
+fun TextView.bindTypeWeek(companion: LocalDate) {
+    val weekNumber = companion.get(WeekFields.of(Locale.UK).weekBasedYear())
+    this.text = if (weekNumber % 2 == 0)
+        resources.getString(R.string.even_week)
+    else
+        resources.getString(R.string.odd_week)
+        //companion.get(WeekFields.of(Locale.UK).weekOfWeekBasedYear()) % 2 == 0) "чётная" else "нечётная")
 }
 
 @BindingAdapter("bind_lesson_time")

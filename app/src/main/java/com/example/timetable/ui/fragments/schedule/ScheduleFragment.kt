@@ -21,11 +21,15 @@ class ScheduleFragment : Fragment() {
     private val _repository = ScheduleFirebaseRepository()
 
     private val _horizontalCalendarFactory = HorizontalCalendarFactory { Instant.now() }
-    private val _horizontalCalendarAdapter = HorizontalCalendarAdapter()
 
     private val _viewModel: ScheduleViewModel by viewModels {
         ScheduleViewModelFactory(_repository, _horizontalCalendarFactory)
     }
+
+    private val _horizontalCalendarAdapter = HorizontalCalendarAdapter {
+        _viewModel.selectDate(it)
+    }
+
     private var _binding: FragmentScheduleBinding? = null
 
     private val binding get() = _binding!!

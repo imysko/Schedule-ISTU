@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{exam.date}"
+                app:bind_exam_date="@{exam.date}"
                 tools:text="дата" />
 
             <com.google.android.material.divider.MaterialDivider
@@ -70,6 +70,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/exam_name"
                 android:text="@{exam.teacher}"
+                app:visibility="@{exam.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
                 tools:text="препод" />
 
             <TextView
@@ -80,6 +81,7 @@
                 app:layout_constraintTop_toBottomOf="@id/exam_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:text="@{exam.classroom}"
+                app:visibility="@{exam.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
                 tools:text="кабинет" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

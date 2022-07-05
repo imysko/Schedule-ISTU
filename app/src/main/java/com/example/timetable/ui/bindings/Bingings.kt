@@ -2,6 +2,7 @@ package com.example.timetable.ui.bindings
 
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
 import com.example.timetable.R
@@ -22,6 +23,15 @@ fun TextView.bindSelectedDate(companion: LocalDate) {
     this.text = "${companion.dayOfMonth} ${companion.month} ${companion.year}"
 }
 
+@BindingAdapter("bind_item_date_theme")
+fun ConstraintLayout.bindItemDateTheme(companion: Boolean) {
+    if (companion)
+        this.background = ResourcesCompat.getDrawable(resources, R.drawable.item_select_date_border, null)
+    else
+        this.background = ResourcesCompat.getDrawable(resources, R.drawable.item_deselect_date_border, null)
+}
+
+
 @BindingAdapter("bind_type_week")
 fun TextView.bindTypeWeek(companion: LocalDate) {
     val weekNumber = companion.get(WeekFields.of(Locale.UK).weekBasedYear())
@@ -29,7 +39,6 @@ fun TextView.bindTypeWeek(companion: LocalDate) {
         resources.getString(R.string.even_week)
     else
         resources.getString(R.string.odd_week)
-        //companion.get(WeekFields.of(Locale.UK).weekOfWeekBasedYear()) % 2 == 0) "чётная" else "нечётная")
 }
 
 @BindingAdapter("bind_lesson_time")
@@ -63,4 +72,12 @@ fun ImageView.bindLessonIcon(companion: String) {
         resources.getString(R.string.laboratory_work) ->
             this.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_laboratory_work, null))
     }
+}
+
+@BindingAdapter("bind_exam_date")
+fun TextView.bindExamDate(companion: String) {
+    if (companion.isEmpty())
+        this.text = resources.getString(R.string.exam_date_empty)
+    else
+        this.text = companion
 }

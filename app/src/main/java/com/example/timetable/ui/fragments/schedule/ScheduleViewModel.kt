@@ -7,6 +7,7 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import com.example.timetable.entities.Lesson
 import com.example.timetable.repositories.ScheduleFirebaseRepository
+import com.example.timetable.ui.horizontalcalendar.Day
 import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarFactory
 import java.time.LocalDate
 
@@ -15,9 +16,9 @@ class ScheduleViewModel(
     _horizontalCalendarFactory: HorizontalCalendarFactory
 ) : ViewModel() {
 
-    private val _horizontalCalendarSource: LiveData<PagedList<LocalDate>> =
+    private val _horizontalCalendarSource: LiveData<PagedList<Day>> =
         _horizontalCalendarFactory.toLiveData(30)
-    val horizontalCalendarSource: LiveData<PagedList<LocalDate>> = _horizontalCalendarSource
+    val horizontalCalendarSource: LiveData<PagedList<Day>> = _horizontalCalendarSource
 
     private val _institute = MutableLiveData<String>()
     private val _group = MutableLiveData<String>()

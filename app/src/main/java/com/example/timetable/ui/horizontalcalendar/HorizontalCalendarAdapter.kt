@@ -12,15 +12,15 @@ import java.time.LocalDate
 
 class HorizontalCalendarAdapter(
     private val clickListener: (LocalDate) -> Unit
-) : PagedListAdapter<LocalDate, HorizontalCalendarAdapter.CalendarDateViewHolder>(DIFF_CALLBACK) {
+) : PagedListAdapter<Day, HorizontalCalendarAdapter.CalendarDateViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<LocalDate>() {
-            override fun areItemsTheSame(oldItem: LocalDate, newItem: LocalDate): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Day>() {
+            override fun areItemsTheSame(oldItem: Day, newItem: Day): Boolean {
                 return true
             }
 
-            override fun areContentsTheSame(oldItem: LocalDate, newItem: LocalDate): Boolean {
+            override fun areContentsTheSame(oldItem: Day, newItem: Day): Boolean {
                 return oldItem == newItem
             }
         }
@@ -30,13 +30,46 @@ class HorizontalCalendarAdapter(
         val binding: ItemHorizontalCalendarDateBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
+    private var selectedDate: LocalDate = LocalDate.now()
+
     override fun onBindViewHolder(holder: CalendarDateViewHolder, position: Int) {
         getItem(position)?.let { day ->
             holder.binding.day = day
 
             holder.itemView.setOnClickListener {
-                clickListener(day)
+                clickListener(day.date)
+
+                onSelect(day)
+                selectedDate = day.date
             }
+        }
+    }
+
+    private fun onSelect(day: Day) {
+        currentList?.binarySearch {
+            it.date.compareTo(selectedDate)
+        }?.let { currentPosition ->
+            onDeselect(currentPosition)
+        }
+
+        currentList?.binarySearch {
+            it.date.compareTo(day.date)
+        }?.let { currentPosition ->
+            onSelect(currentPosition)
+        }
+    }
+
+    private fun onSelect(position: Int) {
+        currentList?.let {
+            getItem(position)?.isSelected = true
+            notifyItemChanged(position)
+        }
+    }
+
+    private fun onDeselect(position: Int) {
+        currentList?.let {
+            getItem(position)?.isSelected = false
+            notifyItemChanged(position)
         }
     }
 

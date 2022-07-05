@@ -17,4 +17,6 @@
 
     <string name="even_week">чётная</string>
     <string name="odd_week">нечётная</string>
+    
+    <string name="exam_date_empty">дата не определена</string>
 </resources>

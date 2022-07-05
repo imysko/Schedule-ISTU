@@ -6,9 +6,9 @@ import java.time.LocalDate
 
 class HorizontalCalendarFactory(
     private val _now: () -> Instant
-) : DataSource.Factory<Long, LocalDate>() {
+) : DataSource.Factory<Long, Day>() {
 
-    override fun create(): DataSource<Long, LocalDate> {
+    override fun create(): DataSource<Long, Day> {
         return HorizontalCalendarSource(_now)
     }
 }

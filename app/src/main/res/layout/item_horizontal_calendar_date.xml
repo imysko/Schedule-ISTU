@@ -11,16 +11,16 @@
 
         <variable
             name="day"
-            type="java.time.LocalDate" />
+            type="com.example.timetable.ui.horizontalcalendar.Day" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/item_date_border"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        tools:background="@drawable/item_deselect_date_border"
+        app:bind_item_date_theme="@{day.selected}"
         android:layout_marginHorizontal="4dp"
-        android:paddingHorizontal="16dp"
-        android:paddingVertical="8dp">
+        android:paddingVertical="10dp" >
 
         <TextView
             android:id="@+id/day_of_mouth"
@@ -29,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:text="@{String.valueOf(day.dayOfMonth)}"
+            app:text="@{String.valueOf(day.date.dayOfMonth)}"
             tools:text="D" />
 
         <TextView
@@ -39,7 +39,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/day_of_mouth"
-            app:text="@{day.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ROOT)}"
+            app:text="@{day.date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.ROOT)}"
             tools:text="W" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

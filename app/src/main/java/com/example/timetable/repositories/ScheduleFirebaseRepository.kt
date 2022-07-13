@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.timetable.entities.Lesson
 import com.google.firebase.database.*
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class ScheduleFirebaseRepository {
@@ -14,19 +15,20 @@ class ScheduleFirebaseRepository {
     }
     val listRecords: MutableLiveData<ArrayList<Lesson>> = _listRecords
 
-    private val _listIsEmpty = MutableLiveData(true)
-    var listIsEmpty: MutableLiveData<Boolean> = _listIsEmpty
-
     private fun fetchingRecords() {
         _reference.addValueEventListener(object: ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val list: ArrayList<Lesson> = ArrayList()
                 for (record in snapshot.children) {
-                    list.add(record.getValue(Lesson::class.java)!!)
+                    val formatter = DateTimeFormatter.ofPattern("d-MM-yyyy H:mm")
+
+                    val lesson = record.getValue(Lesson::class.java)!!
+                    lesson.dateTime = LocalDateTime.parse("${snapshot.key!!} ${lesson.time}", formatter)
+
+                    list.add(lesson)
                 }
 
                 _listRecords.value = list
-                _listIsEmpty.value = list.isEmpty()
             }
 
             override fun onCancelled(error: DatabaseError) {

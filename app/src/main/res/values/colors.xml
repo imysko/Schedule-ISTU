@@ -19,4 +19,8 @@
     <color name="gray">#aaaaaa</color>
     <color name="middle_gray">#7D7D7D</color>
     <color name="dark_gray">#696969</color>
+
+    <color name="malachite">#16c41e</color>
+    <color name="orange">#F7D33E</color>
+
 </resources>

@@ -1,13 +1,13 @@
 <resources>
-    <string name="app_name">TimeTable 2.0</string>
+    <string name="app_name">Schedule ISTU</string>
     <string name="title_schedule">Занятия</string>
     <string name="title_exams">Экзамены</string>
+    <string name="exams_header">Экзамены %1$s</string>
     <string name="title_settings">Настройки</string>
-    <string name="todo">TODO</string>
 
+    <string name="todo">TODO</string>
     <string name="empty"> </string>
 
-    <string name="exams_header">Экзамены %1$s</string>
     <string name="exams_list_message">Экзаменов нет</string>
     <string name="schedule_list_message">Сегодня пар нет (◔◡◔)</string>
 

@@ -9,11 +9,9 @@ import androidx.databinding.BindingAdapter
 import com.example.timetable.R
 import com.example.timetable.entities.Lesson
 import com.google.android.material.divider.MaterialDivider
-import kotlinx.android.synthetic.main.fragment_schedule.view.*
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
-import java.time.format.DateTimeFormatter
 import java.time.temporal.WeekFields
 import java.util.*
 
@@ -29,10 +27,10 @@ fun TextView.bindSelectedDate(date: LocalDate) {
 
 @BindingAdapter("bind_item_date_theme")
 fun ConstraintLayout.bindItemDateTheme(isSelected: Boolean) {
-    if (isSelected)
-        this.background = ResourcesCompat.getDrawable(resources, R.drawable.item_select_date_border, null)
+    this.background = if (isSelected)
+        ResourcesCompat.getDrawable(resources, R.drawable.item_select_date_border, null)
     else
-        this.background = ResourcesCompat.getDrawable(resources, R.drawable.item_deselect_date_border, null)
+        ResourcesCompat.getDrawable(resources, R.drawable.item_deselect_date_border, null)
 }
 
 
@@ -67,14 +65,17 @@ fun TextView.bindLessonNumber(lesson: Lesson) {
 
 @BindingAdapter("bind_lesson_icon")
 fun ImageView.bindLessonIcon(lessonType: String) {
-    when (lessonType) {
-        resources.getString(R.string.lecture) ->
-            this.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_lecture, null))
-        resources.getString(R.string.practice) ->
-            this.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_practice, null))
-        resources.getString(R.string.laboratory_work) ->
-            this.setImageDrawable(ResourcesCompat.getDrawable(resources, R.drawable.ic_laboratory_work, null))
-    }
+    this.setImageDrawable(
+        when (lessonType) {
+            resources.getString(R.string.lecture) ->
+                ResourcesCompat.getDrawable(resources, R.drawable.ic_history_edu, null)
+            resources.getString(R.string.practice) ->
+                ResourcesCompat.getDrawable(resources, R.drawable.ic_precision_manufacturing, null)
+            resources.getString(R.string.laboratory_work) ->
+                ResourcesCompat.getDrawable(resources, R.drawable.ic_biotech, null)
+            else -> null
+        }
+    )
 }
 
 enum class STATUS {
@@ -103,50 +104,35 @@ fun definitionStatus(dateTime: LocalDateTime) : STATUS {
 
 @BindingAdapter("bind_lesson_status")
 fun LinearLayout.bindLessonStatus(dateTime: LocalDateTime) {
-    when (definitionStatus(dateTime)) {
+    this.background = when (definitionStatus(dateTime)) {
         STATUS.NEXT ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_next, null)
+            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_next, null)
         STATUS.CURRENT ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_current, null)
+            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_current, null)
         STATUS.PAST ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_past, null)
+            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_past, null)
         STATUS.DEFAULT ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_default, null)
-    }
-}
-
-@BindingAdapter("bind_lesson_time_status")
-fun LinearLayout.bindLessonTimeStatus(dateTime: LocalDateTime) {
-    when (definitionStatus(dateTime)) {
-        STATUS.NEXT ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_time_status_next, null)
-        STATUS.CURRENT ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_time_status_current, null)
-        STATUS.PAST ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_time_status_past, null)
-        STATUS.DEFAULT ->
-            this.background = ResourcesCompat.getDrawable(resources, R.drawable.lesson_time_status_default, null)
+            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_default, null)
     }
 }
 
 @BindingAdapter("bind_color_divider")
 fun MaterialDivider.bindColorDivider(dateTime: LocalDateTime) {
-    when (definitionStatus(dateTime)) {
+    this.dividerColor = when (definitionStatus(dateTime)) {
         STATUS.NEXT ->
-            this.dividerColor = resources.getColor(R.color.malachite)
+            ResourcesCompat.getColor(resources, R.color.malachite, null)
         STATUS.CURRENT ->
-            this.dividerColor = resources.getColor(R.color.orange)
+            ResourcesCompat.getColor(resources, R.color.orange, null)
         STATUS.PAST ->
-            this.dividerColor = resources.getColor(R.color.middle_gray)
+            ResourcesCompat.getColor(resources, com.google.android.material.R.attr.colorOutline, null)
         STATUS.DEFAULT ->
-            this.dividerColor = resources.getColor(R.color.middle_blue)
+            ResourcesCompat.getColor(resources, androidx.databinding.library.baseAdapters.R.attr.colorPrimary, null)
+            //ResourcesCompat.getColor(resources, com.google.android.material.R.attr.colorPrimary, null)
+            //ResourcesCompat.getColor(resources, androidx.appcompat.R.attr.colorPrimary, null)
     }
 }
 
 @BindingAdapter("bind_exam_date")
 fun TextView.bindExamDate(date: String) {
-    if (date.isEmpty())
-        this.text = resources.getString(R.string.exam_date_empty)
-    else
-        this.text = date
+    this.text = date.ifEmpty { resources.getString(R.string.exam_date_empty) }
 }

@@ -1,4 +1,4 @@
-package com.example.timetable.ui.horizontalcalendar
+package com.example.schedule.ui.horizontalcalendar
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,8 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagedListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.timetable.R
-import com.example.timetable.databinding.ItemHorizontalCalendarDateBinding
+import com.example.schedule.R
+import com.example.schedule.databinding.ItemHorizontalCalendarDateBinding
 import java.time.LocalDate
 
 class HorizontalCalendarAdapter(

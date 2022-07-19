@@ -1,4 +1,4 @@
-package com.example.timetable.ui.horizontalcalendar
+package com.example.schedule.ui.horizontalcalendar
 
 import java.time.LocalDate
 

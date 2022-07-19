@@ -1,4 +1,4 @@
-package com.example.timetable.ui.helpers
+package com.example.schedule.ui.helpers
 
 import android.content.Context
 import android.graphics.Rect

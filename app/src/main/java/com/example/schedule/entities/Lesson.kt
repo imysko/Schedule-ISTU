@@ -1,4 +1,4 @@
-package com.example.timetable.entities
+package com.example.schedule.entities
 
 import java.time.LocalDateTime
 

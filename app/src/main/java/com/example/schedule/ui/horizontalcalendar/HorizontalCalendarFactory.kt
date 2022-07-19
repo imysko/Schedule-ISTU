@@ -1,8 +1,7 @@
-package com.example.timetable.ui.horizontalcalendar
+package com.example.schedule.ui.horizontalcalendar
 
 import androidx.paging.DataSource
 import java.time.Instant
-import java.time.LocalDate
 
 class HorizontalCalendarFactory(
     private val _now: () -> Instant

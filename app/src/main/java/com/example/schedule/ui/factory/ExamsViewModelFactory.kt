@@ -1,9 +1,9 @@
-package com.example.timetable.ui.factory
+package com.example.schedule.ui.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.timetable.repositories.ExamFirebaseRepository
-import com.example.timetable.ui.fragments.exams.ExamsViewModel
+import com.example.schedule.repositories.ExamFirebaseRepository
+import com.example.schedule.ui.fragments.exams.ExamsViewModel
 
 @Suppress("UNCHECKED_CAST")
 class ExamsViewModelFactory(

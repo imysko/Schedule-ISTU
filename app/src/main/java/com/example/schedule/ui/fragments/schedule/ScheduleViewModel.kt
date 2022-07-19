@@ -1,14 +1,14 @@
-package com.example.timetable.ui.fragments.schedule
+package com.example.schedule.ui.fragments.schedule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import com.example.timetable.entities.Lesson
-import com.example.timetable.repositories.ScheduleFirebaseRepository
-import com.example.timetable.ui.horizontalcalendar.Day
-import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarFactory
+import com.example.schedule.entities.Lesson
+import com.example.schedule.repositories.ScheduleFirebaseRepository
+import com.example.schedule.ui.horizontalcalendar.Day
+import com.example.schedule.ui.horizontalcalendar.HorizontalCalendarFactory
 import java.time.LocalDate
 
 class ScheduleViewModel(

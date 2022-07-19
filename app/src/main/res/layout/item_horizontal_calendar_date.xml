@@ -11,7 +11,7 @@
 
         <variable
             name="day"
-            type="com.example.timetable.ui.horizontalcalendar.Day" />
+            type="com.example.schedule.ui.horizontalcalendar.Day" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

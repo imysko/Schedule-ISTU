@@ -8,7 +8,7 @@
         <import type="android.view.View" />
         <variable
             name="exam"
-            type="com.example.timetable.entities.Exam" />
+            type="com.example.schedule.entities.Exam" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -18,7 +18,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="@color/light_blue" >
+        app:cardBackgroundColor="?attr/colorSecondaryContainer" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

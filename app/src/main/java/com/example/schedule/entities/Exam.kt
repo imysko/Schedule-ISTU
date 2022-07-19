@@ -1,4 +1,4 @@
-package com.example.timetable.entities
+package com.example.schedule.entities
 
 data class Exam(
     val date: String,

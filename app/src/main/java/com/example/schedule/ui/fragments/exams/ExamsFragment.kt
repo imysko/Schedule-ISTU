@@ -1,4 +1,4 @@
-package com.example.timetable.ui.fragments.exams
+package com.example.schedule.ui.fragments.exams
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.timetable.databinding.FragmentExamsBinding
-import com.example.timetable.ui.factory.ExamsViewModelFactory
-import com.example.timetable.repositories.ExamFirebaseRepository
-import com.example.timetable.ui.adapters.ExamListAdapter
+import com.example.schedule.databinding.FragmentExamsBinding
+import com.example.schedule.ui.factory.ExamsViewModelFactory
+import com.example.schedule.repositories.ExamFirebaseRepository
+import com.example.schedule.ui.adapters.ExamListAdapter
 import kotlinx.android.synthetic.main.fragment_exams.*
 
 class ExamsFragment : Fragment() {

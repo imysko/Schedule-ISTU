@@ -1,7 +1,7 @@
-package com.example.timetable.repositories
+package com.example.schedule.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.example.timetable.entities.Lesson
+import com.example.schedule.entities.Lesson
 import com.google.firebase.database.*
 import java.time.LocalDate
 import java.time.LocalDateTime

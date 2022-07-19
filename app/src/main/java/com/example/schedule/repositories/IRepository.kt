@@ -1,7 +1,7 @@
-package com.example.timetable.repositories
+package com.example.schedule.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.example.timetable.entities.Record
+import com.example.schedule.entities.Record
 
 interface IRepository {
      val listRecords: MutableLiveData<ArrayList<Record>>

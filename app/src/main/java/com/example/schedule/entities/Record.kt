@@ -1,4 +1,4 @@
-package com.example.timetable.entities
+package com.example.schedule.entities
 
 abstract class Record {
     abstract val time: String

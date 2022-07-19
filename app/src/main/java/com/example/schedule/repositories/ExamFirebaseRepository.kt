@@ -1,7 +1,7 @@
-package com.example.timetable.repositories
+package com.example.schedule.repositories
 
 import androidx.lifecycle.MutableLiveData
-import com.example.timetable.entities.Exam
+import com.example.schedule.entities.Exam
 import com.google.firebase.database.*
 
 class ExamFirebaseRepository {

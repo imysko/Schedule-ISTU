@@ -19,4 +19,7 @@
     <string name="odd_week">нечётная</string>
     
     <string name="exam_date_empty">дата не определена</string>
+
+    <string name="institute_hint">выберите институт</string>
+    <string name="group_hint">выберите группу</string>
 </resources>

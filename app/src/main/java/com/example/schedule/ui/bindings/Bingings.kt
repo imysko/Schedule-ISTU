@@ -1,13 +1,14 @@
-package com.example.timetable.ui.bindings
+package com.example.schedule.ui.bindings
 
+import android.util.TypedValue
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
-import com.example.timetable.R
-import com.example.timetable.entities.Lesson
+import com.example.schedule.R
+import com.example.schedule.entities.Lesson
 import com.google.android.material.divider.MaterialDivider
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,9 +29,9 @@ fun TextView.bindSelectedDate(date: LocalDate) {
 @BindingAdapter("bind_item_date_theme")
 fun ConstraintLayout.bindItemDateTheme(isSelected: Boolean) {
     this.background = if (isSelected)
-        ResourcesCompat.getDrawable(resources, R.drawable.item_select_date_border, null)
+        ResourcesCompat.getDrawable(resources, R.drawable.item_select_date_border, context.theme)
     else
-        ResourcesCompat.getDrawable(resources, R.drawable.item_deselect_date_border, null)
+        ResourcesCompat.getDrawable(resources, R.drawable.item_deselect_date_border, context.theme)
 }
 
 
@@ -104,31 +105,41 @@ fun definitionStatus(dateTime: LocalDateTime) : STATUS {
 
 @BindingAdapter("bind_lesson_status")
 fun LinearLayout.bindLessonStatus(dateTime: LocalDateTime) {
+    val background = TypedValue()
+
     this.background = when (definitionStatus(dateTime)) {
         STATUS.NEXT ->
             ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_next, null)
         STATUS.CURRENT ->
             ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_current, null)
         STATUS.PAST ->
-            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_past, null)
+            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_past, context.theme)
         STATUS.DEFAULT ->
-            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_default, null)
+            ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_default, context.theme)
     }
 }
 
 @BindingAdapter("bind_color_divider")
 fun MaterialDivider.bindColorDivider(dateTime: LocalDateTime) {
+    val color = TypedValue()
+
     this.dividerColor = when (definitionStatus(dateTime)) {
         STATUS.NEXT ->
             ResourcesCompat.getColor(resources, R.color.malachite, null)
         STATUS.CURRENT ->
             ResourcesCompat.getColor(resources, R.color.orange, null)
-        STATUS.PAST ->
-            ResourcesCompat.getColor(resources, com.google.android.material.R.attr.colorOutline, null)
-        STATUS.DEFAULT ->
-            ResourcesCompat.getColor(resources, androidx.databinding.library.baseAdapters.R.attr.colorPrimary, null)
-            //ResourcesCompat.getColor(resources, com.google.android.material.R.attr.colorPrimary, null)
-            //ResourcesCompat.getColor(resources, androidx.appcompat.R.attr.colorPrimary, null)
+        STATUS.PAST -> {
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOutline,
+                color,
+                true)
+            color.data
+        }
+        STATUS.DEFAULT -> {
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorPrimary,
+                color,
+                true)
+            color.data
+        }
     }
 }
 

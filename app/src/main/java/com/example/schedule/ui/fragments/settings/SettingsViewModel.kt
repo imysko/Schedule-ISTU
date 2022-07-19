@@ -1,12 +1,8 @@
-package com.example.timetable.ui.fragments.settings
+package com.example.schedule.ui.fragments.settings
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
 class SettingsViewModel : ViewModel() {
 

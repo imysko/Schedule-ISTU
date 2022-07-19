@@ -8,14 +8,14 @@
         <import type="android.view.View" />
         <variable
             name="viewmodel"
-            type="com.example.timetable.ui.fragments.exams.ExamsViewModel" />
+            type="com.example.schedule.ui.fragments.exams.ExamsViewModel" />
     </data>
 
     <FrameLayout
         tools:context=".ui.fragments.exams.ExamsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_gray" >
+        android:background="?attr/colorOnPrimary" >
 
         <LinearLayout
             android:layout_width="match_parent"

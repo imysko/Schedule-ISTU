@@ -8,7 +8,7 @@
         <import type="android.view.View" />
         <variable
             name="lesson"
-            type="com.example.timetable.entities.Lesson" />
+            type="com.example.schedule.entities.Lesson" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -18,14 +18,12 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="@color/light_blue" >
+        app:cardBackgroundColor="?attr/colorSecondaryContainer" >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            tools:background="@drawable/lesson_status_default"
-            app:bind_lesson_status="@{lesson.dateTime}"
             android:paddingVertical="12dp" >
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,8 +36,8 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    tools:background="@drawable/lesson_time_status_default"
-                    app:bind_lesson_time_status="@{lesson.dateTime}"
+                    tools:background="@drawable/lesson_status_default"
+                    app:bind_lesson_status="@{lesson.dateTime}"
                     android:paddingVertical="4dp"
                     android:paddingHorizontal="8dp">
 
@@ -84,6 +82,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="12dp"
                         android:paddingEnd="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/lesson_type"
                         app:bind_lesson_icon="@{lesson.type}"
                         app:visibility="@{lesson.type.isEmpty() ? View.GONE : View.VISIBLE}"
                         android:contentDescription="@string/todo"
@@ -98,7 +97,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="6dp"
                 android:layout_marginHorizontal="12dp"
-                tools:dividerColor="@color/middle_blue"
+                tools:dividerColor="?attr/colorPrimary"
                 app:bind_color_divider="@{lesson.dateTime}" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

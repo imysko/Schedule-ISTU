@@ -1,10 +1,10 @@
-package com.example.timetable.ui.fragments.exams
+package com.example.schedule.ui.fragments.exams
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.timetable.entities.Exam
-import com.example.timetable.repositories.ExamFirebaseRepository
+import com.example.schedule.entities.Exam
+import com.example.schedule.repositories.ExamFirebaseRepository
 
 class ExamsViewModel (
     private val _repository: ExamFirebaseRepository

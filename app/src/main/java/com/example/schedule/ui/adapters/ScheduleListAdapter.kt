@@ -1,12 +1,12 @@
-package com.example.timetable.ui.adapters
+package com.example.schedule.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.timetable.R
-import com.example.timetable.databinding.CardLessonBinding
-import com.example.timetable.entities.Lesson
+import com.example.schedule.R
+import com.example.schedule.databinding.CardLessonBinding
+import com.example.schedule.entities.Lesson
 
 class ScheduleListAdapter(
     private val _lessons: ArrayList<Lesson>

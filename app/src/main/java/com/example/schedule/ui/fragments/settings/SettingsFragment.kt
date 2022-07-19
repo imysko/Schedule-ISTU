@@ -1,4 +1,4 @@
-package com.example.timetable.ui.fragments.settings
+package com.example.schedule.ui.fragments.settings
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.timetable.databinding.FragmentSettingsBinding
+import com.example.schedule.databinding.FragmentSettingsBinding
 import com.google.android.material.R
 
 class SettingsFragment : Fragment() {

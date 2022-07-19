@@ -1,10 +1,10 @@
-package com.example.timetable.ui.factory
+package com.example.schedule.ui.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.timetable.repositories.ScheduleFirebaseRepository
-import com.example.timetable.ui.fragments.schedule.ScheduleViewModel
-import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarFactory
+import com.example.schedule.repositories.ScheduleFirebaseRepository
+import com.example.schedule.ui.fragments.schedule.ScheduleViewModel
+import com.example.schedule.ui.horizontalcalendar.HorizontalCalendarFactory
 
 class ScheduleViewModelFactory(
     private val repository: ScheduleFirebaseRepository,

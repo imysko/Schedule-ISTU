@@ -1,4 +1,4 @@
-package com.example.timetable.ui.fragments.schedule
+package com.example.schedule.ui.fragments.schedule
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.timetable.databinding.FragmentScheduleBinding
-import com.example.timetable.repositories.ScheduleFirebaseRepository
-import com.example.timetable.ui.adapters.ScheduleListAdapter
-import com.example.timetable.ui.factory.ScheduleViewModelFactory
-import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarAdapter
-import com.example.timetable.ui.horizontalcalendar.HorizontalCalendarFactory
+import com.example.schedule.databinding.FragmentScheduleBinding
+import com.example.schedule.repositories.ScheduleFirebaseRepository
+import com.example.schedule.ui.adapters.ScheduleListAdapter
+import com.example.schedule.ui.factory.ScheduleViewModelFactory
+import com.example.schedule.ui.horizontalcalendar.HorizontalCalendarAdapter
+import com.example.schedule.ui.horizontalcalendar.HorizontalCalendarFactory
 import kotlinx.android.synthetic.main.fragment_schedule.*
 import java.time.Instant
 

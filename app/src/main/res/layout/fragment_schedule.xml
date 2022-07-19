@@ -9,13 +9,13 @@
         <import type="java.time.LocalDate" />
         <variable
             name="viewmodel"
-            type="com.example.timetable.ui.fragments.schedule.ScheduleViewModel" />
+            type="com.example.schedule.ui.fragments.schedule.ScheduleViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_gray"
+        android:background="?attr/colorOnPrimary"
         tools:context=".MainActivity">
 
         <LinearLayout

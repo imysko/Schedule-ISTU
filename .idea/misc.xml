@@ -22,9 +22,9 @@
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/settings.xml" value="0.2905" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/font/font.xml" value="0.37395833333333334" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_exam.xml" value="0.33" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_lesson.xml" value="0.33" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_exams.xml" value="0.25" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_exam.xml" value="0.5" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_lesson.xml" value="0.5" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_exams.xml" value="0.33" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_notifications.xml" value="0.34193840579710144" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_schedule.xml" value="0.33" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_settings.xml" value="0.1" />

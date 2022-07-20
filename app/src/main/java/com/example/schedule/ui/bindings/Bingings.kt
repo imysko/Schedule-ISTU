@@ -57,7 +57,7 @@ fun TextView.bindTextDateTheme(isSelected: Boolean) {
 
 @BindingAdapter("bind_type_week")
 fun TextView.bindTypeWeek(date: LocalDate) {
-    val weekNumber = date.get(WeekFields.of(Locale.UK).weekBasedYear())
+    val weekNumber = date.get(WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear())
     this.text = if (weekNumber % 2 == 0)
         resources.getString(R.string.even_week)
     else

@@ -36,24 +36,13 @@
     <style name="ClassicText.CascadiaMonoItalic">
         <item name="fontFamily">@font/cascadia_mono_italic</item>
     </style>
-    <style name="ClassicText.CascadiaMonoBold">
-        <item name="fontFamily">@font/cascadia_mono_bold</item>
-        <item name="android:textSize">24sp</item>
-        <item name="android:textColor">?attr/colorOnBackground</item>
-    </style>
-    <style name="ClassicText.CascadiaMonoBoldWhite">
-        <item name="fontFamily">@font/cascadia_mono_bold</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColor">?attr/colorBackgroundFloating</item>
-    </style>
     <style name="ClassicText.CascadiaMonoSemiBold">
         <item name="fontFamily">@font/cascadia_mono_semi_bold</item>
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
-    </style>
+    </style>0
     <style name="ClassicText.CascadiaMonoSemiBoldWhite">
         <item name="fontFamily">@font/cascadia_mono_semi_bold</item>
-        <item name="android:textSize">18sp</item>
         <item name="android:textColor">?attr/colorBackgroundFloating</item>
     </style>
 
@@ -61,6 +50,12 @@
     <style name="ClassicText.AmaticSCBold">
         <item name="fontFamily">@font/amatic_sc_bold</item>
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+
+    <!-- Font BarlowSemiCondensed -->
+    <style name="ClassicText.BarlowSemiCondensed">
+        <item name="fontFamily">@font/barlow_semi_condensed</item>
         <item name="android:textColor">?attr/colorOnBackground</item>
     </style>
 </resources>

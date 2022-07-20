@@ -116,7 +116,6 @@
                     android:id="@+id/lesson_teacher"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lesson_name"
-                    android:paddingBottom="4dp"
                     style="@style/ClassicText.CascadiaMonoItalic"
                     app:visibility="@{lesson.teacher.isEmpty() ? View.GONE : View.VISIBLE}"
                     app:text="@{lesson.teacher}"
@@ -124,7 +123,7 @@
 
                 <TextView
                     android:id="@+id/lesson_classroom"
-                    app:layout_constraintTop_toBottomOf="@id/lesson_name"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     style="@style/ClassicText.CascadiaMonoRegular"
                     app:visibility="@{lesson.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
@@ -135,7 +134,7 @@
                     android:id="@+id/lesson_group"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lesson_teacher"
-                    android:autoSizeTextType="uniform"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     style="@style/ClassicText.CascadiaMonoItalic"
                     app:visibility="@{lesson.group.isEmpty() ? View.GONE : View.VISIBLE}"
                     app:text="@{lesson.group}"

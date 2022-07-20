@@ -25,7 +25,7 @@
             tools:ignore="UselessParent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/week_holder"
+                android:id="@+id/date_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimaryContainer"
@@ -36,8 +36,8 @@
                     android:paddingHorizontal="6dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    style="@style/ClassicText.AmaticSCBold"
-                    android:textSize="24sp"
+                    style="@style/ClassicText.BarlowSemiCondensed"
+                    android:textSize="20sp"
                     app:bind_selected_date="@{viewmodel.selectedDate}"
                     tools:text="date"/>
 
@@ -45,8 +45,8 @@
                     android:id="@+id/type_week"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    style="@style/ClassicText.AmaticSCBold"
-                    android:textSize="24sp"
+                    style="@style/ClassicText.BarlowSemiCondensed"
+                    android:textSize="20sp"
                     app:bind_type_week="@{viewmodel.selectedDate}"
                     tools:text="type week"/>
 

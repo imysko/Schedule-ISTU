@@ -25,12 +25,14 @@
 
             <TextView
                 android:id="@+id/exams_header"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:textSize="16sp"
+                android:paddingVertical="8dp"
+                android:background="?attr/colorPrimaryContainer"
                 android:textAlignment="center"
+                android:textSize="20sp"
+                style="@style/ClassicText.BarlowSemiCondensed"
                 app:bind_exams_header="@{viewmodel.header}"
                 tools:text="группа"/>
 

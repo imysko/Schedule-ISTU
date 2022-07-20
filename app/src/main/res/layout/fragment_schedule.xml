@@ -28,25 +28,25 @@
                 android:id="@+id/week_holder"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginHorizontal="8dp">
+                android:background="?attr/colorPrimaryContainer"
+                android:padding="8dp">
 
                 <TextView
                     android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:paddingHorizontal="6dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    style="@style/ClassicText.AmaticSCBold"
+                    android:textSize="24sp"
                     app:bind_selected_date="@{viewmodel.selectedDate}"
                     tools:text="date"/>
 
                 <TextView
                     android:id="@+id/type_week"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/ClassicText.AmaticSCBold"
+                    android:textSize="24sp"
                     app:bind_type_week="@{viewmodel.selectedDate}"
                     tools:text="type week"/>
 
@@ -57,10 +57,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="8dp"
+                android:paddingVertical="8dp"
+                android:background="?attr/colorPrimaryContainer"
                 tools:itemCount="1"
-                tools:listitem="@layout/item_horizontal_calendar_date"
-                 />
+                tools:listitem="@layout/item_horizontal_calendar_date" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

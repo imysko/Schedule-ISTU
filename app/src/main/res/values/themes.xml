@@ -24,5 +24,10 @@
         <item name="colorOutline">@color/outline_light</item>
         <item name="colorSurfaceVariant">@color/surface_variant_light</item>
         <item name="colorOnSurfaceVariant">@color/on_surface_variant_light</item>
+        <!-- StatusBar. -->
+        <item name="android:statusBarColor">?attr/colorPrimaryContainer</item>
+        <item name="android:windowLightStatusBar">?attr/colorPrimaryContainer</item>
+        <!-- Text color. -->
+        <item name="android:textColorSecondary">?attr/colorOnSecondary</item>
     </style>
 </resources>

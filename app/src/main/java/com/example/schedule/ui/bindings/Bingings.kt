@@ -34,6 +34,26 @@ fun ConstraintLayout.bindItemDateTheme(isSelected: Boolean) {
         ResourcesCompat.getDrawable(resources, R.drawable.item_deselect_date_border, context.theme)
 }
 
+@BindingAdapter("bind_text_date_theme")
+fun TextView.bindTextDateTheme(isSelected: Boolean) {
+    val color = TypedValue()
+
+    this.setTextColor(
+        if (isSelected) {
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorBackgroundFloating,
+                color,
+                true)
+            color.data
+        }
+        else {
+            context.theme.resolveAttribute(com.google.android.material.R.attr.colorOnBackground,
+                color,
+                true)
+            color.data
+        }
+    )
+}
+
 
 @BindingAdapter("bind_type_week")
 fun TextView.bindTypeWeek(date: LocalDate) {
@@ -105,8 +125,6 @@ fun definitionStatus(dateTime: LocalDateTime) : STATUS {
 
 @BindingAdapter("bind_lesson_status")
 fun LinearLayout.bindLessonStatus(dateTime: LocalDateTime) {
-    val background = TypedValue()
-
     this.background = when (definitionStatus(dateTime)) {
         STATUS.NEXT ->
             ResourcesCompat.getDrawable(resources, R.drawable.lesson_status_next, null)

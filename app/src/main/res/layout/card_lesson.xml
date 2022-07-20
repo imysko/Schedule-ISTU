@@ -43,18 +43,16 @@
 
                     <TextView
                         android:id="@+id/lesson_number"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:paddingStart="0dp"
                         android:paddingEnd="12dp"
+                        style="@style/ClassicText.CascadiaMonoSemiBoldWhite"
                         app:bind_lesson_number="@{lesson}"
                         tools:text="№" />
 
                     <TextView
                         android:id="@+id/lesson_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         app:layout_constraintStart_toEndOf="@id/lesson_number"
+                        style="@style/ClassicText.CascadiaMonoSemiBoldWhite"
                         app:bind_lesson_time="@{lesson.dateTime}"
                         tools:text="время" />
                 </LinearLayout>
@@ -69,11 +67,11 @@
 
                     <TextView
                         android:id="@+id/lesson_type"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         app:layout_constraintEnd_toStartOf="@id/lesson_icon"
-                        app:text="@{lesson.type}"
+                        android:paddingTop="2dp"
+                        style="@style/ClassicText.CascadiaMonoRegular"
                         app:visibility="@{lesson.type.isEmpty() ? View.GONE : View.VISIBLE}"
+                        app:text="@{lesson.type}"
                         tools:text="тип" />
 
                     <ImageView
@@ -94,8 +92,7 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="6dp"
+                android:layout_marginVertical="6dp"
                 android:layout_marginHorizontal="12dp"
                 tools:dividerColor="?attr/colorPrimary"
                 app:bind_color_divider="@{lesson.dateTime}" />
@@ -108,44 +105,40 @@
 
                 <TextView
                     android:id="@+id/lesson_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:paddingBottom="4dp"
+                    style="@style/ClassicText.CascadiaMonoSemiBold"
                     app:text="@{lesson.name}"
-                    tools:text="название"
-                    android:textSize="24sp" />
+                    tools:text="название" />
 
                 <TextView
                     android:id="@+id/lesson_teacher"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="4dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lesson_name"
-                    app:text="@{lesson.teacher}"
+                    android:paddingBottom="4dp"
+                    style="@style/ClassicText.CascadiaMonoItalic"
                     app:visibility="@{lesson.teacher.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:text="@{lesson.teacher}"
                     tools:text="препод" />
+
                 <TextView
                     android:id="@+id/lesson_classroom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/lesson_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:text="@{lesson.classroom}"
+                    style="@style/ClassicText.CascadiaMonoRegular"
                     app:visibility="@{lesson.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:text="@{lesson.classroom}"
                     tools:text="кабинет" />
 
                 <TextView
                     android:id="@+id/lesson_group"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/lesson_teacher"
                     android:autoSizeTextType="uniform"
-                    app:text="@{lesson.group}"
+                    style="@style/ClassicText.CascadiaMonoItalic"
                     app:visibility="@{lesson.group.isEmpty() ? View.GONE : View.VISIBLE}"
+                    app:text="@{lesson.group}"
                     tools:text="группа" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

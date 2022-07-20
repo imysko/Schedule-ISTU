@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="ClassicText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!-- Font Cormorant Infant -->
+    <style name="ClassicText.CormorantInfantMedium">
+        <item name="fontFamily">@font/cormorant_infant_medium</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="ClassicText.CormorantInfantMediumItalic">
+        <item name="fontFamily">@font/cormorant_infant_medium_italic</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+    <style name="ClassicText.CormorantInfantBold">
+        <item name="fontFamily">@font/cormorant_infant_bold</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="ClassicText.CormorantInfantBoldWhite">
+        <item name="fontFamily">@font/cormorant_infant_bold</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?attr/colorBackgroundFloating</item>
+    </style>
+
+    <!-- Font Cascadia Mono -->
+    <style name="ClassicText.CascadiaMonoRegular">
+        <item name="fontFamily">@font/cascadia_mono_regular</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="ClassicText.CascadiaMonoItalic">
+        <item name="fontFamily">@font/cascadia_mono_italic</item>
+    </style>
+    <style name="ClassicText.CascadiaMonoBold">
+        <item name="fontFamily">@font/cascadia_mono_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="ClassicText.CascadiaMonoBoldWhite">
+        <item name="fontFamily">@font/cascadia_mono_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/colorBackgroundFloating</item>
+    </style>
+    <style name="ClassicText.CascadiaMonoSemiBold">
+        <item name="fontFamily">@font/cascadia_mono_semi_bold</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+    <style name="ClassicText.CascadiaMonoSemiBoldWhite">
+        <item name="fontFamily">@font/cascadia_mono_semi_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/colorBackgroundFloating</item>
+    </style>
+
+    <!-- Font AmaticSC -->
+    <style name="ClassicText.AmaticSCBold">
+        <item name="fontFamily">@font/amatic_sc_bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+</resources>

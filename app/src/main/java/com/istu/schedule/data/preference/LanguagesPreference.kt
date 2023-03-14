@@ -26,7 +26,7 @@ sealed class LanguagesPreference(val value: Int) : Preference() {
         }
     }
 
-    fun toDesc(context: Context): String =
+    fun toDescription(context: Context): String =
         when (this) {
             UseDeviceLanguages -> context.getString(R.string.use_device_language)
             Russian -> context.getString(R.string.russian)

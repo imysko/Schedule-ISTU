@@ -4,33 +4,34 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.Work
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.istu.schedule.R
 
 sealed class BottomNavItem(
     val route: String,
-    val title: String,
+    val titleResid: Int,
     val icon: ImageVector
 ) {
     object SchedulePage: BottomNavItem(
         route = "schedule",
-        title = "Schedule",
+        titleResid = R.string.schedule,
         icon = Icons.Default.Schedule
     )
 
     object SearchPage: BottomNavItem(
         route = "search",
-        title = "Search",
+        titleResid = R.string.search,
         icon = Icons.Default.Search
     )
 
     object ProjectFairPage: BottomNavItem(
         route = "projfair",
-        title = "Project Fair",
+        titleResid = R.string.projfair,
         icon = Icons.Outlined.Work
     )
 
     object SettingsPage: BottomNavItem(
         route = "settings",
-        title = "Settings",
+        titleResid = R.string.settings,
         icon = Icons.Default.Settings
     )
 }

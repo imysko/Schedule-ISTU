@@ -4,4 +4,20 @@
     <string name="russian">Русский</string>
     <string name="english">Английский</string>
     <string name="use_device_language">Использвать язык устройства</string>
+    <string name="schedule">Расписание</string>
+    <string name="search">Поиск</string>
+    <string name="projfair">Проекты</string>
+    <string name="settings">Настройки</string>
+    <string name="language">Язык</string>
+    <string name="theme">Тема</string>
+    <string name="developers">О разработчиках</string>
+    <string name="apply">Принять</string>
+    <string name="cancel">Отменить</string>
+    <string name="close">Закрыть</string>
+    <string name="group">Группа</string>
+    <string name="teacher">Преподаватель</string>
+    <string name="login">Войти</string>
+    <string name="logout">Выйти</string>
+    <string name="light">Светлая</string>
+    <string name="dark">Тёмная</string>
 </resources>

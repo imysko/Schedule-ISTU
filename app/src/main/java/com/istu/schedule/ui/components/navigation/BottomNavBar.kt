@@ -3,10 +3,14 @@ package com.istu.schedule.ui.components.navigation
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.*
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,14 +52,14 @@ fun RowScope.AddItem(
     NavigationBarItem(
         label = {
             Text(
-                text = bottomNavItem.title,
+                text = stringResource(id = bottomNavItem.titleResid),
                 fontWeight = FontWeight.SemiBold
             )
         },
         icon = {
             Icon(
                 imageVector = bottomNavItem.icon,
-                contentDescription = "${bottomNavItem.title} Icon"
+                contentDescription = "${bottomNavItem.titleResid} Icon"
             )
         },
         selected = bottomNavItem.route == navBackStackEntry?.destination?.route,

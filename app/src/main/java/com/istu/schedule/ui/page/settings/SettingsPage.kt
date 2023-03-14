@@ -1,93 +1,74 @@
 package com.istu.schedule.ui.page.settings
 
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.outlined.*
-import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import com.istu.schedule.R
+import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.SIScaffold
+import com.istu.schedule.ui.page.settings.language.LanguageDialog
 
 @Composable
 fun SettingsPage() {
+    val languages = LocalLanguages.current
+    val context = LocalContext.current
+    val configuration = LocalConfiguration.current
+
     SIScaffold(
         content = {
             LazyColumn {
                 item {
-                    DisplayText(text = "Settings", desc = "")
+                    DisplayText(
+                        text = remember(configuration.locales) {
+                            context.resources.getString(R.string.settings)
+                        },
+                        desc = ""
+                    )
                 }
                 item {
                     SettingItem(
-                        title = "Group",
+                        title = remember(configuration.locales) {
+                            context.resources.getString(R.string.group)
+                        },
                         description = "ИСТб-20-3",
                         icon = Icons.Outlined.Groups
                     ) {
-
                     }
                 }
                 item {
                     SettingItem(
-                        title = "Project Fair",
-                        description = "Log in",
+                        title = remember(configuration.locales) {
+                            context.resources.getString(R.string.projfair)
+                        },
+                        description = remember(configuration.locales) {
+                            context.resources.getString(R.string.login)
+                        },
                         icon = Icons.Outlined.Work
                     ) {
-
                     }
                 }
                 item {
                     val openDialog = remember { mutableStateOf(false)  }
+
                     if (openDialog.value) {
-                        val languages = mapOf(
-                            "Use system language" to 0,
-                            "English" to 1,
-                            "Russian" to 2
-                        )
-
-                        val selectedLanguage = remember { mutableStateOf(0) }
-
-                        AlertDialog(
-                            title = {
-                                Text("Language")
-                            },
-                            text = {
-                                Column {
-                                    languages.map {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            RadioButton(
-                                                selected = it.value == selectedLanguage.value,
-                                                onClick = {
-                                                    selectedLanguage.value = it.value
-                                                })
-                                            Text(text = it.key)
-                                        }
-                                    }
-                                }
-                            },
-                            onDismissRequest = {
-                                openDialog.value = false
-                            },
-                            confirmButton = {
-                                TextButton(onClick = {
-                                    openDialog.value = false
-                                } ) {
-                                    Text("Close")
-                                }
-                            },
-                            dismissButton = {}
+                        LanguageDialog(
+                            isOpenDialog = openDialog
                         )
                     }
 
                     SettingItem(
-                        title = "Language",
-                        description = "English",
+                        title = remember(configuration.locales) {
+                            context.resources.getString(R.string.language)
+                        },
+                        description = languages.toDescription(context),
                         icon = Icons.Default.Language
                     ) {
                         openDialog.value = true
@@ -95,19 +76,23 @@ fun SettingsPage() {
                 }
                 item {
                     SettingItem(
-                        title = "Theme",
-                        description = "Light",
+                        title = remember(configuration.locales) {
+                            context.resources.getString(R.string.theme)
+                        },
+                        description = remember(configuration.locales) {
+                            context.resources.getString(R.string.light)
+                        },
                         icon = Icons.Outlined.Palette
                     ) {
-
                     }
                 }
                 item {
                     SettingItem(
-                        title = "About developers",
+                        title = remember(configuration.locales) {
+                            context.resources.getString(R.string.developers)
+                        },
                         icon = Icons.Outlined.Engineering
                     ) {
-
                     }
                 }
             }

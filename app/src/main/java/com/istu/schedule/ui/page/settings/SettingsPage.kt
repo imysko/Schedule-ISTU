@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.SIScaffold
 
 @Composable
@@ -20,12 +20,7 @@ fun SettingsPage() {
         content = {
             LazyColumn {
                 item {
-                    Text(
-                        text = "Settings",
-                        color = MaterialTheme.colorScheme.primary,
-                        fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                        fontWeight = FontWeight.Bold
-                    )
+                    DisplayText(text = "Settings", desc = "")
                 }
                 item {
                     SettingItem(

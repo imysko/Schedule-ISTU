@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Schedule-ISTU</string>
+    <string name="russian">Русский</string>
+    <string name="english">Английский</string>
+    <string name="use_device_language">Использвать язык устройства</string>
+</resources>

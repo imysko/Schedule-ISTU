@@ -2,6 +2,7 @@ package com.istu.schedule.di
 
 import android.content.SharedPreferences
 import com.istu.schedule.data.service.ProjectsService
+import com.istu.schedule.data.service.schedule.InstitutesService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,10 +23,28 @@ object NetworkModule {
     fun provideProjfairBaseUrl() = "https://projfair.istu.edu/"
 
     @Provides
+    @Named("ScheduleBaseUrl")
+    fun provideScheduleBaseUrl() = "https://schedule-api.imysko.ru/"
+
+    @Provides
+    @Named("ProjfairRetrofit")
     fun provideProjfairRetrofit(
         @Named("ProjfairBaseUrl") baseUrl: String,
         okHttpClient: OkHttpClient,
     ): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl(baseUrl)
+            .build()
+    }
+
+    @Provides
+    @Named("ScheduleRetrofit")
+    fun provideScheduleRetrofit(
+        @Named("ScheduleBaseUrl") baseUrl: String,
+        okHttpClient: OkHttpClient,
+    ) : Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
@@ -65,6 +84,12 @@ object NetworkModule {
     }
 
     @Provides
-    fun providerProjectsService(retrofit: Retrofit): ProjectsService =
-        retrofit.create(ProjectsService::class.java)
+    fun providerProjectsService(
+        @Named("ProjfairRetrofit") retrofit: Retrofit
+    ) : ProjectsService = retrofit.create(ProjectsService::class.java)
+
+    @Provides
+    fun providerInstitutesService(
+        @Named("ScheduleRetrofit") retrofit: Retrofit
+    ): InstitutesService = retrofit.create(InstitutesService::class.java)
 }

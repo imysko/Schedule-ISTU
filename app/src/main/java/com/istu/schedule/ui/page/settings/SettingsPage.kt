@@ -10,14 +10,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.page.settings.language.LanguageDialog
+import com.istu.schedule.util.NavDestinations
 
 @Composable
-fun SettingsPage() {
+fun SettingsPage(
+    navController: NavHostController
+) {
     val languages = LocalLanguages.current
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
@@ -39,9 +44,11 @@ fun SettingsPage() {
                             context.resources.getString(R.string.group)
                         },
                         description = "ИСТб-20-3",
-                        icon = Icons.Outlined.Groups
-                    ) {
-                    }
+                        icon = Icons.Outlined.Groups,
+                        onClick = {
+                            navController.navigate(NavDestinations.BINDING_SCREEN)
+                        }
+                    )
                 }
                 item {
                     SettingItem(
@@ -103,5 +110,5 @@ fun SettingsPage() {
 @Composable
 @Preview(showBackground = true)
 fun SettingsPagePreview() {
-    SettingsPage()
+    SettingsPage(rememberNavController())
 }

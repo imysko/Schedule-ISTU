@@ -11,10 +11,11 @@ import com.istu.schedule.ui.page.settings.SettingsPage
 
 @Composable
 fun BottomNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    bottomNavController: NavHostController
 ) {
     NavHost(
-        navController = navController,
+        navController = bottomNavController,
         startDestination = BottomNavItem.SchedulePage.route
     ) {
         composable(
@@ -38,7 +39,7 @@ fun BottomNavGraph(
         composable(
             route = BottomNavItem.SettingsPage.route
         ) {
-            SettingsPage()
+            SettingsPage(navController)
         }
     }
 }

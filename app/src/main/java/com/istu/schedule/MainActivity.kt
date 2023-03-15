@@ -8,9 +8,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.data.preference.LanguagesPreference
 import com.istu.schedule.data.preference.SettingsProvider
-import com.istu.schedule.ui.page.main.MainPage
+import com.istu.schedule.ui.components.navigation.NavGraph
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.util.languages
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,8 +33,10 @@ class MainActivity : ComponentActivity() {
                 ScheduleISTUTheme {
                     Surface(
                         modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background) {
-                        MainPage()
+                        color = MaterialTheme.colorScheme.background
+                    ) {
+                        val navController = rememberNavController()
+                        NavGraph(navController = navController)
                     }
                 }
             }

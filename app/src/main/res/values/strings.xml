@@ -20,4 +20,6 @@
     <string name="logout">Log out</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
+    <string name="is_student">I am a student</string>
+    <string name="is_teacher">I am a teacher</string>
 </resources>

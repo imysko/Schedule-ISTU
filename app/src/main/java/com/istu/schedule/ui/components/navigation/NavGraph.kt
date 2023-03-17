@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.istu.schedule.ui.page.main.MainPage
-import com.istu.schedule.ui.page.settings.binding.BindingPage
+import com.istu.schedule.ui.page.binding.BindingPage
 import com.istu.schedule.util.NavDestinations
 
 @Composable

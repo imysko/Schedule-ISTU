@@ -20,4 +20,6 @@
     <string name="logout">Выйти</string>
     <string name="light">Светлая</string>
     <string name="dark">Тёмная</string>
+    <string name="is_student">Я студент</string>
+    <string name="is_teacher">Я преподаватель</string>
 </resources>

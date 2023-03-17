@@ -7,17 +7,17 @@ import java.net.HttpURLConnection
 
 open class BaseViewModel : LifecycleObserver, ViewModel() {
 
+    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean>
         get() = _loading
             .distinctUntilChanged()
 
-    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
 
-    val unauthorized: LiveData<Boolean> get() = _unauthorized
     private val _unauthorized: MutableLiveData<Boolean> = MutableLiveData()
+    val unauthorized: LiveData<Boolean> get() = _unauthorized
 
-    val error: LiveEvent<String> get() = _error
     private val _error: LiveEvent<String> = LiveEvent()
+    val error: LiveEvent<String> get() = _error
 
     protected fun <T> call(
         apiCall: suspend () -> Result<T>,

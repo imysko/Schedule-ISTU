@@ -5,11 +5,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
@@ -18,14 +20,22 @@ import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.page.settings.language.LanguageDialog
 import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.util.collectAsStateValue
 
 @Composable
 fun SettingsPage(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
+    val settingsUiState = viewModel.settingsUiState.collectAsStateValue()
+
     val languages = LocalLanguages.current
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
+
+    LaunchedEffect(Unit) {
+        viewModel.collectSettingsState()
+    }
 
     SIScaffold(
         content = {
@@ -50,16 +60,36 @@ fun SettingsPage(
                         }
                     )
                 }
-                item {
-                    SettingItem(
-                        title = remember(configuration.locales) {
-                            context.resources.getString(R.string.projfair)
-                        },
-                        description = remember(configuration.locales) {
-                            context.resources.getString(R.string.login)
-                        },
-                        icon = Icons.Outlined.Work
-                    ) {
+                if (!settingsUiState.isProjfairAuthenticated) {
+                    item {
+                        SettingItem(
+                            title = remember(configuration.locales) {
+                                context.resources.getString(R.string.projfair)
+                            },
+                            description = remember(configuration.locales) {
+                                context.resources.getString(R.string.login)
+                            },
+                            icon = Icons.Outlined.Work,
+                            onClick = {
+                                navController.navigate(NavDestinations.PROJFAIR_LOGIN_SCREEN)
+                            }
+                        )
+                    }
+                }
+                else {
+                    item {
+                        SettingItem(
+                            title = remember(configuration.locales) {
+                                context.resources.getString(R.string.projfair)
+                            },
+                            description = remember(configuration.locales) {
+                                settingsUiState.projfairUsername
+                            },
+                            icon = Icons.Outlined.Work,
+                            onClick = {
+                                navController.navigate(NavDestinations.PROJFAIR_LOGIN_SCREEN)
+                            }
+                        )
                     }
                 }
                 item {

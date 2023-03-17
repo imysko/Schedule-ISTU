@@ -1,4 +1,4 @@
-package com.istu.schedule.data.service
+package com.istu.schedule.data.service.projfair
 
 import com.istu.schedule.data.model.response.ProjectsResponse
 import retrofit2.Response

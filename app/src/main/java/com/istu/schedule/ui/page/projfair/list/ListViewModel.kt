@@ -3,8 +3,8 @@ package com.istu.schedule.ui.page.projfair.list
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.domain.model.Project
-import com.istu.schedule.domain.usecase.GetProjectsListUseCase
+import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.usecase.projfair.GetProjectsListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
-    private val useCase: GetProjectsListUseCase
+    private val _projectsUseCase: GetProjectsListUseCase
 ) : BaseViewModel() {
 
     private val _projectsListUiState = MutableStateFlow(ProjectsListUiState())
@@ -28,7 +28,7 @@ class ListViewModel @Inject constructor(
 
     fun getProjectsList() {
         call({
-            useCase.getProjectsList(_currentPage)
+            _projectsUseCase.getProjectsList(_currentPage)
         }, onSuccess = {
             for (item in it) {
                 _projectsList.addNewItem(item)

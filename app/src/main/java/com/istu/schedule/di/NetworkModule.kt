@@ -1,7 +1,8 @@
 package com.istu.schedule.di
 
 import android.content.SharedPreferences
-import com.istu.schedule.data.service.ProjectsService
+import com.istu.schedule.data.service.projfair.CandidateService
+import com.istu.schedule.data.service.projfair.ProjectsService
 import com.istu.schedule.data.service.schedule.InstitutesService
 import dagger.Module
 import dagger.Provides
@@ -87,6 +88,11 @@ object NetworkModule {
     fun providerProjectsService(
         @Named("ProjfairRetrofit") retrofit: Retrofit
     ) : ProjectsService = retrofit.create(ProjectsService::class.java)
+
+    @Provides
+    fun providerCandidateService(
+        @Named("ProjfairRetrofit") retrofit: Retrofit
+    ) : CandidateService = retrofit.create(CandidateService::class.java)
 
     @Provides
     fun providerInstitutesService(

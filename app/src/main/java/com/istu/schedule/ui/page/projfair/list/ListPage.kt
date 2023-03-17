@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.istu.schedule.domain.model.Project
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.theme.Shapes

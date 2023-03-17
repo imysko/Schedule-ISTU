@@ -31,6 +31,10 @@ class SettingsViewModel @Inject constructor(
             }
         }
     }
+
+    fun logoutProjfair() {
+        _user.logoutProjfair()
+    }
 }
 
 data class SettingsUiState(

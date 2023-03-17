@@ -87,7 +87,7 @@ fun SettingsPage(
                             },
                             icon = Icons.Outlined.Work,
                             onClick = {
-                                navController.navigate(NavDestinations.PROJFAIR_LOGIN_SCREEN)
+                                viewModel.logoutProjfair()
                             }
                         )
                     }

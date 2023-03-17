@@ -58,6 +58,7 @@ class User @Inject constructor(
 
     fun logoutProjfair() {
         projfairToken = null;
+        _candidate.value = null;
     }
 
     var projfairToken: String?

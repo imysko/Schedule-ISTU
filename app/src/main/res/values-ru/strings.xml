@@ -22,4 +22,10 @@
     <string name="dark">Тёмная</string>
     <string name="is_student">Я студент</string>
     <string name="is_teacher">Я преподаватель</string>
+    <string name="on">Вкл</string>
+    <string name="off">Выкл</string>
+    <string name="use_device_theme">Использовать тему устройства</string>
+    <string name="back">Назад</string>
+    <string name="other">Прочее</string>
+    <string name="dark_theme">Тёмная тема</string>
 </resources>

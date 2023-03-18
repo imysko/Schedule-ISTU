@@ -11,9 +11,17 @@ import com.istu.schedule.util.dataStore
 import kotlinx.coroutines.flow.map
 
 data class Settings(
+    // Theme
+    val theme: ThemePreference = ThemePreference.default,
+
     // Languages
     val languages: LanguagesPreference = LanguagesPreference.default,
 )
+
+
+// Theme
+val LocalTheme =
+    compositionLocalOf<ThemePreference> { ThemePreference.default }
 
 // Languages
 val LocalLanguages =
@@ -32,6 +40,8 @@ fun SettingsProvider(
     }.collectAsStateValue(initial = Settings())
 
     CompositionLocalProvider(
+        // Theme
+        LocalTheme provides settings.theme,
         // Languages
         LocalLanguages provides settings.languages,
     ) {

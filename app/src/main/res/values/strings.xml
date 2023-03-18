@@ -22,4 +22,11 @@
     <string name="dark">Dark</string>
     <string name="is_student">I am a student</string>
     <string name="is_teacher">I am a teacher</string>
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="use_device_theme">Use device theme</string>
+    <string name="back">Back</string>
+    <string name="other">Other</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="amoled" translatable="false">Amoled</string>
 </resources>

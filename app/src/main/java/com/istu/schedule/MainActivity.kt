@@ -31,13 +31,8 @@ class MainActivity : ComponentActivity() {
         setContent {
             SettingsProvider {
                 ScheduleISTUTheme {
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        val navController = rememberNavController()
-                        NavGraph(navController = navController)
-                    }
+                    val navController = rememberNavController()
+                    NavGraph(navController = navController)
                 }
             }
         }

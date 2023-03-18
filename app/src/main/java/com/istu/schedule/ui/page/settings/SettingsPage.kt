@@ -16,6 +16,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.data.preference.LocalLanguages
+import com.istu.schedule.data.preference.LocalTheme
 import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.page.settings.language.LanguageDialog
@@ -32,6 +33,7 @@ fun SettingsPage(
     val languages = LocalLanguages.current
     val context = LocalContext.current
     val configuration = LocalConfiguration.current
+    val theme = LocalTheme.current
 
     LaunchedEffect(Unit) {
         viewModel.collectSettingsState()
@@ -49,7 +51,7 @@ fun SettingsPage(
                     )
                 }
                 item {
-                    SettingItem(
+                    SelectableSettingGroupItem(
                         title = remember(configuration.locales) {
                             context.resources.getString(R.string.group)
                         },
@@ -62,7 +64,7 @@ fun SettingsPage(
                 }
                 if (!settingsUiState.isProjfairAuthenticated) {
                     item {
-                        SettingItem(
+                        SelectableSettingGroupItem(
                             title = remember(configuration.locales) {
                                 context.resources.getString(R.string.projfair)
                             },
@@ -78,7 +80,7 @@ fun SettingsPage(
                 }
                 else {
                     item {
-                        SettingItem(
+                        SelectableSettingGroupItem(
                             title = remember(configuration.locales) {
                                 context.resources.getString(R.string.projfair)
                             },
@@ -101,7 +103,7 @@ fun SettingsPage(
                         )
                     }
 
-                    SettingItem(
+                    SelectableSettingGroupItem(
                         title = remember(configuration.locales) {
                             context.resources.getString(R.string.language)
                         },
@@ -112,19 +114,20 @@ fun SettingsPage(
                     }
                 }
                 item {
-                    SettingItem(
+                    SelectableSettingGroupItem(
                         title = remember(configuration.locales) {
                             context.resources.getString(R.string.theme)
                         },
                         description = remember(configuration.locales) {
-                            context.resources.getString(R.string.light)
+                            theme.toDesc(context)
                         },
                         icon = Icons.Outlined.Palette
                     ) {
+                        navController.navigate(NavDestinations.THEME_SCREEN)
                     }
                 }
                 item {
-                    SettingItem(
+                    SelectableSettingGroupItem(
                         title = remember(configuration.locales) {
                             context.resources.getString(R.string.developers)
                         },

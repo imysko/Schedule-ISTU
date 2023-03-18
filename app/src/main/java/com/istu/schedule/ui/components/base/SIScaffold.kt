@@ -10,6 +10,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -17,7 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.istu.schedule.ui.theme.palette.onDark
+import com.istu.schedule.util.surfaceColorAtElevation
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SIScaffold(
     containerColor: Color = MaterialTheme.colorScheme.surface,
@@ -31,7 +35,34 @@ fun SIScaffold(
     content: @Composable () -> Unit = {},
 ){
     Scaffold(
-        topBar = { },
+        modifier = Modifier
+            .background(
+                MaterialTheme.colorScheme.surfaceColorAtElevation(
+                    elevation = topBarTonalElevation,
+                    color = containerColor
+                )
+            ),
+        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+            elevation = containerTonalElevation,
+            color = containerColor
+        ) onDark MaterialTheme.colorScheme.surface,
+        topBar = {
+            if (navigationIcon != null || actions != null) {
+                CenterAlignedTopAppBar(
+                    title = { title() },
+                    navigationIcon = { navigationIcon?.invoke() },
+                    actions = { actions?.invoke(this) },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            elevation = topBarTonalElevation, color = containerColor
+                        ),
+                        scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
+                            elevation = topBarTonalElevation, color = containerColor
+                        )
+                    )
+                )
+            }
+        },
         content = {
             Column {
                 Spacer(modifier = Modifier.height(it.calculateTopPadding()))

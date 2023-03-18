@@ -11,6 +11,8 @@ sealed class Preference {
 
 fun Preferences.toSettings(): Settings {
     return Settings(
+        // Theme
+        theme = ThemePreference.fromPreferences(this),
         // Languages
         languages = LanguagesPreference.fromPreferences(this),
     )

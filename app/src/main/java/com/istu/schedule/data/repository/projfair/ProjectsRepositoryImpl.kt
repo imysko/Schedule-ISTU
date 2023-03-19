@@ -28,4 +28,12 @@ class ProjectsRepositoryImpl @Inject constructor(
             )
         )
     }
+
+    override suspend fun getProject(id: Int): Result<Project> {
+        return cachedList.find { it.id == id }?.let {project ->
+            Result.success(project)
+        } ?: run {
+            Result.failure(Exception("An error occurred when get project detail"))
+        }
+    }
 }

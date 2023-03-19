@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.binding.BindingPage
+import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.settings.projfair.LoginProjfairPage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
 import com.istu.schedule.util.NavDestinations
@@ -40,6 +41,14 @@ fun NavGraph(
             route = NavDestinations.THEME_SCREEN
         ) {
             ThemePage(navController)
+        }
+
+        composable(
+            route = "${NavDestinations.PROJECT_SCREEN}/{projectId}"
+        ) {
+            it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
+                ProjectPage(projectId, navController)
+            }
         }
     }
 }

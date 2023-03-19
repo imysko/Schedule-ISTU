@@ -33,7 +33,7 @@ fun BottomNavGraph(
         composable(
             route = BottomNavItem.ProjectFairPage.route
         ) {
-            ListPage()
+            ListPage(navController)
         }
 
         composable(

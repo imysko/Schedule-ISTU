@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.projfair.list
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -23,13 +24,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.theme.Shapes
+import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 
 @Composable
 fun ListPage(
+    navController: NavController,
     viewModel: ListViewModel = hiltViewModel()
 ) {
     val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
@@ -61,7 +66,10 @@ fun ListPage(
                                 shape = Shapes.medium,
                                 modifier = Modifier
                                     .padding(8.dp)
-                                    .fillMaxWidth(),
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        navController.navigate("${NavDestinations.PROJECT_SCREEN}/${project.id}")
+                                    },
                             ) {
                                 Column(Modifier.padding(8.dp)) {
                                     Text(

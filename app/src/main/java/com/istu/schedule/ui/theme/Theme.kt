@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.theme
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -37,6 +38,14 @@ fun ScheduleISTUTheme(
 
     val colorScheme: ColorScheme =
         when (theme.value) {
+            ThemePreference.UseDeviceTheme.value -> {
+                if (isSystemInDarkTheme()) {
+                    DarkColorScheme
+                }
+                else {
+                    LightColorScheme
+                }
+            }
             ThemePreference.Amoled.value -> AmoledDarkColorScheme
             ThemePreference.Dark.value -> DarkColorScheme
             else -> LightColorScheme

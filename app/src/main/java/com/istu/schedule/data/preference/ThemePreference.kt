@@ -59,17 +59,3 @@ sealed class ThemePreference(val value: Int) : Preference() {
             }
     }
 }
-
-@Composable
-operator fun ThemePreference.not(): ThemePreference =
-    when (this) {
-        ThemePreference.UseDeviceTheme -> if (isSystemInDarkTheme()) {
-            ThemePreference.Dark
-        } else {
-            ThemePreference.Light
-        }
-
-        ThemePreference.Light -> ThemePreference.Light
-        ThemePreference.Dark -> ThemePreference.Dark
-        ThemePreference.Amoled -> ThemePreference.Amoled
-    }

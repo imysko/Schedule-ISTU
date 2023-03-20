@@ -59,7 +59,7 @@ class BindingViewModel @Inject constructor(
     }
 
     private fun getTeachersList() {
-        TODO()
+
     }
 
     private fun getCoursesList() {

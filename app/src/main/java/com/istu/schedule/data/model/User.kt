@@ -1,15 +1,12 @@
 package com.istu.schedule.data.model
 
 import android.content.SharedPreferences
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -110,10 +107,27 @@ class User @Inject constructor(
             }
         }
 
+    var userDescription: String?
+        get() {
+            return _sharedPreference.getString(USER_DESCRIPTION, "")
+        }
+        set(value) {
+            with(_sharedPreference.edit()) {
+                if (value == null) {
+                    remove(USER_DESCRIPTION)
+                }
+                else {
+                    putString(USER_DESCRIPTION, value)
+                }
+                apply()
+            }
+        }
+
     companion object {
         const val PROJFAIR_TOKEN = "projfairToken"
         const val USER_TYPE = "userType"
         const val USER_ID = "userId"
+        const val USER_DESCRIPTION = ""
     }
 }
 

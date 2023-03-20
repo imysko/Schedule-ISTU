@@ -1,6 +1,8 @@
-package com.istu.schedule.ui.page.binding.options
+package com.istu.schedule.ui.page.settings.binding.options
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,16 +21,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.istu.schedule.domain.model.schedule.Group
+import com.istu.schedule.domain.model.schedule.Institute
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ChooseGroup(
-    groupList: List<Group> = emptyList(),
-    onChoose: (chosenGroup: Group) -> Unit
+fun ChooseInstitute(
+    enabled: Boolean = true,
+    selectedInstituteText: String = "",
+    instituteList: List<Institute> = emptyList(),
+    onChoose: (chosenInstitute: Institute) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
+    var selectedOptionText by remember { mutableStateOf(selectedInstituteText) }
 
     Surface(
         modifier = Modifier
@@ -44,15 +48,18 @@ fun ChooseGroup(
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(),
+                enabled = enabled,
                 readOnly = true,
                 value = selectedOptionText,
                 onValueChange = { },
                 trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                    if (enabled) {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                    }
                 },
                 label = {
                     Text(
-                        text = "Choose your group",
+                        text = "Choose your institute",
                         color = MaterialTheme.colorScheme.primary,
                         style = MaterialTheme.typography.labelLarge
                     )
@@ -62,16 +69,16 @@ fun ChooseGroup(
             ExposedDropdownMenu(
                 modifier = Modifier
                     .fillMaxWidth(),
-                expanded = expanded,
+                expanded = if (enabled) expanded else false,
                 onDismissRequest = {
                     expanded = false
                 }
             ) {
-                groupList.forEach { selectionOption ->
+                instituteList.forEach { selectionOption ->
                     DropdownMenuItem(
-                        text = { Text(text = selectionOption.name!!) },
+                        text = { Text(text = selectionOption.instituteTitle!!) },
                         onClick = {
-                            selectedOptionText = selectionOption.name!!
+                            selectedOptionText = selectionOption.instituteTitle!!
                             expanded = false
                             onChoose(selectionOption)
                         }
@@ -79,11 +86,12 @@ fun ChooseGroup(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun ChooseGroupPreview() {
-    ChooseGroup(onChoose = { })
+fun ChooseInstitutePreview() {
+    ChooseInstitute(onChoose = { })
 }

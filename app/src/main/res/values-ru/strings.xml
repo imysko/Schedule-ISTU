@@ -34,4 +34,5 @@
     <string name="phone_number">Телефон</string>
     <string name="course">Курс</string>
     <string name="not_specified">Не указан</string>
+    <string name="who_are_you">Кем вы являетесь?</string>
 </resources>

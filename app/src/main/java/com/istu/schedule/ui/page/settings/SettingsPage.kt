@@ -3,7 +3,10 @@ package com.istu.schedule.ui.page.settings
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.outlined.*
+import androidx.compose.material.icons.outlined.Engineering
+import androidx.compose.material.icons.outlined.Groups
+import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Work
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -52,10 +55,8 @@ fun SettingsPage(
                 }
                 item {
                     SelectableSettingGroupItem(
-                        title = remember(configuration.locales) {
-                            context.resources.getString(R.string.group)
-                        },
-                        description = "ИСТб-20-3",
+                        title = settingsUiState.userStatus,
+                        description = settingsUiState.userDescription,
                         icon = Icons.Outlined.Groups,
                         onClick = {
                             navController.navigate(NavDestinations.BINDING_SCREEN)

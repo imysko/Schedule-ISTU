@@ -1,6 +1,8 @@
-package com.istu.schedule.ui.page.binding.options
+package com.istu.schedule.ui.page.settings.binding.options
 
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,11 +26,13 @@ import com.istu.schedule.domain.model.schedule.Course
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseCourse(
+    enabled: Boolean = true,
+    selectedCourseText: String = "",
     courseList: List<Course> = emptyList(),
     onChoose: (chosenCourse: Course) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf("") }
+    var selectedOptionText by remember { mutableStateOf(selectedCourseText) }
 
     Surface(
         modifier = Modifier
@@ -44,11 +48,14 @@ fun ChooseCourse(
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(),
+                enabled = enabled,
                 readOnly = true,
                 value = selectedOptionText,
                 onValueChange = { },
                 trailingIcon = {
-                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                    if (enabled) {
+                        ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
+                    }
                 },
                 label = {
                     Text(
@@ -62,7 +69,7 @@ fun ChooseCourse(
             ExposedDropdownMenu(
                 modifier = Modifier
                     .fillMaxWidth(),
-                expanded = expanded,
+                expanded = if (enabled) expanded else false,
                 onDismissRequest = {
                     expanded = false
                 }
@@ -79,6 +86,7 @@ fun ChooseCourse(
                 }
             }
         }
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 

@@ -36,4 +36,5 @@
     <string name="phone_number">Phone</string>
     <string name="course">Course</string>
     <string name="not_specified">Not specified</string>
+    <string name="who_are_you">Who are you?</string>
 </resources>

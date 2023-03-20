@@ -2,6 +2,7 @@ package com.istu.schedule.ui.page.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,7 +26,13 @@ class SettingsViewModel @Inject constructor(
                 _settingsUiState.update {
                     it.copy(
                         isProjfairAuthenticated = candidate != null,
-                        projfairUsername = candidate?.fio ?: ""
+                        projfairUsername = candidate?.fio ?: "",
+                        userStatus = when (_user.userType) {
+                            UserStatus.STUDENT -> "Group"
+                            UserStatus.TEACHER -> "Teacher"
+                            else -> { "Unknown" }
+                        },
+                        userDescription = _user.userDescription ?: ""
                     )
                 }
             }
@@ -35,5 +42,7 @@ class SettingsViewModel @Inject constructor(
 
 data class SettingsUiState(
     val isProjfairAuthenticated: Boolean = false,
-    val projfairUsername: String = ""
+    val projfairUsername: String = "",
+    val userStatus: String = "",
+    val userDescription: String = ""
 )

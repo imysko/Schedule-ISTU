@@ -6,7 +6,7 @@
     <string name="use_device_language">Использвать язык устройства</string>
     <string name="schedule">Расписание</string>
     <string name="search">Поиск</string>
-    <string name="projfair">Проекты</string>
+    <string name="projfair">Ярмарка проектов</string>
     <string name="settings">Настройки</string>
     <string name="language">Язык</string>
     <string name="theme">Тема</string>
@@ -28,4 +28,10 @@
     <string name="back">Назад</string>
     <string name="other">Прочее</string>
     <string name="dark_theme">Тёмная тема</string>
+    <string name="my_projects">Мои проекты</string>
+    <string name="my_requests">Мои заявки</string>
+    <string name="projects">Проекты</string>
+    <string name="phone_number">Телефон</string>
+    <string name="course">Курс</string>
+    <string name="not_specified">Не указан</string>
 </resources>

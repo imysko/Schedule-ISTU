@@ -25,7 +25,7 @@ sealed class BottomNavItem(
 
     object ProjectFairPage: BottomNavItem(
         route = "projfair",
-        titleResid = R.string.projfair,
+        titleResid = R.string.projects,
         icon = Icons.Outlined.Work
     )
 

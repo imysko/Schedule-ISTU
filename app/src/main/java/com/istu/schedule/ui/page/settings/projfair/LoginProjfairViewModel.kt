@@ -1,7 +1,5 @@
 package com.istu.schedule.ui.page.settings.projfair
 
-import android.util.Log
-import android.webkit.CookieManager
 import androidx.lifecycle.ViewModel
 import com.istu.schedule.data.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel

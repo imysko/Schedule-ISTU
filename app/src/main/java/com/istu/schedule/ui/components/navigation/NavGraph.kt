@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.binding.BindingPage
+import com.istu.schedule.ui.page.projfair.candidate.CandidatePage
 import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.settings.projfair.LoginProjfairPage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
@@ -41,6 +42,12 @@ fun NavGraph(
             route = NavDestinations.THEME_SCREEN
         ) {
             ThemePage(navController)
+        }
+        
+        composable(
+            route = NavDestinations.CANDIDATE_SCREEN
+        ) {
+            CandidatePage(navController)
         }
 
         composable(

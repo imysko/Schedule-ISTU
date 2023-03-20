@@ -29,11 +29,49 @@ class ProjectsRepositoryImpl @Inject constructor(
         )
     }
 
+    override suspend fun getActiveProject(token: String): Result<Project> {
+        val apiResponse = projectsService.getActiveProject(token).body()
+        if (apiResponse != null) {
+            return Result.success(apiResponse)
+        }
+
+        return Result.failure(
+            RequestException(
+                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
+                message = "An error occurred!"
+            )
+        )
+    }
+
+    override suspend fun getArchiveProjects(token: String): Result<List<Project>> {
+        val apiResponse = projectsService.getArchiveProjects(token).body()
+        if (apiResponse != null) {
+            return Result.success(apiResponse)
+        }
+
+        return Result.failure(
+            RequestException(
+                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
+                message = "An error occurred!"
+            )
+        )
+    }
+
+
     override suspend fun getProject(id: Int): Result<Project> {
         return cachedList.find { it.id == id }?.let {project ->
             Result.success(project)
         } ?: run {
-            Result.failure(Exception("An error occurred when get project detail"))
+            val apiResponse = projectsService.getProject(id).body()
+            if (apiResponse != null) {
+                return Result.success(apiResponse)
+            }
+            return Result.failure(
+                RequestException(
+                    code = HttpURLConnection.HTTP_INTERNAL_ERROR,
+                    message = "An error occurred!"
+                )
+            )
         }
     }
 }

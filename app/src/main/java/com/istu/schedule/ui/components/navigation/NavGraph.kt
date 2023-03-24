@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
 import com.istu.schedule.ui.page.projfair.candidate.CandidatePage
+import com.istu.schedule.ui.page.projfair.candidate.projects.CandidateProjectsListPage
 import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.settings.projfair.LoginProjfairPage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
@@ -18,40 +19,46 @@ fun NavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = NavDestinations.MAIN_SCREEN
+        startDestination = NavDestinations.MAIN_PAGE
     ) {
         composable(
-            route = NavDestinations.MAIN_SCREEN
+            route = NavDestinations.MAIN_PAGE
         ) {
             MainPage(navController)
         }
 
         composable(
-            route = NavDestinations.BINDING_SCREEN
+            route = NavDestinations.BINDING_PAGE
         ) {
             BindingPage(navController)
         }
 
         composable(
-            route = NavDestinations.PROJFAIR_LOGIN_SCREEN
+            route = NavDestinations.PROJFAIR_LOGIN_PAGE
         ) {
             LoginProjfairPage(navController)
         }
 
         composable(
-            route = NavDestinations.THEME_SCREEN
+            route = NavDestinations.THEME_PAGE
         ) {
             ThemePage(navController)
         }
         
         composable(
-            route = NavDestinations.CANDIDATE_SCREEN
+            route = NavDestinations.CANDIDATE_PAGE
         ) {
             CandidatePage(navController)
         }
 
         composable(
-            route = "${NavDestinations.PROJECT_SCREEN}/{projectId}"
+            route = NavDestinations.CANDIDATE_PROJECTS_PAGE
+        ) {
+            CandidateProjectsListPage(navController)
+        }
+
+        composable(
+            route = "${NavDestinations.PROJECT_PAGE}/{projectId}"
         ) {
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
                 ProjectPage(projectId, navController)

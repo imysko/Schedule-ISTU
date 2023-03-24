@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.projfair.list
+package com.istu.schedule.ui.page.projfair.candidate.projects
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -15,10 +15,8 @@ import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,26 +27,15 @@ import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.theme.Shapes
 import com.istu.schedule.util.NavDestinations
-import com.istu.schedule.util.collectAsStateValue
 
 @Composable
-fun ListPage(
+fun CandidateProjectsListPage(
     navController: NavController,
-    viewModel: ListViewModel = hiltViewModel()
+    viewModel: CandidateProjectsListViewModel = hiltViewModel()
 ) {
-    val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
-
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
-    val endOfListReached by remember {
-        derivedStateOf {
-            projectsListUiState.listState.canScrollForward
-        }
-    }
-
-    val listState = projectsListUiState.listState
-
-    LaunchedEffect(endOfListReached) {
+    LaunchedEffect(Unit) {
         viewModel.getProjectsList()
     }
 
@@ -57,9 +44,7 @@ fun ListPage(
         content = {
             SIScaffold (
                 content = {
-                    LazyColumn(
-                        state = listState
-                    ) {
+                    LazyColumn {
                         items (projectsList) { project ->
                             Card(
                                 shape = Shapes.medium,

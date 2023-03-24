@@ -59,7 +59,7 @@ fun SettingsPage(
                         description = settingsUiState.userDescription,
                         icon = Icons.Outlined.Groups,
                         onClick = {
-                            navController.navigate(NavDestinations.BINDING_SCREEN)
+                            navController.navigate(NavDestinations.BINDING_PAGE)
                         }
                     )
                 }
@@ -74,7 +74,7 @@ fun SettingsPage(
                             },
                             icon = Icons.Outlined.Work,
                             onClick = {
-                                navController.navigate(NavDestinations.PROJFAIR_LOGIN_SCREEN)
+                                navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
                             }
                         )
                     }
@@ -90,7 +90,7 @@ fun SettingsPage(
                             },
                             icon = Icons.Outlined.Work,
                             onClick = {
-                                navController.navigate(NavDestinations.CANDIDATE_SCREEN)
+                                navController.navigate(NavDestinations.CANDIDATE_PAGE)
                             }
                         )
                     }
@@ -124,7 +124,7 @@ fun SettingsPage(
                         },
                         icon = Icons.Outlined.Palette
                     ) {
-                        navController.navigate(NavDestinations.THEME_SCREEN)
+                        navController.navigate(NavDestinations.THEME_PAGE)
                     }
                 }
                 item {

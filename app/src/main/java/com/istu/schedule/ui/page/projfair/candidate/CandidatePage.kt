@@ -36,6 +36,7 @@ import com.istu.schedule.ui.components.base.FeedbackIconButton
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.components.base.Subtitle
 import com.istu.schedule.ui.page.settings.SettingItem
+import com.istu.schedule.util.NavDestinations
 
 @Composable
 fun CandidatePage(
@@ -148,12 +149,12 @@ fun CandidatePage(
             item {
                 SettingItem(
                     title = stringResource(R.string.my_projects),
-                    onClick = { }
+                    onClick = { navController.navigate(NavDestinations.CANDIDATE_PROJECTS_PAGE) }
                 ) {
                     FeedbackIconButton(
                         imageVector = Icons.Filled.KeyboardArrowRight,
                         contentDescription = stringResource(R.string.my_projects),
-                        onClick = { }
+                        onClick = { navController.navigate(NavDestinations.CANDIDATE_PROJECTS_PAGE) }
                     )
                 }
             }

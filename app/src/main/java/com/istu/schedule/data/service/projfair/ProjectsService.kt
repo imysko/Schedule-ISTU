@@ -25,7 +25,7 @@ interface ProjectsService {
         @Header("Cookie") token: String = "token="
     ): Response<Project>
 
-    @GET("api/archiveProjects")
+    @GET("api/arhiveProjects")
     suspend fun getArchiveProjects(
         @Header("Cookie") token: String = "token="
     ): Response<List<Project>>

@@ -3,6 +3,7 @@ package com.istu.schedule.data.repository.projfair
 import com.istu.schedule.data.model.RequestException
 import com.istu.schedule.data.service.projfair.ProjectsService
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.model.projfair.ProjectState
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import java.net.HttpURLConnection
 import javax.inject.Inject
@@ -59,7 +60,7 @@ class ProjectsRepositoryImpl @Inject constructor(
 
 
     override suspend fun getProject(id: Int): Result<Project> {
-        return cachedList.find { it.id == id }?.let {project ->
+        return cachedList.find { it.id == id }?.let { project ->
             Result.success(project)
         } ?: run {
             val apiResponse = projectsService.getProject(id).body()

@@ -6,7 +6,9 @@ import com.istu.schedule.domain.repository.projfair.CandidateRepository
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import javax.inject.Inject
 
-class GetCandidateUseCase @Inject constructor(private val candidateRepository: CandidateRepository) {
+class GetCandidateUseCase @Inject constructor(
+    private val candidateRepository: CandidateRepository
+) {
 
     suspend fun getCandidate(token: String): Result<Candidate> {
         return candidateRepository.getCandidate(token)

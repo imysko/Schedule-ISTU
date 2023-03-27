@@ -6,6 +6,5 @@ import retrofit2.http.GET
 
 interface InstitutesService {
     @GET("schedule-api/institutes")
-    suspend fun getInstitutes(
-    ) : Response<List<Institute>>
+    suspend fun getInstitutes(): Response<List<Institute>>
 }

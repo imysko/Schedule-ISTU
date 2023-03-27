@@ -8,6 +8,6 @@ import retrofit2.http.Header
 interface CandidateService {
     @GET("api/candidate")
     suspend fun getCandidate(
-        @Header("Cookie") token: String = "token="
+        @Header("Cookie") token: String = "token=",
     ): Response<Candidate>
 }

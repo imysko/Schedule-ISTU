@@ -2,6 +2,7 @@ package com.istu.schedule.di
 
 import android.content.SharedPreferences
 import com.istu.schedule.data.service.projfair.CandidateService
+import com.istu.schedule.data.service.projfair.ParticipationsService
 import com.istu.schedule.data.service.projfair.ProjectStateService
 import com.istu.schedule.data.service.projfair.ProjectsService
 import com.istu.schedule.data.service.schedule.InstitutesService
@@ -46,7 +47,7 @@ object NetworkModule {
     fun provideScheduleRetrofit(
         @Named("ScheduleBaseUrl") baseUrl: String,
         okHttpClient: OkHttpClient,
-    ) : Retrofit {
+    ): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient)
@@ -57,9 +58,11 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClient(prefs: SharedPreferences): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                },
+            )
             .addInterceptor {
                 val original = it.request()
                 val newRequestBuilder = original.newBuilder()
@@ -85,25 +88,30 @@ object NetworkModule {
             .build()
     }
 
-    //Projfair
+    // Projfair
     @Provides
     fun providerProjectsService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ) : ProjectsService = retrofit.create(ProjectsService::class.java)
+        @Named("ProjfairRetrofit") retrofit: Retrofit,
+    ): ProjectsService = retrofit.create(ProjectsService::class.java)
 
     @Provides
     fun providerCandidateService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ) : CandidateService = retrofit.create(CandidateService::class.java)
+        @Named("ProjfairRetrofit") retrofit: Retrofit,
+    ): CandidateService = retrofit.create(CandidateService::class.java)
 
     @Provides
     fun providerProjectStatesService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
+        @Named("ProjfairRetrofit") retrofit: Retrofit,
     ): ProjectStateService = retrofit.create(ProjectStateService::class.java)
 
-    //Schedule
+    @Provides
+    fun providerParticipationsService(
+        @Named("ProjfairRetrofit") retrofit: Retrofit,
+    ): ParticipationsService = retrofit.create(ParticipationsService::class.java)
+
+    // Schedule
     @Provides
     fun providerInstitutesService(
-        @Named("ScheduleRetrofit") retrofit: Retrofit
+        @Named("ScheduleRetrofit") retrofit: Retrofit,
     ): InstitutesService = retrofit.create(InstitutesService::class.java)
 }

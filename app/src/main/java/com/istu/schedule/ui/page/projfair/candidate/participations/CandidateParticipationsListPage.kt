@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.projfair.candidate.projects
+package com.istu.schedule.ui.page.projfair.candidate.participations
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -28,11 +28,11 @@ import com.istu.schedule.ui.theme.Shapes
 import com.istu.schedule.util.NavDestinations
 
 @Composable
-fun CandidateProjectsListPage(
+fun CandidateParticipationsListPage(
     navController: NavController,
-    viewModel: CandidateProjectsListViewModel = hiltViewModel(),
+    viewModel: CandidateParticipationsListViewModel = hiltViewModel(),
 ) {
-    val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
+    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
 
     AppComposable(
         viewModel = viewModel,
@@ -40,19 +40,19 @@ fun CandidateProjectsListPage(
             SIScaffold(
                 content = {
                     LazyColumn {
-                        items(projectsList) { project ->
+                        items(participationsList) { participation ->
                             Card(
                                 shape = Shapes.medium,
                                 modifier = Modifier
                                     .padding(8.dp)
                                     .fillMaxWidth()
                                     .clickable {
-                                        navController.navigate("${NavDestinations.PROJECT_PAGE}/${project.id}")
+                                        navController.navigate("${NavDestinations.PROJECT_PAGE}/${participation.id}")
                                     },
                             ) {
                                 Column(Modifier.padding(8.dp)) {
                                     Text(
-                                        project.title,
+                                        participation.toString(),
                                         fontSize = 18.sp,
                                         fontWeight = FontWeight.Bold,
                                         maxLines = 2,

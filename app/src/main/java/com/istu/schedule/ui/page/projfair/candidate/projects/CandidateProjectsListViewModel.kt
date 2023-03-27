@@ -15,13 +15,17 @@ import javax.inject.Inject
 class CandidateProjectsListViewModel @Inject constructor(
     private val _archiveProjectsListUseCase: GetArchiveProjectsListUseCase,
     private val _activeProjectUseCase: GetActiveProjectUseCase,
-    private val _user: User
+    private val _user: User,
 ) : BaseViewModel() {
 
     private val _projectsList = MutableLiveData<MutableList<Project>>()
     val projectsList: LiveData<MutableList<Project>> = _projectsList
 
-    fun getProjectsList() {
+    init {
+        getProjectsList()
+    }
+
+    private fun getProjectsList() {
         _user.projfairToken?.let { token ->
             call({
                 _activeProjectUseCase.getActiveProject(token)

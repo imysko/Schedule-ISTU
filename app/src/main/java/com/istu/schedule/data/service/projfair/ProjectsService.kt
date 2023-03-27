@@ -12,21 +12,21 @@ interface ProjectsService {
     @GET("api/projects/filter")
     suspend fun getProjects(
         @Query("page") page: Int = 0,
-        @Query("pageSize") pageSize: Int = 10
+        @Query("pageSize") pageSize: Int = 10,
     ): Response<ProjectsResponse>
 
     @GET("api/projects/{id}")
     suspend fun getProject(
-        @Path("id") id: Int = 0
+        @Path("id") id: Int = 0,
     ): Response<Project>
 
     @GET("api/activeProject")
     suspend fun getActiveProject(
-        @Header("Cookie") token: String = "token="
+        @Header("Cookie") token: String = "token=",
     ): Response<Project>
 
     @GET("api/arhiveProjects")
     suspend fun getArchiveProjects(
-        @Header("Cookie") token: String = "token="
+        @Header("Cookie") token: String = "token=",
     ): Response<List<Project>>
 }

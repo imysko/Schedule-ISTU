@@ -8,7 +8,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class CandidateRepositoryImpl @Inject constructor(
-    private val candidateService: CandidateService
+    private val candidateService: CandidateService,
 ) : CandidateRepository {
 
     override suspend fun getCandidate(token: String): Result<Candidate> {
@@ -20,8 +20,22 @@ class CandidateRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
+        )
+    }
+
+    override suspend fun getProjectCandidatesList(projectId: Int): Result<List<Candidate>> {
+        val apiResponse = candidateService.getProjectCandidatesList(projectId).body()
+        if (apiResponse != null) {
+            return Result.success(apiResponse)
+        }
+
+        return Result.failure(
+            RequestException(
+                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
+                message = "An error occurred!",
+            ),
         )
     }
 }

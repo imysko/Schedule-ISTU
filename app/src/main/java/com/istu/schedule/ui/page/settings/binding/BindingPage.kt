@@ -102,6 +102,9 @@ fun BindingPage(
                                         instituteList = instituteList,
                                         onChoose = {
                                             viewModel.selectInstitute(it)
+                                        },
+                                        onClear = {
+                                            viewModel.clearInstitute()
                                         }
                                     )
                                 }
@@ -114,6 +117,9 @@ fun BindingPage(
                                         courseList = coursesList,
                                         onChoose = {
                                             viewModel.selectCourse(it)
+                                        },
+                                        onClear = {
+                                            viewModel.clearCourse()
                                         }
                                     )
                                 }
@@ -126,6 +132,9 @@ fun BindingPage(
                                         groupList = groupsList,
                                         onChoose = {
                                             viewModel.selectGroup(it)
+                                        },
+                                        onClear = {
+                                            viewModel.clearGroup()
                                         }
                                     )
                                 }

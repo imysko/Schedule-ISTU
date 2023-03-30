@@ -33,9 +33,9 @@ class BindingViewModel @Inject constructor(
     val groupsList: LiveData<List<Group>> = _groupsList
 
 
-    private val _selectedInstitute = MutableLiveData<Institute>()
-    private val _selectedCourse = MutableLiveData<Course>()
-    private val _selectedGroup = MutableLiveData<Group>()
+    private val _selectedInstitute = MutableLiveData<Institute?>()
+    private val _selectedCourse = MutableLiveData<Course?>()
+    private val _selectedGroup = MutableLiveData<Group?>()
     private val _selectedTeacher = MutableLiveData<Teacher>()
 
 
@@ -104,6 +104,27 @@ class BindingViewModel @Inject constructor(
         }
     }
 
+    fun clearInstitute() {
+        _selectedInstitute.value = null
+        _selectedCourse.value = null
+        _selectedGroup.value = null
+
+        _bindingUiState.update {
+            it.copy(
+                canChooseInstitute = true,
+                selectedInstituteText = "",
+                isShowCoursesInput = false,
+                canChooseCourse = false,
+                isShowGroupsInput = false,
+                selectedCourseText = "",
+                canChooseGroup = false,
+                selectedGroupText = "",
+                canBinding = false,
+                isShowFloatingButton= false,
+            )
+        }
+    }
+
     fun selectCourse(course: Course) {
         _selectedCourse.value = course
         getGroupsList()
@@ -118,6 +139,23 @@ class BindingViewModel @Inject constructor(
         }
     }
 
+    fun clearCourse() {
+        _selectedCourse.value = null
+        _selectedGroup.value = null
+
+        _bindingUiState.update {
+            it.copy(
+                canChooseCourse = true,
+                isShowGroupsInput = false,
+                selectedCourseText = "",
+                canChooseGroup = false,
+                selectedGroupText = "",
+                canBinding = false,
+                isShowFloatingButton= false,
+            )
+        }
+    }
+
     fun selectGroup(group: Group) {
         _selectedGroup.value = group
 
@@ -127,6 +165,19 @@ class BindingViewModel @Inject constructor(
                 selectedGroupText = _selectedGroup.value!!.name!!,
                 canBinding = true,
                 isShowFloatingButton = true
+            )
+        }
+    }
+
+    fun clearGroup() {
+        _selectedGroup.value = null
+
+        _bindingUiState.update {
+            it.copy(
+                canChooseGroup = true,
+                selectedGroupText = "",
+                canBinding = false,
+                isShowFloatingButton= false,
             )
         }
     }

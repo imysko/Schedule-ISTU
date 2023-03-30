@@ -1,5 +1,7 @@
 package com.istu.schedule.domain.model.schedule
 
+import com.istu.schedule.domain.model.DateOnly
+
 data class Schedule(
     val scheduleId: Int,
     val groupsVerbose: String,
@@ -16,5 +18,5 @@ data class Schedule(
     val lessonTime: LessonTime,
     val subgroup: Int,
     val lessonType: Int,
-    val date: String
+    val date: DateOnly
 )

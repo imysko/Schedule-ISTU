@@ -5,12 +5,14 @@ import com.istu.schedule.data.repository.projfair.ParticipationsRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ProjectStateRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ProjectsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
+import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
 import com.istu.schedule.data.repository.schedule.TeachersRepositoryImpl
 import com.istu.schedule.domain.repository.projfair.CandidateRepository
 import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
 import com.istu.schedule.domain.repository.projfair.ProjectStateRepository
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
+import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import com.istu.schedule.domain.repository.schedule.TeachersRepository
 import dagger.Binds
 import dagger.Module
@@ -47,4 +49,8 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindTeachersRepository(teachersRepositoryImpl: TeachersRepositoryImpl): TeachersRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindScheduleRepository(scheduleRepositoryImpl: ScheduleRepositoryImpl): ScheduleRepository
 }

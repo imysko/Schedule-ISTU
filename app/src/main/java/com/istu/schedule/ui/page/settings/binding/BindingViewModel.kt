@@ -9,17 +9,20 @@ import com.istu.schedule.domain.model.schedule.Group
 import com.istu.schedule.domain.model.schedule.Institute
 import com.istu.schedule.domain.model.schedule.Teacher
 import com.istu.schedule.domain.usecase.schedule.GetInstitutesListUseCase
+import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
 class BindingViewModel @Inject constructor(
-    private val _useCase: GetInstitutesListUseCase,
+    private val _useCaseInstitutesList: GetInstitutesListUseCase,
+    private val _useCaseTeachersList: GetTeachersListUseCase,
     private val _user: User
 ) : BaseViewModel() {
 
@@ -32,11 +35,17 @@ class BindingViewModel @Inject constructor(
     private val _groupsList = MutableLiveData<List<Group>>()
     val groupsList: LiveData<List<Group>> = _groupsList
 
+    private val _teachersList = MutableLiveData<List<Teacher>>()
+    val teachersList: LiveData<List<Teacher>> = _teachersList
+
+    private val _teachersTips = MutableLiveData<List<Teacher>>()
+    val teachersTips: LiveData<List<Teacher>> = _teachersTips
+
 
     private val _selectedInstitute = MutableLiveData<Institute?>()
     private val _selectedCourse = MutableLiveData<Course?>()
     private val _selectedGroup = MutableLiveData<Group?>()
-    private val _selectedTeacher = MutableLiveData<Teacher>()
+    private val _selectedTeacher = MutableLiveData<Teacher?>()
 
 
     private val _userState = MutableStateFlow(UserStatus.UNKNOWN)
@@ -52,14 +61,18 @@ class BindingViewModel @Inject constructor(
 
     private fun getInstitutesList() {
         call({
-            _useCase.getInstitutesList()
+            _useCaseInstitutesList.getInstitutesList()
         }, onSuccess = {
             _institutesList.postValue(it)
         })
     }
 
     private fun getTeachersList() {
-
+        call({
+            _useCaseTeachersList.getTeachersList()
+        }, onSuccess = {
+            _teachersList.postValue(it)
+        })
     }
 
     private fun getCoursesList() {
@@ -78,11 +91,15 @@ class BindingViewModel @Inject constructor(
                 UserStatus.STUDENT -> {
                     it.copy(
                         isShowInstitutesInput = true,
+                        canBinding = _selectedGroup.value != null,
+                        isShowFloatingButton = _selectedGroup.value != null
                     )
                 }
                 UserStatus.TEACHER -> {
                     it.copy(
-                        isShowTeachersInput = true
+                        isShowTeachersInput = true,
+                        canBinding = _selectedTeacher.value != null,
+                        isShowFloatingButton = _selectedTeacher.value != null
                     )
                 }
                 UserStatus.UNKNOWN -> { it.copy()}
@@ -179,6 +196,39 @@ class BindingViewModel @Inject constructor(
                 canBinding = false,
                 isShowFloatingButton= false,
             )
+        }
+    }
+
+    fun selectTeacher(teacher: Teacher) {
+        _selectedTeacher.value = teacher
+
+        _bindingUiState.update {
+            it.copy(
+                canEditTeacherName = false,
+                selectedTeacherText = _selectedTeacher.value!!.fullname,
+                canBinding = true,
+                isShowFloatingButton = true
+            )
+        }
+    }
+
+    fun clearTeacher() {
+        _selectedTeacher.value = null
+
+        _bindingUiState.update {
+            it.copy(
+                canEditTeacherName = true,
+                selectedTeacherText = "",
+                canBinding = false,
+                isShowFloatingButton = false,
+            )
+        }
+    }
+
+    fun inputText(inputtedText: String) {
+        _teachersTips.value = _teachersList.value!!.filter {
+            it.fullname.lowercase(Locale.getDefault())
+                .contains(inputtedText.lowercase(Locale.getDefault()))
         }
     }
 

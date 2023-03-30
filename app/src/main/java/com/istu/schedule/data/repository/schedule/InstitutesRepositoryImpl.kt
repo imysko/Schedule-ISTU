@@ -8,13 +8,13 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class InstitutesRepositoryImpl @Inject constructor(
-    private val scheduleService: InstitutesService
+    private val institutesService: InstitutesService
 ) : InstitutesRepository {
 
     private val cachedList: MutableList<Institute> = mutableListOf()
 
     override suspend fun getInstitutes(): Result<List<Institute>> {
-        val apiResponse = scheduleService.getInstitutes().body()
+        val apiResponse = institutesService.getInstitutes().body()
 
         if (apiResponse != null) {
             cachedList.addAll(apiResponse)

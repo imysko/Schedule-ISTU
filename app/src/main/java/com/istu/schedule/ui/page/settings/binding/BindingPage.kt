@@ -39,6 +39,7 @@ import com.istu.schedule.ui.components.base.Subtitle
 import com.istu.schedule.ui.page.settings.binding.options.ChooseCourse
 import com.istu.schedule.ui.page.settings.binding.options.ChooseGroup
 import com.istu.schedule.ui.page.settings.binding.options.ChooseInstitute
+import com.istu.schedule.ui.page.settings.binding.options.InputTeacher
 import com.istu.schedule.util.collectAsStateValue
 
 @Composable
@@ -58,6 +59,7 @@ fun BindingPage(
     val instituteList by viewModel.institutesList.observeAsState(initial = emptyList())
     val coursesList by viewModel.coursesList.observeAsState(initial = emptyList())
     val groupsList by viewModel.groupsList.observeAsState(initial = emptyList())
+    val teachersTips by viewModel.teachersTips.observeAsState(initial = emptyList())
 
     val endOfListReached by remember {
         derivedStateOf { }
@@ -149,6 +151,16 @@ fun BindingPage(
                                     Subtitle(
                                         modifier = Modifier.padding(horizontal = 24.dp),
                                         text = "Teacher"
+                                    )
+                                    InputTeacher(
+                                        enabled = bindingUiState.canEditTeacherName,
+                                        selectedTeacherText = bindingUiState.selectedTeacherText,
+                                        teachersTips = teachersTips,
+                                        onTextChanged = {
+                                            viewModel.inputText(it)
+                                        },
+                                        onChoose = { viewModel.selectTeacher(it) },
+                                        onClear = { viewModel.clearTeacher() }
                                     )
                                 }
                             },

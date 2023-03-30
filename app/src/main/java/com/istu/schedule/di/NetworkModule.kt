@@ -6,6 +6,7 @@ import com.istu.schedule.data.service.projfair.ParticipationsService
 import com.istu.schedule.data.service.projfair.ProjectStateService
 import com.istu.schedule.data.service.projfair.ProjectsService
 import com.istu.schedule.data.service.schedule.InstitutesService
+import com.istu.schedule.data.service.schedule.TeachersService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -114,4 +115,9 @@ object NetworkModule {
     fun providerInstitutesService(
         @Named("ScheduleRetrofit") retrofit: Retrofit,
     ): InstitutesService = retrofit.create(InstitutesService::class.java)
+
+    @Provides
+    fun providerTeachersService(
+        @Named("ScheduleRetrofit") retrofit: Retrofit
+    ): TeachersService = retrofit.create(TeachersService::class.java)
 }

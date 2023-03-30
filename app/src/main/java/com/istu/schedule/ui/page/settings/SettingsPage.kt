@@ -18,6 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.data.preference.LocalTheme
 import com.istu.schedule.ui.components.base.DisplayText
@@ -55,8 +56,21 @@ fun SettingsPage(
                 }
                 item {
                     SelectableSettingGroupItem(
-                        title = settingsUiState.userStatus,
-                        description = settingsUiState.userDescription,
+                        title = when (settingsUiState.userStatus) {
+                            UserStatus.STUDENT -> remember(configuration.locales) {
+                                context.resources.getString(R.string.student)
+                            }
+                            UserStatus.TEACHER -> remember(configuration.locales) {
+                                    context.resources.getString(R.string.teacher)
+                            }
+                            UserStatus.UNKNOWN -> remember(configuration.locales) {
+                                    context.resources.getString(R.string.unknown)
+                            }
+                        },
+                        description = if (settingsUiState.userStatus != UserStatus.UNKNOWN)
+                            settingsUiState.userDescription else remember(configuration.locales) {
+                                context.resources.getString(R.string.user_not_binding)
+                            },
                         icon = Icons.Outlined.Groups,
                         onClick = {
                             navController.navigate(NavDestinations.BINDING_PAGE)

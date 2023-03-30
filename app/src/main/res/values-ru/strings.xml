@@ -35,4 +35,14 @@
     <string name="course">Курс</string>
     <string name="not_specified">Не указан</string>
     <string name="who_are_you">Кем вы являетесь?</string>
+    <string name="choose_institute">Выберете свой институт</string>
+    <string name="choose_course">Выберете номер курса</string>
+    <string name="choose_group">Выберете вашу группу</string>
+    <string name="fullname">Полное имя</string>
+    <string name="confirm">Подтвердить</string>
+    <string name="input_complete">Пожалуйста, заполните поля ввода</string>
+    <string name="student">Студент</string>
+    <string name="unknown">Неизвестен</string>
+    <string name="binding">Привязка пользователя</string>
+    <string name="user_not_binding">Вы не привязаны к группе или преподавателю</string>
 </resources>

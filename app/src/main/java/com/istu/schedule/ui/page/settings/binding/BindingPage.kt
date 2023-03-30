@@ -80,7 +80,7 @@ fun BindingPage(
                 },
                 content = {
                     DisplayText(
-                        text = "Binding",
+                        text = stringResource(id = R.string.binding),
                         desc = ""
                     )
                     Subtitle(
@@ -174,12 +174,12 @@ fun BindingPage(
                         icon = {
                             Icon(
                                 Icons.Rounded.CheckCircleOutline,
-                                "Bind"
+                                "Confirm"
                             )
                         },
                         text = {
                             Text(
-                                text = "Bind"
+                                text = stringResource(id = R.string.confirm)
                             )
                         },
                         onClick = {
@@ -205,13 +205,13 @@ fun BindingPage(
             )
         },
         title = {
-            Text(text = "Please complete the input")
+            Text(text = stringResource(id = R.string.input_complete))
         },
         confirmButton = {
             TextButton(
                 onClick = { viewModel.changeDialogStatus(false) }
             ) {
-                Text(text = "Ok")
+                Text(text = stringResource(id = R.string.close))
             }
         }
     )

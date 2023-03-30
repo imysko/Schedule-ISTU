@@ -27,11 +27,7 @@ class SettingsViewModel @Inject constructor(
                     it.copy(
                         isProjfairAuthenticated = candidate != null,
                         projfairUsername = candidate?.fio ?: "",
-                        userStatus = when (_user.userType) {
-                            UserStatus.STUDENT -> "Group"
-                            UserStatus.TEACHER -> "Teacher"
-                            else -> { "Unknown" }
-                        },
+                        userStatus = _user.userType ?: UserStatus.UNKNOWN,
                         userDescription = _user.userDescription ?: ""
                     )
                 }
@@ -43,6 +39,6 @@ class SettingsViewModel @Inject constructor(
 data class SettingsUiState(
     val isProjfairAuthenticated: Boolean = false,
     val projfairUsername: String = "",
-    val userStatus: String = "",
+    val userStatus: UserStatus = UserStatus.UNKNOWN,
     val userDescription: String = ""
 )

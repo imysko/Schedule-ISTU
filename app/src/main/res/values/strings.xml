@@ -47,5 +47,9 @@
     <string name="unknown">Unknown</string>
     <string name="binding">User binding</string>
     <string name="user_not_binding">You are not binding to a group or a teacher</string>
+    <string name="lecture">Lecture</string>
+    <string name="practical">Practical</string>
+    <string name="laboratory_work">Laboratory work</string>
+    <string name="subgroup">Subgroup</string>
     <string name="account">Account</string>
 </resources>

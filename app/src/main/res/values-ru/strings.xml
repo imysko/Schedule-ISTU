@@ -45,5 +45,9 @@
     <string name="unknown">Неизвестен</string>
     <string name="binding">Привязка пользователя</string>
     <string name="user_not_binding">Вы не привязаны к группе или преподавателю</string>
+    <string name="lecture">Лекция</string>
+    <string name="practical">Практика</string>
+    <string name="laboratory_work">Лабораторная работа</string>
+    <string name="subgroup">Подгруппа</string>
 	<string name="account">Аккаунт</string>
 </resources>

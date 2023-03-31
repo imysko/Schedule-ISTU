@@ -1,9 +1,11 @@
 package com.istu.schedule.ui.page.schedule
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -16,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SIScaffold
+import java.time.LocalDateTime
 
 @Composable
 fun SchedulePage(
@@ -28,9 +31,15 @@ fun SchedulePage(
         content = {
             SIScaffold (
                 content = {
-                    LazyColumn {
+                    LazyColumn(
+                        modifier = Modifier
+                            .padding(horizontal = 15.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
                         items (scheduleList) { schedule ->
-                            ScheduleCard(schedule = schedule)
+                            val currentDateTime = LocalDateTime.now()
+
+                            ScheduleCard(currentDateTime = currentDateTime, schedule = schedule)
                         }
                         item {
                             Spacer(modifier = Modifier.height(128.dp))

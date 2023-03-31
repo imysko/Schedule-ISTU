@@ -22,6 +22,9 @@ class ScheduleViewModel @Inject constructor(
     private val _scheduleList = MutableLiveData<List<Schedule>>()
     val scheduleList: LiveData<List<Schedule>> = _scheduleList
 
+    private val _selectedDate = MutableLiveData<LocalDate>()
+    val selectedDate: LiveData<LocalDate> = _selectedDate
+
     init {
         getSchedule()
     }

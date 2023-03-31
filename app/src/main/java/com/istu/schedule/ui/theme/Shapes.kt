@@ -14,6 +14,12 @@ val Shapes = Shapes(
 )
 
 @Stable
+val Shape5 = RoundedCornerShape(5.0.dp)
+
+@Stable
+val Shape10 = RoundedCornerShape(10.0.dp)
+
+@Stable
 val Shape20 = RoundedCornerShape(20.0.dp)
 
 @Stable
@@ -21,6 +27,12 @@ val Shape24 = RoundedCornerShape(24.0.dp)
 
 @Stable
 val Shape32 = RoundedCornerShape(32.0.dp)
+
+@Stable
+val Shape60 = RoundedCornerShape(60.0.dp)
+
+@Stable
+val Shape100 = RoundedCornerShape(100.0.dp)
 
 @Stable
 val ShapeTop32 = RoundedCornerShape(32.0.dp, 32.0.dp, 0.0.dp, 0.0.dp)

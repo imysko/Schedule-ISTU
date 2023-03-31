@@ -18,3 +18,5 @@ val Gray = Color(0xFFA4A4A4)
 val Orange = Color(0xFFFFA500)
 
 val BlackText = Color(0xFF383838)
+
+val HalfGray = Color(0xFFE7E7E7)

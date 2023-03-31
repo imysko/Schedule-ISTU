@@ -52,4 +52,5 @@
     <string name="laboratory_work">Laboratory work</string>
     <string name="subgroup">Subgroup</string>
     <string name="account">Account</string>
+    <string name="aim_project">"Aim: "</string>
 </resources>

@@ -16,25 +16,25 @@ import androidx.compose.ui.unit.dp
 fun RadioButtonWithText(
     text: String,
     selected: Boolean,
-    onSelect: () -> Unit
+    onSelect: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onSelect() }
+            .clickable { onSelect() },
     ) {
         RadioButton(
             selected = selected,
             onClick = { onSelect() },
             modifier = Modifier
-                .padding(start = 8.dp)
+                .padding(start = 8.dp),
         )
         Text(
             text = text,
             modifier = Modifier
                 .padding(start = 16.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
         )
     }
 }
@@ -44,7 +44,7 @@ fun RadioButtonWithText(
 fun RadioButtonWithTextPreview() {
     RadioButtonWithText(
         text = "Text",
-        selected = true
+        selected = true,
     ) {
     }
 }

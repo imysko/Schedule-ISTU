@@ -1,28 +1,39 @@
 package com.istu.schedule.domain.model.projfair
 
+import com.google.gson.annotations.SerializedName
+import java.util.Date
+
 data class Project(
     val id: Int,
     val prevProjectId: Int?,
     val title: String,
-    val places: String,
+    val places: Int,
     val goal: String,
     val description: String,
     val difficulty: Int,
-    val date_start: String,
-    val date_end: String,
+    @SerializedName("date_start")
+    val dateStart: Date,
+    @SerializedName("date_end")
+    val dateEnd: String,
     val requirements: String,
-    val additional_inf: String,
-    val product_result: String,
-    val study_result: String,
+    @SerializedName("additional_inf")
+    val additionalInfo: String,
+    @SerializedName("product_result")
+    val productResult: String,
+    @SerializedName("study_result")
+    val studyResult: String,
     val supervisor: List<Supervisor>,
     val projectSupervisors: List<ProjectSupervisor>,
     val skills: List<Skill>,
     val specialities: List<Speciality>,
-    val project_specialities: List<ProjectSpeciality>,
+    @SerializedName("project_specialities")
+    val projectSpecialities: List<ProjectSpeciality>,
     val supervisorsNames: String,
     val state: ProjectState,
     val department: Department,
     val type: ProjectType,
-    val created_at: String,
-    val updated_at: String
+    @SerializedName("created_at")
+    val createdAt: Date,
+    @SerializedName("updated_at")
+    val updatedAt: Date,
 )

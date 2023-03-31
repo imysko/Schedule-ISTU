@@ -13,7 +13,6 @@ fun BlockRadioButton(
     onSelected: (Int) -> Unit,
     itemRadioGroups: List<BlockRadioGroupButtonItem> = listOf(),
 ) {
-
     Column {
         Row(
             modifier = modifier.padding(horizontal = 24.dp),

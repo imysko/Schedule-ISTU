@@ -16,3 +16,5 @@ val Background = Color(0xFFF4F5FA)
 val Gray = Color(0xFFA4A4A4)
 
 val Orange = Color(0xFFFFA500)
+
+val BlackText = Color(0xFF383838)

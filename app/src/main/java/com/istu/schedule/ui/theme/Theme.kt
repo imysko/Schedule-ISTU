@@ -12,9 +12,13 @@ import com.istu.schedule.data.preference.ThemePreference
 
 private val lightColorScheme = lightColorScheme(
     primary = Blue,
+    primaryContainer = BlueContainer,
     secondary = Gray,
     background = Color.White,
     surface = Background,
+    tertiary = BlackText,
+    error = Red,
+    errorContainer = RedContainer,
 )
 
 @Composable

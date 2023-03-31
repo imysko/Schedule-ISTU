@@ -45,4 +45,5 @@
     <string name="unknown">Неизвестен</string>
     <string name="binding">Привязка пользователя</string>
     <string name="user_not_binding">Вы не привязаны к группе или преподавателю</string>
+	<string name="account">Аккаунт</string>
 </resources>

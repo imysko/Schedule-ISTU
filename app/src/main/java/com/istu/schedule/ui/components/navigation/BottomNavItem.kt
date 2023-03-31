@@ -1,37 +1,39 @@
 package com.istu.schedule.ui.components.navigation
 
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.Work
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.istu.schedule.R
+import com.istu.schedule.ui.icons.Account
+import com.istu.schedule.ui.icons.Book
+import com.istu.schedule.ui.icons.Calendar
+import com.istu.schedule.ui.icons.Settings
 
 sealed class BottomNavItem(
     val route: String,
-    val titleResid: Int,
-    val icon: ImageVector
+    val titleResId: Int,
+    val icon: ImageVector,
 ) {
-    object SchedulePage: BottomNavItem(
+    object SchedulePage : BottomNavItem(
         route = "schedule",
-        titleResid = R.string.schedule,
-        icon = Icons.Default.Schedule
+        titleResId = R.string.schedule,
+        icon = Icons.Calendar,
     )
 
-    object SearchPage: BottomNavItem(
-        route = "search",
-        titleResid = R.string.search,
-        icon = Icons.Default.Search
-    )
-
-    object ProjectFairPage: BottomNavItem(
+    object ProjfairPage : BottomNavItem(
         route = "projfair",
-        titleResid = R.string.projects,
-        icon = Icons.Outlined.Work
+        titleResId = R.string.projects,
+        icon = Icons.Book,
     )
 
-    object SettingsPage: BottomNavItem(
+    object SettingsPage : BottomNavItem(
         route = "settings",
-        titleResid = R.string.settings,
-        icon = Icons.Default.Settings
+        titleResId = R.string.settings,
+        icon = Icons.Settings,
+    )
+
+    object AccountPage : BottomNavItem(
+        route = "account",
+        titleResId = R.string.account,
+        icon = Icons.Account,
     )
 }

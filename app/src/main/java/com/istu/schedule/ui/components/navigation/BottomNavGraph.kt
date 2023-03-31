@@ -12,34 +12,34 @@ import com.istu.schedule.ui.page.settings.SettingsPage
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
-    bottomNavController: NavHostController
+    bottomNavController: NavHostController,
 ) {
     NavHost(
         navController = bottomNavController,
-        startDestination = BottomNavItem.SchedulePage.route
+        startDestination = BottomNavItem.SchedulePage.route,
     ) {
         composable(
-            route = BottomNavItem.SchedulePage.route
+            route = BottomNavItem.SchedulePage.route,
         ) {
             SchedulePage()
         }
 
         composable(
-            route = BottomNavItem.SearchPage.route
-        ) {
-            SearchPage()
-        }
-
-        composable(
-            route = BottomNavItem.ProjectFairPage.route
+            route = BottomNavItem.ProjfairPage.route,
         ) {
             ListPage(navController)
         }
 
         composable(
-            route = BottomNavItem.SettingsPage.route
+            route = BottomNavItem.SettingsPage.route,
         ) {
             SettingsPage(navController)
+        }
+
+        composable(
+            route = BottomNavItem.AccountPage.route,
+        ) {
+            SearchPage()
         }
     }
 }

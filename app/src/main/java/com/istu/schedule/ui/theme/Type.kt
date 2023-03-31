@@ -2,33 +2,22 @@ package com.istu.schedule.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
+import com.istu.schedule.ui.fonts.montFamily
 
-// Set of Material typography styles to start with
 val Typography = Typography(
-    bodyLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
-        lineHeight = 24.sp,
-        letterSpacing = 0.5.sp
-    )
-    /* Other default text styles to override
-    titleLarge = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Normal,
-        fontSize = 22.sp,
-        lineHeight = 28.sp,
-        letterSpacing = 0.sp
-    ),
-    labelSmall = TextStyle(
-        fontFamily = FontFamily.Default,
-        fontWeight = FontWeight.Medium,
-        fontSize = 11.sp,
-        lineHeight = 16.sp,
-        letterSpacing = 0.5.sp
-    )
-    */
+    displayLarge = TextStyle(fontFamily = montFamily),
+    displayMedium = TextStyle(fontFamily = montFamily),
+    displaySmall = TextStyle(fontFamily = montFamily),
+    headlineLarge = TextStyle(fontFamily = montFamily),
+    headlineMedium = TextStyle(fontFamily = montFamily),
+    headlineSmall = TextStyle(fontFamily = montFamily),
+    titleLarge = TextStyle(fontFamily = montFamily),
+    titleMedium = TextStyle(fontFamily = montFamily),
+    titleSmall = TextStyle(fontFamily = montFamily),
+    bodyLarge = TextStyle(fontFamily = montFamily),
+    bodyMedium = TextStyle(fontFamily = montFamily),
+    bodySmall = TextStyle(fontFamily = montFamily),
+    labelLarge = TextStyle(fontFamily = montFamily),
+    labelMedium = TextStyle(fontFamily = montFamily),
+    labelSmall = TextStyle(fontFamily = montFamily),
 )

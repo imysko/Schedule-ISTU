@@ -14,25 +14,25 @@ import com.istu.schedule.data.preference.ThemePreference
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
 )
 
 private val AmoledDarkColorScheme = darkColorScheme(
     primary = Purple80,
     secondary = PurpleGrey80,
     tertiary = Pink80,
-    surface = Color.Black
+    surface = Color.Black,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Purple40,
     secondary = PurpleGrey40,
-    tertiary = Pink40
+    tertiary = Pink40,
 )
 
 @Composable
 fun ScheduleISTUTheme(
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val theme = LocalTheme.current
 
@@ -41,8 +41,7 @@ fun ScheduleISTUTheme(
             ThemePreference.UseDeviceTheme.value -> {
                 if (isSystemInDarkTheme()) {
                     DarkColorScheme
-                }
-                else {
+                } else {
                     LightColorScheme
                 }
             }
@@ -58,8 +57,8 @@ fun ScheduleISTUTheme(
     }
 
     MaterialTheme(
-      colorScheme = colorScheme,
-      typography = Typography,
-      content = content
+        colorScheme = colorScheme,
+        typography = Typography,
+        content = content,
     )
 }

@@ -12,6 +12,7 @@ import com.istu.schedule.data.preference.ThemePreference
 
 private val lightColorScheme = lightColorScheme(
     primary = Blue,
+    onPrimary = Color.White,
     primaryContainer = BlueContainer,
     secondary = Gray,
     background = Color.White,

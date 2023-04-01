@@ -14,7 +14,7 @@ data class Project(
     @SerializedName("date_start")
     val dateStart: Date,
     @SerializedName("date_end")
-    val dateEnd: String,
+    val dateEnd: Date,
     val requirements: String,
     @SerializedName("additional_inf")
     val additionalInfo: String,

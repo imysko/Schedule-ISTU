@@ -53,4 +53,7 @@
     <string name="subgroup">Subgroup</string>
     <string name="account">Account</string>
     <string name="aim_project">"Aim: "</string>
+    <string name="start_date">Start date: </string>
+    <string name="read_more">Read more</string>
+    <string name="apply_participation">Apply for participation</string>
 </resources>

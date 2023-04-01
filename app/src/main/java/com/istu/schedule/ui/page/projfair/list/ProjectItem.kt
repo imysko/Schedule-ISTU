@@ -30,11 +30,15 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.ui.components.base.FilledButton
+import com.istu.schedule.ui.components.base.OutlineButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
 import com.istu.schedule.ui.theme.HalfGray
+import java.text.DateFormat
 
 @Composable
 fun ProjectItem(
@@ -52,20 +56,25 @@ fun ProjectItem(
         Column(modifier = Modifier.padding(15.dp, 20.dp)) {
             Text(
                 text = project.title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
             )
-            Text(
-                text = project.supervisorsNames,
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.secondary,
-                ),
-            )
-            Text(
-                text = project.specialities.joinToString { it.name },
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.secondary,
-                ),
-            )
+            if (project.supervisorsNames.isNotBlank()) {
+                Text(
+                    modifier = Modifier.padding(top = 7.dp),
+                    text = project.supervisorsNames,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.secondary,
+                    ),
+                )
+            }
+            if (project.specialities.isNotEmpty()) {
+                Text(
+                    text = project.specialities.joinToString { it.name },
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.secondary,
+                    ),
+                )
+            }
             Row(
                 modifier = Modifier
                     .padding(vertical = 15.dp)
@@ -76,7 +85,7 @@ fun ProjectItem(
                 Row {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            modifier = Modifier.size(12.dp),
+                            modifier = Modifier.size(16.dp),
                             imageVector = Icons.People,
                             contentDescription = "People Icon",
                             tint = MaterialTheme.colorScheme.primary,
@@ -84,13 +93,13 @@ fun ProjectItem(
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.places.toString(),
-                            style = MaterialTheme.typography.bodySmall.copy(
+                            style = MaterialTheme.typography.bodyMedium.copy(
                                 color = MaterialTheme.colorScheme.primary,
                             ),
                         )
                         Spacer(modifier = Modifier.width(20.dp))
                         Icon(
-                            modifier = Modifier.size(12.dp),
+                            modifier = Modifier.size(16.dp),
                             imageVector = Icons.Star,
                             contentDescription = "Star Icon",
                             tint = MaterialTheme.colorScheme.tertiary,
@@ -98,7 +107,7 @@ fun ProjectItem(
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.difficulty.toString(),
-                            style = MaterialTheme.typography.bodySmall,
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                 }
@@ -124,34 +133,68 @@ fun ProjectItem(
                     .height(2.dp),
                 color = HalfGray,
             )
-            Column(Modifier.padding(vertical = 15.dp)) {
-                Text(
-                    text = buildAnnotatedString {
-                        append(
-                            AnnotatedString(
-                                text = stringResource(id = R.string.aim_project),
-                                spanStyle = SpanStyle(
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
-                                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
-                                ),
+            Text(
+                modifier = Modifier.padding(top = 15.dp),
+                text = buildAnnotatedString {
+                    append(
+                        AnnotatedString(
+                            text = stringResource(id = R.string.aim_project),
+                            spanStyle = SpanStyle(
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
                             ),
-                        )
-                        append(
-                            AnnotatedString(
-                                text = project.goal,
-                                spanStyle = SpanStyle(
-                                    fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
-                                    fontSize = MaterialTheme.typography.bodySmall.fontSize,
-                                    fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
-                                    color = MaterialTheme.colorScheme.secondary,
-                                ),
+                        ),
+                    )
+                    append(
+                        AnnotatedString(
+                            text = project.goal,
+                            spanStyle = SpanStyle(
+                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                color = MaterialTheme.colorScheme.secondary,
                             ),
-                        )
-                    },
-                )
-            }
+                        ),
+                    )
+                },
+            )
+            Text(
+                modifier = Modifier.padding(top = 17.dp),
+                text = buildAnnotatedString {
+                    append(
+                        AnnotatedString(
+                            text = stringResource(id = R.string.start_date),
+                            spanStyle = SpanStyle(
+                                fontWeight = FontWeight.SemiBold,
+                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                            ),
+                        ),
+                    )
+                    append(
+                        AnnotatedString(
+                            text = DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart),
+                            spanStyle = SpanStyle(
+                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                color = MaterialTheme.colorScheme.secondary,
+                            ),
+                        ),
+                    )
+                },
+            )
+            FilledButton(
+                modifier = Modifier.padding(top = 15.dp).fillMaxWidth().height(42.dp),
+                text = stringResource(R.string.read_more),
+            )
+            OutlineButton(
+                modifier = Modifier.padding(top = 5.dp).fillMaxWidth().height(42.dp),
+                text = stringResource(R.string.apply_participation),
+            )
         }
     }
 }

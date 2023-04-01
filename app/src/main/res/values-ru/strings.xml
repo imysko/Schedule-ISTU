@@ -51,4 +51,7 @@
     <string name="subgroup">Подгруппа</string>
 	<string name="account">Аккаунт</string>
 	<string name="aim_project">"Цель: "</string>
+	<string name="start_date">"Старт проекта: "</string>
+	<string name="read_more">Подробнее</string>
+	<string name="apply_participation">Подать заявку</string>
 </resources>

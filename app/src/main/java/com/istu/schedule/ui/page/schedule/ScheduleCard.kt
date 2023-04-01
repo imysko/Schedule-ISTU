@@ -42,21 +42,21 @@ import java.time.format.DateTimeFormatter
 @Composable
 fun ScheduleCard(
     currentDateTime: LocalDateTime,
-    schedule: Schedule
+    schedule: Schedule,
 ) {
     val currentDate = currentDateTime.toLocalDate()
     val currentTime = currentDateTime.toLocalTime()
 
     val timeFormatter = DateTimeFormatter.ofPattern("HH.mm")
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d")
-    val begtime = LocalTime.parse(schedule.lessonTime.begtime)
-    val endtime = LocalTime.parse(schedule.lessonTime.endtime)
+    val begTime = LocalTime.parse(schedule.lessonTime.begTime)
+    val endTime = LocalTime.parse(schedule.lessonTime.endTime)
     val date = LocalDate.parse(schedule.date.toString(), dateFormatter)
 
     val lessonStatus = when {
-        currentDate == date && currentTime >= begtime && currentTime <= endtime -> LessonStatus.CURRENT
-        currentTime < begtime -> LessonStatus.FUTURE
-        currentTime > endtime -> LessonStatus.PAST
+        currentDate == date && currentTime >= begTime && currentTime <= endTime -> LessonStatus.CURRENT
+        currentTime < begTime -> LessonStatus.FUTURE
+        currentTime > endTime -> LessonStatus.PAST
         else -> LessonStatus.UNKNOWN
     }
 
@@ -68,35 +68,39 @@ fun ScheduleCard(
         Column(
             modifier = Modifier
                 .padding(vertical = 15.dp, horizontal = 10.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+            verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
                     modifier = Modifier
                         .background(
-                            color = if (lessonStatus == LessonStatus.CURRENT)
+                            color = if (lessonStatus == LessonStatus.CURRENT) {
                                 MaterialTheme.colorScheme.errorContainer
-                            else MaterialTheme.colorScheme.primaryContainer,
-                            shape = Shape100
-                        )
+                            } else {
+                                MaterialTheme.colorScheme.primaryContainer
+                            },
+                            shape = Shape100,
+                        ),
                 ) {
                     Row(
                         modifier = Modifier
-                            .padding(start = 5.dp, end = 12.dp, top = 4.dp, bottom = 4.dp)
+                            .padding(start = 5.dp, end = 12.dp, top = 4.dp, bottom = 4.dp),
                     ) {
                         Box(
                             modifier = Modifier
                                 .padding(end = 10.dp)
                                 .background(
-                                    color = if (lessonStatus == LessonStatus.CURRENT)
+                                    color = if (lessonStatus == LessonStatus.CURRENT) {
                                         MaterialTheme.colorScheme.error
-                                    else MaterialTheme.colorScheme.primary,
-                                    shape = Shape60
+                                    } else {
+                                        MaterialTheme.colorScheme.primary
+                                    },
+                                    shape = Shape60,
                                 ),
                         ) {
                             Text(
@@ -106,14 +110,14 @@ fun ScheduleCard(
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Normal,
                                 fontFamily = montFamily,
-                                color = MaterialTheme.colorScheme.background
+                                color = MaterialTheme.colorScheme.background,
                             )
                         }
                         Text(
-                            text = "${begtime.format(timeFormatter)} - ${endtime.format(timeFormatter)}",
+                            text = "${begTime.format(timeFormatter)} - ${endTime.format(timeFormatter)}",
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Normal,
-                            fontFamily = montFamily
+                            fontFamily = montFamily,
                         )
                     }
                 }
@@ -127,7 +131,7 @@ fun ScheduleCard(
                     },
                     fontSize = 13.sp,
                     fontWeight = FontWeight.Normal,
-                    fontFamily = montFamily
+                    fontFamily = montFamily,
                 )
             }
 
@@ -135,20 +139,20 @@ fun ScheduleCard(
                 modifier = Modifier
                     .padding(start = 10.dp)
                     .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(5.dp)
+                verticalArrangement = Arrangement.spacedBy(5.dp),
             ) {
                 Text(
                     text = schedule.teachersVerbose,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = montFamily,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.secondary,
                 )
                 Text(
                     text = schedule.disciplineVerbose,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    fontFamily = montFamily
+                    fontFamily = montFamily,
                 )
                 Box(
                     modifier = Modifier
@@ -161,24 +165,23 @@ fun ScheduleCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Light,
                         fontFamily = montFamily,
-                        color = MaterialTheme.colorScheme.background
+                        color = MaterialTheme.colorScheme.background,
                     )
                 }
             }
-
 
             Row(
                 modifier = Modifier
                     .padding(start = 10.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 if (schedule.subgroup != 0) {
                     Text(
                         text = "${stringResource(id = R.string.subgroup)} ${schedule.subgroup}",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Normal,
-                        fontFamily = montFamily
+                        fontFamily = montFamily,
                     )
                 }
 
@@ -187,7 +190,7 @@ fun ScheduleCard(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Normal,
                     fontFamily = montFamily,
-                    color = MaterialTheme.colorScheme.secondary
+                    color = MaterialTheme.colorScheme.secondary,
                 )
             }
 
@@ -196,15 +199,15 @@ fun ScheduleCard(
                     modifier = Modifier
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(15.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Divider()
                     Text(
-                        text = "${Duration.between(currentTime, endtime).toMinutes()} минут до конца",
+                        text = "${Duration.between(currentTime, endTime).toMinutes()} минут до конца",
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
                         fontFamily = montFamily,
-                        color = MaterialTheme.colorScheme.error
+                        color = MaterialTheme.colorScheme.error,
                     )
                 }
             }
@@ -224,22 +227,22 @@ fun ScheduleCardPreview() {
         classroomId = 0,
         classroom = Classroom(
             classroomId = 0,
-            name = ""
+            name = "",
         ),
         classroomVerbose = "Д-105б",
         disciplineId = 0,
         discipline = Discipline(
             disciplineId = 0,
             title = "",
-            realTitle = ""
+            realTitle = "",
         ),
         disciplineVerbose = "Разработка мобильных приложений",
         lessonId = 0,
         lessonTime = LessonTime(
             lessonId = 0,
             lessonNumber = "4",
-            begtime = "13:45",
-            endtime = "15:15"
+            begTime = "13:45",
+            endTime = "15:15",
         ),
         subgroup = 1,
         lessonType = 1,
@@ -249,7 +252,7 @@ fun ScheduleCardPreview() {
             day = 31,
             dayOfWeek = DayOfWeek.FRIDAY,
             dayOfYear = 0,
-            dayNumber = 0
+            dayNumber = 0,
         ),
     )
 

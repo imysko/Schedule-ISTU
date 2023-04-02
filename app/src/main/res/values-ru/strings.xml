@@ -54,4 +54,7 @@
 	<string name="start_date">"Старт проекта: "</string>
 	<string name="read_more">Подробнее</string>
 	<string name="apply_participation">Подать заявку</string>
+	<string name="all_projects">Все проекты</string>
+	<string name="filters">Фильтры</string>
+	<string name="clear">Очистить</string>
 </resources>

@@ -5,12 +5,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
@@ -33,18 +31,18 @@ fun SIScaffold(
     bottomBar: (@Composable () -> Unit)? = null,
     floatingActionButton: (@Composable () -> Unit)? = null,
     content: @Composable () -> Unit = {},
-){
+) {
     Scaffold(
         modifier = Modifier
             .background(
                 MaterialTheme.colorScheme.surfaceColorAtElevation(
                     elevation = topBarTonalElevation,
-                    color = containerColor
-                )
+                    color = containerColor,
+                ),
             ),
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
             elevation = containerTonalElevation,
-            color = containerColor
+            color = containerColor,
         ) onDark MaterialTheme.colorScheme.surface,
         topBar = {
             if (navigationIcon != null || actions != null) {
@@ -54,12 +52,14 @@ fun SIScaffold(
                     actions = { actions?.invoke(this) },
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            elevation = topBarTonalElevation, color = containerColor
+                            elevation = topBarTonalElevation,
+                            color = containerColor,
                         ),
                         scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
-                            elevation = topBarTonalElevation, color = containerColor
-                        )
-                    )
+                            elevation = topBarTonalElevation,
+                            color = containerColor,
+                        ),
+                    ),
                 )
             }
         },

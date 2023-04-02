@@ -48,7 +48,7 @@ fun ProjectItem(
 ) {
     Column(
         modifier = modifier
-            .padding(15.dp, 7.5.dp)
+            .padding(start = 15.dp, bottom = 15.dp, end = 15.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(color = MaterialTheme.colorScheme.background)
             .clickable(onClick = onClick),

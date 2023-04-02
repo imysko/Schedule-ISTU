@@ -12,18 +12,18 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AppComposable(
     viewModel: BaseViewModel,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     val isLoading by viewModel.loading.observeAsState(initial = false)
     Box(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier.fillMaxSize(),
     ) {
         content()
     }
     if (isLoading) {
         Box(
             contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         ) {
             CircularProgressIndicator()
         }

@@ -56,4 +56,7 @@
     <string name="start_date">Start date: </string>
     <string name="read_more">Read more</string>
     <string name="apply_participation">Apply for participation</string>
+    <string name="all_projects">All projects</string>
+    <string name="filters">Filters</string>
+    <string name="clear">Clear</string>
 </resources>

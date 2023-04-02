@@ -2,8 +2,9 @@ package com.istu.schedule
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.material3.Surface
+import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.data.preference.LanguagesPreference
@@ -25,15 +26,20 @@ class MainActivity : ComponentActivity() {
             it.setLocale(this)
         }
 
-        setContent {
-            SettingsProvider {
-                ScheduleISTUTheme {
-                    Surface {
-                        val navController = rememberNavController()
-                        NavGraph(navController = navController)
+        setContentView(
+            ComposeView(this).apply {
+                consumeWindowInsets = false
+                setContent {
+                    SettingsProvider {
+                        ScheduleISTUTheme {
+                            Surface {
+                                val navController = rememberNavController()
+                                NavGraph(navController = navController)
+                            }
+                        }
                     }
                 }
-            }
-        }
+            },
+        )
     }
 }

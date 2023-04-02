@@ -5,6 +5,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.istu.schedule.data.preference.LocalTheme
@@ -42,10 +43,11 @@ fun ScheduleISTUTheme(
             else -> lightColorScheme
         }
 
-    rememberSystemUiController().run {
-        setStatusBarColor(Color.Transparent, !theme.isDarkTheme())
-        setSystemBarsColor(Color.Transparent, !theme.isDarkTheme())
-        setNavigationBarColor(Color.Transparent, !theme.isDarkTheme())
+    val systemUiController = rememberSystemUiController()
+    SideEffect {
+        systemUiController.setStatusBarColor(Color.Transparent)
+        systemUiController.setSystemBarsColor(Color.Transparent)
+        systemUiController.setNavigationBarColor(Color.Transparent)
     }
 
     MaterialTheme(

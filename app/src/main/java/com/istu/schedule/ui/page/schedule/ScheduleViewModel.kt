@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.schedule.Schedule
+import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetGroupScheduleOnDayUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeacherScheduleOnDayUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
@@ -19,8 +19,8 @@ class ScheduleViewModel @Inject constructor(
     private val _user: User
 ) : BaseViewModel() {
 
-    private val _scheduleList = MutableLiveData<List<Schedule>>()
-    val scheduleList: LiveData<List<Schedule>> = _scheduleList
+    private val _scheduleList = MutableLiveData<List<StudyDay>>()
+    val scheduleList: LiveData<List<StudyDay>> = _scheduleList
 
     private val _selectedDate = MutableLiveData<LocalDate>()
     val selectedDate: LiveData<LocalDate> = _selectedDate
@@ -30,12 +30,14 @@ class ScheduleViewModel @Inject constructor(
     }
 
     private fun getSchedule() {
+        val date = LocalDate.of(2023, 3, 31)
+
         when (_user.userType) {
             UserStatus.STUDENT -> {
                 call({
                     _useCaseGroupScheduleOnDay.getGroupScheduleOnDay(
                         groupId = _user.userId!!,
-                        dateString = LocalDate.now().toString())
+                        dateString = date.toString())
                 }, onSuccess = {
                     _scheduleList.postValue(it)
                 })
@@ -44,7 +46,7 @@ class ScheduleViewModel @Inject constructor(
                 call({
                     _useCaseTeacherScheduleOnDay.getTeacherScheduleOnDay(
                         teacherId = _user.userId!!,
-                        dateString = LocalDate.now().toString())
+                        dateString = date.toString())
                 }, onSuccess = {
                     _scheduleList.postValue(it)
                 })

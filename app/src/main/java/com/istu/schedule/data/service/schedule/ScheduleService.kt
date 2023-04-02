@@ -1,6 +1,5 @@
 package com.istu.schedule.data.service.schedule
 
-import com.istu.schedule.domain.model.schedule.Schedule
 import com.istu.schedule.domain.model.schedule.StudyDay
 import retrofit2.Response
 import retrofit2.http.GET
@@ -12,7 +11,7 @@ interface ScheduleService {
     suspend fun getGroupScheduleOnDay(
         @Query("groupId") groupId: Int,
         @Query("dateString") dateString: String,
-    ): Response<List<Schedule>>
+    ): Response<List<StudyDay>>
 
     @GET("schedule-api/schedules/group-schedule/weekly")
     suspend fun getGroupScheduleOnWeek(
@@ -30,7 +29,7 @@ interface ScheduleService {
     suspend fun getTeacherScheduleOnDay(
         @Query("teacherId") teacherId: Int,
         @Query("dateString") dateString: String,
-    ): Response<List<Schedule>>
+    ): Response<List<StudyDay>>
 
     @GET("schedule-api/schedules/teacher-schedule/weekly")
     suspend fun getTeacherScheduleOnWeek(

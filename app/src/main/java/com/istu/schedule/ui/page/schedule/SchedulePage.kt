@@ -36,14 +36,20 @@ fun SchedulePage(
                             .padding(horizontal = 15.dp),
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
-                        items (scheduleList) { schedule ->
-                            val currentDateTime = LocalDateTime.now()
+                        if (scheduleList.any()) {
+                            items(scheduleList.first().lessons) { lesson ->
+                                val currentDateTime = LocalDateTime.now()
 
-                            ScheduleCard(currentDateTime = currentDateTime, schedule = schedule)
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(128.dp))
-                            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+                                ScheduleCard(
+                                    currentDateTime = currentDateTime,
+                                    lesson = lesson,
+                                    lessonDate = scheduleList.first().date
+                                )
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(128.dp))
+                                Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+                            }
                         }
                     }
                 }

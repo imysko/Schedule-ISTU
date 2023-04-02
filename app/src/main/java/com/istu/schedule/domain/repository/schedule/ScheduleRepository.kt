@@ -1,13 +1,12 @@
 package com.istu.schedule.domain.repository.schedule
 
-import com.istu.schedule.domain.model.schedule.Schedule
 import com.istu.schedule.domain.model.schedule.StudyDay
 
 interface ScheduleRepository {
     suspend fun getGroupScheduleOnDay(
         groupId: Int,
         dateString: String
-    ): Result<List<Schedule>>
+    ): Result<List<StudyDay>>
 
     suspend fun getGroupScheduleOnWeek(
         groupId: Int,
@@ -22,7 +21,7 @@ interface ScheduleRepository {
     suspend fun getTeacherScheduleOnDay(
         teacherId: Int,
         dateString: String
-    ): Result<List<Schedule>>
+    ): Result<List<StudyDay>>
 
     suspend fun getTeacherScheduleOnWeek(
         teacherId: Int,

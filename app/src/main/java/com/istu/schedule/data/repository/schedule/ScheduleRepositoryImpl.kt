@@ -2,7 +2,6 @@ package com.istu.schedule.data.repository.schedule
 
 import com.istu.schedule.data.model.RequestException
 import com.istu.schedule.data.service.schedule.ScheduleService
-import com.istu.schedule.domain.model.schedule.Schedule
 import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import java.net.HttpURLConnection
@@ -12,12 +11,12 @@ class ScheduleRepositoryImpl @Inject constructor(
     private val scheduleService: ScheduleService
 ) : ScheduleRepository {
 
-    private val cachedList: MutableList<Schedule> = mutableListOf()
+    private val cachedList: MutableList<StudyDay> = mutableListOf()
 
     override suspend fun getGroupScheduleOnDay(
         groupId: Int,
         dateString: String
-    ): Result<List<Schedule>> {
+    ): Result<List<StudyDay>> {
         val apiResponse = scheduleService.getGroupScheduleOnDay(groupId, dateString).body()
 
         if (apiResponse != null) {
@@ -47,7 +46,7 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getTeacherScheduleOnDay(
         teacherId: Int,
         dateString: String
-    ): Result<List<Schedule>> {
+    ): Result<List<StudyDay>> {
         val apiResponse = scheduleService.getTeacherScheduleOnDay(teacherId, dateString).body()
 
         if (apiResponse != null) {

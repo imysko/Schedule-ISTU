@@ -57,4 +57,10 @@
 	<string name="all_projects">Все проекты</string>
 	<string name="filters">Фильтры</string>
 	<string name="clear">Очистить</string>
+    <plurals name="remained_time">
+        <item quantity="one">%1$d минута до конца</item>
+        <item quantity="few">%1$d минуты до конца</item>
+        <item quantity="many">%1$d минут до конца</item>
+        <item quantity="other">%1$d минут до конца</item>
+    </plurals>
 </resources>

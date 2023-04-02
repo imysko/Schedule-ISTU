@@ -59,4 +59,8 @@
     <string name="all_projects">All projects</string>
     <string name="filters">Filters</string>
     <string name="clear">Clear</string>
+    <plurals name="remained_time">
+        <item quantity="one">%1$d minute left</item>
+        <item quantity="other">%1$d minutes left</item>
+    </plurals>
 </resources>

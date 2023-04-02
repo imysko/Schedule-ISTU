@@ -1,14 +1,15 @@
 package com.istu.schedule.ui.components.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage
+import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.schedule.SchedulePage
 import com.istu.schedule.ui.page.search.SearchPage
 import com.istu.schedule.ui.page.settings.SettingsPage
+import com.istu.schedule.util.NavDestinations
 
 @Composable
 fun BottomNavGraph(
@@ -28,7 +29,7 @@ fun BottomNavGraph(
         composable(
             route = BottomNavItem.ProjfairPage.route,
         ) {
-            ProjectsListPage(navController)
+            ProjectsListPage(bottomNavController)
         }
 
         composable(
@@ -41,6 +42,14 @@ fun BottomNavGraph(
             route = BottomNavItem.AccountPage.route,
         ) {
             SearchPage()
+        }
+
+        composable(
+            route = "${NavDestinations.PROJECT_PAGE}/{projectId}",
+        ) {
+            it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
+                ProjectPage(projectId, navController)
+            }
         }
     }
 }

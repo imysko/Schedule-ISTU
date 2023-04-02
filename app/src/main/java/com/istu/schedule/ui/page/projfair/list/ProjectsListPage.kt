@@ -37,6 +37,7 @@ import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.icons.Filter
+import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -65,9 +66,10 @@ fun ProjectsListPage(
         viewModel = viewModel,
         content = {
             BackdropScaffold(
+                modifier = Modifier.statusBarsPadding(),
                 appBar = {
                     Text(
-                        modifier = Modifier.padding(15.dp).statusBarsPadding(),
+                        modifier = Modifier.padding(15.dp),
                         text = stringResource(id = R.string.projfair),
                         style = MaterialTheme.typography.headlineMedium,
                     )
@@ -113,6 +115,7 @@ fun ProjectsListPage(
                             ProjectItem(
                                 modifier = Modifier.fillMaxWidth(),
                                 project = project,
+                                onClick = { navController.navigate("${NavDestinations.PROJECT_PAGE}/${project.id}") },
                             )
                         }
                         item {

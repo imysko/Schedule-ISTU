@@ -8,7 +8,6 @@ import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.projfair.candidate.CandidatePage
 import com.istu.schedule.ui.page.projfair.candidate.participations.CandidateParticipationsListPage
 import com.istu.schedule.ui.page.projfair.candidate.projects.CandidateProjectsListPage
-import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
 import com.istu.schedule.ui.page.settings.projfair.LoginProjfairPage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
@@ -62,14 +61,6 @@ fun NavGraph(
             route = NavDestinations.CANDIDATE_PARTICIPATIONS_PAGE,
         ) {
             CandidateParticipationsListPage(navController)
-        }
-
-        composable(
-            route = "${NavDestinations.PROJECT_PAGE}/{projectId}",
-        ) {
-            it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
-                ProjectPage(projectId, navController)
-            }
         }
     }
 }

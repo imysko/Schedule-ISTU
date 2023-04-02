@@ -48,7 +48,7 @@ fun BottomNavGraph(
             route = "${NavDestinations.PROJECT_PAGE}/{projectId}",
         ) {
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
-                ProjectPage(projectId, navController)
+                ProjectPage(projectId, bottomNavController)
             }
         }
     }

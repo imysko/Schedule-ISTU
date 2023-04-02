@@ -1,6 +1,7 @@
 package com.istu.schedule.ui.page.projfair.list
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -97,7 +98,11 @@ fun ProjectsListPage(
                                     style = MaterialTheme.typography.titleLarge,
                                 )
                                 Column(
-                                    modifier = Modifier.clickable {},
+                                    modifier = Modifier.clickable(
+                                        interactionSource = MutableInteractionSource(),
+                                        indication = null,
+                                    ) {
+                                    },
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                 ) {
                                     Icon(

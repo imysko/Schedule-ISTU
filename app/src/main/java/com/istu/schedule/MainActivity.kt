@@ -3,6 +3,7 @@ package com.istu.schedule
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat

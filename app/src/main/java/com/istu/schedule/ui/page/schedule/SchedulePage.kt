@@ -16,8 +16,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +33,7 @@ import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.calendar.HorizontalCalendar
 import com.istu.schedule.ui.fonts.montFamily
 import com.istu.schedule.util.collectAsStateValue
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -40,6 +44,38 @@ fun SchedulePage(
     val scheduleUiState = viewModel.scheduleUiState.collectAsStateValue()
 
     val scheduleList by viewModel.scheduleList.observeAsState(initial = emptyList())
+
+    val weeksList by viewModel.weeksList.observeAsState(initial = emptyList())
+    val currentDate by viewModel.currentDate.observeAsState(initial = LocalDate.now())
+    val selectedDate by viewModel.selectedDate.observeAsState(initial = LocalDate.now())
+
+    val startOfListReached by remember {
+        derivedStateOf {
+            scheduleUiState.calendarState.canScrollBackward
+        }
+    }
+
+    val endOfListReached by remember {
+        derivedStateOf {
+            scheduleUiState.calendarState.canScrollForward
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        scheduleUiState.calendarState.scrollToItem(1)
+    }
+
+    LaunchedEffect(selectedDate) {
+        viewModel.getSchedule()
+    }
+
+    // LaunchedEffect(startOfListReached) {
+    //     viewModel.addWeekForward()
+    // }
+
+    LaunchedEffect(endOfListReached) {
+        viewModel.addWeekBackward()
+    }
 
     AppComposable(
         viewModel = viewModel,
@@ -70,7 +106,15 @@ fun SchedulePage(
                 },
                 backLayerBackgroundColor = MaterialTheme.colorScheme.primary,
                 backLayerContent = {
-                    HorizontalCalendar()
+                    HorizontalCalendar(
+                        weeksList = weeksList,
+                        currentDate = currentDate,
+                        selectedDate = selectedDate,
+                        calendarState = scheduleUiState.calendarState,
+                        onSelect = {
+                            viewModel.selectDate(it)
+                        }
+                    )
                 },
                 frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
                 frontLayerContent = {

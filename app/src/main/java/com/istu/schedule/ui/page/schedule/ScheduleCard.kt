@@ -50,10 +50,10 @@ fun ScheduleCard(
     val currentDate = currentDateTime.toLocalDate()
     val currentTime = currentDateTime.toLocalTime()
 
-    val timeFormatter = DateTimeFormatter.ofPattern("HH.mm")
+    val timeFormatter = DateTimeFormatter.ofPattern("H.mm")
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d")
-    val begTime = LocalTime.parse(lesson.time.begTime)
-    val endTime = LocalTime.parse(lesson.time.endTime)
+    val begTime = LocalTime.parse(lesson.time.begTime, DateTimeFormatter.ofPattern("H:mm"))
+    val endTime = LocalTime.parse(lesson.time.endTime, DateTimeFormatter.ofPattern("H:mm"))
     val date = LocalDate.parse(lessonDate.toString(), dateFormatter)
 
     val lessonStatus = when {

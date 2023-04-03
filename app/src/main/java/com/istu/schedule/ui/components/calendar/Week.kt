@@ -1,6 +1,7 @@
 package com.istu.schedule.ui.components.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.istu.schedule.data.model.Week
 import com.istu.schedule.ui.fonts.montFamily
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -26,7 +28,10 @@ import java.util.Locale
 
 @Composable
 fun Week(
-    currentDate: LocalDate = LocalDate.now()
+    week: Week,
+    currentDate: LocalDate = LocalDate.now(),
+    selectedDate: LocalDate = LocalDate.now(),
+    onSelect: (selectedDate: LocalDate) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -39,11 +44,9 @@ fun Week(
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            val startDate = LocalDate.of(2023, 4, 3)
-            var date = startDate
-
-            for (i in 1 .. 7) {
+            for (date in week.days) {
                 Column(
+                    modifier = Modifier.clickable { onSelect(date) },
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
@@ -79,8 +82,6 @@ fun Week(
                         )
                     }
                 }
-
-                date = date.plusDays(1)
             }
         }
 
@@ -90,7 +91,7 @@ fun Week(
             horizontalArrangement = Arrangement.spacedBy(7.dp),
         ) {
             Text(
-                text = currentDate.toString(),
+                text = selectedDate.toString(),
                 color = MaterialTheme.colorScheme.background,
             )
             Text(
@@ -104,5 +105,12 @@ fun Week(
 @Composable
 @Preview(showBackground = false)
 fun WeekPreview() {
-    Week(currentDate = LocalDate.of(2023, 4, 4))
+    Week(
+        week = Week(
+            startDayOfWeek = LocalDate.of(2023, 4, 3)
+        ),
+        currentDate = LocalDate.of(2023, 4, 4),
+        selectedDate = LocalDate.of(2023, 4, 5),
+        onSelect = { }
+    )
 }

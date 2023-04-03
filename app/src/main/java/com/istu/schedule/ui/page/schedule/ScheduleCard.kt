@@ -158,34 +158,39 @@ fun ScheduleCard(
                                 .fillMaxWidth(),
                             verticalArrangement = Arrangement.spacedBy(15.dp),
                         ) {
-                            Text(
-                                text = it.teachersVerbose,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontFamily = montFamily,
-                                color = MaterialTheme.colorScheme.secondary,
-                            )
-
-                            Text(
-                                text = it.disciplineVerbose,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = montFamily,
-                            )
-
-                            Box(
-                                modifier = Modifier
-                                    .background(MaterialTheme.colorScheme.primary, Shape5),
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
                             ) {
                                 Text(
-                                    modifier = Modifier
-                                        .padding(vertical = 1.dp, horizontal = 7.dp),
-                                    text = it.classroomVerbose,
+                                    text = it.teachersVerbose,
                                     fontSize = 14.sp,
-                                    fontWeight = FontWeight.Light,
+                                    fontWeight = FontWeight.Normal,
                                     fontFamily = montFamily,
-                                    color = MaterialTheme.colorScheme.background,
+                                    color = MaterialTheme.colorScheme.secondary,
                                 )
+
+                                Text(
+                                    text = it.disciplineVerbose,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = montFamily,
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .background(MaterialTheme.colorScheme.primary, Shape5),
+                                ) {
+                                    Text(
+                                        modifier = Modifier
+                                            .padding(vertical = 1.dp, horizontal = 7.dp),
+                                        text = it.classroomVerbose,
+                                        fontSize = 14.sp,
+                                        fontWeight = FontWeight.Light,
+                                        fontFamily = montFamily,
+                                        color = MaterialTheme.colorScheme.background,
+                                    )
+                                }
                             }
 
                             Row(

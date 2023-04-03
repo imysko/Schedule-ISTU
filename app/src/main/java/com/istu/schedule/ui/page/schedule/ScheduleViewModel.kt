@@ -9,6 +9,10 @@ import com.istu.schedule.domain.usecase.schedule.GetGroupScheduleOnDayUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeacherScheduleOnDayUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 import javax.inject.Inject
 
@@ -18,6 +22,15 @@ class ScheduleViewModel @Inject constructor(
     private val _useCaseTeacherScheduleOnDay: GetTeacherScheduleOnDayUseCase,
     private val _user: User
 ) : BaseViewModel() {
+
+    private val _scheduleUiState = MutableStateFlow(ScheduleUiState()).apply {
+        update {
+            it.copy(
+                userDescription = _user.userDescription
+            )
+        }
+    }
+    val scheduleUiState: StateFlow<ScheduleUiState> = _scheduleUiState.asStateFlow()
 
     private val _scheduleList = MutableLiveData<List<StudyDay>>()
     val scheduleList: LiveData<List<StudyDay>> = _scheduleList
@@ -55,3 +68,7 @@ class ScheduleViewModel @Inject constructor(
         }
     }
 }
+
+data class ScheduleUiState(
+    val userDescription: String? = null
+)

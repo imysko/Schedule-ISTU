@@ -63,5 +63,6 @@
         <item quantity="one">%1$d minute left</item>
         <item quantity="other">%1$d minutes left</item>
     </plurals>
+    <string name="title_schedule">Schedule of classes</string>
     <string name="back_to_list">Back to list</string>
 </resources>

@@ -63,5 +63,6 @@
         <item quantity="many">%1$d минут до конца</item>
         <item quantity="other">%1$d минут до конца</item>
     </plurals>
+    <string name="title_schedule">Расписание занятий</string>
 	<string name="back_to_list">Назад к списку</string>
 </resources>

@@ -83,6 +83,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-insets:$accompanist"
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist"
     implementation "com.google.accompanist:accompanist-pager:$accompanist"
+    implementation "com.google.accompanist:accompanist-pager-indicators:$accompanist"
     implementation "com.google.accompanist:accompanist-flowlayout:$accompanist"
     implementation "com.google.accompanist:accompanist-navigation-animation:$accompanist"
     implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist"

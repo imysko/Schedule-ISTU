@@ -53,8 +53,8 @@
 	<string name="aim_project">"Цель: "</string>
 	<string name="start_date">"Старт проекта: "</string>
 	<string name="read_more">Подробнее</string>
-	<string name="apply_participation">Подать заявку</string>
-	<string name="all_projects">Все проекты</string>
+    <string name="send_application">Подать заявку</string>
+    <string name="all_projects">Все проекты</string>
 	<string name="filters">Фильтры</string>
 	<string name="clear">Очистить</string>
     <plurals name="remained_time">
@@ -64,4 +64,19 @@
         <item quantity="other">%1$d минут до конца</item>
     </plurals>
 	<string name="back_to_list">Назад к списку</string>
+	<string name="maximum_participants">Мест в проекте</string>
+    <string name="project_status">Статус проекта</string>
+    <string name="project_manager">Руководитель проекта</string>
+    <string name="timeline">Сроки реализации</string>
+    <string name="difficulty">Сложность</string>
+    <string name="type_of_project">Тип проекта</string>
+    <string name="project_goal">Цель проекта</string>
+    <string name="expected_result">Ожидаемый результат</string>
+    <string name="requirements_for_participants">Требования к участникам</string>
+    <string name="project_idea">Идея проекта</string>
+    <string name="required_skills">Требуемые навыки</string>
+	<string name="customer">Заказчик</string>
+	<string name="easy">Легко</string>
+    <string name="medium">Средне</string>
+    <string name="difficult">Сложно</string>
 </resources>

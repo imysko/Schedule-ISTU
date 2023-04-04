@@ -38,6 +38,7 @@ import com.istu.schedule.ui.components.base.OutlineButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
 
 @Composable
@@ -106,7 +107,7 @@ fun ProjectItem(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = project.difficulty.toString(),
+                            text = project.difficulty.toProjectDifficulty(),
                             style = MaterialTheme.typography.bodyMedium,
                         )
                     }
@@ -141,9 +142,9 @@ fun ProjectItem(
                             text = stringResource(id = R.string.aim_project),
                             spanStyle = SpanStyle(
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
                             ),
                         ),
                     )
@@ -151,9 +152,9 @@ fun ProjectItem(
                         AnnotatedString(
                             text = project.goal,
                             spanStyle = SpanStyle(
-                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
                                 color = MaterialTheme.colorScheme.secondary,
                             ),
                         ),
@@ -168,9 +169,9 @@ fun ProjectItem(
                             text = stringResource(id = R.string.start_date),
                             spanStyle = SpanStyle(
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
                             ),
                         ),
                     )
@@ -178,9 +179,9 @@ fun ProjectItem(
                         AnnotatedString(
                             text = DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart),
                             spanStyle = SpanStyle(
-                                fontFamily = MaterialTheme.typography.bodySmall.fontFamily,
+                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodySmall.fontStyle,
+                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
                                 color = MaterialTheme.colorScheme.secondary,
                             ),
                         ),
@@ -193,7 +194,7 @@ fun ProjectItem(
             )
             OutlineButton(
                 modifier = Modifier.padding(top = 5.dp).fillMaxWidth().height(42.dp),
-                text = stringResource(R.string.apply_participation),
+                text = stringResource(R.string.send_application),
             )
         }
     }

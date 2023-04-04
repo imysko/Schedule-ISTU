@@ -52,10 +52,10 @@
     <string name="laboratory_work">Laboratory work</string>
     <string name="subgroup">Subgroup</string>
     <string name="account">Account</string>
-    <string name="aim_project">"Aim: "</string>
+    <string name="aim_project">"Goal: "</string>
     <string name="start_date">Start date: </string>
     <string name="read_more">Read more</string>
-    <string name="apply_participation">Apply for participation</string>
+    <string name="send_application">Send application</string>
     <string name="all_projects">All projects</string>
     <string name="filters">Filters</string>
     <string name="clear">Clear</string>
@@ -64,4 +64,19 @@
         <item quantity="other">%1$d minutes left</item>
     </plurals>
     <string name="back_to_list">Back to list</string>
+    <string name="maximum_participants">Maximum participants</string>
+    <string name="project_status">Project status</string>
+    <string name="project_manager">Project manager</string>
+    <string name="timeline">Timeline</string>
+    <string name="difficulty">Difficulty</string>
+    <string name="type_of_project">Type of project</string>
+    <string name="project_goal">Project goal</string>
+    <string name="expected_result">Expected result</string>
+    <string name="requirements_for_participants">Requirements for participants</string>
+    <string name="project_idea">Project idea</string>
+    <string name="required_skills">Required skills</string>
+    <string name="customer">Customer</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="difficult">Difficult</string>
 </resources>

@@ -119,11 +119,11 @@ object NetworkModule {
 
     @Provides
     fun providerTeachersService(
-        @Named("ScheduleRetrofit") retrofit: Retrofit
+        @Named("ScheduleRetrofit") retrofit: Retrofit,
     ): TeachersService = retrofit.create(TeachersService::class.java)
 
     @Provides
     fun providerScheduleService(
-        @Named("ScheduleRetrofit") retrofit: Retrofit
+        @Named("ScheduleRetrofit") retrofit: Retrofit,
     ): ScheduleService = retrofit.create(ScheduleService::class.java)
 }

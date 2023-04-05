@@ -22,6 +22,7 @@ data class Project(
     val productResult: String,
     @SerializedName("study_result")
     val studyResult: String,
+    val customer: String,
     val supervisor: List<Supervisor>,
     val projectSupervisors: List<ProjectSupervisor>,
     val skills: List<Skill>,

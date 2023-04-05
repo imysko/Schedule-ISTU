@@ -3,13 +3,12 @@ package com.istu.schedule.data.repository.projfair
 import com.istu.schedule.data.model.RequestException
 import com.istu.schedule.data.service.projfair.ProjectsService
 import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.ProjectState
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class ProjectsRepositoryImpl @Inject constructor(
-    private val projectsService: ProjectsService
+    private val projectsService: ProjectsService,
 ) : ProjectsRepository {
 
     private val cachedList: MutableList<Project> = mutableListOf()
@@ -25,8 +24,8 @@ class ProjectsRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
         )
     }
 
@@ -39,8 +38,8 @@ class ProjectsRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
         )
     }
 
@@ -53,11 +52,10 @@ class ProjectsRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
         )
     }
-
 
     override suspend fun getProject(id: Int): Result<Project> {
         return cachedList.find { it.id == id }?.let { project ->
@@ -70,8 +68,8 @@ class ProjectsRepositoryImpl @Inject constructor(
             return Result.failure(
                 RequestException(
                     code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                    message = "An error occurred!"
-                )
+                    message = "An error occurred!",
+                ),
             )
         }
     }

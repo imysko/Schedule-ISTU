@@ -32,7 +32,11 @@ val Typography = Typography(
         fontWeight = FontWeight.SemiBold,
     ),
     titleSmall = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
-    bodyLarge = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
+    bodyLarge = TextStyle(
+        fontFamily = montFamily,
+        color = Color(0xFF383838),
+        fontSize = 20.0.sp,
+    ),
     bodyMedium = TextStyle(
         fontFamily = montFamily,
         color = Color(0xFF383838),

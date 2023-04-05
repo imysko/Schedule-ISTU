@@ -23,15 +23,12 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.calendar.HorizontalCalendar
-import com.istu.schedule.ui.fonts.montFamily
 import com.istu.schedule.util.collectAsStateValue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -88,18 +85,12 @@ fun SchedulePage(
                     ) {
                         Text(
                             text = stringResource(id = R.string.title_schedule),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontFamily = montFamily,
-                            color = MaterialTheme.colorScheme.background,
+                            style = MaterialTheme.typography.headlineMedium,
                         )
                         if (scheduleUiState.userDescription != null) {
                             Text(
                                 text = scheduleUiState.userDescription,
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = montFamily,
-                                color = MaterialTheme.colorScheme.background,
+                                style = MaterialTheme.typography.headlineMedium
                             )
                         }
                     }

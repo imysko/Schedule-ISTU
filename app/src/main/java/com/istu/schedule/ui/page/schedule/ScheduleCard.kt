@@ -172,6 +172,9 @@ fun ScheduleCard(
 
                                 Text(
                                     text = it.disciplineVerbose,
+                                    style = MaterialTheme.typography.titleLarge.copy(
+                                        fontWeight = FontWeight.SemiBold
+                                    ),
                                     fontSize = 18.sp,
                                     fontWeight = FontWeight.SemiBold,
                                     fontFamily = montFamily,

@@ -24,7 +24,7 @@ class ListViewModel @Inject constructor(
     private val _projectsList = MutableLiveData<MutableList<Project>>()
     val projectsList: LiveData<MutableList<Project>> = _projectsList
 
-    private var _currentPage = 0
+    private var _currentPage = 1
 
     fun getProjectsList() {
         call({

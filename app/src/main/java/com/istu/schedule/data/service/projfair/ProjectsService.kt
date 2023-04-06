@@ -13,10 +13,10 @@ interface ProjectsService {
     suspend fun getProjects(
         @Query("title") title: String = "",
         @Query("page") page: Int = 0,
-        @Query("difficulty") difficulty: List<Int> = emptyList(),
-        @Query("state") state: List<Int> = emptyList(),
-        @Query("specialties") specialties: List<Int> = emptyList(),
-        @Query("skills") skills: List<Int> = emptyList(),
+        @Query("difficulty[]") difficulty: List<Int> = emptyList(),
+        @Query("state[]") state: List<Int> = emptyList(),
+        @Query("specialties[]") specialties: List<Int> = emptyList(),
+        @Query("skills[]") skills: List<Int> = emptyList(),
         @Query("order") order: String = "asc",
         @Query("sortBy") sortBy: String = "state",
     ): Response<ProjectsResponse>

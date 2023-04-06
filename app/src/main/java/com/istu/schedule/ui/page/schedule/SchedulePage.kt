@@ -1,16 +1,19 @@
 package com.istu.schedule.ui.page.schedule
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
@@ -22,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -31,10 +35,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.calendar.HorizontalCalendar
-import com.istu.schedule.ui.fonts.montFamily
+import com.istu.schedule.ui.fonts.interFamily
+import com.istu.schedule.ui.theme.Green
+import com.istu.schedule.ui.theme.GreenContainer
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.util.collectAsStateValue
 import java.time.LocalDate
 import java.time.LocalDateTime
+import java.time.LocalTime
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -88,18 +96,12 @@ fun SchedulePage(
                     ) {
                         Text(
                             text = stringResource(id = R.string.title_schedule),
-                            fontSize = 25.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            fontFamily = montFamily,
-                            color = MaterialTheme.colorScheme.background,
+                            style = MaterialTheme.typography.headlineMedium,
                         )
                         if (scheduleUiState.userDescription != null) {
                             Text(
                                 text = scheduleUiState.userDescription,
-                                fontSize = 25.sp,
-                                fontWeight = FontWeight.Bold,
-                                fontFamily = montFamily,
-                                color = MaterialTheme.colorScheme.background,
+                                style = MaterialTheme.typography.headlineMedium
                             )
                         }
                     }
@@ -124,15 +126,23 @@ fun SchedulePage(
                         verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
                         if (scheduleList.any()) {
-                            items(scheduleList.first().lessons) { lesson ->
-                                val currentDateTime = LocalDateTime.now()
+                            scheduleList.first().lessons.forEach {
+                                item {
+                                    val currentDateTime = LocalDateTime.now()
 
-                                ScheduleCard(
-                                    currentDateTime = currentDateTime,
-                                    lesson = lesson,
-                                    lessonDate = scheduleList.first().date
-                                )
+                                    ScheduleCard(
+                                        currentDateTime = currentDateTime,
+                                        lesson = it,
+                                        lessonDate = scheduleList.first().date
+                                    )
+                                }
+                                it.breakTimeAfter?.let {
+                                    item {
+                                        BreakTime(stringBreakTime = it)
+                                    }
+                                }
                             }
+
                             item {
                                 Spacer(modifier = Modifier.height(128.dp))
                                 Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
@@ -143,6 +153,67 @@ fun SchedulePage(
             )
         },
     )
+}
+
+@Composable
+fun BreakTime(stringBreakTime: String) {
+    Box(
+        modifier = Modifier
+            .background(
+                color = GreenContainer,
+                shape = Shape10,
+            ),
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 15.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = stringResource(id = R.string.break_time),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = interFamily,
+                color = Green,
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp),
+            ) {
+                if (LocalTime.parse(stringBreakTime).hour > 0) {
+                    Text(
+                        text = pluralStringResource(
+                            id = R.plurals.hours,
+                            count = LocalTime.parse(stringBreakTime).hour,
+                            LocalTime.parse(stringBreakTime).hour
+                        ),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = interFamily,
+                        color = Green,
+                    )
+                }
+                Text(
+                    text = pluralStringResource(
+                        id = R.plurals.minutes,
+                        count = LocalTime.parse(stringBreakTime).minute,
+                        LocalTime.parse(stringBreakTime).minute
+                    ),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontFamily = interFamily,
+                    color = Green,
+                )
+            }
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true, locale = "ru")
+fun BreakTimePreview() {
+    BreakTime(stringBreakTime = "02:30:00")
 }
 
 @Composable

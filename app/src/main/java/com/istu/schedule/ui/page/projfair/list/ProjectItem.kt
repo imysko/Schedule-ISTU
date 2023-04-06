@@ -1,7 +1,6 @@
 package com.istu.schedule.ui.page.projfair.list
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,7 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
@@ -42,6 +41,7 @@ import com.istu.schedule.ui.components.base.SITextChip
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
 
@@ -51,11 +51,10 @@ fun ProjectItem(
     project: Project,
     onClick: () -> Unit = {},
 ) {
-    Column(
+    Card(
+        shape = Shape10,
         modifier = modifier
             .padding(start = 15.dp, bottom = 15.dp, end = 15.dp)
-            .clip(RoundedCornerShape(10.dp))
-            .background(color = MaterialTheme.colorScheme.background)
             .clickable(onClick = onClick),
     ) {
         Column(modifier = Modifier.padding(15.dp, 20.dp)) {

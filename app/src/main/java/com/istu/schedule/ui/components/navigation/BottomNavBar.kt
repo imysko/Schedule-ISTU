@@ -1,6 +1,5 @@
 package com.istu.schedule.ui.components.navigation
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.Icon
@@ -38,6 +37,7 @@ fun BottomNavBar(navController: NavHostController) {
             .graphicsLayer {
                 shape = ShapeTop20
                 clip = true
+                shadowElevation = 100f
             }
             .navigationBarsPadding(),
         containerColor = MaterialTheme.colorScheme.background,

@@ -49,5 +49,9 @@ val Typography = Typography(
     ),
     labelLarge = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
     labelMedium = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
-    labelSmall = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
+    labelSmall = TextStyle(
+        fontFamily = montFamily,
+        color = Color(0xFF383838),
+        fontSize = 11.0.sp,
+    ),
 )

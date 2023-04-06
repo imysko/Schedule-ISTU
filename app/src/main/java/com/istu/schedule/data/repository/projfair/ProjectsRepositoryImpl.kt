@@ -14,7 +14,7 @@ class ProjectsRepositoryImpl @Inject constructor(
     private val cachedList: MutableList<Project> = mutableListOf()
 
     override suspend fun getProjects(page: Int): Result<List<Project>> {
-        val apiResponse = projectsService.getProjects(page).body()
+        val apiResponse = projectsService.getProjects(page = page).body()
         if (apiResponse?.data != null) {
             val newsList = apiResponse.data
             cachedList.addAll(newsList)

@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -33,8 +34,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.ui.components.base.ChipVerticalGrid
 import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.OutlineButton
+import com.istu.schedule.ui.components.base.SIChip
+import com.istu.schedule.ui.components.base.SITextChip
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
 import com.istu.schedule.ui.theme.HalfGray
@@ -115,7 +119,15 @@ fun ProjectItem(
                 Box(
                     modifier = Modifier
                         .border(
-                            BorderStroke(width = 1.45.dp, MaterialTheme.colorScheme.primary),
+                            BorderStroke(
+                                width = 1.45.dp,
+                                when (project.state.id) {
+                                    1 -> com.istu.schedule.ui.theme.Blue
+                                    2 -> com.istu.schedule.ui.theme.Green
+                                    5 -> com.istu.schedule.ui.theme.Cyan
+                                    else -> MaterialTheme.colorScheme.secondary
+                                },
+                            ),
                             RoundedCornerShape(72.dp),
                         )
                         .padding(24.dp, 7.dp),
@@ -123,7 +135,13 @@ fun ProjectItem(
                     Text(
                         text = project.state.state.uppercase(),
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = when (project.state.id) {
+                                1 -> com.istu.schedule.ui.theme.Blue
+                                2 -> com.istu.schedule.ui.theme.Green
+                                5 -> com.istu.schedule.ui.theme.Cyan
+                                else -> MaterialTheme.colorScheme.secondary
+                            },
+                            fontWeight = FontWeight.SemiBold,
                         ),
                     )
                 }
@@ -134,33 +152,36 @@ fun ProjectItem(
                     .height(2.dp),
                 color = HalfGray,
             )
-            Text(
-                modifier = Modifier.padding(top = 15.dp),
-                text = buildAnnotatedString {
-                    append(
-                        AnnotatedString(
-                            text = stringResource(id = R.string.aim_project),
-                            spanStyle = SpanStyle(
-                                fontWeight = FontWeight.SemiBold,
-                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
+            if (project.goal.isNotBlank()) {
+                Text(
+                    modifier = Modifier.padding(top = 15.dp),
+                    text = buildAnnotatedString {
+                        append(
+                            AnnotatedString(
+                                text = stringResource(id = R.string.aim_project),
+                                spanStyle = SpanStyle(
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
+                                ),
                             ),
-                        ),
-                    )
-                    append(
-                        AnnotatedString(
-                            text = project.goal,
-                            spanStyle = SpanStyle(
-                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                                color = MaterialTheme.colorScheme.secondary,
+                        )
+                        append(
+                            AnnotatedString(
+                                text = project.goal,
+                                spanStyle = SpanStyle(
+                                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
+                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
+                                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
+                                    color = MaterialTheme.colorScheme.secondary,
+                                ),
                             ),
-                        ),
-                    )
-                },
-            )
+                        )
+
+                    },
+                )
+            }
             Text(
                 modifier = Modifier.padding(top = 17.dp),
                 text = buildAnnotatedString {
@@ -177,7 +198,8 @@ fun ProjectItem(
                     )
                     append(
                         AnnotatedString(
-                            text = DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart),
+                            text = DateFormat.getDateInstance(DateFormat.LONG)
+                                .format(project.dateStart),
                             spanStyle = SpanStyle(
                                 fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
@@ -188,14 +210,44 @@ fun ProjectItem(
                     )
                 },
             )
+            if (project.skills.isNotEmpty()) {
+                ChipVerticalGrid(
+                    modifier = Modifier
+                        .padding(top = 15.dp)
+                        .height(24.dp),
+                    spacing = 7.dp,
+                    moreItemsView = {
+                        SITextChip(
+                            text = pluralStringResource(
+                                id = R.plurals.tags_left,
+                                count = it,
+                                it
+                            )
+                        )
+                    }
+                ) {
+                    project.skills.sortedBy { it.name.length }.forEach {
+                        SIChip(text = it.name)
+                    }
+                }
+            }
             FilledButton(
-                modifier = Modifier.padding(top = 15.dp).fillMaxWidth().height(42.dp),
+                modifier = Modifier
+                    .padding(top = 15.dp)
+                    .fillMaxWidth()
+                    .height(42.dp),
                 text = stringResource(R.string.read_more),
+                onClick = onClick,
             )
-            OutlineButton(
-                modifier = Modifier.padding(top = 5.dp).fillMaxWidth().height(42.dp),
-                text = stringResource(R.string.send_application),
-            )
+            if (project.state.id == 1) {
+                OutlineButton(
+                    modifier = Modifier
+                        .padding(top = 5.dp)
+                        .fillMaxWidth()
+                        .height(42.dp),
+                    text = stringResource(R.string.send_application),
+                )
+            }
         }
     }
 }

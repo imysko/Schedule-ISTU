@@ -89,4 +89,10 @@
     <string name="medium">Medium</string>
     <string name="difficult">Difficult</string>
     <string name="break_time">Break time</string>
+    <string name="about_project">About project</string>
+    <string name="list_of_particpations">List of participations</string>
+    <plurals name="tags_left">
+        <item quantity="one">+%1$d tag</item>
+        <item quantity="other">+%1$d tags</item>
+    </plurals>
 </resources>

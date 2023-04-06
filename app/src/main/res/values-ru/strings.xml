@@ -93,4 +93,12 @@
     <string name="medium">Средне</string>
     <string name="difficult">Сложно</string>
     <string name="break_time">Перерыв</string>
+	<string name="about_project">О проекте</string>
+    <string name="list_of_particpations">Список заявок</string>
+    <plurals name="tags_left">
+        <item quantity="one">+%1$d тег</item>
+        <item quantity="few">+%1$d тега</item>
+        <item quantity="many">+%1$d тегов</item>
+        <item quantity="other">+%1$d тегов</item>
+    </plurals>
 </resources>

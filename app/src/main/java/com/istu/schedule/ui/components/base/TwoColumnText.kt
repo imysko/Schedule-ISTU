@@ -26,7 +26,7 @@ fun TwoColumnText(
         Spacer(Modifier.weight(0.05f))
         Text(
             modifier = Modifier.weight(0.65f),
-            text = value,
+            text = value.ifBlank { "-" },
             style = MaterialTheme.typography.bodySmall.copy(
                 fontWeight = FontWeight.Bold,
             ),

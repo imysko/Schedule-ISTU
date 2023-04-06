@@ -8,6 +8,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -55,6 +57,7 @@ import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.FilledButton
+import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.TwoColumnText
@@ -90,7 +93,10 @@ fun ProjectPage(
     project: Project?,
 ) {
     val pagerState = rememberPagerState()
-    val pages = listOf("О проекте", "Список заявок")
+    val pages = listOf(
+        stringResource(R.string.about_project),
+        stringResource(R.string.list_of_particpations)
+    )
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
     }
@@ -203,6 +209,7 @@ fun ProjectPage(
     )
 }
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ProjectInfo(
     project: Project
@@ -256,7 +263,12 @@ fun ProjectInfo(
                         .border(
                             BorderStroke(
                                 width = 1.45.dp,
-                                MaterialTheme.colorScheme.primary,
+                                when (project.state.id) {
+                                    1 -> com.istu.schedule.ui.theme.Blue
+                                    2 -> com.istu.schedule.ui.theme.Green
+                                    5 -> com.istu.schedule.ui.theme.Cyan
+                                    else -> MaterialTheme.colorScheme.secondary
+                                },
                             ),
                             RoundedCornerShape(72.dp),
                         )
@@ -265,7 +277,13 @@ fun ProjectInfo(
                     Text(
                         text = project.state.state.uppercase(),
                         style = MaterialTheme.typography.bodySmall.copy(
-                            color = MaterialTheme.colorScheme.primary,
+                            color = when (project.state.id) {
+                                1 -> com.istu.schedule.ui.theme.Blue
+                                2 -> com.istu.schedule.ui.theme.Green
+                                5 -> com.istu.schedule.ui.theme.Cyan
+                                else -> MaterialTheme.colorScheme.secondary
+                            },
+                            fontWeight = FontWeight.SemiBold,
                         ),
                     )
                 }
@@ -284,19 +302,13 @@ fun ProjectInfo(
             key = stringResource(R.string.project_manager),
             value = project.supervisorsNames,
         )
-
-        project.customer.isNotBlank().let { isNotBlank ->
-            if (isNotBlank) {
-                TwoColumnText(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 22.dp),
-                    key = stringResource(R.string.customer),
-                    value = project.customer,
-                )
-
-            }
-        }
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
+            key = stringResource(R.string.customer),
+            value = project.customer,
+        )
         TwoColumnText(
             modifier = Modifier
                 .fillMaxWidth()
@@ -367,17 +379,29 @@ fun ProjectInfo(
                 text = project.description,
             )
         }
-        Text(
-            style = MaterialTheme.typography.bodySmall,
-            text = stringResource(R.string.required_skills),
-        )
-        FilledButton(
-            modifier = Modifier
-                .padding(top = 22.dp)
-                .fillMaxWidth()
-                .height(42.dp),
-            text = stringResource(R.string.send_application),
-        )
+        if (project.skills.isNotEmpty()) {
+            Text(
+                style = MaterialTheme.typography.bodySmall,
+                text = stringResource(R.string.required_skills),
+            )
+            FlowRow(modifier = Modifier.padding(top = 15.dp)) {
+                project.skills.sortedBy { it.name.length }.forEach {
+                    SIChip(
+                        modifier = Modifier.padding(end = 6.dp, bottom = 9.dp),
+                        text = it.name
+                    )
+                }
+            }
+        }
+        if (project.state.id == 1) {
+            FilledButton(
+                modifier = Modifier
+                    .padding(top = 13.dp)
+                    .fillMaxWidth()
+                    .height(42.dp),
+                text = stringResource(R.string.send_application),
+            )
+        }
         Spacer(modifier = Modifier.height(64.dp))
         Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
     }

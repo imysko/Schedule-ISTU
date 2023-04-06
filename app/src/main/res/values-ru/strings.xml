@@ -57,6 +57,18 @@
     <string name="all_projects">Все проекты</string>
 	<string name="filters">Фильтры</string>
 	<string name="clear">Очистить</string>
+    <plurals name="hours">
+        <item quantity="one">%1$d час</item>
+        <item quantity="few">%1$d часа</item>
+        <item quantity="many">%1$d часов</item>
+        <item quantity="other">%1$d часов</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%1$d минута</item>
+        <item quantity="few">%1$d минуты</item>
+        <item quantity="many">%1$d минут</item>
+        <item quantity="other">%1$d минут</item>
+    </plurals>
     <plurals name="remained_time">
         <item quantity="one">%1$d минута до конца</item>
         <item quantity="few">%1$d минуты до конца</item>
@@ -80,4 +92,5 @@
 	<string name="easy">Легко</string>
     <string name="medium">Средне</string>
     <string name="difficult">Сложно</string>
+    <string name="break_time">Перерыв</string>
 </resources>

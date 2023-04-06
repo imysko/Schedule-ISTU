@@ -29,7 +29,7 @@ import com.istu.schedule.domain.model.schedule.Discipline
 import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.LessonTime
 import com.istu.schedule.domain.model.schedule.Schedule
-import com.istu.schedule.ui.fonts.montFamily
+import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.ui.theme.Shape5
@@ -110,10 +110,9 @@ fun ScheduleCard(
                                 modifier = Modifier
                                     .padding(horizontal = 7.dp),
                                 text = lesson.time.lessonNumber,
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Normal,
-                                fontFamily = montFamily,
-                                color = MaterialTheme.colorScheme.background,
+                                style = MaterialTheme.typography.bodyMedium.copy(
+                                    color = MaterialTheme.colorScheme.background,
+                                ),
                             )
                         }
 
@@ -123,9 +122,7 @@ fun ScheduleCard(
                                     timeFormatter
                                 )
                             }",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Normal,
-                            fontFamily = montFamily,
+                            style = MaterialTheme.typography.bodyMedium,
                         )
                     }
                 }
@@ -137,9 +134,9 @@ fun ScheduleCard(
                         LessonType.LABORATORY_WORK.ordinal -> stringResource(id = R.string.laboratory_work)
                         else -> ""
                     },
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = montFamily,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontSize = 13.sp,
+                    ),
                 )
             }
 
@@ -164,20 +161,16 @@ fun ScheduleCard(
                             ) {
                                 Text(
                                     text = it.teachersVerbose,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    fontFamily = montFamily,
-                                    color = MaterialTheme.colorScheme.secondary,
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        color = MaterialTheme.colorScheme.secondary,
+                                    ),
                                 )
 
                                 Text(
                                     text = it.disciplineVerbose,
                                     style = MaterialTheme.typography.titleLarge.copy(
-                                        fontWeight = FontWeight.SemiBold
+                                        fontWeight = FontWeight.SemiBold,
                                     ),
-                                    fontSize = 18.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    fontFamily = montFamily,
                                 )
 
                                 Box(
@@ -188,10 +181,10 @@ fun ScheduleCard(
                                         modifier = Modifier
                                             .padding(vertical = 1.dp, horizontal = 7.dp),
                                         text = it.classroomVerbose,
-                                        fontSize = 14.sp,
-                                        fontWeight = FontWeight.Light,
-                                        fontFamily = montFamily,
-                                        color = MaterialTheme.colorScheme.background,
+                                        style = MaterialTheme.typography.titleLarge.copy(
+                                            fontWeight = FontWeight.Light,
+                                            color = MaterialTheme.colorScheme.background,
+                                        ),
                                     )
                                 }
                             }
@@ -205,18 +198,15 @@ fun ScheduleCard(
                                 if (it.subgroup != 0) {
                                     Text(
                                         text = "${stringResource(id = R.string.subgroup)} ${it.subgroup}",
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Normal,
-                                        fontFamily = montFamily,
+                                        style = MaterialTheme.typography.bodySmall,
                                     )
                                 }
 
                                 Text(
                                     text = it.groupsVerbose,
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Normal,
-                                    fontFamily = montFamily,
-                                    color = MaterialTheme.colorScheme.secondary,
+                                    style = MaterialTheme.typography.bodySmall.copy(
+                                        color = MaterialTheme.colorScheme.secondary,
+                                    ),
                                 )
                             }
                         }
@@ -246,7 +236,7 @@ fun ScheduleCard(
                         ),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
-                        fontFamily = montFamily,
+                        fontFamily = interFamily,
                         color = MaterialTheme.colorScheme.error,
                     )
                 }

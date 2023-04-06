@@ -1,6 +1,7 @@
 package com.istu.schedule.ui.page.projfair.project
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -20,7 +21,9 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
@@ -106,8 +109,10 @@ fun ProjectPage(
         backLayerBackgroundColor = MaterialTheme.colorScheme.primary,
         backLayerContent = {
             Row(
-                modifier = Modifier.padding(horizontal = 15.dp).padding(bottom = 10.dp)
-            ){
+                modifier = Modifier
+                    .padding(horizontal = 15.dp)
+                    .padding(bottom = 10.dp)
+            ) {
                 SIScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
                     indicator = indicator,
@@ -115,7 +120,9 @@ fun ProjectPage(
                 ) {
                     pages.forEachIndexed { index, title ->
                         Column(
-                            modifier = Modifier.height(50.dp).padding(end = if (index != pages.size - 1) 20.dp else 0.dp),
+                            modifier = Modifier
+                                .height(50.dp)
+                                .padding(end = if (index != pages.size - 1) 20.dp else 0.dp),
                             verticalArrangement = Arrangement.Center,
                         ) {
                             Text(
@@ -200,180 +207,178 @@ fun ProjectPage(
 fun ProjectInfo(
     project: Project
 ) {
-    LazyColumn(
-        modifier = Modifier.padding(top = 23.dp),
+    Column(
+        modifier = Modifier
+            .padding(top = 23.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
-        item {
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 22.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Column {
-                    Text(
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        text = stringResource(R.string.maximum_participants),
-                        style = MaterialTheme.typography.bodyMedium,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 22.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Column {
+                Text(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    text = stringResource(R.string.maximum_participants),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        modifier = Modifier.size(28.dp),
+                        imageVector = Icons.People,
+                        contentDescription = "People Icon",
+                        tint = MaterialTheme.colorScheme.primary,
                     )
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(28.dp),
-                            imageVector = Icons.People,
-                            contentDescription = "People Icon",
-                            tint = MaterialTheme.colorScheme.primary,
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = project.places.toString(),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.SemiBold,
-                            ),
-                        )
-                    }
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = project.places.toString(),
+                        style = MaterialTheme.typography.bodyLarge.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.SemiBold,
+                        ),
+                    )
                 }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+            }
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    text = stringResource(R.string.project_status),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+                Box(
+                    modifier = Modifier
+                        .border(
+                            BorderStroke(
+                                width = 1.45.dp,
+                                MaterialTheme.colorScheme.primary,
+                            ),
+                            RoundedCornerShape(72.dp),
+                        )
+                        .padding(24.dp, 7.dp),
                 ) {
                     Text(
-                        modifier = Modifier.padding(bottom = 10.dp),
-                        text = stringResource(R.string.project_status),
-                        style = MaterialTheme.typography.bodyMedium,
+                        text = project.state.state.uppercase(),
+                        style = MaterialTheme.typography.bodySmall.copy(
+                            color = MaterialTheme.colorScheme.primary,
+                        ),
                     )
-                    Box(
-                        modifier = Modifier
-                            .border(
-                                BorderStroke(
-                                    width = 1.45.dp,
-                                    MaterialTheme.colorScheme.primary,
-                                ),
-                                RoundedCornerShape(72.dp),
-                            )
-                            .padding(24.dp, 7.dp),
-                    ) {
-                        Text(
-                            text = project.state.state.uppercase(),
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                color = MaterialTheme.colorScheme.primary,
-                            ),
-                        )
-                    }
                 }
             }
         }
-        item {
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp),
-                color = HalfGray,
-            )
-        }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
-                key = stringResource(R.string.project_manager),
-                value = project.supervisorsNames,
-            )
-        }
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp),
+            color = HalfGray,
+        )
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
+            key = stringResource(R.string.project_manager),
+            value = project.supervisorsNames,
+        )
+
         project.customer.isNotBlank().let { isNotBlank ->
             if (isNotBlank) {
-                item {
-                    TwoColumnText(
-                        modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
-                        key = stringResource(R.string.customer),
-                        value = project.customer,
-                    )
-                }
+                TwoColumnText(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 22.dp),
+                    key = stringResource(R.string.customer),
+                    value = project.customer,
+                )
+
             }
         }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
-                key = stringResource(R.string.timeline),
-                value = "${DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart)} - ${DateFormat.getDateInstance(DateFormat.LONG).format(project.dateEnd)}",
-            )
-        }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
-                key = stringResource(R.string.difficulty),
-                value = project.difficulty.toProjectDifficulty(),
-            )
-        }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
-                key = stringResource(R.string.type_of_project),
-                value = project.type.type,
-            )
-        }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 22.dp),
-                key = stringResource(R.string.project_goal),
-                value = project.goal,
-            )
-        }
-        item {
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp),
-                color = HalfGray,
-            )
-        }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(top = 22.dp),
-                key = stringResource(R.string.expected_result),
-                value = project.productResult,
-            )
-        }
-        item {
-            TwoColumnText(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 22.dp),
-                key = stringResource(R.string.requirements_for_participants),
-                value = project.studyResult,
-            )
-        }
-        item {
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(2.dp),
-                color = HalfGray,
-            )
-        }
-        item {
-            Column(modifier = Modifier.padding(vertical = 22.dp)) {
-                Text(
-                    style = MaterialTheme.typography.bodySmall,
-                    text = stringResource(R.string.project_idea),
-                )
-                Spacer(Modifier.height(11.dp))
-                Text(
-                    style = MaterialTheme.typography.bodySmall.copy(
-                        fontWeight = FontWeight.Bold,
-                    ),
-                    text = project.description,
-                )
-            }
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
+            key = stringResource(R.string.timeline),
+            value = "${
+                DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart)
+            } - ${DateFormat.getDateInstance(DateFormat.LONG).format(project.dateEnd)}",
+        )
+
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
+            key = stringResource(R.string.difficulty),
+            value = project.difficulty.toProjectDifficulty(),
+        )
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
+            key = stringResource(R.string.type_of_project),
+            value = project.type.type,
+        )
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 22.dp),
+            key = stringResource(R.string.project_goal),
+            value = project.goal,
+        )
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp),
+            color = HalfGray,
+        )
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 22.dp),
+            key = stringResource(R.string.expected_result),
+            value = project.productResult,
+        )
+        TwoColumnText(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 22.dp),
+            key = stringResource(R.string.requirements_for_participants),
+            value = project.studyResult,
+        )
+        Divider(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(2.dp),
+            color = HalfGray,
+        )
+        Column(modifier = Modifier.padding(vertical = 22.dp)) {
             Text(
                 style = MaterialTheme.typography.bodySmall,
-                text = stringResource(R.string.required_skills),
+                text = stringResource(R.string.project_idea),
+            )
+            Spacer(Modifier.height(11.dp))
+            Text(
+                style = MaterialTheme.typography.bodySmall.copy(
+                    fontWeight = FontWeight.Bold,
+                ),
+                text = project.description,
             )
         }
-        item {
-            FilledButton(
-                modifier = Modifier.padding(top = 22.dp).fillMaxWidth().height(42.dp),
-                text = stringResource(R.string.send_application),
-            )
-        }
-        item {
-            Spacer(modifier = Modifier.height(64.dp))
-            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
-        }
+        Text(
+            style = MaterialTheme.typography.bodySmall,
+            text = stringResource(R.string.required_skills),
+        )
+        FilledButton(
+            modifier = Modifier
+                .padding(top = 22.dp)
+                .fillMaxWidth()
+                .height(42.dp),
+            text = stringResource(R.string.send_application),
+        )
+        Spacer(modifier = Modifier.height(64.dp))
+        Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
     }
 }

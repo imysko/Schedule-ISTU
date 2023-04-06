@@ -100,7 +100,7 @@ fun CandidatePage(
             item {
                 ListItem(
                     headlineContent = { Text(stringResource(R.string.group)) },
-                    supportingContent = { Text(candidate?.training_group ?: "") },
+                    supportingContent = { Text(candidate?.trainingGroup ?: "") },
                     leadingContent = {
                         Icon(
                             Icons.Filled.Groups,

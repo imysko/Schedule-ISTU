@@ -11,10 +11,11 @@ import retrofit2.http.Query
 interface ProjectsService {
     @GET("api/projects/filter")
     suspend fun getProjects(
+        @Header("Cookie") token: String = "",
         @Query("title") title: String = "",
         @Query("page") page: Int = 0,
-        @Query("difficulty[]") difficulty: List<Int> = emptyList(),
-        @Query("state[]") state: List<Int> = emptyList(),
+        @Query("difficulty[]") difficulties: List<Int> = emptyList(),
+        @Query("state[]") states: List<Int> = emptyList(),
         @Query("specialties[]") specialties: List<Int> = emptyList(),
         @Query("skills[]") skills: List<Int> = emptyList(),
         @Query("order") order: String = "asc",

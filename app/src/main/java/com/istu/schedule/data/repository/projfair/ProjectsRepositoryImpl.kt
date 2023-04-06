@@ -13,8 +13,24 @@ class ProjectsRepositoryImpl @Inject constructor(
 
     private val cachedList: MutableList<Project> = mutableListOf()
 
-    override suspend fun getProjects(page: Int): Result<List<Project>> {
-        val apiResponse = projectsService.getProjects(page = page).body()
+    override suspend fun getProjects(
+        token: String,
+        title: String,
+        page: Int,
+        difficulties: List<Int>,
+        states: List<Int>,
+        specialties: List<Int>,
+        skills: List<Int>,
+    ): Result<List<Project>> {
+        val apiResponse = projectsService.getProjects(
+            token = token,
+            title = title,
+            page = page,
+            difficulties = difficulties,
+            states = states,
+            specialties = specialties,
+            skills = skills,
+        ).body()
         if (apiResponse?.data != null) {
             val newsList = apiResponse.data
             cachedList.addAll(newsList)

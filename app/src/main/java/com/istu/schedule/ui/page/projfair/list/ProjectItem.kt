@@ -123,6 +123,7 @@ fun ProjectItem(
                                 when (project.state.id) {
                                     1 -> com.istu.schedule.ui.theme.Blue
                                     2 -> com.istu.schedule.ui.theme.Green
+                                    3 -> com.istu.schedule.ui.theme.Orange
                                     5 -> com.istu.schedule.ui.theme.Cyan
                                     else -> MaterialTheme.colorScheme.secondary
                                 },

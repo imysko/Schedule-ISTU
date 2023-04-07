@@ -51,16 +51,18 @@ fun ProjectsListPage(
 
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
+    val listState = projectsListUiState.listState
+
     val endOfListReached by remember {
         derivedStateOf {
-            projectsListUiState.listState.canScrollForward
+            listState.canScrollForward
         }
     }
 
-    val listState = projectsListUiState.listState
-
     LaunchedEffect(endOfListReached) {
-        viewModel.getProjectsList()
+        if (!listState.canScrollForward) {
+            viewModel.getProjectsList()
+        }
     }
 
     AppComposable(
@@ -89,7 +91,9 @@ fun ProjectsListPage(
                     ) {
                         item {
                             Row(
-                                modifier = Modifier.padding(15.dp).fillMaxWidth(),
+                                modifier = Modifier
+                                    .padding(15.dp)
+                                    .fillMaxWidth(),
                                 horizontalArrangement = Arrangement.SpaceBetween,
                                 verticalAlignment = Alignment.CenterVertically,
                             ) {

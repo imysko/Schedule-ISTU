@@ -131,11 +131,14 @@ fun ProjectPage(
                             modifier = Modifier
                                 .height(50.dp)
                                 .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
-                                .clickable(onClick = {
+                                .clickable(
+                                    interactionSource = MutableInteractionSource(),
+                                    indication = null,
+                                ) {
                                     coroutineScope.launch {
                                         pagerState.scrollToPage(index)
                                     }
-                                }),
+                                },
                             verticalArrangement = Arrangement.Center,
                         ) {
                             Text(

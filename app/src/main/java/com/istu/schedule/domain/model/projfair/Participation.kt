@@ -12,8 +12,9 @@ data class Participation(
     val stateId: Int,
     @SerializedName("candidate_id")
     val candidateId: Int,
-    @SerializedName("crated_at")
-    val cratedAt: Date,
+    @SerializedName("created_at")
+    val createdAt: Date,
     @SerializedName("updated_at")
     val updatedAt: Date,
+    val candidate: Candidate?,
 )

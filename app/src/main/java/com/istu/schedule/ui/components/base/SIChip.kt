@@ -26,7 +26,7 @@ fun SIChip(
     ) {
         Text(
             modifier = Modifier.padding(vertical = 5.dp, horizontal = 14.dp),
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary,
             text = text,
         )
@@ -40,7 +40,7 @@ fun SITextChip(
     Box {
         Text(
             modifier = Modifier.padding(vertical = 5.dp),
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.primary,
             text = text,
         )

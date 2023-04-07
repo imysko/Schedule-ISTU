@@ -33,6 +33,7 @@ data class Project(
     val state: ProjectState,
     val department: Department,
     val type: ProjectType,
+    val participations: List<Participation>,
     @SerializedName("created_at")
     val createdAt: Date,
     @SerializedName("updated_at")

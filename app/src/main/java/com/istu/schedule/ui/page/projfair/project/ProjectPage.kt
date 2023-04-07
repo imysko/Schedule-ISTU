@@ -1,7 +1,6 @@
 package com.istu.schedule.ui.page.projfair.project
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,15 +22,14 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.BackdropScaffold
-import androidx.compose.material.BackdropValue
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
-import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -45,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,6 +52,7 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import com.istu.schedule.R
+import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.CustomIndicator
@@ -65,6 +65,7 @@ import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 @Composable
 fun ProjectPage(
@@ -187,13 +188,12 @@ fun ProjectPage(
                         style = MaterialTheme.typography.titleLarge,
                     )
                     HorizontalPager(
-                        modifier = Modifier.fillMaxSize(),
                         count = pages.size,
                         state = pagerState,
                     ) { page ->
                         when (page) {
                             0 -> ProjectInfo(project)
-                            1 -> Text("2")
+                            1 -> ProjectParticipations(project)
                         }
                     }
                 } ?: run {
@@ -211,9 +211,7 @@ fun ProjectPage(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProjectInfo(
-    project: Project
-) {
+fun ProjectInfo(project: Project) {
     Column(
         modifier = Modifier
             .padding(top = 23.dp)
@@ -404,5 +402,120 @@ fun ProjectInfo(
         }
         Spacer(modifier = Modifier.height(64.dp))
         Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+    }
+}
+
+@Composable
+fun ProjectParticipations(project: Project) {
+    LazyColumn(
+        modifier = Modifier.padding(top = 20.dp),
+    ) {
+        item {
+            Row {
+                Text(
+                    modifier = Modifier
+                        .weight(0.05f)
+                        .padding(horizontal = 2.dp),
+                    text = "№",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                )
+                Text(
+                    modifier = Modifier
+                        .weight(0.225f)
+                        .padding(horizontal = 2.dp),
+                    text = "ФИО",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    modifier = Modifier
+                        .weight(0.150f)
+                        .padding(horizontal = 2.dp),
+                    text = "Группа",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    modifier = Modifier
+                        .weight(0.080f)
+                        .padding(horizontal = 2.dp),
+                    text = "Приоритет",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                )
+                Text(
+                    modifier = Modifier
+                        .weight(0.205f)
+                        .padding(horizontal = 2.dp),
+                    text = "Дата подачи заявки",
+                    style = MaterialTheme.typography.labelSmall,
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.End,
+                )
+            }
+        }
+        itemsIndexed(
+            project.participations.sortedWith(
+                compareByDescending<Participation> { it.stateId }.thenBy { it.priority }
+            )
+        ) { index, participation ->
+        ParticipationInProject(index + 1, participation)
+    }
+        item {
+            Spacer(
+                modifier = Modifier
+                    .height(64.dp)
+                    .windowInsetsBottomHeight(WindowInsets.navigationBars)
+            )
+        }
+    }
+}
+
+@Composable
+fun ParticipationInProject(index: Int, participation: Participation) {
+    val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
+    Row(modifier = Modifier.padding(vertical = 10.dp)) {
+        Text(
+            modifier = Modifier
+                .weight(0.05f)
+                .padding(horizontal = 2.dp),
+            text = index.toString(),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.SemiBold,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            modifier = Modifier
+                .weight(0.225f)
+                .padding(horizontal = 2.dp),
+            text = participation.candidate?.fio ?: "-",
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Bold,
+        )
+        Text(
+            modifier = Modifier
+                .weight(0.150f)
+                .padding(horizontal = 2.dp),
+            text = participation.candidate?.trainingGroup ?: "-",
+            style = MaterialTheme.typography.labelMedium,
+        )
+        Text(
+            modifier = Modifier
+                .weight(0.080f)
+                .padding(horizontal = 2.dp),
+            text = participation.priority.toString(),
+            style = MaterialTheme.typography.labelMedium,
+            textAlign = TextAlign.Center,
+        )
+        Text(
+            modifier = Modifier
+                .weight(0.205f)
+                .padding(horizontal = 2.dp),
+            text = simpleDateFormat.format(participation.updatedAt),
+            style = MaterialTheme.typography.labelMedium,
+            textAlign = TextAlign.End,
+        )
     }
 }

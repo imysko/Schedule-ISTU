@@ -24,9 +24,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.BackdropScaffold
@@ -65,7 +63,6 @@ import com.istu.schedule.ui.components.base.TwoColumnText
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.util.toProjectDifficulty
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -296,12 +293,16 @@ fun ProjectInfo(project: Project) {
                     }
                 }
             }
+        }
+        item {
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
                 color = HalfGray,
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -309,6 +310,8 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.project_manager),
                 value = project.supervisorsNames,
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -316,6 +319,8 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.customer),
                 value = project.customer,
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -325,7 +330,8 @@ fun ProjectInfo(project: Project) {
                     DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart)
                 } - ${DateFormat.getDateInstance(DateFormat.LONG).format(project.dateEnd)}",
             )
-
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -333,6 +339,8 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.difficulty),
                 value = project.difficulty.toProjectDifficulty(),
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -340,6 +348,8 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.type_of_project),
                 value = project.type.type,
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -347,12 +357,16 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.project_goal),
                 value = project.goal,
             )
+        }
+        item {
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
                 color = HalfGray,
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -360,6 +374,8 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.expected_result),
                 value = project.productResult,
             )
+        }
+        item {
             TwoColumnText(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -367,12 +383,16 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.requirements_for_participants),
                 value = project.studyResult,
             )
+        }
+        item {
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
                 color = HalfGray,
             )
+        }
+        item {
             Column(modifier = Modifier.padding(vertical = 22.dp)) {
                 Text(
                     style = MaterialTheme.typography.bodySmall,
@@ -386,7 +406,9 @@ fun ProjectInfo(project: Project) {
                     text = project.description,
                 )
             }
-            if (project.skills.isNotEmpty()) {
+        }
+        if (project.skills.isNotEmpty()) {
+            item {
                 Text(
                     style = MaterialTheme.typography.bodySmall,
                     text = stringResource(R.string.required_skills),
@@ -400,7 +422,10 @@ fun ProjectInfo(project: Project) {
                     }
                 }
             }
-            if (project.state.id == 1) {
+        }
+        if (project.state.id == 1) {
+            item {
+
                 FilledButton(
                     modifier = Modifier
                         .padding(top = 13.dp)
@@ -409,6 +434,8 @@ fun ProjectInfo(project: Project) {
                     text = stringResource(R.string.send_application),
                 )
             }
+        }
+        item {
             Spacer(modifier = Modifier.height(64.dp))
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
@@ -471,8 +498,8 @@ fun ProjectParticipations(project: Project) {
                 compareByDescending<Participation> { it.stateId }.thenBy { it.priority }
             )
         ) { index, participation ->
-        ParticipationInProject(index + 1, participation)
-    }
+            ParticipationInProject(index + 1, participation)
+        }
         item {
             Spacer(
                 modifier = Modifier

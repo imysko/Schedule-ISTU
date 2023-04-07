@@ -29,5 +29,4 @@
                 android:authorities="${applicationId}.androidx-startup"
                 tools:node="remove" />
     </application>
-
 </manifest>

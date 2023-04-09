@@ -95,4 +95,5 @@
         <item quantity="one">+%1$d tag</item>
         <item quantity="other">+%1$d tags</item>
     </plurals>
+    <string name="projects_search_tint">Project title</string>
 </resources>

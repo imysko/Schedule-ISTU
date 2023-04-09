@@ -29,6 +29,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,9 +60,20 @@ fun ProjectsListPage(
         }
     }
 
+    val focusRequester = remember { FocusRequester() }
+
+    fun loadProjects() {
+        if (projectsListUiState.searchText.isNotBlank()) {
+            viewModel.getProjectsListWithFilters(projectsListUiState.searchText)
+        }
+        else {
+            viewModel.getProjectsList()
+        }
+    }
+
     LaunchedEffect(endOfListReached) {
         if (!listState.canScrollForward) {
-            viewModel.getProjectsList()
+            loadProjects()
         }
     }
 
@@ -81,7 +93,15 @@ fun ProjectsListPage(
                 backLayerContent = {
                     SearchBar(
                         modifier = Modifier.padding(start = 15.dp, bottom = 21.dp, end = 15.dp),
-                        value = "Text test",
+                        value = projectsListUiState.searchText,
+                        focusRequester = focusRequester,
+                        placeholder = stringResource(R.string.projects_search_tint),
+                        onValueChange = {
+                            viewModel.inputSearchContent(it)
+                        },
+                        onDone = {
+                            loadProjects()
+                        },
                     )
                 },
                 frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,

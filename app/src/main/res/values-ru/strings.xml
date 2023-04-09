@@ -100,4 +100,5 @@
         <item quantity="many">+%1$d тегов</item>
         <item quantity="other">+%1$d тегов</item>
     </plurals>
+	<string name="projects_search_tint">Название проекта</string>
 </resources>

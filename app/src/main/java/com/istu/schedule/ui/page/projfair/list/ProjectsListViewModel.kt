@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,8 +28,13 @@ class ListViewModel @Inject constructor(
     val projectsList: LiveData<MutableList<Project>> = _projectsList
 
     private var _currentPage = 1
+    private var _currentPageWithFilters = 1
 
     fun getProjectsList() {
+        if (_currentPageWithFilters > 1) {
+            _currentPageWithFilters = 1
+            _projectsList.value?.clear()
+        }
         call({
             _user.projfairToken?.let {
                 _projectsUseCase.getProjectsList(token = it, page = _currentPage)
@@ -42,8 +48,28 @@ class ListViewModel @Inject constructor(
             _currentPage += 1
         })
     }
+
+    fun getProjectsListWithFilters(title: String) {
+        if (_currentPage > 1) {
+            _currentPage = 1
+            _projectsList.value?.clear()
+        }
+        call({
+            _projectsUseCase.getProjectsList(title = title, page = _currentPageWithFilters)
+        }, onSuccess = {
+            for (item in it) {
+                _projectsList.addNewItem(item)
+            }
+            _currentPageWithFilters += 1
+        })
+    }
+
+    fun inputSearchContent(content: String) {
+        _projectsListUiState.update { it.copy(searchText = content) }
+    }
 }
 
 data class ProjectsListUiState(
-    val listState: LazyListState = LazyListState()
+    val listState: LazyListState = LazyListState(),
+    val searchText: String = "",
 )

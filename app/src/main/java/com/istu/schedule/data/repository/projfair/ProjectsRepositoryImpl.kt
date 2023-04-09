@@ -33,7 +33,10 @@ class ProjectsRepositoryImpl @Inject constructor(
         ).body()
         if (apiResponse?.data != null) {
             val newsList = apiResponse.data
-            cachedList.addAll(newsList)
+            cachedList.let { list ->
+                list.addAll(newsList)
+                list.distinctBy { it.id }
+            }
             return Result.success(newsList)
         }
 

@@ -38,6 +38,7 @@ fun SearchBar(
     focusRequester: FocusRequester = remember { FocusRequester() },
     onValueChange: (String) -> Unit = {},
     onClose: () -> Unit = {},
+    onDone: () -> Unit = {},
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -74,6 +75,7 @@ fun SearchBar(
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
+                        onDone()
                     },
                 ),
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),

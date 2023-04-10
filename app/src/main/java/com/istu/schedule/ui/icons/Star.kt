@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-public val Icons.Star: ImageVector
+val Icons.Star: ImageVector
     get() {
         if (_star != null) {
             return _star!!
@@ -26,7 +26,7 @@ public val Icons.Star: ImageVector
             path(
                 fill = SolidColor(Color(0x00000000)),
                 stroke = SolidColor(Color(0xFFffffff)),
-                strokeLineWidth = 1.53755f,
+                strokeLineWidth = 2.0f,
                 strokeLineCap = Round,
                 strokeLineJoin =
                 StrokeJoin.Companion.Round,

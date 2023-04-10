@@ -11,16 +11,17 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Filter: ImageVector
+val Icons.Faq: ImageVector
     get() {
-        if (_filter != null) {
-            return _filter!!
+        if (_faq != null) {
+            return _faq!!
         }
-        _filter = Builder(
-            name = "Filter",
+        _faq = Builder(
+            name = "Faq",
             defaultWidth = 24.0.dp,
             defaultHeight = 24.0.dp,
-            viewportWidth = 24.0f,
+            viewportWidth =
+            24.0f,
             viewportHeight = 24.0f,
         ).apply {
             path(
@@ -33,18 +34,23 @@ val Icons.Filter: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(22.0f, 3.0f)
-                horizontalLineTo(2.0f)
-                lineTo(10.0f, 12.46f)
-                verticalLineTo(19.0f)
-                lineTo(14.0f, 21.0f)
-                verticalLineTo(12.46f)
-                lineTo(22.0f, 3.0f)
+                moveTo(21.0f, 15.0f)
+                curveTo(21.0f, 15.5304f, 20.7893f, 16.0391f, 20.4142f, 16.4142f)
+                curveTo(20.0391f, 16.7893f, 19.5304f, 17.0f, 19.0f, 17.0f)
+                horizontalLineTo(7.0f)
+                lineTo(3.0f, 21.0f)
+                verticalLineTo(5.0f)
+                curveTo(3.0f, 4.4696f, 3.2107f, 3.9609f, 3.5858f, 3.5858f)
+                curveTo(3.9609f, 3.2107f, 4.4696f, 3.0f, 5.0f, 3.0f)
+                horizontalLineTo(19.0f)
+                curveTo(19.5304f, 3.0f, 20.0391f, 3.2107f, 20.4142f, 3.5858f)
+                curveTo(20.7893f, 3.9609f, 21.0f, 4.4696f, 21.0f, 5.0f)
+                verticalLineTo(15.0f)
                 close()
             }
         }
             .build()
-        return _filter!!
+        return _faq!!
     }
 
-private var _filter: ImageVector? = null
+private var _faq: ImageVector? = null

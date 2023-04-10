@@ -11,17 +11,18 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Cross: ImageVector
+val Icons.ChevronDown: ImageVector
     get() {
-        if (_cross != null) {
-            return _cross!!
+        if (_chevronDown != null) {
+            return _chevronDown!!
         }
-        _cross = Builder(
-            name = "Cross",
-            defaultWidth = 48.0.dp,
-            defaultHeight = 48.0.dp,
-            viewportWidth = 48.0f,
-            viewportHeight = 48.0f,
+        _chevronDown = Builder(
+            name = "Chevron-down",
+            defaultWidth = 24.0.dp,
+            defaultHeight =
+            24.0.dp,
+            viewportWidth = 24.0f,
+            viewportHeight = 24.0f,
         ).apply {
             path(
                 fill = SolidColor(Color(0x00000000)),
@@ -33,14 +34,13 @@ val Icons.Cross: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(36.0f, 12.0f)
-                lineTo(12.0f, 36.0f)
-                moveTo(12.0f, 12.0f)
-                lineTo(36.0f, 36.0f)
+                moveTo(6.0f, 9.0f)
+                lineTo(12.0f, 15.0f)
+                lineTo(18.0f, 9.0f)
             }
         }
             .build()
-        return _cross!!
+        return _chevronDown!!
     }
 
-private var _cross: ImageVector? = null
+private var _chevronDown: ImageVector? = null

@@ -11,13 +11,13 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Book: ImageVector
+val Icons.Mouse: ImageVector
     get() {
-        if (_book != null) {
-            return _book!!
+        if (_mouse != null) {
+            return _mouse!!
         }
-        _book = Builder(
-            name = "Book",
+        _mouse = Builder(
+            name = "Mouse",
             defaultWidth = 24.0.dp,
             defaultHeight = 24.0.dp,
             viewportWidth = 24.0f,
@@ -33,15 +33,11 @@ val Icons.Book: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(2.0f, 3.0f)
-                horizontalLineTo(8.0f)
-                curveTo(9.0609f, 3.0f, 10.0783f, 3.4214f, 10.8284f, 4.1716f)
-                curveTo(11.5786f, 4.9217f, 12.0f, 5.9391f, 12.0f, 7.0f)
-                verticalLineTo(21.0f)
-                curveTo(12.0f, 20.2044f, 11.6839f, 19.4413f, 11.1213f, 18.8787f)
-                curveTo(10.5587f, 18.3161f, 9.7956f, 18.0f, 9.0f, 18.0f)
-                horizontalLineTo(2.0f)
-                verticalLineTo(3.0f)
+                moveTo(3.0f, 3.0f)
+                lineTo(10.07f, 19.97f)
+                lineTo(12.58f, 12.58f)
+                lineTo(19.97f, 10.07f)
+                lineTo(3.0f, 3.0f)
                 close()
             }
             path(
@@ -54,20 +50,12 @@ val Icons.Book: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(22.0f, 3.0f)
-                horizontalLineTo(16.0f)
-                curveTo(14.9391f, 3.0f, 13.9217f, 3.4214f, 13.1716f, 4.1716f)
-                curveTo(12.4214f, 4.9217f, 12.0f, 5.9391f, 12.0f, 7.0f)
-                verticalLineTo(21.0f)
-                curveTo(12.0f, 20.2044f, 12.3161f, 19.4413f, 12.8787f, 18.8787f)
-                curveTo(13.4413f, 18.3161f, 14.2044f, 18.0f, 15.0f, 18.0f)
-                horizontalLineTo(22.0f)
-                verticalLineTo(3.0f)
-                close()
+                moveTo(13.0f, 13.0f)
+                lineTo(19.0f, 19.0f)
             }
         }
             .build()
-        return _book!!
+        return _mouse!!
     }
 
-private var _book: ImageVector? = null
+private var _mouse: ImageVector? = null

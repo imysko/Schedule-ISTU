@@ -11,13 +11,13 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Book: ImageVector
+val Icons.Question: ImageVector
     get() {
-        if (_book != null) {
-            return _book!!
+        if (_question != null) {
+            return _question!!
         }
-        _book = Builder(
-            name = "Book",
+        _question = Builder(
+            name = "Question",
             defaultWidth = 24.0.dp,
             defaultHeight = 24.0.dp,
             viewportWidth = 24.0f,
@@ -33,15 +33,11 @@ val Icons.Book: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(2.0f, 3.0f)
-                horizontalLineTo(8.0f)
-                curveTo(9.0609f, 3.0f, 10.0783f, 3.4214f, 10.8284f, 4.1716f)
-                curveTo(11.5786f, 4.9217f, 12.0f, 5.9391f, 12.0f, 7.0f)
-                verticalLineTo(21.0f)
-                curveTo(12.0f, 20.2044f, 11.6839f, 19.4413f, 11.1213f, 18.8787f)
-                curveTo(10.5587f, 18.3161f, 9.7956f, 18.0f, 9.0f, 18.0f)
-                horizontalLineTo(2.0f)
-                verticalLineTo(3.0f)
+                moveTo(12.0f, 22.0f)
+                curveTo(17.5228f, 22.0f, 22.0f, 17.5228f, 22.0f, 12.0f)
+                curveTo(22.0f, 6.4771f, 17.5228f, 2.0f, 12.0f, 2.0f)
+                curveTo(6.4771f, 2.0f, 2.0f, 6.4771f, 2.0f, 12.0f)
+                curveTo(2.0f, 17.5228f, 6.4771f, 22.0f, 12.0f, 22.0f)
                 close()
             }
             path(
@@ -54,20 +50,29 @@ val Icons.Book: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(22.0f, 3.0f)
-                horizontalLineTo(16.0f)
-                curveTo(14.9391f, 3.0f, 13.9217f, 3.4214f, 13.1716f, 4.1716f)
-                curveTo(12.4214f, 4.9217f, 12.0f, 5.9391f, 12.0f, 7.0f)
-                verticalLineTo(21.0f)
-                curveTo(12.0f, 20.2044f, 12.3161f, 19.4413f, 12.8787f, 18.8787f)
-                curveTo(13.4413f, 18.3161f, 14.2044f, 18.0f, 15.0f, 18.0f)
-                horizontalLineTo(22.0f)
-                verticalLineTo(3.0f)
-                close()
+                moveTo(9.0901f, 9.0f)
+                curveTo(9.3252f, 8.3317f, 9.7892f, 7.7681f, 10.4f, 7.4092f)
+                curveTo(11.0108f, 7.0502f, 11.729f, 6.919f, 12.4273f, 7.0387f)
+                curveTo(13.1255f, 7.1585f, 13.7589f, 7.5215f, 14.2152f, 8.0635f)
+                curveTo(14.6714f, 8.6055f, 14.9211f, 9.2915f, 14.9201f, 10.0f)
+                curveTo(14.9201f, 12.0f, 11.9201f, 13.0f, 11.9201f, 13.0f)
+            }
+            path(
+                fill = SolidColor(Color(0x00000000)),
+                stroke = SolidColor(Color(0xFFffffff)),
+                strokeLineWidth = 2.0f,
+                strokeLineCap = Round,
+                strokeLineJoin =
+                StrokeJoin.Companion.Round,
+                strokeLineMiter = 4.0f,
+                pathFillType = NonZero,
+            ) {
+                moveTo(12.0f, 17.0f)
+                horizontalLineTo(12.01f)
             }
         }
             .build()
-        return _book!!
+        return _question!!
     }
 
-private var _book: ImageVector? = null
+private var _question: ImageVector? = null

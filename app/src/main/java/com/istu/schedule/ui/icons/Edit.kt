@@ -11,13 +11,13 @@ import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
-val Icons.Filter: ImageVector
+val Icons.Edit: ImageVector
     get() {
-        if (_filter != null) {
-            return _filter!!
+        if (_edit != null) {
+            return _edit!!
         }
-        _filter = Builder(
-            name = "Filter",
+        _edit = Builder(
+            name = "Edit",
             defaultWidth = 24.0.dp,
             defaultHeight = 24.0.dp,
             viewportWidth = 24.0f,
@@ -33,18 +33,24 @@ val Icons.Filter: ImageVector
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
-                moveTo(22.0f, 3.0f)
-                horizontalLineTo(2.0f)
-                lineTo(10.0f, 12.46f)
-                verticalLineTo(19.0f)
-                lineTo(14.0f, 21.0f)
-                verticalLineTo(12.46f)
-                lineTo(22.0f, 3.0f)
+                moveTo(17.0f, 3.0f)
+                curveTo(17.2626f, 2.7373f, 17.5744f, 2.529f, 17.9176f, 2.3869f)
+                curveTo(18.2608f, 2.2447f, 18.6286f, 2.1716f, 19.0f, 2.1716f)
+                curveTo(19.3714f, 2.1716f, 19.7392f, 2.2447f, 20.0824f, 2.3869f)
+                curveTo(20.4256f, 2.529f, 20.7374f, 2.7373f, 21.0f, 3.0f)
+                curveTo(21.2626f, 3.2626f, 21.471f, 3.5744f, 21.6131f, 3.9176f)
+                curveTo(21.7553f, 4.2608f, 21.8284f, 4.6286f, 21.8284f, 5.0f)
+                curveTo(21.8284f, 5.3714f, 21.7553f, 5.7392f, 21.6131f, 6.0824f)
+                curveTo(21.471f, 6.4255f, 21.2626f, 6.7373f, 21.0f, 7.0f)
+                lineTo(7.5f, 20.5f)
+                lineTo(2.0f, 22.0f)
+                lineTo(3.5f, 16.5f)
+                lineTo(17.0f, 3.0f)
                 close()
             }
         }
             .build()
-        return _filter!!
+        return _edit!!
     }
 
-private var _filter: ImageVector? = null
+private var _edit: ImageVector? = null

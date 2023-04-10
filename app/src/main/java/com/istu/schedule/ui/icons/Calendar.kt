@@ -1,8 +1,6 @@
 package com.istu.schedule.ui.icons
 
-import androidx.compose.foundation.Image
 import androidx.compose.material.icons.Icons
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType.Companion.NonZero
 import androidx.compose.ui.graphics.SolidColor
@@ -11,10 +9,9 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.ImageVector.Builder
 import androidx.compose.ui.graphics.vector.path
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-public val Icons.Calendar: ImageVector
+val Icons.Calendar: ImageVector
     get() {
         if (_calendar != null) {
             return _calendar!!
@@ -31,7 +28,8 @@ public val Icons.Calendar: ImageVector
                 stroke = SolidColor(Color(0xFFffffff)),
                 strokeLineWidth = 2.0f,
                 strokeLineCap = Round,
-                strokeLineJoin = StrokeJoin.Companion.Round,
+                strokeLineJoin =
+                StrokeJoin.Companion.Round,
                 strokeLineMiter = 4.0f,
                 pathFillType = NonZero,
             ) {
@@ -58,9 +56,3 @@ public val Icons.Calendar: ImageVector
     }
 
 private var _calendar: ImageVector? = null
-
-@Preview
-@Composable
-private fun IconPreview() {
-    Image(imageVector = Icons.Calendar, contentDescription = null)
-}

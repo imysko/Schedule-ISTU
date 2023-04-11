@@ -24,9 +24,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
@@ -97,7 +97,7 @@ fun ProjectPage(
     val pagerState = rememberPagerState()
     val pages = listOf(
         stringResource(R.string.about_project),
-        stringResource(R.string.list_of_particpations)
+        stringResource(R.string.list_of_particpations),
     )
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
@@ -119,7 +119,7 @@ fun ProjectPage(
             Row(
                 modifier = Modifier
                     .padding(horizontal = 15.dp)
-                    .padding(bottom = 10.dp)
+                    .padding(bottom = 10.dp),
             ) {
                 SIScrollableTabRow(
                     selectedTabIndex = pagerState.currentPage,
@@ -223,7 +223,7 @@ fun ProjectPage(
 fun ProjectInfo(project: Project) {
     LazyColumn(
         modifier = Modifier
-            .padding(top = 23.dp)
+            .padding(top = 23.dp),
     ) {
         item {
             Row(
@@ -420,7 +420,7 @@ fun ProjectInfo(project: Project) {
                     project.skills.sortedBy { it.name.length }.forEach {
                         SIChip(
                             modifier = Modifier.padding(end = 6.dp, bottom = 9.dp),
-                            text = it.name
+                            text = it.name,
                         )
                     }
                 }
@@ -428,7 +428,6 @@ fun ProjectInfo(project: Project) {
         }
         if (project.state.id == 1) {
             item {
-
                 FilledButton(
                     modifier = Modifier
                         .padding(top = 13.dp)
@@ -498,8 +497,8 @@ fun ProjectParticipations(project: Project) {
         }
         itemsIndexed(
             project.participations.sortedWith(
-                compareByDescending<Participation> { it.stateId }.thenBy { it.priority }
-            )
+                compareByDescending<Participation> { it.stateId }.thenBy { it.priority },
+            ),
         ) { index, participation ->
             ParticipationInProject(index + 1, participation)
         }
@@ -507,7 +506,7 @@ fun ProjectParticipations(project: Project) {
             Spacer(
                 modifier = Modifier
                     .height(64.dp)
-                    .windowInsetsBottomHeight(WindowInsets.navigationBars)
+                    .windowInsetsBottomHeight(WindowInsets.navigationBars),
             )
         }
     }

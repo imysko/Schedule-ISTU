@@ -1,6 +1,5 @@
 package com.istu.schedule.ui.components.base
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,10 +23,9 @@ import com.istu.schedule.R
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @Composable
-fun OutlineButton(
+fun TextButton(
     modifier: Modifier = Modifier,
     text: String = "",
-    borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.primary,
     onClick: () -> Unit = {},
 ) {
@@ -35,7 +33,6 @@ fun OutlineButton(
         modifier = modifier
             .height(56.dp)
             .clip(RoundedCornerShape(4.dp))
-            .border(2.dp, borderColor, RoundedCornerShape(4.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 5.dp),
         verticalArrangement = Arrangement.Center,
@@ -54,10 +51,10 @@ fun OutlineButton(
 
 @Preview(showBackground = true)
 @Composable
-fun OutlineButtonPreview() {
+fun TextButtonPreview() {
     ScheduleISTUTheme {
         Column {
-            OutlineButton(
+            TextButton(
                 modifier = Modifier.fillMaxWidth().height(42.dp),
                 text = stringResource(R.string.read_more),
             )

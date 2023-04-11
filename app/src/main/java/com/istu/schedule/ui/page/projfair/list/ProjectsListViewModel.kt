@@ -28,19 +28,18 @@ class ListViewModel @Inject constructor(
     val projectsList: LiveData<MutableList<Project>> = _projectsList
 
     private var _currentPage = 1
-    private var _currentPageWithFilters = 1
 
     fun getProjectsList() {
-        if (_currentPageWithFilters > 1) {
-            _currentPageWithFilters = 1
-            _projectsList.value?.clear()
-        }
         call({
-            _user.projfairToken?.let {
-                _projectsUseCase.getProjectsList(token = it, page = _currentPage)
-            } ?: run {
-                _projectsUseCase.getProjectsList(page = _currentPage)
-            }
+            _projectsUseCase.getProjectsList(
+                token = _user.projfairToken ?: "",
+                title = _projectsListUiState.value.titleSearchText,
+                page = _currentPage,
+                difficulties = _projectsListUiState.value.difficultiesList,
+                states = _projectsListUiState.value.statusesList,
+                specialties = _projectsListUiState.value.specialitiesList,
+                skills = _projectsListUiState.value.skillsList,
+            )
         }, onSuccess = {
             for (item in it) {
                 _projectsList.addNewItem(item)
@@ -49,27 +48,61 @@ class ListViewModel @Inject constructor(
         })
     }
 
-    fun getProjectsListWithFilters(title: String) {
-        if (_currentPage > 1) {
-            _currentPage = 1
-            _projectsList.value?.clear()
-        }
-        call({
-            _projectsUseCase.getProjectsList(title = title, page = _currentPageWithFilters)
-        }, onSuccess = {
-            for (item in it) {
-                _projectsList.addNewItem(item)
-            }
-            _currentPageWithFilters += 1
-        })
+    fun setFiltersPageStatus(isOpen: Boolean) {
+        _projectsListUiState.update { it.copy(isFiltersPageOpen = isOpen) }
     }
 
     fun inputSearchContent(content: String) {
-        _projectsListUiState.update { it.copy(searchText = content) }
+        _projectsListUiState.update { it.copy(titleSearchText = content) }
+    }
+
+    fun setStatusesList(statusesList: List<Int>) {
+        _projectsListUiState.update { it.copy(statusesList = statusesList) }
+    }
+
+    fun setSpecialitiesList(specialitiesList: List<Int>) {
+        _projectsListUiState.update { it.copy(specialitiesList = specialitiesList) }
+    }
+
+    fun setSkillsList(skillsList: List<Int>) {
+        _projectsListUiState.update { it.copy(skillsList = skillsList) }
+    }
+
+    fun setDifficultiesList(difficultiesList: List<Int>) {
+        _projectsListUiState.update { it.copy(difficultiesList = difficultiesList) }
+    }
+
+    fun resetFilters() {
+        _projectsListUiState.update {
+            it.copy(
+                statusesList = listOf(),
+                specialitiesList = listOf(),
+                skillsList = listOf(),
+                difficultiesList = listOf(),
+            )
+        }
+    }
+
+    fun clearList() {
+        _currentPage = 1
+        _projectsList.value?.clear()
     }
 }
 
 data class ProjectsListUiState(
     val listState: LazyListState = LazyListState(),
-    val searchText: String = "",
-)
+    val isFiltersPageOpen: Boolean = false,
+    val titleSearchText: String = "",
+    val statusesList: List<Int> = listOf(),
+    val specialitiesList: List<Int> = listOf(),
+    val skillsList: List<Int> = listOf(),
+    val difficultiesList: List<Int> = listOf(),
+) {
+    fun isFilterActive(): Boolean {
+        return titleSearchText.isNotBlank() ||
+            statusesList.isNotEmpty() ||
+            specialitiesList.isNotEmpty() ||
+            skillsList.isNotEmpty() ||
+            difficultiesList.isNotEmpty()
+    }
+}

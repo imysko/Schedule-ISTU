@@ -96,4 +96,14 @@
         <item quantity="other">+%1$d tags</item>
     </plurals>
     <string name="projects_search_tint">Project title</string>
+    <string name="recruitment_is_open">Recruitment is open</string>
+    <string name="processing_of_participants">Processing of participations</string>
+    <string name="completion_of_participants">Completion of participants</string>
+    <string name="in_archive">In the archive</string>
+    <string name="project_tags">Project tags</string>
+    <string name="level_of_difficulty">Level of difficulty</string>
+    <string name="find">Find</string>
+    <string name="reset_filter">Reset filter</string>
+    <string name="select_a_specialty">Select a specialty</string>
+    <string name="select_a_skill">Select a skill</string>
 </resources>

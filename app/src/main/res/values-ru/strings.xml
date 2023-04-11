@@ -101,4 +101,14 @@
         <item quantity="other">+%1$d тегов</item>
     </plurals>
 	<string name="projects_search_tint">Название проекта</string>
+	<string name="recruitment_is_open">Набот открыт</string>
+    <string name="completion_of_participants">Добор участников</string>
+    <string name="processing_of_participants">Обработка заявок</string>
+    <string name="in_archive">В архиве</string>
+	<string name="project_tags">Теги проекта</string>
+	<string name="level_of_difficulty">Уровень сложности</string>
+	<string name="find">Найти</string>
+	<string name="reset_filter">Сбросить фильтр</string>
+	<string name="select_a_specialty">Введите специальность</string>
+    <string name="select_a_skill">Введите навык</string>
 </resources>

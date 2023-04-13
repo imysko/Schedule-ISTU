@@ -10,8 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
+import androidx.compose.material.Text
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,12 +34,11 @@ fun SIDropdownMenu(
     textValue: String = "",
     placeholder: String,
     listItems: List<Pair<Int, String>>,
-    selectedItems: List<Pair<Int, String>>,
+    selectedItems: MutableList<Pair<Int, String>>,
     onTextValueChange: (String) -> Unit = {},
+    onItemSelect: (List<Pair<Int, String>>) -> Unit = {},
 ) {
-    var expanded by remember {
-        mutableStateOf(false)
-    }
+    var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
         modifier = modifier
@@ -58,15 +58,25 @@ fun SIDropdownMenu(
                 modifier = Modifier.weight(1f),
                 verticalArrangement = Arrangement.Center,
             ) {
-                selectedItems.forEach {
-                    SIInputChip(modifier = Modifier.padding(end = 3.dp), text = it.second)
+                selectedItems.forEach { pair ->
+                    SIInputChip(
+                        modifier = Modifier.padding(end = 2.dp, top = 1.dp, bottom = 1.dp),
+                        text = pair.second,
+                        onClick = {
+                            selectedItems.remove(pair)
+                            onItemSelect(selectedItems)
+                        },
+                    )
                 }
                 BasicTextField(
-                    modifier = Modifier.weight(1f).padding(vertical = 3.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 3.dp),
                     textStyle = MaterialTheme.typography.bodyMedium,
                     value = textValue,
                     onValueChange = {
                         onTextValueChange(it)
+                        expanded = true
                     },
                     singleLine = true,
                     cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
@@ -84,6 +94,31 @@ fun SIDropdownMenu(
             }
             TrailingIcon(expanded = false)
         }
+
+        val filteredOptions = listItems.filter {
+            it.second
+                .contains(textValue, ignoreCase = true)
+                .and(!selectedItems.contains(it))
+        }
+
+        if (filteredOptions.isNotEmpty()) {
+            ExposedDropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false },
+            ) {
+                filteredOptions.forEach { item ->
+                    DropdownMenuItem(
+                        text = { Text(text = item.second) },
+                        onClick = {
+                            selectedItems.add(item)
+                            onTextValueChange("")
+                            onItemSelect(selectedItems)
+                            expanded = false
+                        },
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -94,8 +129,13 @@ fun PreviewSIDropdownMenu() {
         SIDropdownMenu(
             modifier = Modifier.padding(10.dp),
             placeholder = "Select speciality",
-            listItems = listOf(Pair(1, "Android"), Pair(2, "JavaScript"), Pair(3, "Kotlin"), Pair(4, "C#")),
-            selectedItems = listOf(Pair(1, "Android"), Pair(2, "JavaScript")),
+            listItems = mutableListOf(
+                Pair(1, "Android"),
+                Pair(2, "JavaScript"),
+                Pair(3, "Kotlin"),
+                Pair(4, "C#"),
+            ),
+            selectedItems = mutableListOf(Pair(1, "Android"), Pair(2, "JavaScript")),
         )
     }
 }

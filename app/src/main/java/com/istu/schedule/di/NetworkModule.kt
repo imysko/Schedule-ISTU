@@ -2,6 +2,7 @@ package com.istu.schedule.di
 
 import android.content.SharedPreferences
 import com.istu.schedule.data.service.projfair.CandidateService
+import com.istu.schedule.data.service.projfair.FiltersDataService
 import com.istu.schedule.data.service.projfair.ParticipationsService
 import com.istu.schedule.data.service.projfair.ProjectStateService
 import com.istu.schedule.data.service.projfair.ProjectsService
@@ -110,6 +111,11 @@ object NetworkModule {
     fun providerParticipationsService(
         @Named("ProjfairRetrofit") retrofit: Retrofit,
     ): ParticipationsService = retrofit.create(ParticipationsService::class.java)
+
+    @Provides
+    fun providerFiltersDataService(
+        @Named("ProjfairRetrofit") retrofit: Retrofit,
+    ): FiltersDataService = retrofit.create(FiltersDataService::class.java)
 
     // Schedule
     @Provides

@@ -2,6 +2,7 @@ package com.istu.schedule.ui.components.base
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -52,7 +53,10 @@ fun SIInputChip(
             .clip(Shape100)
             .background(BlueContainer)
             .padding(vertical = 5.dp, horizontal = 14.dp)
-            .clickable { onClick(text) },
+            .clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = null,
+            ) { onClick(text) },
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(

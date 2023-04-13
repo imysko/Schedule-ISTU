@@ -3,6 +3,7 @@ package com.istu.schedule.util
 object NavDestinations {
     const val MAIN_PAGE = "MAIN_PAGE"
     const val PROJECT_PAGE = "PROJECT_PAGE"
+    const val FILTERS_PAGE = "FILTERS_PAGE"
     const val CANDIDATE_PAGE = "CANDIDATE_PAGE"
     const val CANDIDATE_PROJECTS_PAGE = "CANDIDATE_PROJECTS_PAGE"
     const val CANDIDATE_PARTICIPATIONS_PAGE = "CANDIDATE_PARTICIPATIONS_PAGE"

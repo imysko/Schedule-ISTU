@@ -38,7 +38,7 @@ fun InputTeacher(
     teachersTips: List<Teacher>,
     onTextChanged: (String) -> Unit,
     onChoose: (chosenTeacher: Teacher) -> Unit,
-    onClear: () -> Unit
+    onClear: () -> Unit,
 ) {
     var inputtedText by remember { mutableStateOf(selectedTeacherText) }
     var expanded by remember { mutableStateOf(false) }
@@ -46,13 +46,13 @@ fun InputTeacher(
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 24.dp),
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = {
                 expanded = !expanded
-            }
+            },
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -71,7 +71,7 @@ fun InputTeacher(
                         Text(
                             modifier = Modifier.fillMaxWidth(),
                             text = "Teacher not found",
-                            color = MaterialTheme.colorScheme.error
+                            color = MaterialTheme.colorScheme.error,
                         )
                     }
                 },
@@ -80,11 +80,11 @@ fun InputTeacher(
                         IconButton(
                             onClick = { onClear() },
                             colors = IconButtonDefaults.outlinedIconButtonColors(
-                                contentColor = Color.Red
+                                contentColor = Color.Red,
                             ),
                             content = {
                                 Icon(Icons.Outlined.Clear, "clear")
-                            }
+                            },
                         )
                     }
                 },
@@ -92,10 +92,10 @@ fun InputTeacher(
                     Text(
                         text = stringResource(id = R.string.fullname),
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors()
+                colors = TextFieldDefaults.outlinedTextFieldColors(),
             )
             ExposedDropdownMenu(
                 modifier = Modifier
@@ -103,7 +103,7 @@ fun InputTeacher(
                 expanded = if (inputtedText.length > 2 && teachersTips.any()) expanded else false,
                 onDismissRequest = {
                     expanded = false
-                }
+                },
             ) {
                 teachersTips.forEach { selectionOption ->
                     DropdownMenuItem(
@@ -112,7 +112,7 @@ fun InputTeacher(
                             inputtedText = selectionOption.fullname
                             expanded = false
                             onChoose(selectionOption)
-                        }
+                        },
                     )
                 }
             }
@@ -128,6 +128,6 @@ fun InputTeacherPreview() {
         teachersTips = emptyList(),
         onTextChanged = { },
         onChoose = { },
-        onClear = { }
+        onClear = { },
     )
 }

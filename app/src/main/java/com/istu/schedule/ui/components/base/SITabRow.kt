@@ -42,7 +42,6 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
-import com.google.accompanist.pager.ExperimentalPagerApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

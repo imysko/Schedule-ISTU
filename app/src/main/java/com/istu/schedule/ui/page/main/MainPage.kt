@@ -16,7 +16,7 @@ fun MainPage(
     val bottomNavController = rememberNavController()
 
     Scaffold(
-        content = { paddingValues ->
+        content = {
             Column {
                 BottomNavGraph(
                     navController = navController,

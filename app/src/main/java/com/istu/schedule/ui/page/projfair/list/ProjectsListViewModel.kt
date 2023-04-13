@@ -35,10 +35,10 @@ class ListViewModel @Inject constructor(
                 token = _user.projfairToken ?: "",
                 title = _projectsListUiState.value.titleSearchText,
                 page = _currentPage,
-                difficulties = _projectsListUiState.value.difficultiesList,
-                states = _projectsListUiState.value.statusesList,
-                specialties = _projectsListUiState.value.specialitiesList,
-                skills = _projectsListUiState.value.skillsList,
+                // difficulties = _projectsListUiState.value.difficultiesList,
+                // states = _projectsListUiState.value.statusesList,
+                // specialties = _projectsListUiState.value.specialitiesList.map { it.first },
+                // skills = _projectsListUiState.value.skillsList.map { it.first },
             )
         }, onSuccess = {
             for (item in it) {
@@ -48,39 +48,8 @@ class ListViewModel @Inject constructor(
         })
     }
 
-    fun setFiltersPageStatus(isOpen: Boolean) {
-        _projectsListUiState.update { it.copy(isFiltersPageOpen = isOpen) }
-    }
-
     fun inputSearchContent(content: String) {
         _projectsListUiState.update { it.copy(titleSearchText = content) }
-    }
-
-    fun setStatusesList(statusesList: List<Int>) {
-        _projectsListUiState.update { it.copy(statusesList = statusesList) }
-    }
-
-    fun setSpecialitiesList(specialitiesList: List<Int>) {
-        _projectsListUiState.update { it.copy(specialitiesList = specialitiesList) }
-    }
-
-    fun setSkillsList(skillsList: List<Int>) {
-        _projectsListUiState.update { it.copy(skillsList = skillsList) }
-    }
-
-    fun setDifficultiesList(difficultiesList: List<Int>) {
-        _projectsListUiState.update { it.copy(difficultiesList = difficultiesList) }
-    }
-
-    fun resetFilters() {
-        _projectsListUiState.update {
-            it.copy(
-                statusesList = listOf(),
-                specialitiesList = listOf(),
-                skillsList = listOf(),
-                difficultiesList = listOf(),
-            )
-        }
     }
 
     fun clearList() {
@@ -91,18 +60,5 @@ class ListViewModel @Inject constructor(
 
 data class ProjectsListUiState(
     val listState: LazyListState = LazyListState(),
-    val isFiltersPageOpen: Boolean = false,
     val titleSearchText: String = "",
-    val statusesList: List<Int> = listOf(),
-    val specialitiesList: List<Int> = listOf(),
-    val skillsList: List<Int> = listOf(),
-    val difficultiesList: List<Int> = listOf(),
-) {
-    fun isFilterActive(): Boolean {
-        return titleSearchText.isNotBlank() ||
-            statusesList.isNotEmpty() ||
-            specialitiesList.isNotEmpty() ||
-            skillsList.isNotEmpty() ||
-            difficultiesList.isNotEmpty()
-    }
-}
+)

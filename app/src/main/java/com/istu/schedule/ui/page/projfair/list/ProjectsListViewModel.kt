@@ -35,10 +35,10 @@ class ListViewModel @Inject constructor(
                 token = _user.projfairToken ?: "",
                 title = _projectsListUiState.value.titleSearchText,
                 page = _currentPage,
-                // difficulties = _projectsListUiState.value.difficultiesList,
-                // states = _projectsListUiState.value.statusesList,
-                // specialties = _projectsListUiState.value.specialitiesList.map { it.first },
-                // skills = _projectsListUiState.value.skillsList.map { it.first },
+                difficulties = _user.projfairFiltersState.value.difficultiesList,
+                states = _user.projfairFiltersState.value.statusesList,
+                specialties = _user.projfairFiltersState.value.specialitiesList.map { it.first },
+                skills = _user.projfairFiltersState.value.skillsList.map { it.first },
             )
         }, onSuccess = {
             for (item in it) {

@@ -111,4 +111,5 @@
 	<string name="reset_filter">Сбросить фильтр</string>
 	<string name="select_a_specialty">Введите специальность</string>
     <string name="select_a_skill">Введите навык</string>
+    <string name="active">Активный</string>
 </resources>

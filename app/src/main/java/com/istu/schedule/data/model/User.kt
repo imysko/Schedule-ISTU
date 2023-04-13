@@ -10,6 +10,7 @@ import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,8 +18,11 @@ import javax.inject.Singleton
 @Singleton
 class User @Inject constructor(
     private val _sharedPreference: SharedPreferences,
-    private val _candidateUseCase: GetCandidateUseCase
+    private val _candidateUseCase: GetCandidateUseCase,
 ) {
+
+    private val _projfairFiltersState = MutableStateFlow(ProjfairFiltersState())
+    val projfairFiltersState: StateFlow<ProjfairFiltersState> = _projfairFiltersState.asStateFlow()
 
     private val _candidate = MutableStateFlow<Candidate?>(null)
     val candidate: StateFlow<Candidate?> = _candidate
@@ -30,11 +34,14 @@ class User @Inject constructor(
         setAuth()
     }
 
+    fun setProjfairFilters(projfairFiltersState: ProjfairFiltersState) {
+        _projfairFiltersState.value = projfairFiltersState
+    }
+
     private fun setAuth() {
         if (projfairToken != null) {
             getCandidate()
-        }
-        else {
+        } else {
             _authStatus.value = ProjfairAuthStatus.AUTH
         }
     }
@@ -54,8 +61,8 @@ class User @Inject constructor(
     }
 
     fun logoutProjfair() {
-        projfairToken = null;
-        _candidate.value = null;
+        projfairToken = null
+        _candidate.value = null
     }
 
     var projfairToken: String?
@@ -66,8 +73,7 @@ class User @Inject constructor(
             with(_sharedPreference.edit()) {
                 if (value == null) {
                     remove(PROJFAIR_TOKEN)
-                }
-                else {
+                } else {
                     putString(PROJFAIR_TOKEN, value)
                 }
                 apply()
@@ -83,8 +89,7 @@ class User @Inject constructor(
             with(_sharedPreference.edit()) {
                 if (value == null) {
                     remove(USER_TYPE)
-                }
-                else {
+                } else {
                     putString(USER_TYPE, value.toString())
                 }
                 apply()
@@ -99,8 +104,7 @@ class User @Inject constructor(
             with(_sharedPreference.edit()) {
                 if (value == null) {
                     remove(USER_ID)
-                }
-                else {
+                } else {
                     putInt(USER_ID, value)
                 }
                 apply()
@@ -115,8 +119,7 @@ class User @Inject constructor(
             with(_sharedPreference.edit()) {
                 if (value == null) {
                     remove(USER_DESCRIPTION)
-                }
-                else {
+                } else {
                     putString(USER_DESCRIPTION, value)
                 }
                 apply()

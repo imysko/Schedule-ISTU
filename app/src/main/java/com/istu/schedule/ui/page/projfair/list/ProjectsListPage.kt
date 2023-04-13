@@ -68,6 +68,11 @@ fun ProjectsListPage(
         }
     }
 
+    LaunchedEffect(projectsListUiState) {
+        viewModel.clearList()
+        viewModel.getProjectsList()
+    }
+
     AppComposable(
         viewModel = viewModel,
         content = {

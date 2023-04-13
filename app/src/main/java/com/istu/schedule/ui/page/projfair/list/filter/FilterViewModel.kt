@@ -1,8 +1,8 @@
 package com.istu.schedule.ui.page.projfair.list.filter
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.istu.schedule.data.model.ProjfairFiltersState
 import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.projfair.Skill
 import com.istu.schedule.domain.model.projfair.Speciality
@@ -32,6 +32,17 @@ class FilterViewModel @Inject constructor(
     private val _filtersPageUiState = MutableStateFlow(FiltersPageUiState())
     val filtersPageUiState: StateFlow<FiltersPageUiState> = _filtersPageUiState.asStateFlow()
 
+    fun loadFilters() {
+        _filtersPageUiState.update {
+            it.copy(
+                statusesList = _user.projfairFiltersState.value.statusesList,
+                specialitiesList = _user.projfairFiltersState.value.specialitiesList,
+                skillsList = _user.projfairFiltersState.value.skillsList,
+                difficultiesList = _user.projfairFiltersState.value.difficultiesList,
+            )
+        }
+    }
+
     fun getSkillsList() {
         call({
             _skillsUseCase.getSkillsListList(
@@ -39,7 +50,6 @@ class FilterViewModel @Inject constructor(
             )
         }, onSuccess = {
             _skillsList.value = it.toMutableList()
-            Log.i("tagg", _skillsList.value?.size.toString())
         })
     }
 
@@ -50,7 +60,6 @@ class FilterViewModel @Inject constructor(
             )
         }, onSuccess = {
             _specialitiesList.value = it.toMutableList()
-            Log.i("tagg", _specialitiesList.value?.size.toString())
         })
     }
 
@@ -76,6 +85,17 @@ class FilterViewModel @Inject constructor(
 
     fun setSpecialitySearchText(text: String) {
         _filtersPageUiState.update { it.copy(specialitySearchText = text) }
+    }
+
+    fun saveFilters() {
+        _user.setProjfairFilters(
+            ProjfairFiltersState(
+                _filtersPageUiState.value.statusesList,
+                _filtersPageUiState.value.difficultiesList,
+                _filtersPageUiState.value.specialitiesList,
+                _filtersPageUiState.value.skillsList,
+            ),
+        )
     }
 
     fun resetFilters() {

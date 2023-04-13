@@ -58,9 +58,9 @@ fun FiltersPage(
 
     val statusesList = mutableListOf(
         CheckboxItem(1, R.string.recruitment_is_open),
-        CheckboxItem(2, R.string.processing_of_participants),
-        CheckboxItem(4, R.string.completion_of_participants),
-        CheckboxItem(5, R.string.in_archive),
+        CheckboxItem(2, R.string.active),
+        CheckboxItem(4, R.string.in_archive),
+        CheckboxItem(5, R.string.processing_of_participants),
     )
 
     val difficultiesList = mutableListOf(
@@ -78,6 +78,7 @@ fun FiltersPage(
     val selectedSpecialitiesList = filtersPageUiState.specialitiesList
 
     LaunchedEffect(Unit) {
+        viewModel.loadFilters()
         viewModel.getSpecialitiesList()
         viewModel.getSkillsList()
     }
@@ -168,7 +169,10 @@ fun FiltersPage(
                     .padding(top = 22.dp)
                     .height(42.dp),
                 text = stringResource(R.string.find),
-                onClick = { },
+                onClick = {
+                    viewModel.saveFilters()
+                    navController.popBackStack()
+                },
             )
             TextButton(
                 modifier = Modifier

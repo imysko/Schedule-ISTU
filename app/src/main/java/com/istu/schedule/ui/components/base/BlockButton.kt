@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.theme.palette.alwaysLight
 import com.istu.schedule.ui.theme.palette.onDark
 
+@Deprecated("Will be removed")
 @Composable
 fun BlockButton(
     modifier: Modifier = Modifier,

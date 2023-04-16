@@ -4,5 +4,5 @@ enum class LessonStatus {
     PAST,
     CURRENT,
     FUTURE,
-    UNKNOWN
+    UNKNOWN,
 }

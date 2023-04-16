@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Course
 
+@Deprecated("Will be removed")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseCourse(
@@ -38,20 +39,20 @@ fun ChooseCourse(
     selectedCourseText: String = "",
     courseList: List<Course> = emptyList(),
     onChoose: (chosenCourse: Course) -> Unit,
-    onClear: () -> Unit
+    onClear: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(selectedCourseText) }
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 24.dp),
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = {
                 expanded = !expanded
-            }
+            },
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -64,16 +65,15 @@ fun ChooseCourse(
                 trailingIcon = {
                     if (enabled) {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    }
-                    else {
+                    } else {
                         IconButton(
                             onClick = { onClear() },
                             colors = IconButtonDefaults.outlinedIconButtonColors(
-                                contentColor = Color.Red
+                                contentColor = Color.Red,
                             ),
                             content = {
                                 Icon(Icons.Outlined.Clear, "clear")
-                            }
+                            },
                         )
                     }
                 },
@@ -81,10 +81,10 @@ fun ChooseCourse(
                     Text(
                         text = stringResource(id = R.string.choose_course),
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors()
+                colors = TextFieldDefaults.outlinedTextFieldColors(),
             )
             ExposedDropdownMenu(
                 modifier = Modifier
@@ -92,7 +92,7 @@ fun ChooseCourse(
                 expanded = if (enabled) expanded else false,
                 onDismissRequest = {
                     expanded = false
-                }
+                },
             ) {
                 courseList.forEach { selectionOption ->
                     DropdownMenuItem(
@@ -101,7 +101,7 @@ fun ChooseCourse(
                             selectedOptionText = selectionOption.courseNumber.toString()
                             expanded = false
                             onChoose(selectionOption)
-                        }
+                        },
                     )
                 }
             }
@@ -115,6 +115,6 @@ fun ChooseCourse(
 fun ChooseCoursePreview() {
     ChooseCourse(
         onChoose = { },
-        onClear = { }
+        onClear = { },
     )
 }

@@ -23,7 +23,7 @@ fun HorizontalCalendar(
     currentDate: LocalDate = LocalDate.now(),
     selectedDate: LocalDate = LocalDate.now(),
     calendarState: LazyListState,
-    onSelect: (selectedDate: LocalDate) -> Unit
+    onSelect: (selectedDate: LocalDate) -> Unit,
 ) {
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = calendarState)
 
@@ -40,7 +40,7 @@ fun HorizontalCalendar(
                     week = it,
                     currentDate = currentDate,
                     selectedDate = selectedDate,
-                    onSelect = onSelect
+                    onSelect = onSelect,
                 )
             }
         }

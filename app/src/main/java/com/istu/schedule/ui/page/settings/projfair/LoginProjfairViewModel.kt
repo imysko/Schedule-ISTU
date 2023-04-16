@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginProjfairViewModel @Inject constructor(
-    private val _user: User
+    private val _user: User,
 ) : ViewModel() {
     fun login(cookies: String) {
         var token = ""

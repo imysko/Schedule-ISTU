@@ -8,7 +8,7 @@ data class DateOnly(
     val day: Int,
     val dayOfWeek: DayOfWeek,
     val dayOfYear: Int,
-    val dayNumber: Int
+    val dayNumber: Int,
 ) {
     override fun toString(): String {
         return "$year-$month-$day"

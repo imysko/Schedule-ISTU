@@ -22,13 +22,13 @@ import javax.inject.Inject
 class ScheduleViewModel @Inject constructor(
     private val _useCaseGroupScheduleOnDay: GetGroupScheduleOnDayUseCase,
     private val _useCaseTeacherScheduleOnDay: GetTeacherScheduleOnDayUseCase,
-    private val _user: User
+    private val _user: User,
 ) : BaseViewModel() {
 
     private val _scheduleUiState = MutableStateFlow(ScheduleUiState()).apply {
         update {
             it.copy(
-                userDescription = _user.userDescription
+                userDescription = _user.userDescription,
             )
         }
     }
@@ -63,15 +63,20 @@ class ScheduleViewModel @Inject constructor(
     }
 
     fun addWeekForward() {
-        _weeksList.value!!.add(0, Week(
-            startDayOfWeek = _weeksList.value!!.first().startDayOfWeek.minusWeeks(1)
-        ))
+        _weeksList.value!!.add(
+            0,
+            Week(
+                startDayOfWeek = _weeksList.value!!.first().startDayOfWeek.minusWeeks(1),
+            ),
+        )
     }
 
     fun addWeekBackward() {
-        _weeksList.value!!.add(Week(
-            startDayOfWeek = _weeksList.value!!.last().startDayOfWeek.plusWeeks(1)
-        ))
+        _weeksList.value!!.add(
+            Week(
+                startDayOfWeek = _weeksList.value!!.last().startDayOfWeek.plusWeeks(1),
+            ),
+        )
     }
 
     fun selectDate(selectedDate: LocalDate) {
@@ -84,7 +89,8 @@ class ScheduleViewModel @Inject constructor(
                 call({
                     _useCaseGroupScheduleOnDay.getGroupScheduleOnDay(
                         groupId = _user.userId!!,
-                        dateString = _selectedDate.value.toString())
+                        dateString = _selectedDate.value.toString(),
+                    )
                 }, onSuccess = {
                     _scheduleList.postValue(it)
                 })
@@ -93,7 +99,8 @@ class ScheduleViewModel @Inject constructor(
                 call({
                     _useCaseTeacherScheduleOnDay.getTeacherScheduleOnDay(
                         teacherId = _user.userId!!,
-                        dateString = _selectedDate.value.toString())
+                        dateString = _selectedDate.value.toString(),
+                    )
                 }, onSuccess = {
                     _scheduleList.postValue(it)
                 })
@@ -105,5 +112,5 @@ class ScheduleViewModel @Inject constructor(
 
 data class ScheduleUiState(
     val userDescription: String? = null,
-    val calendarState: LazyListState = LazyListState()
+    val calendarState: LazyListState = LazyListState(),
 )

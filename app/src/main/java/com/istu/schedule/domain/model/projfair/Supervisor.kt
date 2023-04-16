@@ -6,6 +6,5 @@ data class Supervisor(
     val email: String,
     val about: String,
     val position: String,
-    val department: Department
-) {
-}
+    val department: Department,
+)

@@ -25,18 +25,17 @@ fun SettingItem(
     onClick: () -> Unit,
     action: (@Composable () -> Unit)? = null,
 ) {
-
     Surface(
         modifier = modifier
             .clickable { onClick() }
             .alpha(if (enable) 1f else 0.5f),
-        color = Color.Unspecified
+        color = Color.Unspecified,
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp, 16.dp, 16.dp, 16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             if (icon != null) {
                 Icon(
@@ -61,7 +60,7 @@ fun SettingItem(
                 Text(
                     text = title,
                     maxLines = if (desc == null) 2 else 1,
-                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp)
+                    style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp),
                 )
                 desc?.let {
                     Text(
@@ -77,7 +76,7 @@ fun SettingItem(
                     Divider(
                         modifier = Modifier
                             .padding(start = 16.dp)
-                            .size(1.dp, 32.dp)
+                            .size(1.dp, 32.dp),
                     )
                 }
                 Box(Modifier.padding(start = 16.dp)) {

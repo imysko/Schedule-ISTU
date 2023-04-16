@@ -1,6 +1,6 @@
 package com.istu.schedule.ui.components.base
 
-import androidx.lifecycle.*
+import androidx.lifecycle.* // ktlint-disable no-wildcard-imports
 import com.istu.schedule.data.model.RequestException
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
@@ -11,7 +11,6 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     val loading: LiveData<Boolean>
         get() = _loading
             .distinctUntilChanged()
-
 
     private val _unauthorized: MutableLiveData<Boolean> = MutableLiveData()
     val unauthorized: LiveData<Boolean> get() = _unauthorized

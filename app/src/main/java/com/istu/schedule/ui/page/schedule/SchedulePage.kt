@@ -194,17 +194,19 @@ fun BreakTime(stringBreakTime: String) {
                         color = Green,
                     )
                 }
-                Text(
-                    text = pluralStringResource(
-                        id = R.plurals.minutes,
-                        count = LocalTime.parse(stringBreakTime).minute,
-                        LocalTime.parse(stringBreakTime).minute
-                    ),
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal,
-                    fontFamily = interFamily,
-                    color = Green,
-                )
+                if (LocalTime.parse(stringBreakTime).minute > 0) {
+                    Text(
+                        text = pluralStringResource(
+                            id = R.plurals.minutes,
+                            count = LocalTime.parse(stringBreakTime).minute,
+                            LocalTime.parse(stringBreakTime).minute
+                        ),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = interFamily,
+                        color = Green,
+                    )
+                }
             }
         }
     }

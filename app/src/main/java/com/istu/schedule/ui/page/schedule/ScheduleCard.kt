@@ -23,9 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.LessonStatus
 import com.istu.schedule.data.enums.LessonType
-import com.istu.schedule.domain.model.DateOnly
 import com.istu.schedule.domain.model.schedule.Classroom
-import com.istu.schedule.domain.model.schedule.Discipline
 import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.LessonTime
 import com.istu.schedule.domain.model.schedule.Schedule
@@ -34,7 +32,6 @@ import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.Shape60
-import java.time.DayOfWeek
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -45,7 +42,7 @@ import java.time.format.DateTimeFormatter
 fun ScheduleCard(
     currentDateTime: LocalDateTime,
     lesson: Lesson,
-    lessonDate: DateOnly
+    lessonDate: String
 ) {
     val currentDate = currentDateTime.toLocalDate()
     val currentTime = currentDateTime.toLocalTime()
@@ -54,7 +51,7 @@ fun ScheduleCard(
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy-M-d")
     val begTime = LocalTime.parse(lesson.time.begTime, DateTimeFormatter.ofPattern("H:mm"))
     val endTime = LocalTime.parse(lesson.time.endTime, DateTimeFormatter.ofPattern("H:mm"))
-    val date = LocalDate.parse(lessonDate.toString(), dateFormatter)
+    val date = LocalDate.parse(lessonDate, dateFormatter)
 
     val lessonStatus = when {
         currentDate == date && currentTime >= begTime && currentTime <= endTime -> LessonStatus.CURRENT
@@ -129,9 +126,10 @@ fun ScheduleCard(
 
                 Text(
                     text = when (lesson.schedules.first().lessonType) {
-                        LessonType.LECTURE.ordinal -> stringResource(id = R.string.lecture)
-                        LessonType.PRACTICAL.ordinal -> stringResource(id = R.string.practical)
-                        LessonType.LABORATORY_WORK.ordinal -> stringResource(id = R.string.laboratory_work)
+                        LessonType.LECTURE -> stringResource(id = R.string.lecture)
+                        LessonType.PRACTICAL -> stringResource(id = R.string.practical)
+                        LessonType.LABORATORY_WORK -> stringResource(id = R.string.laboratory_work)
+                        LessonType.PROJECT -> stringResource(id = R.string.project)
                         else -> ""
                     },
                     style = MaterialTheme.typography.bodyMedium.copy(
@@ -148,7 +146,7 @@ fun ScheduleCard(
                 val schedulesIterator = lesson.schedules.listIterator()
 
                 while (schedulesIterator.hasNext()) {
-                    schedulesIterator.next().also {
+                    schedulesIterator.next().also { schedule ->
                         Column(
                             modifier = Modifier
                                 .padding(start = 10.dp)
@@ -160,14 +158,22 @@ fun ScheduleCard(
                                 verticalArrangement = Arrangement.spacedBy(5.dp)
                             ) {
                                 Text(
-                                    text = it.teachersVerbose,
+                                    text = schedule.teachersVerbose,
                                     style = MaterialTheme.typography.bodyMedium.copy(
                                         color = MaterialTheme.colorScheme.secondary,
                                     ),
                                 )
 
+                                var disciplineTitle = schedule.disciplineVerbose
+                                schedule.discipline?.let {
+                                    disciplineTitle = it.title
+                                }
+                                schedule.otherDiscipline?.let {
+                                    disciplineTitle = it.disciplineTitle
+                                }
+
                                 Text(
-                                    text = it.disciplineVerbose,
+                                    text = disciplineTitle,
                                     style = MaterialTheme.typography.titleLarge.copy(
                                         fontWeight = FontWeight.SemiBold,
                                     ),
@@ -180,7 +186,7 @@ fun ScheduleCard(
                                     Text(
                                         modifier = Modifier
                                             .padding(vertical = 1.dp, horizontal = 7.dp),
-                                        text = it.classroomVerbose,
+                                        text = schedule.classroomVerbose,
                                         style = MaterialTheme.typography.titleLarge.copy(
                                             fontWeight = FontWeight.Light,
                                             color = MaterialTheme.colorScheme.background,
@@ -192,18 +198,18 @@ fun ScheduleCard(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                horizontalArrangement = if (it.subgroup != 0)
+                                horizontalArrangement = if (schedule.subgroup != 0)
                                     Arrangement.SpaceBetween else Arrangement.End,
                             ) {
-                                if (it.subgroup != 0) {
+                                if (schedule.subgroup != 0) {
                                     Text(
-                                        text = "${stringResource(id = R.string.subgroup)} ${it.subgroup}",
+                                        text = "${stringResource(id = R.string.subgroup)} ${schedule.subgroup}",
                                         style = MaterialTheme.typography.bodySmall,
                                     )
                                 }
 
                                 Text(
-                                    text = it.groupsVerbose,
+                                    text = schedule.groupsVerbose,
                                     style = MaterialTheme.typography.bodySmall.copy(
                                         color = MaterialTheme.colorScheme.secondary,
                                     ),
@@ -261,12 +267,10 @@ fun ScheduleCardPreview() {
         ),
         classroomVerbose = "Д-105б",
         disciplineId = 0,
-        discipline = Discipline(
-            disciplineId = 0,
-            title = "",
-            realTitle = "",
-        ),
+        discipline = null,
         disciplineVerbose = "Разработка мобильных приложений",
+        otherDisciplineId = 0,
+        otherDiscipline = null,
         lessonId = 0,
         lessonTime = LessonTime(
             lessonId = 0,
@@ -275,15 +279,9 @@ fun ScheduleCardPreview() {
             endTime = "15:15",
         ),
         subgroup = 1,
-        lessonType = 1,
-        date = DateOnly(
-            year = 2023,
-            month = 3,
-            day = 31,
-            dayOfWeek = DayOfWeek.FRIDAY,
-            dayOfYear = 0,
-            dayNumber = 0,
-        ),
+        lessonType = LessonType.LECTURE,
+        scheduleType = "",
+        date = "2023-03-31",
     )
 
     val lesson = Lesson(

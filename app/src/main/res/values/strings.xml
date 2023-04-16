@@ -107,4 +107,5 @@
     <string name="select_a_specialty">Select a specialty</string>
     <string name="select_a_skill">Select a skill</string>
     <string name="active">Active</string>
+    <string name="project">Project</string>
 </resources>

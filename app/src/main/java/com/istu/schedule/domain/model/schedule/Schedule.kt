@@ -1,6 +1,6 @@
 package com.istu.schedule.domain.model.schedule
 
-import com.istu.schedule.domain.model.DateOnly
+import com.istu.schedule.data.enums.LessonType
 
 data class Schedule(
     val scheduleId: Int,
@@ -12,11 +12,14 @@ data class Schedule(
     val classroom: Classroom,
     val classroomVerbose: String,
     val disciplineId: Int,
-    val discipline: Discipline,
+    val discipline: Discipline?,
+    val otherDisciplineId: Int,
+    val otherDiscipline: OtherDiscipline?,
     val disciplineVerbose: String,
     val lessonId: Int,
     val lessonTime: LessonTime,
     val subgroup: Int,
-    val lessonType: Int,
-    val date: DateOnly
+    val lessonType: LessonType,
+    val scheduleType: String,
+    val date: String
 )

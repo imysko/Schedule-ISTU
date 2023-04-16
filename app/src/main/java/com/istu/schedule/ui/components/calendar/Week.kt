@@ -33,7 +33,7 @@ fun Week(
     week: Week,
     currentDate: LocalDate = LocalDate.now(),
     selectedDate: LocalDate = LocalDate.now(),
-    onSelect: (selectedDate: LocalDate) -> Unit
+    onSelect: (selectedDate: LocalDate) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -62,10 +62,11 @@ fun Week(
                             .getDisplayName(TextStyle.SHORT_STANDALONE, Locale("ru"))
                             .toString()
                             .replaceFirstChar {
-                                if (it.isLowerCase())
+                                if (it.isLowerCase()) {
                                     it.titlecase(Locale.getDefault())
-                                else
+                                } else {
                                     it.toString()
+                                }
                             },
                         style = MaterialTheme.typography.titleMedium.copy(
                             fontWeight = FontWeight(350),
@@ -123,10 +124,10 @@ fun Week(
 fun WeekPreview() {
     Week(
         week = Week(
-            startDayOfWeek = LocalDate.of(2023, 4, 3)
+            startDayOfWeek = LocalDate.of(2023, 4, 3),
         ),
         currentDate = LocalDate.of(2023, 4, 4),
         selectedDate = LocalDate.of(2023, 4, 5),
-        onSelect = { }
+        onSelect = { },
     )
 }

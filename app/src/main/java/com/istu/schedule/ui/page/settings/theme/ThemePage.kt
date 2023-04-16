@@ -1,6 +1,10 @@
 package com.istu.schedule.ui.page.settings.theme
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -16,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
-import com.istu.schedule.data.preference.ThemePreference
 import com.istu.schedule.data.preference.LocalTheme
+import com.istu.schedule.data.preference.ThemePreference
 import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.FeedbackIconButton
 import com.istu.schedule.ui.components.base.SIScaffold
@@ -36,7 +40,7 @@ fun ThemePage(
             FeedbackIconButton(
                 imageVector = Icons.Rounded.ArrowBack,
                 contentDescription = stringResource(R.string.back),
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onSurface,
             ) {
                 navController.popBackStack()
             }
@@ -65,7 +69,7 @@ fun ThemePage(
                     Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
                 }
             }
-        }
+        },
     )
 }
 

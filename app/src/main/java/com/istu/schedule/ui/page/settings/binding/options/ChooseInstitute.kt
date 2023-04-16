@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Institute
 
+@Deprecated("Will be removed")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseInstitute(
@@ -38,20 +39,20 @@ fun ChooseInstitute(
     selectedInstituteText: String = "",
     instituteList: List<Institute> = emptyList(),
     onChoose: (chosenInstitute: Institute) -> Unit,
-    onClear: () -> Unit
+    onClear: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(selectedInstituteText) }
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 24.dp),
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = {
                 expanded = !expanded
-            }
+            },
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -64,16 +65,15 @@ fun ChooseInstitute(
                 trailingIcon = {
                     if (enabled) {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    }
-                    else {
+                    } else {
                         IconButton(
                             onClick = { onClear() },
                             colors = IconButtonDefaults.outlinedIconButtonColors(
-                                contentColor = Color.Red
+                                contentColor = Color.Red,
                             ),
                             content = {
                                 Icon(Icons.Outlined.Clear, "clear")
-                            }
+                            },
                         )
                     }
                 },
@@ -81,10 +81,10 @@ fun ChooseInstitute(
                     Text(
                         text = stringResource(id = R.string.choose_institute),
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors()
+                colors = TextFieldDefaults.outlinedTextFieldColors(),
             )
             ExposedDropdownMenu(
                 modifier = Modifier
@@ -92,7 +92,7 @@ fun ChooseInstitute(
                 expanded = if (enabled) expanded else false,
                 onDismissRequest = {
                     expanded = false
-                }
+                },
             ) {
                 instituteList.forEach { selectionOption ->
                     DropdownMenuItem(
@@ -101,7 +101,7 @@ fun ChooseInstitute(
                             selectedOptionText = selectionOption.instituteTitle!!
                             expanded = false
                             onChoose(selectionOption)
-                        }
+                        },
                     )
                 }
             }
@@ -116,7 +116,7 @@ fun ChooseInstituteEnabledPreview() {
     ChooseInstitute(
         enabled = true,
         onChoose = { },
-        onClear = { }
+        onClear = { },
     )
 }
 
@@ -127,6 +127,6 @@ fun ChooseInstituteDisabledPreview() {
         enabled = false,
         selectedInstituteText = "Institute",
         onChoose = { },
-        onClear = { }
+        onClear = { },
     )
 }

@@ -8,7 +8,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class ProjectStateRepositoryImpl @Inject constructor(
-    private val projectStateService: ProjectStateService
+    private val projectStateService: ProjectStateService,
 ) : ProjectStateRepository {
 
     private val cachedList: MutableList<ProjectState> = mutableListOf()
@@ -23,8 +23,8 @@ class ProjectStateRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
         )
     }
 
@@ -34,8 +34,8 @@ class ProjectStateRepositoryImpl @Inject constructor(
         } ?: Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
         )
     }
 }

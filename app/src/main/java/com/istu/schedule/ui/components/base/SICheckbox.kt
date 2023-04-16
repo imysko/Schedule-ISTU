@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
+/* TODO: Change style of checkbox */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SICheckbox(

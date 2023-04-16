@@ -47,7 +47,7 @@ import java.time.LocalTime
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SchedulePage(
-    viewModel: ScheduleViewModel = hiltViewModel()
+    viewModel: ScheduleViewModel = hiltViewModel(),
 ) {
     val scheduleUiState = viewModel.scheduleUiState.collectAsStateValue()
 
@@ -92,7 +92,7 @@ fun SchedulePage(
                 modifier = Modifier.statusBarsPadding(),
                 appBar = {
                     Column(
-                        modifier = Modifier.padding(15.dp)
+                        modifier = Modifier.padding(15.dp),
                     ) {
                         Text(
                             text = stringResource(id = R.string.title_schedule),
@@ -101,7 +101,7 @@ fun SchedulePage(
                         if (scheduleUiState.userDescription != null) {
                             Text(
                                 text = scheduleUiState.userDescription,
-                                style = MaterialTheme.typography.headlineMedium
+                                style = MaterialTheme.typography.headlineMedium,
                             )
                         }
                     }
@@ -115,7 +115,7 @@ fun SchedulePage(
                         calendarState = scheduleUiState.calendarState,
                         onSelect = {
                             viewModel.selectDate(it)
-                        }
+                        },
                     )
                 },
                 frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
@@ -123,7 +123,7 @@ fun SchedulePage(
                     LazyColumn(
                         modifier = Modifier
                             .padding(start = 15.dp, end = 15.dp, top = 15.dp),
-                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
                     ) {
                         if (scheduleList.any()) {
                             scheduleList.first().lessons.forEach {
@@ -133,7 +133,7 @@ fun SchedulePage(
                                     ScheduleCard(
                                         currentDateTime = currentDateTime,
                                         lesson = it,
-                                        lessonDate = scheduleList.first().date
+                                        lessonDate = scheduleList.first().date,
                                     )
                                 }
                                 it.breakTimeAfter?.let {
@@ -186,7 +186,7 @@ fun BreakTime(stringBreakTime: String) {
                         text = pluralStringResource(
                             id = R.plurals.hours,
                             count = LocalTime.parse(stringBreakTime).hour,
-                            LocalTime.parse(stringBreakTime).hour
+                            LocalTime.parse(stringBreakTime).hour,
                         ),
                         fontSize = 16.sp,
                         fontWeight = FontWeight.Normal,
@@ -198,7 +198,7 @@ fun BreakTime(stringBreakTime: String) {
                     text = pluralStringResource(
                         id = R.plurals.minutes,
                         count = LocalTime.parse(stringBreakTime).minute,
-                        LocalTime.parse(stringBreakTime).minute
+                        LocalTime.parse(stringBreakTime).minute,
                     ),
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Normal,

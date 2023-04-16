@@ -5,7 +5,7 @@ import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import javax.inject.Inject
 
 class GetTeacherScheduleOnDayUseCase @Inject constructor(
-    private val scheduleRepository: ScheduleRepository
+    private val scheduleRepository: ScheduleRepository,
 ) {
 
     suspend fun getTeacherScheduleOnDay(teacherId: Int, dateString: String): Result<List<StudyDay>> {

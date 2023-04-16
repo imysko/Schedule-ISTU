@@ -4,5 +4,5 @@ enum class LessonType {
     UNKNOWN,
     LECTURE,
     PRACTICAL,
-    LABORATORY_WORK
+    LABORATORY_WORK,
 }

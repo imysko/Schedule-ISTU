@@ -2,7 +2,8 @@ package com.istu.schedule.ui.page.settings.developers
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material3.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,7 +19,7 @@ fun DevelopersPage() {
                         text = "About developers",
                         color = MaterialTheme.colorScheme.primary,
                         fontSize = MaterialTheme.typography.headlineLarge.fontSize,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
                     )
                 }
                 Row {
@@ -28,13 +29,11 @@ fun DevelopersPage() {
                     )
                 }
                 Row {
-
                 }
                 Row {
-
                 }
             }
-        }
+        },
     )
 }
 

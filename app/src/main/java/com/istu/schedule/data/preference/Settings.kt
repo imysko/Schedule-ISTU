@@ -18,7 +18,6 @@ data class Settings(
     val languages: LanguagesPreference = LanguagesPreference.default,
 )
 
-
 // Theme
 val LocalTheme =
     compositionLocalOf<ThemePreference> { ThemePreference.default }

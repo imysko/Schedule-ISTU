@@ -22,7 +22,7 @@ sealed class ThemePreference(val value: Int) : Preference() {
         scope.launch {
             context.dataStore.put(
                 DataStoreKeys.DarkTheme,
-                value
+                value,
             )
         }
     }

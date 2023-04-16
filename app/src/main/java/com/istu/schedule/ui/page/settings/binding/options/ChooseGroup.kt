@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Group
 
+@Deprecated("Will be removed")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChooseGroup(
@@ -38,14 +39,14 @@ fun ChooseGroup(
     selectedGroupText: String = "",
     groupList: List<Group> = emptyList(),
     onChoose: (chosenGroup: Group) -> Unit,
-    onClear: () -> Unit
+    onClear: () -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(selectedGroupText) }
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 24.dp)
+            .padding(horizontal = 24.dp),
     ) {
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -53,7 +54,7 @@ fun ChooseGroup(
                 if (enabled) {
                     expanded = !expanded
                 }
-            }
+            },
         ) {
             OutlinedTextField(
                 modifier = Modifier
@@ -66,16 +67,15 @@ fun ChooseGroup(
                 trailingIcon = {
                     if (enabled) {
                         ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
-                    }
-                    else {
+                    } else {
                         IconButton(
                             onClick = { onClear() },
                             colors = IconButtonDefaults.outlinedIconButtonColors(
-                                contentColor = Color.Red
+                                contentColor = Color.Red,
                             ),
                             content = {
                                 Icon(Icons.Outlined.Clear, "clear")
-                            }
+                            },
                         )
                     }
                 },
@@ -83,10 +83,10 @@ fun ChooseGroup(
                     Text(
                         text = stringResource(id = R.string.choose_group),
                         color = MaterialTheme.colorScheme.primary,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
                     )
                 },
-                colors = TextFieldDefaults.outlinedTextFieldColors()
+                colors = TextFieldDefaults.outlinedTextFieldColors(),
             )
             ExposedDropdownMenu(
                 modifier = Modifier
@@ -94,7 +94,7 @@ fun ChooseGroup(
                 expanded = if (enabled) expanded else false,
                 onDismissRequest = {
                     expanded = false
-                }
+                },
             ) {
                 groupList.forEach { selectionOption ->
                     DropdownMenuItem(
@@ -103,7 +103,7 @@ fun ChooseGroup(
                             selectedOptionText = selectionOption.name!!
                             expanded = false
                             onChoose(selectionOption)
-                        }
+                        },
                     )
                 }
             }
@@ -117,6 +117,6 @@ fun ChooseGroup(
 fun ChooseGroupPreview() {
     ChooseGroup(
         onChoose = { },
-        onClear = { }
+        onClear = { },
     )
 }

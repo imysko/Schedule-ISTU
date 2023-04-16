@@ -30,7 +30,7 @@ import com.istu.schedule.util.collectAsStateValue
 @Composable
 fun SettingsPage(
     navController: NavHostController,
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = hiltViewModel(),
 ) {
     val settingsUiState = viewModel.settingsUiState.collectAsStateValue()
 
@@ -51,7 +51,7 @@ fun SettingsPage(
                         text = remember(configuration.locales) {
                             context.resources.getString(R.string.settings)
                         },
-                        desc = ""
+                        desc = "",
                     )
                 }
                 item {
@@ -61,20 +61,23 @@ fun SettingsPage(
                                 context.resources.getString(R.string.student)
                             }
                             UserStatus.TEACHER -> remember(configuration.locales) {
-                                    context.resources.getString(R.string.teacher)
+                                context.resources.getString(R.string.teacher)
                             }
                             UserStatus.UNKNOWN -> remember(configuration.locales) {
-                                    context.resources.getString(R.string.unknown)
+                                context.resources.getString(R.string.unknown)
                             }
                         },
-                        description = if (settingsUiState.userStatus != UserStatus.UNKNOWN)
-                            settingsUiState.userDescription else remember(configuration.locales) {
+                        description = if (settingsUiState.userStatus != UserStatus.UNKNOWN) {
+                            settingsUiState.userDescription
+                        } else {
+                            remember(configuration.locales) {
                                 context.resources.getString(R.string.user_not_binding)
-                            },
+                            }
+                        },
                         icon = Icons.Outlined.Groups,
                         onClick = {
                             navController.navigate(NavDestinations.BINDING_PAGE)
-                        }
+                        },
                     )
                 }
                 if (!settingsUiState.isProjfairAuthenticated) {
@@ -89,11 +92,10 @@ fun SettingsPage(
                             icon = Icons.Outlined.Work,
                             onClick = {
                                 navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
-                            }
+                            },
                         )
                     }
-                }
-                else {
+                } else {
                     item {
                         SelectableSettingGroupItem(
                             title = remember(configuration.locales) {
@@ -105,16 +107,16 @@ fun SettingsPage(
                             icon = Icons.Outlined.Work,
                             onClick = {
                                 navController.navigate(NavDestinations.CANDIDATE_PAGE)
-                            }
+                            },
                         )
                     }
                 }
                 item {
-                    val openDialog = remember { mutableStateOf(false)  }
+                    val openDialog = remember { mutableStateOf(false) }
 
                     if (openDialog.value) {
                         LanguageDialog(
-                            isOpenDialog = openDialog
+                            isOpenDialog = openDialog,
                         )
                     }
 
@@ -123,7 +125,7 @@ fun SettingsPage(
                             context.resources.getString(R.string.language)
                         },
                         description = languages.toDescription(context),
-                        icon = Icons.Default.Language
+                        icon = Icons.Default.Language,
                     ) {
                         openDialog.value = true
                     }
@@ -136,7 +138,7 @@ fun SettingsPage(
                         description = remember(configuration.locales) {
                             theme.toDesc(context)
                         },
-                        icon = Icons.Outlined.Palette
+                        icon = Icons.Outlined.Palette,
                     ) {
                         navController.navigate(NavDestinations.THEME_PAGE)
                     }
@@ -146,12 +148,12 @@ fun SettingsPage(
                         title = remember(configuration.locales) {
                             context.resources.getString(R.string.developers)
                         },
-                        icon = Icons.Outlined.Engineering
+                        icon = Icons.Outlined.Engineering,
                     ) {
                     }
                 }
             }
-        }
+        },
     )
 }
 

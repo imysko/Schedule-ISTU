@@ -16,7 +16,7 @@ fun ChipVerticalGrid(
     content: @Composable () -> Unit,
 ) {
     SubcomposeLayout(
-        modifier = modifier
+        modifier = modifier,
     ) { constraints ->
         val contentConstraints = constraints.copy(minWidth = 0, minHeight = 0)
         var currentRow = 0
@@ -62,10 +62,12 @@ fun ChipVerticalGrid(
         layout(
             width = maxOf(
                 constraints.minWidth,
-                placeables.maxOfOrNull { it.first.width + it.second.x } ?: 0),
+                placeables.maxOfOrNull { it.first.width + it.second.x } ?: 0,
+            ),
             height = maxOf(
                 constraints.minHeight,
-                placeables.lastOrNull()?.run { first.height + second.y } ?: 0),
+                placeables.lastOrNull()?.run { first.height + second.y } ?: 0,
+            ),
         ) {
             placeables.forEach {
                 val (placeable, origin) = it
@@ -79,11 +81,11 @@ fun ChipVerticalGrid(
 fun ChipVerticalGrid(
     modifier: Modifier = Modifier,
     spacing: Dp,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Layout(
         content = content,
-        modifier = modifier
+        modifier = modifier,
     ) { measurables, constraints ->
         var currentRow = 0
         var currentOrigin = IntOffset.Zero
@@ -103,7 +105,7 @@ fun ChipVerticalGrid(
 
         layout(
             width = constraints.maxWidth,
-            height = placeables.lastOrNull()?.run { first.height + second.y } ?: 0
+            height = placeables.lastOrNull()?.run { first.height + second.y } ?: 0,
         ) {
             placeables.forEach {
                 val (placeable, origin) = it

@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val _user: User
+    private val _user: User,
 ) : ViewModel() {
 
     private val _settingsUiState = MutableStateFlow(SettingsUiState())
@@ -28,7 +28,7 @@ class SettingsViewModel @Inject constructor(
                         isProjfairAuthenticated = candidate != null,
                         projfairUsername = candidate?.fio ?: "",
                         userStatus = _user.userType ?: UserStatus.UNKNOWN,
-                        userDescription = _user.userDescription ?: ""
+                        userDescription = _user.userDescription ?: "",
                     )
                 }
             }
@@ -40,5 +40,5 @@ data class SettingsUiState(
     val isProjfairAuthenticated: Boolean = false,
     val projfairUsername: String = "",
     val userStatus: UserStatus = UserStatus.UNKNOWN,
-    val userDescription: String = ""
+    val userDescription: String = "",
 )

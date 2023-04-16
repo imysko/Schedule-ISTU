@@ -5,7 +5,7 @@ import com.istu.schedule.domain.repository.projfair.ProjectStateRepository
 import javax.inject.Inject
 
 class GetProjectStatesListUseCase @Inject constructor(
-    private val projectStateRepository: ProjectStateRepository
+    private val projectStateRepository: ProjectStateRepository,
 ) {
 
     suspend fun getProjectStatesListList(): Result<List<ProjectState>> {

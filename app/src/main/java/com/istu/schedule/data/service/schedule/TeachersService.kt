@@ -6,6 +6,5 @@ import retrofit2.http.GET
 
 interface TeachersService {
     @GET("schedule-api/teachers")
-    suspend fun getTeachers(
-    ) : Response<List<Teacher>>
+    suspend fun getTeachers(): Response<List<Teacher>>
 }

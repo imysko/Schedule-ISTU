@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Teacher
 
+@Deprecated("Will be removed")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun InputTeacher(
@@ -107,9 +108,9 @@ fun InputTeacher(
             ) {
                 teachersTips.forEach { selectionOption ->
                     DropdownMenuItem(
-                        text = { Text(text = selectionOption.fullname) },
+                        text = { Text(text = selectionOption.fullName) },
                         onClick = {
-                            inputtedText = selectionOption.fullname
+                            inputtedText = selectionOption.fullName
                             expanded = false
                             onChoose(selectionOption)
                         },

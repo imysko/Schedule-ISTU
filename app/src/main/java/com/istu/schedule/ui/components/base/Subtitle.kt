@@ -10,6 +10,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
+@Deprecated(
+    message = "Will be removed",
+    replaceWith = ReplaceWith(""),
+)
 @Composable
 fun Subtitle(
     modifier: Modifier = Modifier,
@@ -22,12 +26,12 @@ fun Subtitle(
             .fillMaxWidth()
             .padding(vertical = 8.dp),
         color = color,
-        style = MaterialTheme.typography.labelLarge
+        style = MaterialTheme.typography.labelLarge,
     )
 }
 
 @Composable
-@Preview(showBackground = true) 
+@Preview(showBackground = true)
 fun SubtitlePreview() {
     Subtitle(text = "text")
 }

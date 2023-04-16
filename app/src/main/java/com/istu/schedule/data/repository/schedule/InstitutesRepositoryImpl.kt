@@ -8,7 +8,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class InstitutesRepositoryImpl @Inject constructor(
-    private val institutesService: InstitutesService
+    private val institutesService: InstitutesService,
 ) : InstitutesRepository {
 
     private val cachedList: MutableList<Institute> = mutableListOf()
@@ -24,8 +24,8 @@ class InstitutesRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
-            )
+                message = "An error occurred!",
+            ),
         )
     }
 }

@@ -23,7 +23,7 @@ import javax.inject.Inject
 class BindingViewModel @Inject constructor(
     private val _useCaseInstitutesList: GetInstitutesListUseCase,
     private val _useCaseTeachersList: GetTeachersListUseCase,
-    private val _user: User
+    private val _user: User,
 ) : BaseViewModel() {
 
     private val _institutesList = MutableLiveData<List<Institute>>()
@@ -41,12 +41,10 @@ class BindingViewModel @Inject constructor(
     private val _teachersTips = MutableLiveData<List<Teacher>>()
     val teachersTips: LiveData<List<Teacher>> = _teachersTips
 
-
     private val _selectedInstitute = MutableLiveData<Institute?>()
     private val _selectedCourse = MutableLiveData<Course?>()
     private val _selectedGroup = MutableLiveData<Group?>()
     private val _selectedTeacher = MutableLiveData<Teacher?>()
-
 
     private val _userState = MutableStateFlow(UserStatus.UNKNOWN)
     val userState: StateFlow<UserStatus> = _userState.asStateFlow()
@@ -92,17 +90,17 @@ class BindingViewModel @Inject constructor(
                     it.copy(
                         isShowInstitutesInput = true,
                         canBinding = _selectedGroup.value != null,
-                        isShowFloatingButton = _selectedGroup.value != null
+                        isShowFloatingButton = _selectedGroup.value != null,
                     )
                 }
                 UserStatus.TEACHER -> {
                     it.copy(
                         isShowTeachersInput = true,
                         canBinding = _selectedTeacher.value != null,
-                        isShowFloatingButton = _selectedTeacher.value != null
+                        isShowFloatingButton = _selectedTeacher.value != null,
                     )
                 }
-                UserStatus.UNKNOWN -> { it.copy()}
+                UserStatus.UNKNOWN -> { it.copy() }
             }
         }
     }
@@ -116,7 +114,7 @@ class BindingViewModel @Inject constructor(
                 canChooseInstitute = false,
                 selectedInstituteText = _selectedInstitute.value!!.instituteTitle!!,
                 isShowCoursesInput = true,
-                canChooseCourse = true
+                canChooseCourse = true,
             )
         }
     }
@@ -137,7 +135,7 @@ class BindingViewModel @Inject constructor(
                 canChooseGroup = false,
                 selectedGroupText = "",
                 canBinding = false,
-                isShowFloatingButton= false,
+                isShowFloatingButton = false,
             )
         }
     }
@@ -151,7 +149,7 @@ class BindingViewModel @Inject constructor(
                 canChooseCourse = false,
                 selectedCourseText = _selectedCourse.value!!.courseNumber.toString(),
                 isShowGroupsInput = true,
-                canChooseGroup = true
+                canChooseGroup = true,
             )
         }
     }
@@ -168,7 +166,7 @@ class BindingViewModel @Inject constructor(
                 canChooseGroup = false,
                 selectedGroupText = "",
                 canBinding = false,
-                isShowFloatingButton= false,
+                isShowFloatingButton = false,
             )
         }
     }
@@ -181,7 +179,7 @@ class BindingViewModel @Inject constructor(
                 canChooseGroup = false,
                 selectedGroupText = _selectedGroup.value!!.name!!,
                 canBinding = true,
-                isShowFloatingButton = true
+                isShowFloatingButton = true,
             )
         }
     }
@@ -194,7 +192,7 @@ class BindingViewModel @Inject constructor(
                 canChooseGroup = true,
                 selectedGroupText = "",
                 canBinding = false,
-                isShowFloatingButton= false,
+                isShowFloatingButton = false,
             )
         }
     }
@@ -205,9 +203,9 @@ class BindingViewModel @Inject constructor(
         _bindingUiState.update {
             it.copy(
                 canEditTeacherName = false,
-                selectedTeacherText = _selectedTeacher.value!!.fullname,
+                selectedTeacherText = _selectedTeacher.value!!.fullName,
                 canBinding = true,
-                isShowFloatingButton = true
+                isShowFloatingButton = true,
             )
         }
     }
@@ -227,7 +225,7 @@ class BindingViewModel @Inject constructor(
 
     fun inputText(inputtedText: String) {
         _teachersTips.value = _teachersList.value!!.filter {
-            it.fullname.lowercase(Locale.getDefault())
+            it.fullName.lowercase(Locale.getDefault())
                 .contains(inputtedText.lowercase(Locale.getDefault()))
         }
     }
@@ -242,12 +240,11 @@ class BindingViewModel @Inject constructor(
                 }
                 UserStatus.TEACHER -> {
                     _user.userId = _selectedTeacher.value!!.teacherId
-                    _user.userDescription = _selectedTeacher.value!!.fullname
+                    _user.userDescription = _selectedTeacher.value!!.fullName
                 }
                 UserStatus.UNKNOWN -> { }
             }
-        }
-        else {
+        } else {
             changeDialogStatus(true)
         }
     }
@@ -272,5 +269,5 @@ data class BindingUiState(
     val selectedTeacherText: String = "",
     val canBinding: Boolean = false,
     val isShowFloatingButton: Boolean = false,
-    val isShowIncompleteInputDialog: Boolean = false
+    val isShowIncompleteInputDialog: Boolean = false,
 )

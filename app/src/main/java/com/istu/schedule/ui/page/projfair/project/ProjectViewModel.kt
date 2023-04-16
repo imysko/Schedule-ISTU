@@ -10,8 +10,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProjectViewModel @Inject constructor(
-    private val useCase: GetProjectUseCase
-) : BaseViewModel()  {
+    private val useCase: GetProjectUseCase,
+) : BaseViewModel() {
 
     private val _project = MutableLiveData<Project>()
     val project: LiveData<Project> = _project

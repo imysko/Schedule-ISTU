@@ -30,6 +30,7 @@ import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.LessonTime
 import com.istu.schedule.domain.model.schedule.Schedule
 import com.istu.schedule.ui.fonts.interFamily
+import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.ui.theme.Shape5
@@ -45,7 +46,7 @@ import java.time.format.DateTimeFormatter
 fun ScheduleCard(
     currentDateTime: LocalDateTime,
     lesson: Lesson,
-    lessonDate: DateOnly
+    lessonDate: DateOnly,
 ) {
     val currentDate = currentDateTime.toLocalDate()
     val currentTime = currentDateTime.toLocalTime()
@@ -119,7 +120,7 @@ fun ScheduleCard(
                         Text(
                             text = "${begTime.format(timeFormatter)} - ${
                                 endTime.format(
-                                    timeFormatter
+                                    timeFormatter,
                                 )
                             }",
                             style = MaterialTheme.typography.bodyMedium,
@@ -157,7 +158,7 @@ fun ScheduleCard(
                         ) {
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                                verticalArrangement = Arrangement.spacedBy(5.dp),
                             ) {
                                 Text(
                                     text = it.teachersVerbose,
@@ -192,8 +193,11 @@ fun ScheduleCard(
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth(),
-                                horizontalArrangement = if (it.subgroup != 0)
-                                    Arrangement.SpaceBetween else Arrangement.End,
+                                horizontalArrangement = if (it.subgroup != 0) {
+                                    Arrangement.SpaceBetween
+                                } else {
+                                    Arrangement.End
+                                },
                             ) {
                                 if (it.subgroup != 0) {
                                     Text(
@@ -232,7 +236,7 @@ fun ScheduleCard(
                         text = pluralStringResource(
                             id = R.plurals.remained_time,
                             count = duration,
-                            duration
+                            duration,
                         ),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
@@ -291,11 +295,13 @@ fun ScheduleCardPreview() {
             lessonId = 0,
             lessonNumber = "4",
             begTime = "13:45",
-            endTime = "15:15"
+            endTime = "15:15",
         ),
-        schedules = listOf(schedule, schedule)
+        schedules = listOf(schedule, schedule),
     )
 
     val currentDateTime = LocalDateTime.of(2023, 3, 31, 14, 4)
-    ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+    ScheduleISTUTheme {
+        ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+    }
 }

@@ -1,22 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <color name="primary_light">#4758ac</color>
+    <color name="on_primary_light">#ffffff</color>
+    <color name="primary_container_light">#dee0ff</color>
+    <color name="on_primary_container_light">#00115a</color>
 
+    <color name="secondary_light">#794a99</color>
+    <color name="on_secondary_light">#ffffff</color>
+    <color name="secondary_container_light">#f3daff</color>
+    <color name="on_secondary_container_light">#2f004c</color>
+
+    <color name="error_light">#ba1a1a</color>
+    <color name="on_error_light">#ffffff</color>
+    <color name="error_container_light">#ffdad6</color>
+    <color name="on_error_container_light">#410002</color>
+
+    <color name="background_light">#fefbff</color>
+    <color name="on_background_light">#1b1b1f</color>
+    <color name="surface_light">#fefbff</color>
+    <color name="on_surface_light">#1b1b1f</color>
+
+    <color name="outline_light">#767680</color>
+    <color name="surface_variant_light">#e3e1ec</color>
+    <color name="on_surface_variant_light">#46464f</color>
+
+    <color name="primary_dark">#bac3ff</color>
+    <color name="on_primary_dark">#13267c</color>
+    <color name="primary_container_dark">#2e3f93</color>
+    <color name="on_primary_container_dark">#dee0ff</color>
+
+    <color name="secondary_dark">#e3b5ff</color>
+    <color name="on_secondary_dark">#471867</color>
+    <color name="secondary_container_dark">#60317f</color>
+    <color name="on_secondary_container_dark">#f3daff</color>
+
+    <color name="error_dark">#ffb4ab</color>
+    <color name="on_error_dark">#690005</color>
+    <color name="error_container_dark">#93000a</color>
+    <color name="on_error_container_dark">#ffdad6</color>
+
+    <color name="background_dark">#1b1b1f</color>
+    <color name="on_background_dark">#e4e1e6</color>
+    <color name="surface_dark">#1b1b1f</color>
+    <color name="on_surface_dark">#e4e1e6</color>
+
+    <color name="outline_dark">#90909a</color>
+    <color name="surface_variant_dark">#46464f</color>
+    <color name="on_surface_variant_dark">#c6c5d0</color>
+    
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="light_blue">#E0F5FE</color>
-    <color name="light_dark_blue">#60C1E2</color>
-    <color name="blue">#019BDE</color>
-    <color name="middle_blue">#0062C4</color>
-    <color name="dark_blue">#001FBA</color>
+    <color name="icons">#575757</color>
 
-    <color name="light_gray">#DFDFDF</color>
-    <color name="gray">#aaaaaa</color>
-    <color name="middle_gray">#7D7D7D</color>
-    <color name="dark_gray">#696969</color>
+    <color name="malachite">#16c41e</color>
+    <color name="orange">#F7D33E</color>
+
+    <!-- Color palette №3395 -->
+    <color name="light_purple">#bcacdb</color>
+    <color name="pale_blue">#c6d3fa</color>
+    <color name="light_blue">#7387c3</color>
+    <color name="blue">#28398d</color>
+    <color name="dark_purple">#161238</color>
+
+    <!-- Color palette №1519 -->
+    <color name="purple">#604d9e</color>
+
 </resources>

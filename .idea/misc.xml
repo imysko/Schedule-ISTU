@@ -4,19 +4,31 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.3465" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.3465" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_home_black_24dp.xml" value="0.3465" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/biotech.xml" value="0.2905" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/calendar_month.xml" value="0.2905" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/event_note.xml" value="0.2905" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/history_edu.xml" value="0.2905" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_biotech.xml" value="0.3465" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_event_note.xml" value="0.3465" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_history_edu.xml" value="0.3465" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3465" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.3465" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/item_select_date_border.xml" value="0.3145" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/item_deselect_date_border.xml" value="0.3145" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/activity_main.xml" value="0.24592391304347827" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_exam.xml" value="0.25" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_lesson.xml" value="0.25" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_exams.xml" value="0.25" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/item_select_date_border.xml" value="0.3145" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/lesson_status_current.xml" value="0.3215" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/lesson_status_default.xml" value="0.3215" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/lesson_status_next.xml" value="0.3215" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/lesson_status_past.xml" value="0.3215" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/precision_manufacturing.xml" value="0.2905" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/drawable/settings.xml" value="0.2905" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/font/font.xml" value="0.37395833333333334" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/activity_main.xml" value="0.33" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_exam.xml" value="0.5" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/card_lesson.xml" value="0.5" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_exams.xml" value="0.33" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_notifications.xml" value="0.34193840579710144" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_settings.xml" value="0.3079710144927536" />
-        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/item_horizontal_calendar_date.xml" value="0.30932971014492755" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_schedule.xml" value="0.33" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/layout/item_horizontal_calendar_date.xml" value="0.75" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/menu/bottom_nav_menu.xml" value="0.33" />
         <entry key="..\:/Project/Kotlin/TimeTable 2.0/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.3465" />
       </map>

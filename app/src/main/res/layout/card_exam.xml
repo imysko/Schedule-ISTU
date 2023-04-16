@@ -8,7 +8,7 @@
         <import type="android.view.View" />
         <variable
             name="exam"
-            type="com.example.timetable.entities.Exam" />
+            type="com.example.schedule.entities.Exam" />
     </data>
 
     <androidx.cardview.widget.CardView
@@ -18,72 +18,87 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="8dp"
         app:cardCornerRadius="12dp"
-        app:cardBackgroundColor="@color/light_blue" >
+        app:cardBackgroundColor="?attr/colorSecondaryContainer" >
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="12dp">
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/exam_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:text="@{exam.time}"
-                tools:text="время" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingVertical="8dp" >
 
-            <TextView
-                android:id="@+id/exam_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:bind_exam_date="@{exam.date}"
-                tools:text="дата" />
+                <TextView
+                    android:id="@+id/exam_date"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="8dp"
+                    android:background="@drawable/lesson_status_default"
+                    style="@style/ClassicText.CascadiaMonoSemiBoldWhite"
+                    app:bind_exam_date="@{exam.date}"
+                    tools:text="дата" />
+
+                <TextView
+                    android:id="@+id/exam_time"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:paddingVertical="4dp"
+                    android:paddingHorizontal="12dp"
+                    style="@style/ClassicText.CascadiaMonoRegular"
+                    android:text="@{exam.time}"
+                    tools:text="время" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/exam_divider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginHorizontal="12dp"
                 app:layout_constraintTop_toBottomOf="@id/exam_date"
-                app:layout_constraintStart_toStartOf="parent"/>
-
-            <TextView
-                android:id="@+id/exam_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/exam_divider"
-                android:text="@{exam.name}"
-                tools:text="название"
-                android:textSize="24sp"/>
+                app:dividerColor="?attr/colorPrimary" />
 
-            <TextView
-                android:id="@+id/exam_teacher"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/exam_name"
-                android:text="@{exam.teacher}"
-                app:visibility="@{exam.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
-                tools:text="препод" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="12dp"
+                android:layout_marginHorizontal="12dp" >
 
-            <TextView
-                android:id="@+id/exam_classroom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                app:layout_constraintTop_toBottomOf="@id/exam_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@{exam.classroom}"
-                app:visibility="@{exam.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
-                tools:text="кабинет" />
+                <TextView
+                    android:id="@+id/exam_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    style="@style/ClassicText.CascadiaMonoSemiBold"
+                    android:text="@{exam.name}"
+                    tools:text="название" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/exam_teacher"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exam_name"
+                    style="@style/ClassicText.CascadiaMonoItalic"
+                    android:text="@{exam.teacher}"
+                    app:visibility="@{exam.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
+                    tools:text="препод" />
+
+                <TextView
+                    android:id="@+id/exam_classroom"
+                    android:layout_marginTop="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/exam_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    style="@style/ClassicText.CascadiaMonoRegular"
+                    android:text="@{exam.classroom}"
+                    app:visibility="@{exam.classroom.isEmpty() ? View.GONE : View.VISIBLE}"
+                    tools:text="кабинет" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
     </androidx.cardview.widget.CardView>
 </layout>

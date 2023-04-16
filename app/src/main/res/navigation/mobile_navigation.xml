@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_schedule"
-        android:name="com.example.timetable.ui.fragments.schedule.ScheduleFragment"
+        android:name="com.example.schedule.ui.fragments.schedule.ScheduleFragment"
         android:label="@string/title_schedule"
         tools:layout="@layout/fragment_schedule" />
 
     <fragment
         android:id="@+id/navigation_exams"
-        android:name="com.example.timetable.ui.fragments.exams.ExamsFragment"
+        android:name="com.example.schedule.ui.fragments.exams.ExamsFragment"
         android:label="@string/title_exams"
         tools:layout="@layout/fragment_exams" />
 
     <fragment
         android:id="@+id/navigation_settings"
-        android:name="com.example.timetable.ui.fragments.settings.SettingsFragment"
+        android:name="com.example.schedule.ui.fragments.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

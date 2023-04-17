@@ -3,6 +3,7 @@ package com.istu.schedule.ui.page.projfair.list
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.istu.schedule.data.model.ProjfairFiltersState
 import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.domain.usecase.projfair.GetProjectsListUseCase
@@ -27,6 +28,8 @@ class ListViewModel @Inject constructor(
     private val _projectsList = MutableLiveData<MutableList<Project>>()
     val projectsList: LiveData<MutableList<Project>> = _projectsList
 
+    val projfairFiltersState: StateFlow<ProjfairFiltersState> = _user.projfairFiltersState
+
     private var _currentPage = 1
 
     fun getProjectsList() {
@@ -45,6 +48,7 @@ class ListViewModel @Inject constructor(
                 _projectsList.addNewItem(item)
             }
             _currentPage += 1
+            _user.setFiltersChanged(false)
         })
     }
 

@@ -143,8 +143,10 @@ fun ProjectsListPage(
     }
 
     LaunchedEffect(projectsListUiState) {
-        viewModel.clearList()
-        viewModel.getProjectsList()
+        if (viewModel.projfairFiltersState.value.isChanged) {
+            viewModel.clearList()
+            viewModel.getProjectsList()
+        }
     }
 
     AppComposable(
@@ -159,13 +161,13 @@ fun ProjectsListPage(
                     modifier = Modifier
                         .fillMaxSize()
                         .graphicsLayer { translationY = toolbarState.height + toolbarState.offset }
+                        .clip(ShapeTop15)
+                        .background(MaterialTheme.colorScheme.background)
                         .pointerInput(Unit) {
                             detectTapGestures(
                                 onPress = { scope.coroutineContext.cancelChildren() },
                             )
-                        }
-                        .clip(ShapeTop15)
-                        .background(MaterialTheme.colorScheme.background),
+                        },
                     state = listState,
                     contentPadding = PaddingValues(bottom = if (toolbarState is FixedScrollFlagState) _minToolbarHeight else 0.dp),
                 ) {
@@ -173,12 +175,7 @@ fun ProjectsListPage(
                         Row(
                             modifier = Modifier
                                 .padding(15.dp)
-                                .fillMaxWidth()
-                                .pointerInput(Unit) {
-                                    detectTapGestures(
-                                        onPress = { scope.coroutineContext.cancelChildren() },
-                                    )
-                                },
+                                .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically,
                         ) {

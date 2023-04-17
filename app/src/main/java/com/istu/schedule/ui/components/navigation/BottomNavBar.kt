@@ -40,7 +40,7 @@ fun BottomNavBar(navController: NavHostController) {
                 shadowElevation = 100f
             }
             .navigationBarsPadding(),
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = MaterialTheme.colorScheme.onSurface,
     ) {
         bottomNavItems.forEach { item ->
             AddItem(

@@ -2,6 +2,7 @@ package com.istu.schedule.ui.page.projfair.project
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,14 +28,13 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.BackdropScaffold
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -42,6 +42,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -62,6 +63,7 @@ import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.TwoColumnText
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.toProjectDifficulty
 import kotlinx.coroutines.launch
 import java.text.DateFormat
@@ -87,7 +89,7 @@ fun ProjectPage(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProjectPage(
     navController: NavController,
@@ -103,119 +105,118 @@ fun ProjectPage(
         CustomIndicator(tabPositions, pagerState)
     }
 
-    BackdropScaffold(
-        modifier = Modifier.statusBarsPadding(),
-        appBar = {
-            Text(
-                modifier = Modifier.padding(15.dp),
-                text = stringResource(id = R.string.projfair),
-                style = MaterialTheme.typography.headlineMedium,
-            )
-        },
-        peekHeight = 125.dp,
-        gesturesEnabled = false,
-        backLayerBackgroundColor = MaterialTheme.colorScheme.primary,
-        backLayerContent = {
-            Row(
-                modifier = Modifier
-                    .padding(horizontal = 15.dp)
-                    .padding(bottom = 10.dp),
-            ) {
-                SIScrollableTabRow(
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = indicator,
-                    edgePadding = 0.dp,
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
+        topBar = {
+            Column(modifier = Modifier.statusBarsPadding()) {
+                Text(
+                    modifier = Modifier.padding(15.dp),
+                    text = stringResource(id = R.string.projfair),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+                Row(
+                    modifier = Modifier
+                        .padding(horizontal = 15.dp)
+                        .padding(bottom = 10.dp),
                 ) {
-                    pages.forEachIndexed { index, title ->
-                        Column(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
-                                .clickable(
-                                    interactionSource = MutableInteractionSource(),
-                                    indication = null,
-                                ) {
-                                    coroutineScope.launch {
-                                        pagerState.scrollToPage(index)
-                                    }
-                                },
-                            verticalArrangement = Arrangement.Center,
-                        ) {
-                            Text(
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    color = Color.White,
-                                    fontSize = 18.sp,
-                                ),
-                                text = title,
-                            )
+                    SIScrollableTabRow(
+                        selectedTabIndex = pagerState.currentPage,
+                        indicator = indicator,
+                        edgePadding = 0.dp,
+                    ) {
+                        pages.forEachIndexed { index, title ->
+                            Column(
+                                modifier = Modifier
+                                    .height(50.dp)
+                                    .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
+                                    .clickable(
+                                        interactionSource = MutableInteractionSource(),
+                                        indication = null,
+                                    ) {
+                                        coroutineScope.launch {
+                                            pagerState.scrollToPage(index)
+                                        }
+                                    },
+                                verticalArrangement = Arrangement.Center,
+                            ) {
+                                Text(
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        color = Color.White,
+                                        fontSize = 18.sp,
+                                    ),
+                                    text = title,
+                                )
+                            }
                         }
                     }
                 }
             }
         },
-        frontLayerBackgroundColor = MaterialTheme.colorScheme.surface,
-        frontLayerContent = {
-            Column(
-                modifier = Modifier.padding(
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(top = it.calculateTopPadding())
+                .clip(ShapeTop15)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(
                     start = 15.dp,
                     end = 15.dp,
                     top = 23.dp,
                     bottom = 50.dp,
                 ),
-            ) {
-                Box(
-                    modifier = Modifier.clickable(
-                        interactionSource = MutableInteractionSource(),
-                        indication = null,
-                    ) {
-                        navController.popBackStack()
-                    },
+        ) {
+            Box(
+                modifier = Modifier.clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = null,
                 ) {
-                    Row(
-                        modifier = Modifier.padding(bottom = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = Icons.Rounded.ArrowBackIosNew,
-                            contentDescription = stringResource(R.string.back),
-                            tint = MaterialTheme.colorScheme.secondary,
-                        )
-                        Text(
-                            modifier = Modifier.padding(start = 9.dp),
-                            text = stringResource(R.string.back_to_list),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.secondary,
-                                fontWeight = FontWeight.SemiBold,
-                            ),
-                        )
-                    }
-                }
-                project?.let { project ->
-                    Text(
-                        text = project.title,
-                        style = MaterialTheme.typography.titleLarge,
+                    navController.popBackStack()
+                },
+            ) {
+                Row(
+                    modifier = Modifier.padding(bottom = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        modifier = Modifier.size(18.dp),
+                        imageVector = Icons.Rounded.ArrowBackIosNew,
+                        contentDescription = stringResource(R.string.back),
+                        tint = MaterialTheme.colorScheme.secondary,
                     )
-                    HorizontalPager(
-                        pageCount = pages.size,
-                        state = pagerState,
-                    ) { page ->
-                        when (page) {
-                            0 -> ProjectInfo(project)
-                            1 -> ProjectParticipations(project)
-                        }
-                    }
-                } ?: run {
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                    Text(
+                        modifier = Modifier.padding(start = 9.dp),
+                        text = stringResource(R.string.back_to_list),
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            color = MaterialTheme.colorScheme.secondary,
+                            fontWeight = FontWeight.SemiBold,
+                        ),
+                    )
                 }
             }
-        },
-    )
+            project?.let { project ->
+                Text(
+                    text = project.title,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                HorizontalPager(
+                    pageCount = pages.size,
+                    state = pagerState,
+                ) { page ->
+                    when (page) {
+                        0 -> ProjectInfo(project)
+                        1 -> ProjectParticipations(project)
+                    }
+                }
+            } ?: run {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize(),
+                ) {
+                    CircularProgressIndicator()
+                }
+            }
+        }
+    }
 }
 
 @OptIn(ExperimentalLayoutApi::class)

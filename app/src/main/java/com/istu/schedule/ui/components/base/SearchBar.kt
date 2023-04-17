@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.components.base
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,8 +28,11 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
+import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.palette.alwaysLight
 
 @Composable
 fun SearchBar(
@@ -49,7 +53,9 @@ fun SearchBar(
         shape = RoundedCornerShape(10.dp),
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background alwaysLight true),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -91,5 +97,13 @@ fun SearchBar(
                 },
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SearchBarPreview() {
+    ScheduleISTUTheme {
+        SearchBar(value = "Ярмарка проектов")
     }
 }

@@ -38,7 +38,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.NestedScrollSource
@@ -154,7 +153,7 @@ fun ProjectsListPage(
             Box(
                 modifier = Modifier
                     .nestedScroll(nestedScrollConnection)
-                    .background(MaterialTheme.colorScheme.primary),
+                    .background(MaterialTheme.colorScheme.surface),
             ) {
                 LazyColumn(
                     modifier = Modifier
@@ -166,7 +165,7 @@ fun ProjectsListPage(
                             )
                         }
                         .clip(ShapeTop15)
-                        .background(Color.White),
+                        .background(MaterialTheme.colorScheme.background),
                     state = listState,
                     contentPadding = PaddingValues(bottom = if (toolbarState is FixedScrollFlagState) _minToolbarHeight else 0.dp),
                 ) {

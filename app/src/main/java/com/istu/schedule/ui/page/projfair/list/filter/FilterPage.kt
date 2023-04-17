@@ -79,11 +79,10 @@ fun FiltersPage(
         viewModel.getSkillsList()
     }
 
-    Scaffold(
-        modifier = Modifier.statusBarsPadding(),
-    ) {
+    Scaffold {
         Column(
             modifier = Modifier
+                .statusBarsPadding()
                 .padding(15.dp)
                 .verticalScroll(rememberScrollState()),
         ) {

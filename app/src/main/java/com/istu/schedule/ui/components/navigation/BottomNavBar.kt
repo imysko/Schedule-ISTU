@@ -19,6 +19,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.ShapeTop20
 
 @Composable
@@ -58,11 +59,13 @@ fun RowScope.AddItem(
     navBackStackEntry: NavBackStackEntry?,
     navController: NavHostController,
 ) {
+    val selected = bottomNavItem.route == navBackStackEntry?.destination?.route
     NavigationBarItem(
         label = {
             Text(
                 text = stringResource(id = bottomNavItem.titleResId),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
+                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
             )
         },
         icon = {
@@ -71,14 +74,12 @@ fun RowScope.AddItem(
                 contentDescription = "${bottomNavItem.titleResId} Icon",
             )
         },
-        selected = bottomNavItem.route == navBackStackEntry?.destination?.route,
+        selected = selected,
         alwaysShowLabel = true,
         colors = NavigationBarItemDefaults.colors(
             selectedIconColor = MaterialTheme.colorScheme.primary,
-            selectedTextColor = MaterialTheme.colorScheme.primary,
-            indicatorColor = MaterialTheme.colorScheme.background,
+            indicatorColor = MaterialTheme.colorScheme.onSurface,
             unselectedIconColor = MaterialTheme.colorScheme.secondary,
-            unselectedTextColor = MaterialTheme.colorScheme.secondary,
         ),
         onClick = { navController.navigate(bottomNavItem.route) },
     )
@@ -88,5 +89,7 @@ fun RowScope.AddItem(
 @Preview(showBackground = false)
 fun BottomNavBarPreview() {
     val navController = rememberNavController()
-    BottomNavBar(navController = navController)
+    ScheduleISTUTheme {
+        BottomNavBar(navController = navController)
+    }
 }

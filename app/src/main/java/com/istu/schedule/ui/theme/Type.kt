@@ -10,7 +10,11 @@ import com.istu.schedule.ui.fonts.montFamily
 val Typography = Typography(
     displayLarge = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
     displayMedium = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
-    displaySmall = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
+    displaySmall = TextStyle(
+        fontFamily = montFamily,
+        color = Color(0xFF383838),
+        fontSize = 36.0.sp,
+    ),
     headlineLarge = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
     headlineMedium = TextStyle(
         fontFamily = montFamily,

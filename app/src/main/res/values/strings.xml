@@ -108,4 +108,17 @@
     <string name="select_a_skill">Select a skill</string>
     <string name="active">Active</string>
     <string name="project">Project</string>
+    <string name="look_schedule">Look the schedule</string>
+    <string name="look_schedule_description">The application allows you to find out the schedule of the group or teacher. After logging in to your personal account, your project activity will also be displayed in the schedule</string>
+    <string name="next_step">Next</string>
+    <string name="skip_setting">Skip setting</string>
+    <string name="choose_project">Choose a project</string>
+    <string name="choose_project_description">All the functions of the IRNTU Project Fair are built into the application. You can study projects, apply for them and track progress</string>
+    <string name="setup_schedule">Set up a schedule</string>
+    <string name="adjust_to_you">We will adjust to you</string>
+    <string name="adjust_to_you_description">We will make a quick setup so that when you enter the application, only your schedule is displayed. You can make changes in the settings at any time</string>
+    <string name="login_campus">Log in via campus</string>
+    <string name="skip">Skip</string>
+    <string name="login_to_personal_account">Log in to your personal account</string>
+    <string name="login_to_personal_account_description">Log in to the IRNTU Campus account to manage applications for project activities</string>
 </resources>

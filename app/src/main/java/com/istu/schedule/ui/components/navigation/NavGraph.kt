@@ -1,9 +1,10 @@
 package com.istu.schedule.ui.components.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.projfair.candidate.CandidatePage
 import com.istu.schedule.ui.page.projfair.candidate.participations.CandidateParticipationsListPage
@@ -13,51 +14,52 @@ import com.istu.schedule.ui.page.settings.projfair.LoginProjfairPage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
 import com.istu.schedule.util.NavDestinations
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
     navController: NavHostController,
 ) {
-    NavHost(
+    AnimatedNavHost(
         navController = navController,
         startDestination = NavDestinations.MAIN_PAGE,
     ) {
-        composable(
+        animatedComposable(
             route = NavDestinations.MAIN_PAGE,
         ) {
             MainPage(navController)
         }
 
-        composable(
+        animatedComposable(
             route = NavDestinations.BINDING_PAGE,
         ) {
             BindingPage(navController)
         }
 
-        composable(
+        animatedComposable(
             route = NavDestinations.PROJFAIR_LOGIN_PAGE,
         ) {
             LoginProjfairPage(navController)
         }
 
-        composable(
+        animatedComposable(
             route = NavDestinations.THEME_PAGE,
         ) {
             ThemePage(navController)
         }
 
-        composable(
+        animatedComposable(
             route = NavDestinations.CANDIDATE_PAGE,
         ) {
             CandidatePage(navController)
         }
 
-        composable(
+        animatedComposable(
             route = NavDestinations.CANDIDATE_PROJECTS_PAGE,
         ) {
             CandidateProjectsListPage(navController)
         }
 
-        composable(
+        animatedComposable(
             route = NavDestinations.CANDIDATE_PARTICIPATIONS_PAGE,
         ) {
             CandidateParticipationsListPage(navController)

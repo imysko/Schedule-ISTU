@@ -81,7 +81,13 @@ fun RowScope.AddItem(
             indicatorColor = MaterialTheme.colorScheme.onSurface,
             unselectedIconColor = MaterialTheme.colorScheme.secondary,
         ),
-        onClick = { navController.navigate(bottomNavItem.route) },
+        onClick = {
+            if (navController.currentDestination?.route != bottomNavItem.route) {
+                navController.navigate(
+                    bottomNavItem.route,
+                )
+            }
+        },
     )
 }
 

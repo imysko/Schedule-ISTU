@@ -32,7 +32,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
-import com.istu.schedule.ui.theme.palette.alwaysLight
 
 @Composable
 fun SearchBar(
@@ -55,7 +54,7 @@ fun SearchBar(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background alwaysLight true),
+                .background(MaterialTheme.colorScheme.background),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {

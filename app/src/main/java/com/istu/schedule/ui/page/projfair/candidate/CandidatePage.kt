@@ -106,14 +106,14 @@ fun CandidatePage(
             }
             item {
                 SettingItem(
-                    title = stringResource(R.string.my_requests),
+                    title = stringResource(R.string.my_participations),
                     onClick = {
                         navController.navigate(NavDestinations.CANDIDATE_PARTICIPATIONS_PAGE)
                     }
                 ) {
                     FeedbackIconButton(
                         imageVector = Icons.Filled.KeyboardArrowRight,
-                        contentDescription = stringResource(R.string.my_requests),
+                        contentDescription = stringResource(R.string.my_participations),
                         onClick = {
                             navController.navigate(NavDestinations.CANDIDATE_PARTICIPATIONS_PAGE)
                         }

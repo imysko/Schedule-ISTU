@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.settings.projfair
+package com.istu.schedule.ui.page.account.login
 
 import android.content.Context
 import android.view.View
@@ -16,7 +16,7 @@ import androidx.navigation.NavHostController
 @Composable
 fun LoginProjfairPage(
     navController: NavHostController,
-    viewModel: LoginProjfairViewModel = hiltViewModel(),
+    viewModel: LoginProjfairViewModel = hiltViewModel()
 ) {
     val loginUrl = "https://int.istu.edu/oauth/authorize/?client_id=local.6149ff4c7fcf40.88217011"
     val context = LocalContext.current
@@ -26,7 +26,7 @@ fun LoginProjfairPage(
             WebView(it).apply {
                 layoutParams = ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
                 )
 
                 webViewClient = object : WebViewClient() {
@@ -40,7 +40,9 @@ fun LoginProjfairPage(
 
                     override fun onPageFinished(view: WebView, url: String) {
                         if (currentUrl != url) {
-                            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                            val imm = context.getSystemService(
+                                Context.INPUT_METHOD_SERVICE
+                            ) as InputMethodManager
 
                             if (url.contains("https://int.istu.edu/oauth/authorize")) {
                                 imm.showSoftInput(view, 0)
@@ -63,6 +65,6 @@ fun LoginProjfairPage(
         },
         update = {
             it.loadUrl(loginUrl)
-        },
+        }
     )
 }

@@ -5,11 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.istu.schedule.ui.components.ext.animatedComposable
+import com.istu.schedule.ui.page.account.AccountPage
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage
 import com.istu.schedule.ui.page.projfair.list.filter.FiltersPage
 import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.schedule.SchedulePage
-import com.istu.schedule.ui.page.search.SearchPage
 import com.istu.schedule.ui.page.settings.SettingsPage
 import com.istu.schedule.util.NavDestinations
 
@@ -17,44 +17,44 @@ import com.istu.schedule.util.NavDestinations
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
-    bottomNavController: NavHostController,
+    bottomNavController: NavHostController
 ) {
     AnimatedNavHost(
         navController = bottomNavController,
-        startDestination = BottomNavItem.SchedulePage.route,
+        startDestination = BottomNavItem.SchedulePage.route
     ) {
         animatedComposable(
-            route = BottomNavItem.SchedulePage.route,
+            route = BottomNavItem.SchedulePage.route
         ) {
             SchedulePage()
         }
 
         animatedComposable(
-            route = BottomNavItem.ProjfairPage.route,
+            route = BottomNavItem.ProjfairPage.route
         ) {
             ProjectsListPage(bottomNavController)
         }
 
         animatedComposable(
-            route = BottomNavItem.SettingsPage.route,
+            route = BottomNavItem.SettingsPage.route
         ) {
             SettingsPage(navController)
         }
 
         animatedComposable(
-            route = BottomNavItem.AccountPage.route,
+            route = BottomNavItem.AccountPage.route
         ) {
-            SearchPage()
+            AccountPage(navController)
         }
 
         animatedComposable(
-            route = NavDestinations.FILTERS_PAGE,
+            route = NavDestinations.FILTERS_PAGE
         ) {
             FiltersPage(bottomNavController)
         }
 
         animatedComposable(
-            route = "${NavDestinations.PROJECT_PAGE}/{projectId}",
+            route = "${NavDestinations.PROJECT_PAGE}/{projectId}"
         ) {
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
                 ProjectPage(projectId, bottomNavController)

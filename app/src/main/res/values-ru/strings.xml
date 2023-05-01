@@ -28,7 +28,6 @@
     <string name="other">Прочее</string>
     <string name="dark_theme">Тёмная тема</string>
     <string name="my_projects">Мои проекты</string>
-    <string name="my_requests">Мои заявки</string>
     <string name="projects">Проекты</string>
     <string name="phone_number">Телефон</string>
     <string name="course">Курс</string>
@@ -113,4 +112,29 @@
     <string name="select_a_skill">Введите навык</string>
     <string name="active">Активный</string>
     <string name="project">Проект</string>
+    <string name="look_schedule">Смотрите расписание</string>
+    <string name="look_schedule_description">Приложение позволяет узнавать расписание группы или преподавателя. После авторизации в личном кабинете в расписании также будет выводиться ваша проектная деятельность</string>
+    <string name="next_step">Дальше</string>
+    <string name="skip_setting">Пропустить настройку</string>
+    <string name="choose_project">Выбирайте проект</string>
+    <string name="choose_project_description">В приложение встроены все функции “Ярмарки проектов ИРНИТУ”. Вы можете изучать проекты, подавать на них заявки и отслеживать прогресс</string>
+    <string name="setup_schedule">Настроить расписание</string>
+    <string name="adjust_to_you">Подстроимся под вас</string>
+    <string name="adjust_to_you_description">Произведем быструю настройку, чтобы при заходе в приложении выводилось только ваше расписание. Вы можете внести изменения в настройках в любое время</string>
+    <string name="login_campus">Войти через кампус</string>
+    <string name="skip">Пропустить</string>
+    <string name="login_to_personal_account">Войдите в личный кабинет</string>
+    <string name="login_to_personal_account_description">Авторизируйтесь в аккаунте Кампуса ИРНИТУ, чтобы управлять заявками на проектную деятельность</string>
+    <string name="favorites_list">Список избранного</string>
+    <string name="application_language">Язык приложения</string>
+    <string name="about_the_developers">О разработчиках</string>
+    <string name="my_profile">Мой Профиль</string>
+    <string name="my_participations">Мои Заявки</string>
+    <string name="skills">Навыки</string>
+    <string name="training_group">Учебная группа</string>
+    <string name="institute">Институт</string>
+    <string name="contact_info">Контактная информация</string>
+    <string name="additional_information">Дополнительная информация</string>
+    <string name="login_to_account">Вход в аккаунт</string>
+    <string name="authorize_via_campus">Авторизоваться через кампус</string>
 </resources>

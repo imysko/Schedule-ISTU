@@ -41,7 +41,6 @@ fun <T> DataStore<Preferences>.putBlocking(dataStoreKeys: DataStoreKeys<T>, valu
     }
 }
 
-@Suppress("UNCHECKED_CAST")
 fun <T> DataStore<Preferences>.get(dataStoreKeys: DataStoreKeys<T>): T? {
     return runBlocking {
         this@get.data.catch { exception ->
@@ -54,7 +53,7 @@ fun <T> DataStore<Preferences>.get(dataStoreKeys: DataStoreKeys<T>): T? {
             }
         }.map {
             it[dataStoreKeys.key]
-        }.first() as T
+        }.first()
     }
 }
 

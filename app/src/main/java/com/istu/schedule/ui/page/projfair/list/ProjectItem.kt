@@ -49,34 +49,34 @@ import java.text.DateFormat
 fun ProjectItem(
     modifier: Modifier = Modifier,
     project: Project,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Card(
         shape = Shape10,
         modifier = modifier
             .padding(start = 15.dp, bottom = 15.dp, end = 15.dp)
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
     ) {
         Column(modifier = Modifier.padding(15.dp, 20.dp)) {
             Text(
                 text = project.title,
-                style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp),
+                style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
             )
             if (project.supervisorsNames.isNotBlank()) {
                 Text(
                     modifier = Modifier.padding(top = 7.dp),
                     text = project.supervisorsNames,
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary,
-                    ),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                 )
             }
             if (project.specialities.isNotEmpty()) {
                 Text(
                     text = project.specialities.joinToString { it.name },
                     style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary,
-                    ),
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                 )
             }
             Row(
@@ -84,7 +84,7 @@ fun ProjectItem(
                     .padding(vertical = 15.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Row {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -92,26 +92,26 @@ fun ProjectItem(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.People,
                             contentDescription = "People Icon",
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.places.toString(),
                             style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.primary,
-                            ),
+                                color = MaterialTheme.colorScheme.primary
+                            )
                         )
                         Spacer(modifier = Modifier.width(20.dp))
                         Icon(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.Star,
                             contentDescription = "Star Icon",
-                            tint = MaterialTheme.colorScheme.tertiary,
+                            tint = MaterialTheme.colorScheme.tertiary
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.difficulty.toProjectDifficulty(),
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = MaterialTheme.typography.bodyMedium
                         )
                     }
                 }
@@ -126,11 +126,11 @@ fun ProjectItem(
                                     3 -> com.istu.schedule.ui.theme.Orange
                                     5 -> com.istu.schedule.ui.theme.Cyan
                                     else -> MaterialTheme.colorScheme.secondary
-                                },
+                                }
                             ),
-                            RoundedCornerShape(72.dp),
+                            RoundedCornerShape(72.dp)
                         )
-                        .padding(24.dp, 7.dp),
+                        .padding(24.dp, 7.dp)
                 ) {
                     Text(
                         text = project.state.state.uppercase(),
@@ -141,8 +141,8 @@ fun ProjectItem(
                                 5 -> com.istu.schedule.ui.theme.Cyan
                                 else -> MaterialTheme.colorScheme.secondary
                             },
-                            fontWeight = FontWeight.SemiBold,
-                        ),
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
                 }
             }
@@ -150,7 +150,7 @@ fun ProjectItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
-                color = HalfGray,
+                color = HalfGray
             )
             if (project.goal.isNotBlank()) {
                 Text(
@@ -163,9 +163,9 @@ fun ProjectItem(
                                     fontWeight = FontWeight.SemiBold,
                                     fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                     fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                                ),
-                            ),
+                                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
+                                )
+                            )
                         )
                         append(
                             AnnotatedString(
@@ -174,11 +174,11 @@ fun ProjectItem(
                                     fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                     fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                     fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                                    color = MaterialTheme.colorScheme.secondary,
-                                ),
-                            ),
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            )
                         )
-                    },
+                    }
                 )
             }
             Text(
@@ -191,9 +191,9 @@ fun ProjectItem(
                                 fontWeight = FontWeight.SemiBold,
                                 fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                            ),
-                        ),
+                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
+                            )
+                        )
                     )
                     append(
                         AnnotatedString(
@@ -203,11 +203,11 @@ fun ProjectItem(
                                 fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
                                 fontSize = MaterialTheme.typography.bodyMedium.fontSize,
                                 fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                                color = MaterialTheme.colorScheme.secondary,
-                            ),
-                        ),
+                                color = MaterialTheme.colorScheme.secondary
+                            )
+                        )
                     )
-                },
+                }
             )
             if (project.skills.isNotEmpty()) {
                 ChipVerticalGrid(
@@ -220,10 +220,10 @@ fun ProjectItem(
                             text = pluralStringResource(
                                 id = R.plurals.tags_left,
                                 count = it,
-                                it,
-                            ),
+                                it
+                            )
                         )
-                    },
+                    }
                 ) {
                     project.skills.sortedBy { it.name.length }.forEach {
                         SIChip(text = it.name)
@@ -236,7 +236,7 @@ fun ProjectItem(
                     .fillMaxWidth()
                     .height(42.dp),
                 text = stringResource(R.string.read_more),
-                onClick = onClick,
+                onClick = onClick
             )
             if (project.state.id == 1) {
                 OutlineButton(
@@ -244,7 +244,7 @@ fun ProjectItem(
                         .padding(top = 5.dp)
                         .fillMaxWidth()
                         .height(42.dp),
-                    text = stringResource(R.string.send_application),
+                    text = stringResource(R.string.send_application)
                 )
             }
         }

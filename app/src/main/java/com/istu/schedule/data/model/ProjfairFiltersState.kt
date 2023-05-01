@@ -1,6 +1,7 @@
 package com.istu.schedule.data.model
 
 data class ProjfairFiltersState(
+    val isChanged: Boolean = true,
     val statusesList: List<Int> = listOf(),
     val difficultiesList: List<Int> = listOf(),
     val specialitiesList: List<Pair<Int, String>> = listOf(),

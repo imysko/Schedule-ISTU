@@ -16,6 +16,7 @@ val Cyan = Color(0xFF3CB9E0)
 val Background = Color(0xFFF4F5FA)
 
 val Gray = Color(0xFFA4A4A4)
+val GrayDisabled = Color(0xFFD9D9D9)
 
 val Orange = Color(0xFFFFA500)
 

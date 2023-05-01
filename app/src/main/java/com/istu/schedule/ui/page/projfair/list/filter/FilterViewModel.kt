@@ -90,6 +90,7 @@ class FilterViewModel @Inject constructor(
     fun saveFilters() {
         _user.setProjfairFilters(
             ProjfairFiltersState(
+                true,
                 _filtersPageUiState.value.statusesList,
                 _filtersPageUiState.value.difficultiesList,
                 _filtersPageUiState.value.specialitiesList,

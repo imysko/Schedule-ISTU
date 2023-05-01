@@ -38,6 +38,10 @@ class User @Inject constructor(
         _projfairFiltersState.value = projfairFiltersState
     }
 
+    fun setFiltersChanged(isUpdated: Boolean) {
+        _projfairFiltersState.value = _projfairFiltersState.value.copy(isChanged = isUpdated)
+    }
+
     private fun setAuth() {
         if (projfairToken != null) {
             getCandidate()

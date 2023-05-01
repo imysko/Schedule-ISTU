@@ -44,4 +44,7 @@ val ShapeTop32 = RoundedCornerShape(32.0.dp, 32.0.dp, 0.0.dp, 0.0.dp)
 val ShapeTop20 = RoundedCornerShape(20.0.dp, 20.0.dp, 0.0.dp, 0.0.dp)
 
 @Stable
+val ShapeTop15 = RoundedCornerShape(15.0.dp, 20.0.dp, 0.0.dp, 0.0.dp)
+
+@Stable
 val ShapeBottom32 = RoundedCornerShape(0.0.dp, 0.0.dp, 32.0.dp, 32.0.dp)

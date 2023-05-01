@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.settings.projfair
+package com.istu.schedule.ui.page.account.login
 
 import androidx.lifecycle.ViewModel
 import com.istu.schedule.data.model.User
@@ -7,7 +7,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginProjfairViewModel @Inject constructor(
-    private val _user: User,
+    private val _user: User
 ) : ViewModel() {
     fun login(cookies: String) {
         var token = ""

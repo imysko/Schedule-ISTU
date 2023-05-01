@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.theme.Shapes
 import com.istu.schedule.util.NavDestinations
@@ -30,43 +29,42 @@ import com.istu.schedule.util.NavDestinations
 @Composable
 fun CandidateProjectsListPage(
     navController: NavController,
-    viewModel: CandidateProjectsListViewModel = hiltViewModel(),
+    viewModel: CandidateProjectsListViewModel = hiltViewModel()
 ) {
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
-    AppComposable(
-        viewModel = viewModel,
+    SIScaffold(
         content = {
-            SIScaffold(
-                content = {
-                    LazyColumn {
-                        items(projectsList) { project ->
-                            Card(
-                                shape = Shapes.medium,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate("${NavDestinations.PROJECT_PAGE}/${project.id}")
-                                    },
-                            ) {
-                                Column(Modifier.padding(8.dp)) {
-                                    Text(
-                                        project.title,
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        maxLines = 2,
-                                    )
-                                }
+            LazyColumn {
+                items(projectsList) { project ->
+                    Card(
+                        shape = Shapes.medium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    "${NavDestinations.PROJECT_PAGE}/${project.id}"
+                                )
                             }
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(128.dp))
-                            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+                    ) {
+                        Column(Modifier.padding(8.dp)) {
+                            Text(
+                                project.title,
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 2
+                            )
                         }
                     }
-                },
-            )
-        },
+                }
+                item {
+                    Spacer(modifier = Modifier.height(128.dp))
+                    Spacer(
+                        modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars)
+                    )
+                }
+            }
+        }
     )
 }

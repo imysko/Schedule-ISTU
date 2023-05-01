@@ -121,4 +121,7 @@
     <string name="skip">Skip</string>
     <string name="login_to_personal_account">Log in to your personal account</string>
     <string name="login_to_personal_account_description">Log in to the IRNTU Campus account to manage applications for project activities</string>
+    <string name="favorites_list">Favorites List</string>
+    <string name="application_language">Application language</string>
+    <string name="about_the_developers">About the developers</string>
 </resources>

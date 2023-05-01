@@ -126,4 +126,7 @@
     <string name="skip">Пропустить</string>
     <string name="login_to_personal_account">Войдите в личный кабинет</string>
     <string name="login_to_personal_account_description">Авторизируйтесь в аккаунте Кампуса ИРНИТУ, чтобы управлять заявками на проектную деятельность</string>
+    <string name="favorites_list">Список избранного</string>
+    <string name="application_language">Язык приложения</string>
+    <string name="about_the_developers">О разработчиках</string>
 </resources>

@@ -22,7 +22,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.theme.Shapes
 import com.istu.schedule.util.NavDestinations
@@ -30,43 +29,44 @@ import com.istu.schedule.util.NavDestinations
 @Composable
 fun CandidateParticipationsListPage(
     navController: NavController,
-    viewModel: CandidateParticipationsListViewModel = hiltViewModel(),
+    viewModel: CandidateParticipationsListViewModel = hiltViewModel()
 ) {
     val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
 
-    AppComposable(
-        viewModel = viewModel,
+    SIScaffold(
         content = {
-            SIScaffold(
-                content = {
-                    LazyColumn {
-                        items(participationsList) { participation ->
-                            Card(
-                                shape = Shapes.medium,
-                                modifier = Modifier
-                                    .padding(8.dp)
-                                    .fillMaxWidth()
-                                    .clickable {
-                                        navController.navigate("${NavDestinations.PROJECT_PAGE}/${participation.id}")
-                                    },
-                            ) {
-                                Column(Modifier.padding(8.dp)) {
-                                    Text(
-                                        participation.toString(),
-                                        fontSize = 18.sp,
-                                        fontWeight = FontWeight.Bold,
-                                        maxLines = 2,
-                                    )
-                                }
+            LazyColumn {
+                items(participationsList) { participation ->
+                    Card(
+                        shape = Shapes.medium,
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .fillMaxWidth()
+                            .clickable {
+                                navController.navigate(
+                                    "${NavDestinations.PROJECT_PAGE}/${participation.id}"
+                                )
                             }
-                        }
-                        item {
-                            Spacer(modifier = Modifier.height(128.dp))
-                            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+                    ) {
+                        Column(Modifier.padding(8.dp)) {
+                            Text(
+                                participation.toString(),
+                                fontSize = 18.sp,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 2
+                            )
                         }
                     }
-                },
-            )
-        },
+                }
+                item {
+                    Spacer(modifier = Modifier.height(128.dp))
+                    Spacer(
+                        modifier = Modifier.windowInsetsBottomHeight(
+                            WindowInsets.navigationBars
+                        )
+                    )
+                }
+            }
+        }
     )
 }

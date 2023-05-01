@@ -6,12 +6,12 @@ import androidx.compose.runtime.Composable
 @Composable
 fun SIExtensibleVisibility(
     visible: Boolean,
-    content: @Composable AnimatedVisibilityScope.() -> Unit,
+    content: @Composable AnimatedVisibilityScope.() -> Unit
 ) {
     AnimatedVisibility(
         visible = visible,
         enter = fadeIn() + expandVertically(),
         exit = fadeOut() + shrinkVertically(),
-        content = content,
+        content = content
     )
 }

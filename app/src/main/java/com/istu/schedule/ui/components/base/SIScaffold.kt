@@ -30,19 +30,19 @@ fun SIScaffold(
     actions: (@Composable RowScope.() -> Unit)? = null,
     bottomBar: (@Composable () -> Unit)? = null,
     floatingActionButton: (@Composable () -> Unit)? = null,
-    content: @Composable () -> Unit = {},
+    content: @Composable () -> Unit = {}
 ) {
     Scaffold(
         modifier = Modifier
             .background(
                 MaterialTheme.colorScheme.surfaceColorAtElevation(
                     elevation = topBarTonalElevation,
-                    color = containerColor,
-                ),
+                    color = containerColor
+                )
             ),
         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
             elevation = containerTonalElevation,
-            color = containerColor,
+            color = containerColor
         ) onDark MaterialTheme.colorScheme.surface,
         topBar = {
             if (navigationIcon != null || actions != null) {
@@ -53,13 +53,13 @@ fun SIScaffold(
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                             elevation = topBarTonalElevation,
-                            color = containerColor,
+                            color = containerColor
                         ),
                         scrolledContainerColor = MaterialTheme.colorScheme.surfaceColorAtElevation(
                             elevation = topBarTonalElevation,
-                            color = containerColor,
-                        ),
-                    ),
+                            color = containerColor
+                        )
+                    )
                 )
             }
         },
@@ -70,6 +70,6 @@ fun SIScaffold(
             }
         },
         bottomBar = { bottomBar?.invoke() },
-        floatingActionButton = { floatingActionButton?.invoke() },
+        floatingActionButton = { floatingActionButton?.invoke() }
     )
 }

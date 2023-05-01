@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.projfair.project
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -54,7 +55,6 @@ import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.ui.components.base.AppComposable
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.SIChip
@@ -65,41 +65,25 @@ import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.toProjectDifficulty
-import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-
-@Composable
-fun ProjectPage(
-    projectId: Int,
-    navController: NavController,
-    viewModel: ProjectViewModel = hiltViewModel(),
-) {
-    val project by viewModel.project.observeAsState(initial = null)
-    viewModel.getProjectById(projectId)
-
-    AppComposable(
-        viewModel = viewModel,
-        content = {
-            ProjectPage(
-                navController = navController,
-                project = project,
-            )
-        },
-    )
-}
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProjectPage(
+    projectId: Int,
     navController: NavController,
-    project: Project?,
+    viewModel: ProjectViewModel = hiltViewModel()
 ) {
+    val project by viewModel.project.observeAsState(initial = null)
+    viewModel.getProjectById(projectId)
+
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val pages = listOf(
         stringResource(R.string.about_project),
-        stringResource(R.string.list_of_particpations),
+        stringResource(R.string.list_of_particpations)
     )
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
@@ -112,17 +96,17 @@ fun ProjectPage(
                 Text(
                     modifier = Modifier.padding(15.dp),
                     text = stringResource(id = R.string.projfair),
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineMedium
                 )
                 Row(
                     modifier = Modifier
                         .padding(horizontal = 15.dp)
-                        .padding(bottom = 10.dp),
+                        .padding(bottom = 10.dp)
                 ) {
                     SIScrollableTabRow(
                         selectedTabIndex = pagerState.currentPage,
                         indicator = indicator,
-                        edgePadding = 0.dp,
+                        edgePadding = 0.dp
                     ) {
                         pages.forEachIndexed { index, title ->
                             Column(
@@ -131,27 +115,27 @@ fun ProjectPage(
                                     .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
                                     .clickable(
                                         interactionSource = MutableInteractionSource(),
-                                        indication = null,
+                                        indication = null
                                     ) {
                                         coroutineScope.launch {
                                             pagerState.scrollToPage(index)
                                         }
                                     },
-                                verticalArrangement = Arrangement.Center,
+                                verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
                                     style = MaterialTheme.typography.titleMedium.copy(
                                         color = Color.White,
-                                        fontSize = 18.sp,
+                                        fontSize = 18.sp
                                     ),
-                                    text = title,
+                                    text = title
                                 )
                             }
                         }
                     }
                 }
             }
-        },
+        }
     ) {
         Column(
             modifier = Modifier
@@ -162,45 +146,45 @@ fun ProjectPage(
                     start = 15.dp,
                     end = 15.dp,
                     top = 23.dp,
-                    bottom = 50.dp,
-                ),
+                    bottom = 50.dp
+                )
         ) {
             Box(
                 modifier = Modifier.clickable(
                     interactionSource = MutableInteractionSource(),
-                    indication = null,
+                    indication = null
                 ) {
                     navController.popBackStack()
-                },
+                }
             ) {
                 Row(
                     modifier = Modifier.padding(bottom = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         modifier = Modifier.size(18.dp),
                         imageVector = Icons.Rounded.ArrowBackIosNew,
                         contentDescription = stringResource(R.string.back),
-                        tint = MaterialTheme.colorScheme.secondary,
+                        tint = MaterialTheme.colorScheme.secondary
                     )
                     Text(
                         modifier = Modifier.padding(start = 9.dp),
                         text = stringResource(R.string.back_to_list),
                         style = MaterialTheme.typography.bodyMedium.copy(
                             color = MaterialTheme.colorScheme.secondary,
-                            fontWeight = FontWeight.SemiBold,
-                        ),
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
                 }
             }
             project?.let { project ->
                 Text(
                     text = project.title,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 HorizontalPager(
                     pageCount = pages.size,
-                    state = pagerState,
+                    state = pagerState
                 ) { page ->
                     when (page) {
                         0 -> ProjectInfo(project)
@@ -210,7 +194,7 @@ fun ProjectPage(
             } ?: run {
                 Box(
                     contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize()
                 ) {
                     CircularProgressIndicator()
                 }
@@ -224,47 +208,47 @@ fun ProjectPage(
 fun ProjectInfo(project: Project) {
     LazyColumn(
         modifier = Modifier
-            .padding(top = 23.dp),
+            .padding(top = 23.dp)
     ) {
         item {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 22.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
                     Text(
                         modifier = Modifier.padding(bottom = 10.dp),
                         text = stringResource(R.string.maximum_participants),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(
                             modifier = Modifier.size(28.dp),
                             imageVector = Icons.People,
                             contentDescription = "People Icon",
-                            tint = MaterialTheme.colorScheme.primary,
+                            tint = MaterialTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.places.toString(),
                             style = MaterialTheme.typography.bodyLarge.copy(
                                 color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.SemiBold,
-                            ),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                     }
                 }
                 Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         modifier = Modifier.padding(bottom = 10.dp),
                         text = stringResource(R.string.project_status),
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyMedium
                     )
                     Box(
                         modifier = Modifier
@@ -276,11 +260,11 @@ fun ProjectInfo(project: Project) {
                                         2 -> com.istu.schedule.ui.theme.Green
                                         5 -> com.istu.schedule.ui.theme.Cyan
                                         else -> MaterialTheme.colorScheme.secondary
-                                    },
+                                    }
                                 ),
-                                RoundedCornerShape(72.dp),
+                                RoundedCornerShape(72.dp)
                             )
-                            .padding(24.dp, 7.dp),
+                            .padding(24.dp, 7.dp)
                     ) {
                         Text(
                             text = project.state.state.uppercase(),
@@ -291,8 +275,8 @@ fun ProjectInfo(project: Project) {
                                     5 -> com.istu.schedule.ui.theme.Cyan
                                     else -> MaterialTheme.colorScheme.secondary
                                 },
-                                fontWeight = FontWeight.SemiBold,
-                            ),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                     }
                 }
@@ -303,7 +287,7 @@ fun ProjectInfo(project: Project) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
-                color = HalfGray,
+                color = HalfGray
             )
         }
         item {
@@ -312,7 +296,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(top = 22.dp),
                 key = stringResource(R.string.project_manager),
-                value = project.supervisorsNames,
+                value = project.supervisorsNames
             )
         }
         item {
@@ -321,7 +305,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(top = 22.dp),
                 key = stringResource(R.string.customer),
-                value = project.customer,
+                value = project.customer
             )
         }
         item {
@@ -332,7 +316,7 @@ fun ProjectInfo(project: Project) {
                 key = stringResource(R.string.timeline),
                 value = "${
                     DateFormat.getDateInstance(DateFormat.LONG).format(project.dateStart)
-                } - ${DateFormat.getDateInstance(DateFormat.LONG).format(project.dateEnd)}",
+                } - ${DateFormat.getDateInstance(DateFormat.LONG).format(project.dateEnd)}"
             )
         }
         item {
@@ -341,7 +325,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(top = 22.dp),
                 key = stringResource(R.string.difficulty),
-                value = project.difficulty.toProjectDifficulty(),
+                value = project.difficulty.toProjectDifficulty()
             )
         }
         item {
@@ -350,7 +334,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(top = 22.dp),
                 key = stringResource(R.string.type_of_project),
-                value = project.type.type,
+                value = project.type.type
             )
         }
         item {
@@ -359,7 +343,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(vertical = 22.dp),
                 key = stringResource(R.string.project_goal),
-                value = project.goal,
+                value = project.goal
             )
         }
         item {
@@ -367,7 +351,7 @@ fun ProjectInfo(project: Project) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
-                color = HalfGray,
+                color = HalfGray
             )
         }
         item {
@@ -376,7 +360,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(top = 22.dp),
                 key = stringResource(R.string.expected_result),
-                value = project.productResult,
+                value = project.productResult
             )
         }
         item {
@@ -385,7 +369,7 @@ fun ProjectInfo(project: Project) {
                     .fillMaxWidth()
                     .padding(vertical = 22.dp),
                 key = stringResource(R.string.requirements_for_participants),
-                value = project.studyResult,
+                value = project.studyResult
             )
         }
         item {
@@ -393,21 +377,21 @@ fun ProjectInfo(project: Project) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
-                color = HalfGray,
+                color = HalfGray
             )
         }
         item {
             Column(modifier = Modifier.padding(vertical = 22.dp)) {
                 Text(
                     style = MaterialTheme.typography.bodySmall,
-                    text = stringResource(R.string.project_idea),
+                    text = stringResource(R.string.project_idea)
                 )
                 Spacer(Modifier.height(11.dp))
                 Text(
                     style = MaterialTheme.typography.bodySmall.copy(
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.Bold
                     ),
-                    text = project.description,
+                    text = project.description
                 )
             }
         }
@@ -415,13 +399,13 @@ fun ProjectInfo(project: Project) {
             item {
                 Text(
                     style = MaterialTheme.typography.bodySmall,
-                    text = stringResource(R.string.required_skills),
+                    text = stringResource(R.string.required_skills)
                 )
                 FlowRow(modifier = Modifier.padding(top = 15.dp)) {
                     project.skills.sortedBy { it.name.length }.forEach {
                         SIChip(
                             modifier = Modifier.padding(end = 6.dp, bottom = 9.dp),
-                            text = it.name,
+                            text = it.name
                         )
                     }
                 }
@@ -434,7 +418,7 @@ fun ProjectInfo(project: Project) {
                         .padding(top = 13.dp)
                         .fillMaxWidth()
                         .height(42.dp),
-                    text = stringResource(R.string.send_application),
+                    text = stringResource(R.string.send_application)
                 )
             }
         }
@@ -448,7 +432,7 @@ fun ProjectInfo(project: Project) {
 @Composable
 fun ProjectParticipations(project: Project) {
     LazyColumn(
-        modifier = Modifier.padding(top = 20.dp),
+        modifier = Modifier.padding(top = 20.dp)
     ) {
         item {
             Row {
@@ -459,7 +443,7 @@ fun ProjectParticipations(project: Project) {
                     text = "№",
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Center,
+                    textAlign = TextAlign.Center
                 )
                 Text(
                     modifier = Modifier
@@ -467,7 +451,7 @@ fun ProjectParticipations(project: Project) {
                         .padding(horizontal = 2.dp),
                     text = "ФИО",
                     style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier
@@ -475,7 +459,7 @@ fun ProjectParticipations(project: Project) {
                         .padding(horizontal = 2.dp),
                     text = "Группа",
                     style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier
@@ -483,7 +467,7 @@ fun ProjectParticipations(project: Project) {
                         .padding(horizontal = 2.dp),
                     text = "Приоритет",
                     style = MaterialTheme.typography.labelSmall,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     modifier = Modifier
@@ -492,14 +476,14 @@ fun ProjectParticipations(project: Project) {
                     text = "Дата подачи заявки",
                     style = MaterialTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.End,
+                    textAlign = TextAlign.End
                 )
             }
         }
         itemsIndexed(
             project.participations.sortedWith(
-                compareByDescending<Participation> { it.stateId }.thenBy { it.priority },
-            ),
+                compareByDescending<Participation> { it.stateId }.thenBy { it.priority }
+            )
         ) { index, participation ->
             ParticipationInProject(index + 1, participation)
         }
@@ -507,12 +491,13 @@ fun ProjectParticipations(project: Project) {
             Spacer(
                 modifier = Modifier
                     .height(64.dp)
-                    .windowInsetsBottomHeight(WindowInsets.navigationBars),
+                    .windowInsetsBottomHeight(WindowInsets.navigationBars)
             )
         }
     }
 }
 
+@SuppressLint("SimpleDateFormat")
 @Composable
 fun ParticipationInProject(index: Int, participation: Participation) {
     val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
@@ -524,7 +509,7 @@ fun ParticipationInProject(index: Int, participation: Participation) {
             text = index.toString(),
             style = MaterialTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         Text(
             modifier = Modifier
@@ -532,14 +517,14 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .padding(horizontal = 2.dp),
             text = participation.candidate?.fio ?: "-",
             style = MaterialTheme.typography.labelMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
         Text(
             modifier = Modifier
                 .weight(0.150f)
                 .padding(horizontal = 2.dp),
             text = participation.candidate?.trainingGroup ?: "-",
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelMedium
         )
         Text(
             modifier = Modifier
@@ -547,7 +532,7 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .padding(horizontal = 2.dp),
             text = participation.priority.toString(),
             style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         Text(
             modifier = Modifier
@@ -555,7 +540,7 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .padding(horizontal = 2.dp),
             text = simpleDateFormat.format(participation.updatedAt),
             style = MaterialTheme.typography.labelMedium,
-            textAlign = TextAlign.End,
+            textAlign = TextAlign.End
         )
     }
 }

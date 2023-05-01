@@ -17,16 +17,17 @@ private val lightColorScheme = lightColorScheme(
     primaryContainer = BlueContainer,
     secondary = Gray,
     background = Background,
+    onBackground = Color.Black,
     surface = Blue,
     onSurface = Color.White,
     tertiary = BlackText,
     error = Red,
-    errorContainer = RedContainer,
+    errorContainer = RedContainer
 )
 
 @Composable
 fun ScheduleISTUTheme(
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val theme = LocalTheme.current
 
@@ -39,6 +40,7 @@ fun ScheduleISTUTheme(
                     lightColorScheme
                 }
             }
+
             ThemePreference.Amoled.value -> lightColorScheme
             ThemePreference.Dark.value -> lightColorScheme
             else -> lightColorScheme
@@ -54,6 +56,6 @@ fun ScheduleISTUTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content,
+        content = content
     )
 }

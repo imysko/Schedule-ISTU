@@ -432,7 +432,13 @@ fun ProjectInfo(project: Project) {
 @Composable
 fun ProjectParticipations(project: Project) {
     LazyColumn(
-        modifier = Modifier.padding(top = 20.dp)
+        modifier = Modifier
+            .padding(
+                start = 15.dp,
+                end = 15.dp,
+                top = 43.dp,
+                bottom = 50.dp
+            )
     ) {
         item {
             Row {

@@ -12,6 +12,5 @@ data class Candidate(
     val phone: String,
     val course: Int,
     @SerializedName("training_group")
-    val trainingGroup: String,
-    val speciality: Speciality,
+    val trainingGroup: String
 )

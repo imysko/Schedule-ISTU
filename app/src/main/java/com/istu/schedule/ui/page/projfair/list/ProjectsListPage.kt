@@ -43,7 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
 import com.istu.schedule.ui.components.base.SearchBar
-import com.istu.schedule.ui.components.toolbar.rememberToolbarScrollBehavior
+import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
@@ -61,8 +61,6 @@ fun ProjectsListPage(
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
     val listState = projectsListUiState.listState
-
-    val scrollBehavior = rememberToolbarScrollBehavior()
 
     val endOfListReached by remember {
         derivedStateOf {

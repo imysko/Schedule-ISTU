@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.projfair.list
+package com.istu.schedule.ui.components.projfair
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border

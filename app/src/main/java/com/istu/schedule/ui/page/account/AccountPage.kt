@@ -7,12 +7,17 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Divider
@@ -39,8 +44,11 @@ import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.InfoBlock
+import com.istu.schedule.ui.components.base.OutlineButton
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
+import com.istu.schedule.ui.components.projfair.ParticipationItem
+import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -60,7 +68,8 @@ fun AccountPage(
     if (candidate != null) {
         AuthorizedPage(
             navController = navController,
-            candidate = candidate!!
+            candidate = candidate!!,
+            viewModel = viewModel
         )
     } else {
         LoginPage(navController)
@@ -71,7 +80,8 @@ fun AccountPage(
 @Composable
 fun AuthorizedPage(
     navController: NavController,
-    candidate: Candidate
+    candidate: Candidate,
+    viewModel: AccountViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
@@ -83,6 +93,10 @@ fun AuthorizedPage(
     )
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.getCandidateInfo()
     }
 
     Scaffold(
@@ -138,12 +152,6 @@ fun AuthorizedPage(
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
                 .background(MaterialTheme.colorScheme.background)
-                .padding(
-                    start = 15.dp,
-                    end = 15.dp,
-                    top = 23.dp,
-                    bottom = 50.dp
-                )
         ) {
             HorizontalPager(
                 pageCount = pages.size,
@@ -151,12 +159,16 @@ fun AuthorizedPage(
             ) { page ->
                 when (page) {
                     0 -> {
-                        ProfilePage(navController = navController, candidate = candidate)
+                        ProfilePage(candidate = candidate)
                     }
 
-                    1 -> {}
+                    1 -> {
+                        ParticipationsPage(navController = navController, viewModel = viewModel)
+                    }
 
-                    2 -> {}
+                    2 -> {
+                        ProjectsPage(navController = navController, viewModel = viewModel)
+                    }
 
                     3 -> {}
                 }
@@ -168,7 +180,9 @@ fun AuthorizedPage(
 @Composable
 fun LoginPage(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(15.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(15.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -179,7 +193,9 @@ fun LoginPage(navController: NavController) {
             )
         )
         FilledButton(
-            modifier = Modifier.padding(top = 25.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = 25.dp)
+                .fillMaxWidth(),
             text = stringResource(R.string.authorize_via_campus),
             onClick = {
                 navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
@@ -189,12 +205,59 @@ fun LoginPage(navController: NavController) {
 }
 
 @Composable
-fun ProfilePage(
+fun ParticipationsPage(
     navController: NavController,
-    candidate: Candidate
+    viewModel: AccountViewModel
 ) {
+    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
+
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = 15.dp,
+                end = 15.dp,
+                top = 23.dp,
+                bottom = 50.dp
+            ),
+        verticalArrangement = Arrangement.spacedBy(9.dp)
+    ) {
+        items(participationsList) { participation ->
+            ParticipationItem(
+                participation = participation,
+                onClick = {
+                    if (participation.project != null) {
+                        navController.navigate(
+                            "${NavDestinations.PROJECT_PAGE}/${participation.project.id}"
+                        )
+                    }
+                }
+            )
+        }
+        item {
+            OutlineButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.edit_participations)
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(84.dp))
+            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+        }
+    }
+}
+
+@Composable
+fun ProfilePage(candidate: Candidate) {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = 15.dp,
+                end = 15.dp,
+                top = 23.dp,
+                bottom = 50.dp
+            ),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
         item {
@@ -262,6 +325,42 @@ fun ProfilePage(
                     fontWeight = FontWeight.Bold
                 )
             )
+        }
+    }
+}
+
+@Composable
+fun ProjectsPage(
+    navController: NavController,
+    viewModel: AccountViewModel
+) {
+    val projectsList by viewModel.projectsList.observeAsState(initial = null)
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(ShapeTop15)
+            .background(MaterialTheme.colorScheme.background)
+    ) {
+        item {
+            Spacer(modifier = Modifier.height(25.dp))
+        }
+        if (projectsList?.isNotEmpty() == true) {
+            items(projectsList!!) { project ->
+                ProjectItem(
+                    modifier = Modifier.fillMaxWidth(),
+                    project = project,
+                    onClick = {
+                        navController.navigate(
+                            "${NavDestinations.PROJECT_PAGE}/${project.id}"
+                        )
+                    }
+                )
+            }
+        }
+        item {
+            Spacer(modifier = Modifier.height(84.dp))
+            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
     }
 }

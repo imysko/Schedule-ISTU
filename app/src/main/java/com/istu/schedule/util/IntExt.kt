@@ -13,3 +13,25 @@ fun Int.toProjectDifficulty(): String {
         else -> stringResource(R.string.unknown)
     }
 }
+
+@Composable
+fun Int.toParticipationPriorityText(): String {
+    return when (this) {
+        1 -> stringResource(R.string.high_priority)
+        2 -> stringResource(R.string.medium_priority)
+        3 -> stringResource(R.string.low_priority)
+        4, 5 -> stringResource(R.string.automatic_allocation)
+        else -> stringResource(R.string.unknown)
+    }
+}
+
+@Composable
+fun Int.totoParticipationRomanNumerals(): String {
+    return when (this) {
+        1 -> "I"
+        2 -> "II"
+        3 -> "III"
+        4, 5 -> "A"
+        else -> stringResource(R.string.unknown)
+    }
+}

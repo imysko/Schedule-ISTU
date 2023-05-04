@@ -7,18 +7,18 @@ import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 class User @Inject constructor(
     private val _sharedPreference: SharedPreferences,
-    private val _candidateUseCase: GetCandidateUseCase,
+    private val _candidateUseCase: GetCandidateUseCase
 ) {
 
     private val _projfairFiltersState = MutableStateFlow(ProjfairFiltersState())

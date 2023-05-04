@@ -137,4 +137,9 @@
     <string name="additional_information">Дополнительная информация</string>
     <string name="login_to_account">Вход в аккаунт</string>
     <string name="authorize_via_campus">Авторизоваться через кампус</string>
+    <string name="high_priority">Высокий приоритет</string>
+    <string name="medium_priority">Средний приоритет</string>
+    <string name="low_priority">Низкий приоритет</string>
+    <string name="automatic_allocation">Автоматическое распределение</string>
+    <string name="edit_participations">Редактировать заявки</string>
 </resources>

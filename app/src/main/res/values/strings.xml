@@ -132,4 +132,9 @@
     <string name="additional_information">Additional information</string>
     <string name="login_to_account">Login to the account</string>
     <string name="authorize_via_campus">Authorize via campus</string>
+    <string name="high_priority">High Priority</string>
+    <string name="medium_priority">Medium Priority</string>
+    <string name="low_priority">Low Priority</string>
+    <string name="automatic_allocation">Automatic allocation</string>
+    <string name="edit_participations">Edit Participations</string>
 </resources>

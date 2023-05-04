@@ -29,25 +29,25 @@ fun OutlineButton(
     text: String = "",
     borderColor: Color = MaterialTheme.colorScheme.primary,
     contentColor: Color = MaterialTheme.colorScheme.primary,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
-            .height(56.dp)
+            .height(50.dp)
             .clip(RoundedCornerShape(4.dp))
             .border(2.dp, borderColor, RoundedCornerShape(4.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 5.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = text.uppercase(),
             style = MaterialTheme.typography.bodyMedium.copy(
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.SemiBold
             ),
-            color = contentColor,
+            color = contentColor
         )
     }
 }
@@ -59,7 +59,7 @@ fun OutlineButtonPreview() {
         Column {
             OutlineButton(
                 modifier = Modifier.fillMaxWidth().height(42.dp),
-                text = stringResource(R.string.read_more),
+                text = stringResource(R.string.read_more)
             )
         }
     }

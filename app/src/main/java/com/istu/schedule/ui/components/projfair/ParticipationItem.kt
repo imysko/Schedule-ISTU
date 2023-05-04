@@ -2,6 +2,7 @@ package com.istu.schedule.ui.components.projfair
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -33,10 +34,14 @@ import com.istu.schedule.util.toParticipationPriorityText
 import com.istu.schedule.util.totoParticipationRomanNumerals
 
 @Composable
-fun ParticipationItem(participation: Participation) {
+fun ParticipationItem(
+    participation: Participation,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
     Card(
         shape = Shape10,
-        modifier = Modifier
+        modifier = modifier.clickable(onClick = onClick)
     ) {
         Column(modifier = Modifier.fillMaxWidth().padding(18.dp)) {
             ParticipationPriorityItem(participation.priority)

@@ -141,4 +141,5 @@
     <string name="medium_priority">Средний приоритет</string>
     <string name="low_priority">Низкий приоритет</string>
     <string name="automatic_allocation">Автоматическое распределение</string>
+    <string name="edit_participations">Редактировать заявки</string>
 </resources>

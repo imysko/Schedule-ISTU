@@ -41,10 +41,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Candidate
-import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.InfoBlock
+import com.istu.schedule.ui.components.base.OutlineButton
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.projfair.ParticipationItem
@@ -83,7 +83,6 @@ fun AuthorizedPage(
     candidate: Candidate,
     viewModel: AccountViewModel
 ) {
-    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val pages = listOf(
@@ -164,7 +163,7 @@ fun AuthorizedPage(
                     }
 
                     1 -> {
-                        ParticipationsPage(participationsList = participationsList)
+                        ParticipationsPage(navController = navController, viewModel = viewModel)
                     }
 
                     2 -> {
@@ -181,7 +180,9 @@ fun AuthorizedPage(
 @Composable
 fun LoginPage(navController: NavController) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(15.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(15.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -192,7 +193,9 @@ fun LoginPage(navController: NavController) {
             )
         )
         FilledButton(
-            modifier = Modifier.padding(top = 25.dp).fillMaxWidth(),
+            modifier = Modifier
+                .padding(top = 25.dp)
+                .fillMaxWidth(),
             text = stringResource(R.string.authorize_via_campus),
             onClick = {
                 navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
@@ -202,9 +205,15 @@ fun LoginPage(navController: NavController) {
 }
 
 @Composable
-fun ParticipationsPage(participationsList: List<Participation>) {
+fun ParticipationsPage(
+    navController: NavController,
+    viewModel: AccountViewModel
+) {
+    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
+
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(
                 start = 15.dp,
                 end = 15.dp,
@@ -214,7 +223,26 @@ fun ParticipationsPage(participationsList: List<Participation>) {
         verticalArrangement = Arrangement.spacedBy(9.dp)
     ) {
         items(participationsList) { participation ->
-            ParticipationItem(participation)
+            ParticipationItem(
+                participation = participation,
+                onClick = {
+                    if (participation.project != null) {
+                        navController.navigate(
+                            "${NavDestinations.PROJECT_PAGE}/${participation.project.id}"
+                        )
+                    }
+                }
+            )
+        }
+        item {
+            OutlineButton(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.edit_participations)
+            )
+        }
+        item {
+            Spacer(modifier = Modifier.height(84.dp))
+            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
     }
 }
@@ -222,7 +250,8 @@ fun ParticipationsPage(participationsList: List<Participation>) {
 @Composable
 fun ProfilePage(candidate: Candidate) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .padding(
                 start = 15.dp,
                 end = 15.dp,

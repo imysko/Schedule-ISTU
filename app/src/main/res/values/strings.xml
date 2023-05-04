@@ -136,4 +136,5 @@
     <string name="medium_priority">Medium Priority</string>
     <string name="low_priority">Low Priority</string>
     <string name="automatic_allocation">Automatic allocation</string>
+    <string name="edit_participations">Edit Participations</string>
 </resources>

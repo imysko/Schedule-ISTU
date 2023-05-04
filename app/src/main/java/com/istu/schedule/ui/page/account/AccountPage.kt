@@ -41,12 +41,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Candidate
+import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.InfoBlock
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
-import com.istu.schedule.ui.page.projfair.list.ProjectItem
+import com.istu.schedule.ui.components.projfair.ParticipationItem
+import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -81,6 +83,7 @@ fun AuthorizedPage(
     candidate: Candidate,
     viewModel: AccountViewModel
 ) {
+    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val pages = listOf(
@@ -94,7 +97,7 @@ fun AuthorizedPage(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.getProjectsList()
+        viewModel.getCandidateInfo()
     }
 
     Scaffold(
@@ -160,7 +163,9 @@ fun AuthorizedPage(
                         ProfilePage(candidate = candidate)
                     }
 
-                    1 -> {}
+                    1 -> {
+                        ParticipationsPage(participationsList = participationsList)
+                    }
 
                     2 -> {
                         ProjectsPage(navController = navController, viewModel = viewModel)
@@ -193,6 +198,24 @@ fun LoginPage(navController: NavController) {
                 navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
             }
         )
+    }
+}
+
+@Composable
+fun ParticipationsPage(participationsList: List<Participation>) {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+            .padding(
+                start = 15.dp,
+                end = 15.dp,
+                top = 23.dp,
+                bottom = 50.dp
+            ),
+        verticalArrangement = Arrangement.spacedBy(9.dp)
+    ) {
+        items(participationsList) { participation ->
+            ParticipationItem(participation)
+        }
     }
 }
 

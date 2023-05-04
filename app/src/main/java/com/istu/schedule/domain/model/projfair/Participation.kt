@@ -17,4 +17,5 @@ data class Participation(
     @SerializedName("updated_at")
     val updatedAt: Date,
     val candidate: Candidate?,
+    val project: Project?
 )

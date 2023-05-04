@@ -433,12 +433,7 @@ fun ProjectInfo(project: Project) {
 fun ProjectParticipations(project: Project) {
     LazyColumn(
         modifier = Modifier
-            .padding(
-                start = 15.dp,
-                end = 15.dp,
-                top = 43.dp,
-                bottom = 50.dp
-            )
+            .padding(top = 23.dp)
     ) {
         item {
             Row {

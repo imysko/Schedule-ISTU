@@ -43,6 +43,7 @@ import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
 import com.istu.schedule.ui.components.base.SearchBar
+import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.ScheduleISTUTheme

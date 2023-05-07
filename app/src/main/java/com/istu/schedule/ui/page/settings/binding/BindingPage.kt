@@ -28,14 +28,14 @@ import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.ui.components.base.AppComposable
-import com.istu.schedule.ui.components.base.BlockRadioButton
-import com.istu.schedule.ui.components.base.BlockRadioGroupButtonItem
 import com.istu.schedule.ui.components.base.DisplayText
 import com.istu.schedule.ui.components.base.FeedbackIconButton
 import com.istu.schedule.ui.components.base.SIDialog
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
 import com.istu.schedule.ui.components.base.SIScaffold
 import com.istu.schedule.ui.components.base.Subtitle
+import com.istu.schedule.ui.components.base.button.BlockRadioButton
+import com.istu.schedule.ui.components.base.button.BlockRadioGroupButtonItem
 import com.istu.schedule.ui.page.settings.binding.options.ChooseCourse
 import com.istu.schedule.ui.page.settings.binding.options.ChooseGroup
 import com.istu.schedule.ui.page.settings.binding.options.ChooseInstitute
@@ -45,14 +45,17 @@ import com.istu.schedule.util.collectAsStateValue
 @Composable
 fun BindingPage(
     navController: NavHostController,
-    viewModel: BindingViewModel = hiltViewModel(),
+    viewModel: BindingViewModel = hiltViewModel()
 ) {
     val bindingUiState = viewModel.bindingUiState.collectAsStateValue()
 
     var radioButtonSelected by remember {
         mutableStateOf(
-            if (viewModel.userState.value != UserStatus.UNKNOWN) viewModel.userState.value.ordinal
-            else -1
+            if (viewModel.userState.value != UserStatus.UNKNOWN) {
+                viewModel.userState.value.ordinal
+            } else {
+                -1
+            }
         )
     }
 
@@ -93,7 +96,7 @@ fun BindingPage(
                         itemRadioGroups = listOf(
                             BlockRadioGroupButtonItem(
                                 text = stringResource(R.string.is_student),
-                                onClick = { viewModel.selectUserStatus(UserStatus.STUDENT) },
+                                onClick = { viewModel.selectUserStatus(UserStatus.STUDENT) }
                             ) {
                                 SIExtensibleVisibility(
                                     visible = bindingUiState.isShowInstitutesInput
@@ -143,7 +146,7 @@ fun BindingPage(
                             },
                             BlockRadioGroupButtonItem(
                                 text = stringResource(R.string.is_teacher),
-                                onClick = { viewModel.selectUserStatus(UserStatus.TEACHER) },
+                                onClick = { viewModel.selectUserStatus(UserStatus.TEACHER) }
                             ) {
                                 SIExtensibleVisibility(
                                     visible = bindingUiState.isShowTeachersInput
@@ -163,8 +166,8 @@ fun BindingPage(
                                         onClear = { viewModel.clearTeacher() }
                                     )
                                 }
-                            },
-                        ),
+                            }
+                        )
                     )
                 },
                 floatingActionButton = {
@@ -188,7 +191,7 @@ fun BindingPage(
                             if (bindingUiState.canBinding) {
                                 navController.popBackStack()
                             }
-                        },
+                        }
                     )
                 }
             )

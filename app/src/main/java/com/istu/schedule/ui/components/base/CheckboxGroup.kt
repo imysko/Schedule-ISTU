@@ -12,12 +12,12 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CheckboxGroup(
     modifier: Modifier = Modifier,
-    items: MutableList<CheckboxItem>,
+    items: MutableList<StringResourceItem>,
     selectedList: MutableList<Int>,
-    onCheckedChange: (List<Int>) -> Unit = {},
+    onCheckedChange: (List<Int>) -> Unit = {}
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier
     ) {
         for (item in items) {
             SICheckbox(
@@ -41,13 +41,13 @@ fun CheckboxGroup(
                     }
                     onCheckedChange(selectedList)
                 },
-                checkedState = item.id in selectedList,
+                checkedState = item.id in selectedList
             )
         }
     }
 }
 
-data class CheckboxItem(
+data class StringResourceItem(
     val id: Int,
-    val stringId: Int,
+    val stringId: Int
 )

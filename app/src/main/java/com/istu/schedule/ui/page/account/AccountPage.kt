@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -39,14 +40,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.fade
+import com.google.accompanist.placeholder.material.placeholder
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.ui.components.base.CustomIndicator
-import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.InfoBlock
-import com.istu.schedule.ui.components.base.OutlineButton
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
+import com.istu.schedule.ui.components.base.button.FilledButton
+import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.components.projfair.ParticipationItem
 import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.theme.HalfGray
@@ -60,15 +65,16 @@ fun AccountPage(
     viewModel: AccountViewModel = hiltViewModel()
 ) {
     val candidate by viewModel.candidate.observeAsState(initial = null)
+    val authState by viewModel.authState.observeAsState(ProjfairAuthStatus.UNDEFINED)
 
     LaunchedEffect(Unit) {
         viewModel.collectSettingsState()
     }
 
-    if (candidate != null) {
+    if (authState == ProjfairAuthStatus.SUCCESS) {
         AuthorizedPage(
             navController = navController,
-            candidate = candidate!!,
+            candidate = candidate,
             viewModel = viewModel
         )
     } else {
@@ -80,7 +86,7 @@ fun AccountPage(
 @Composable
 fun AuthorizedPage(
     navController: NavController,
-    candidate: Candidate,
+    candidate: Candidate?,
     viewModel: AccountViewModel
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -88,8 +94,7 @@ fun AuthorizedPage(
     val pages = listOf(
         stringResource(R.string.my_profile),
         stringResource(R.string.my_participations),
-        stringResource(R.string.my_projects),
-        stringResource(R.string.skills)
+        stringResource(R.string.my_projects)
     )
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
@@ -104,8 +109,20 @@ fun AuthorizedPage(
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
                 Text(
-                    modifier = Modifier.padding(15.dp),
-                    text = candidate.fio,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(15.dp)
+                        .placeholder(
+                            visible = candidate == null,
+                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f),
+                            highlight = PlaceholderHighlight.fade(
+                                highlightColor = MaterialTheme.colorScheme.primaryContainer.copy(
+                                    alpha = 0.13f
+                                )
+                            ),
+                            shape = RoundedCornerShape(4.dp)
+                        ),
+                    text = candidate?.fio ?: "",
                     style = MaterialTheme.typography.headlineMedium
                 )
                 Row(
@@ -169,8 +186,6 @@ fun AuthorizedPage(
                     2 -> {
                         ProjectsPage(navController = navController, viewModel = viewModel)
                     }
-
-                    3 -> {}
                 }
             }
         }
@@ -248,7 +263,7 @@ fun ParticipationsPage(
 }
 
 @Composable
-fun ProfilePage(candidate: Candidate) {
+fun ProfilePage(candidate: Candidate?) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -271,15 +286,15 @@ fun ProfilePage(candidate: Candidate) {
         item {
             InfoBlock(
                 title = stringResource(R.string.email),
-                description = candidate.email
+                description = candidate?.email ?: ""
             )
         }
         item {
             InfoBlock(
                 title = stringResource(R.string.phone_number),
-                description = candidate.phone.ifBlank {
+                description = candidate?.phone?.ifBlank {
                     stringResource(R.string.not_specified)
-                }
+                } ?: ""
             )
         }
         item {
@@ -301,13 +316,13 @@ fun ProfilePage(candidate: Candidate) {
         item {
             InfoBlock(
                 title = stringResource(R.string.training_group),
-                description = candidate.trainingGroup
+                description = candidate?.trainingGroup ?: ""
             )
         }
         item {
             InfoBlock(
                 title = stringResource(R.string.course),
-                description = candidate.course.toString()
+                description = candidate?.course.toString()
             )
         }
         item {
@@ -316,14 +331,6 @@ fun ProfilePage(candidate: Candidate) {
                     .fillMaxWidth()
                     .height(2.dp),
                 color = HalfGray
-            )
-        }
-        item {
-            Text(
-                text = stringResource(R.string.skills),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.Bold
-                )
             )
         }
     }

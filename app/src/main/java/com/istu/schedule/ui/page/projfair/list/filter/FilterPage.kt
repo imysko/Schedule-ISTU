@@ -34,17 +34,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.CheckboxGroup
-import com.istu.schedule.ui.components.base.CheckboxItem
-import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.SIDropdownMenu
-import com.istu.schedule.ui.components.base.TextButton
+import com.istu.schedule.ui.components.base.StringResourceItem
+import com.istu.schedule.ui.components.base.button.FilledButton
+import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.icons.X
 import com.istu.schedule.util.collectAsStateValue
 
 @Composable
 fun FiltersPage(
     navController: NavController,
-    viewModel: FilterViewModel = hiltViewModel(),
+    viewModel: FilterViewModel = hiltViewModel()
 ) {
     val filtersPageUiState = viewModel.filtersPageUiState.collectAsStateValue()
 
@@ -53,16 +53,16 @@ fun FiltersPage(
     val specialitiesList by viewModel.specialitiesList.observeAsState(initial = emptyList())
 
     val statusesList = mutableListOf(
-        CheckboxItem(1, R.string.recruitment_is_open),
-        CheckboxItem(2, R.string.active),
-        CheckboxItem(4, R.string.in_archive),
-        CheckboxItem(5, R.string.processing_of_participants),
+        StringResourceItem(1, R.string.recruitment_is_open),
+        StringResourceItem(2, R.string.active),
+        StringResourceItem(4, R.string.in_archive),
+        StringResourceItem(5, R.string.processing_of_participants)
     )
 
     val difficultiesList = mutableListOf(
-        CheckboxItem(1, R.string.easy),
-        CheckboxItem(2, R.string.medium),
-        CheckboxItem(3, R.string.difficult),
+        StringResourceItem(1, R.string.easy),
+        StringResourceItem(2, R.string.medium),
+        StringResourceItem(3, R.string.difficult)
     )
 
     val selectedStatusesList = filtersPageUiState.statusesList
@@ -84,51 +84,51 @@ fun FiltersPage(
             modifier = Modifier
                 .statusBarsPadding()
                 .padding(15.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = stringResource(R.string.filters),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Column(
                     modifier = Modifier
                         .padding(7.dp)
                         .clickable(
                             interactionSource = MutableInteractionSource(),
-                            indication = null,
+                            indication = null
                         ) {
                             navController.popBackStack()
                         },
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
                         imageVector = Icons.X,
                         contentDescription = "cross icon",
-                        tint = MaterialTheme.colorScheme.secondary,
+                        tint = MaterialTheme.colorScheme.secondary
                     )
                 }
             }
             Text(
                 modifier = Modifier.padding(top = 14.dp, bottom = 4.dp, start = 5.dp),
                 text = stringResource(R.string.project_status),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
             CheckboxGroup(
                 items = statusesList,
                 selectedList = selectedStatusesList.toMutableList(),
-                onCheckedChange = { viewModel.setStatusesList(it) },
+                onCheckedChange = { viewModel.setStatusesList(it) }
             )
             Divider(Modifier.padding(vertical = 22.dp))
             Text(
                 modifier = Modifier.padding(bottom = 14.dp, start = 5.dp),
                 text = stringResource(R.string.project_tags),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
             SIDropdownMenu(
                 listItems = specialitiesList.map { Pair(it.id, it.name) },
@@ -136,7 +136,7 @@ fun FiltersPage(
                 onTextValueChange = { viewModel.setSpecialitySearchText(it) },
                 selectedItems = selectedSpecialitiesList.toMutableList(),
                 placeholder = stringResource(R.string.select_a_specialty),
-                onItemSelect = { viewModel.setSpecialitiesList(it) },
+                onItemSelect = { viewModel.setSpecialitiesList(it) }
             )
             SIDropdownMenu(
                 modifier = Modifier.padding(top = 8.dp),
@@ -145,18 +145,18 @@ fun FiltersPage(
                 onTextValueChange = { viewModel.setSkillSearchText(it) },
                 selectedItems = selectedSkillsList.toMutableList(),
                 placeholder = stringResource(R.string.select_a_skill),
-                onItemSelect = { viewModel.setSkillsList(it) },
+                onItemSelect = { viewModel.setSkillsList(it) }
             )
             Divider(Modifier.padding(vertical = 22.dp))
             Text(
                 modifier = Modifier.padding(bottom = 4.dp, start = 5.dp),
                 text = stringResource(R.string.level_of_difficulty),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
             )
             CheckboxGroup(
                 items = difficultiesList,
                 selectedList = selectedDifficultiesList.toMutableList(),
-                onCheckedChange = { viewModel.setDifficultiesList(it) },
+                onCheckedChange = { viewModel.setDifficultiesList(it) }
             )
             FilledButton(
                 modifier = Modifier
@@ -167,7 +167,7 @@ fun FiltersPage(
                 onClick = {
                     viewModel.saveFilters()
                     navController.popBackStack()
-                },
+                }
             )
             TextButton(
                 modifier = Modifier
@@ -175,7 +175,7 @@ fun FiltersPage(
                     .padding(top = 4.dp)
                     .height(42.dp),
                 text = stringResource(R.string.reset_filter),
-                onClick = { viewModel.resetFilters() },
+                onClick = { viewModel.resetFilters() }
             )
             Spacer(modifier = Modifier.height(128.dp))
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))

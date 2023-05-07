@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.components.base
+package com.istu.schedule.ui.components.base.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -29,7 +29,7 @@ fun BlockButton(
     selectedContainerColor: Color = MaterialTheme.colorScheme.primaryContainer alwaysLight true,
     contentColor: Color = MaterialTheme.colorScheme.inverseSurface,
     selectedContentColor: Color = MaterialTheme.colorScheme.onSurface alwaysLight true,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
@@ -39,14 +39,14 @@ fun BlockButton(
             .clickable(onClick = onClick)
             .padding(horizontal = 5.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = text,
             style = MaterialTheme.typography.labelLarge.copy(
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             ),
-            color = if (selected) selectedContentColor else contentColor,
+            color = if (selected) selectedContentColor else contentColor
         )
     }
 }

@@ -34,10 +34,10 @@ import androidx.compose.ui.unit.sp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.ui.components.base.ChipVerticalGrid
-import com.istu.schedule.ui.components.base.FilledButton
-import com.istu.schedule.ui.components.base.OutlineButton
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SITextChip
+import com.istu.schedule.ui.components.base.button.FilledButton
+import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
 import com.istu.schedule.ui.theme.HalfGray
@@ -244,7 +244,7 @@ fun ProjectItem(
                         .padding(top = 5.dp)
                         .fillMaxWidth()
                         .height(42.dp),
-                    text = stringResource(R.string.send_application)
+                    text = stringResource(R.string.send_participation)
                 )
             }
         }

@@ -3,6 +3,7 @@ package com.istu.schedule.ui.page.account
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.model.projfair.Participation
@@ -33,6 +34,8 @@ class AccountViewModel @Inject constructor(
 
     private val _candidate = MutableLiveData<Candidate>(_user.candidate.value)
     val candidate: LiveData<Candidate> = _candidate
+
+    val authState: LiveData<ProjfairAuthStatus> = _user.authStatus
 
     fun collectSettingsState() {
         viewModelScope.launch {

@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.components.base
+package com.istu.schedule.ui.components.base.button
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

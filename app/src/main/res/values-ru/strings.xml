@@ -51,7 +51,7 @@
 	<string name="aim_project">"Цель: "</string>
 	<string name="start_date">"Старт проекта: "</string>
 	<string name="read_more">Подробнее</string>
-    <string name="send_application">Подать заявку</string>
+    <string name="send_participation">Подать заявку</string>
     <string name="all_projects">Все проекты</string>
 	<string name="filters">Фильтры</string>
 	<string name="clear">Очистить</string>
@@ -142,4 +142,8 @@
     <string name="low_priority">Низкий приоритет</string>
     <string name="automatic_allocation">Автоматическое распределение</string>
     <string name="edit_participations">Редактировать заявки</string>
+    <string name="send_participation_page_title">Подача заявки на проект</string>
+    <string name="project_priority">Приоритетность проекта</string>
+    <string name="highest_priority">Высший приоритет</string>
+    <string name="loading">Загрузка</string>
 </resources>

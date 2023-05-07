@@ -17,11 +17,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.istu.schedule.R
 import com.istu.schedule.data.preference.LanguagesPreference
 import com.istu.schedule.data.preference.LocalLanguages
-import com.istu.schedule.ui.components.base.RadioButtonWithText
+import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
+import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @Composable
 fun LanguageDialog(
-    isOpenDialog: MutableState<Boolean>,
+    isOpenDialog: MutableState<Boolean>
 ) {
     val context = LocalContext.current
     val languages = LocalLanguages.current
@@ -34,21 +35,21 @@ fun LanguageDialog(
             Text(
                 text = remember(configuration.locales) {
                     context.resources.getString(R.string.language)
-                },
+                }
             )
         },
         text = {
             Column {
                 LanguagesPreference.values.map {
                     Row(
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         RadioButtonWithText(
                             text = it.toDescription(context),
                             selected = it == languages,
                             onSelect = {
                                 it.put(context, scope)
-                            },
+                            }
                         )
                     }
                 }
@@ -61,22 +62,24 @@ fun LanguageDialog(
             TextButton(
                 onClick = {
                     isOpenDialog.value = false
-                },
+                }
             ) {
                 Text(
                     text = remember(configuration.locales) {
                         context.resources.getString(R.string.close)
-                    },
+                    }
                 )
             }
         },
         dismissButton = {
-        },
+        }
     )
 }
 
 @Composable
 @Preview(showBackground = true)
 fun LanguageDialogPreview() {
-    LanguageDialog(isOpenDialog = remember { mutableStateOf(true) })
+    ScheduleISTUTheme {
+        LanguageDialog(isOpenDialog = remember { mutableStateOf(true) })
+    }
 }

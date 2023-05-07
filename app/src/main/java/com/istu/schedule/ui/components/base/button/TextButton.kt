@@ -1,6 +1,5 @@
-package com.istu.schedule.ui.components.base
+package com.istu.schedule.ui.components.base.button
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,42 +23,40 @@ import com.istu.schedule.R
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @Composable
-fun FilledButton(
+fun TextButton(
     modifier: Modifier = Modifier,
     text: String = "",
-    containerColor: Color = MaterialTheme.colorScheme.primary,
-    contentColor: Color = MaterialTheme.colorScheme.onPrimary,
-    onClick: () -> Unit = {},
+    contentColor: Color = MaterialTheme.colorScheme.primary,
+    onClick: () -> Unit = {}
 ) {
     Column(
         modifier = modifier
             .height(56.dp)
             .clip(RoundedCornerShape(4.dp))
-            .background(containerColor)
             .clickable(onClick = onClick)
             .padding(horizontal = 5.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             text = text.uppercase(),
             style = MaterialTheme.typography.bodyMedium.copy(
                 textAlign = TextAlign.Center,
-                fontWeight = FontWeight.SemiBold,
+                fontWeight = FontWeight.SemiBold
             ),
-            color = contentColor,
+            color = contentColor
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun FilledButtonPreview() {
+fun TextButtonPreview() {
     ScheduleISTUTheme {
         Column {
-            FilledButton(
+            TextButton(
                 modifier = Modifier.fillMaxWidth().height(42.dp),
-                text = stringResource(R.string.read_more),
+                text = stringResource(R.string.read_more)
             )
         }
     }

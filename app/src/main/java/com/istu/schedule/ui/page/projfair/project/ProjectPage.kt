@@ -56,11 +56,11 @@ import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.ui.components.base.CustomIndicator
-import com.istu.schedule.ui.components.base.FilledButton
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.TwoColumnText
+import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.ShapeTop15
@@ -418,7 +418,7 @@ fun ProjectInfo(project: Project) {
                         .padding(top = 13.dp)
                         .fillMaxWidth()
                         .height(42.dp),
-                    text = stringResource(R.string.send_application)
+                    text = stringResource(R.string.send_participation)
                 )
             }
         }

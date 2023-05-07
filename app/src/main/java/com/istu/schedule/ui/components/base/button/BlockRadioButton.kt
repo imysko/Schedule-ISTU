@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.components.base
+package com.istu.schedule.ui.components.base.button
 
 import androidx.compose.foundation.layout.* // ktlint-disable no-wildcard-imports
 import androidx.compose.runtime.Composable
@@ -11,13 +11,13 @@ fun BlockRadioButton(
     modifier: Modifier = Modifier,
     selected: Int = 0,
     onSelected: (Int) -> Unit,
-    itemRadioGroups: List<BlockRadioGroupButtonItem> = listOf(),
+    itemRadioGroups: List<BlockRadioGroupButtonItem> = listOf()
 ) {
     Column {
         Row(
             modifier = modifier.padding(horizontal = 24.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             itemRadioGroups.forEachIndexed { index, item ->
                 BlockButton(
@@ -25,7 +25,7 @@ fun BlockRadioButton(
                         .weight(1f)
                         .padding(end = if (item == itemRadioGroups.last()) 0.dp else 8.dp),
                     text = item.text,
-                    selected = selected == index,
+                    selected = selected == index
                 ) {
                     onSelected(index)
                     item.onClick()
@@ -42,5 +42,5 @@ fun BlockRadioButton(
 data class BlockRadioGroupButtonItem(
     val text: String,
     val onClick: () -> Unit = {},
-    val content: @Composable () -> Unit,
+    val content: @Composable () -> Unit
 )

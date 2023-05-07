@@ -22,7 +22,12 @@ val Typography = Typography(
         fontSize = 25.0.sp,
         fontWeight = FontWeight.Bold
     ),
-    headlineSmall = TextStyle(fontFamily = montFamily, color = Color(0xFF383838)),
+    headlineSmall = TextStyle(
+        fontFamily = montFamily,
+        color = Color(0xFF383838),
+        fontSize = 20.0.sp,
+        fontWeight = FontWeight.SemiBold
+    ),
     titleLarge = TextStyle(
         fontFamily = montFamily,
         color = Color(0xFF383838),

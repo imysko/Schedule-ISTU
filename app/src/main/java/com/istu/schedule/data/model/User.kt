@@ -44,6 +44,7 @@ class User @Inject constructor(
 
     private fun setAuth() {
         if (projfairToken != null) {
+            _authStatus.value = ProjfairAuthStatus.SUCCESS
             getCandidate()
         } else {
             _authStatus.value = ProjfairAuthStatus.AUTH
@@ -54,7 +55,6 @@ class User @Inject constructor(
         MainScope().launch {
             _candidateUseCase.getCandidate(projfairToken!!)
                 .onSuccess {
-                    _authStatus.value = ProjfairAuthStatus.SUCCESS
                     _candidate.value = it
                 }
                 .onFailure {

@@ -44,6 +44,7 @@ import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.components.projfair.ProjectItem
+import com.istu.schedule.ui.components.projfair.ProjectItemPlaceHolder
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
@@ -56,6 +57,8 @@ fun ProjectsListPage(
     navController: NavController,
     viewModel: ListViewModel = hiltViewModel()
 ) {
+    val isLoading by viewModel.loading.observeAsState(initial = false)
+
     val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
 
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
@@ -182,6 +185,11 @@ fun ProjectsListPage(
                             )
                         }
                     )
+                }
+            }
+            if (isLoading) {
+                item {
+                    ProjectItemPlaceHolder()
                 }
             }
             item {

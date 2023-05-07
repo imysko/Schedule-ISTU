@@ -21,6 +21,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -44,6 +46,8 @@ fun CreateParticipationPage(
     navController: NavController,
     viewModel: CreateParticipationViewModel = hiltViewModel()
 ) {
+    val selectedPriorityId by viewModel.selectedPriorityId.observeAsState(initial = 1)
+
     val prioritiesList = mutableListOf(
         StringResourceItem(1, R.string.highest_priority),
         StringResourceItem(2, R.string.medium_priority),
@@ -52,6 +56,7 @@ fun CreateParticipationPage(
 
     CreateParticipationPage(
         prioritiesList = prioritiesList,
+        selectedPriority = selectedPriorityId,
         onBackClick = { navController.popBackStack() },
         onCreateClick = { viewModel.createParticipation() },
         onSelect = { }
@@ -61,6 +66,7 @@ fun CreateParticipationPage(
 @Composable
 private fun CreateParticipationPage(
     prioritiesList: MutableList<StringResourceItem>,
+    selectedPriority: Int,
     onBackClick: () -> Unit,
     onCreateClick: () -> Unit,
     onSelect: (Int) -> Unit
@@ -202,7 +208,7 @@ private fun CreateParticipationPage(
                     RadioButtonWithText(
                         modifier = Modifier.padding(top = 10.dp),
                         text = stringResource(id = priority.stringId),
-                        selected = false,
+                        selected = selectedPriority == priority.id,
                         onSelect = { onSelect(priority.id) }
                     )
                 }
@@ -236,6 +242,7 @@ fun PreviewSendParticipationPage() {
     ScheduleISTUTheme {
         CreateParticipationPage(
             prioritiesList = prioritiesList,
+            selectedPriority = 1,
             onBackClick = {},
             onCreateClick = {},
             onSelect = {}

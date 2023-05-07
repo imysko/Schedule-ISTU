@@ -20,6 +20,9 @@ class CreateParticipationViewModel @Inject constructor(
     private val _project = MutableLiveData<Project>()
     val project: LiveData<Project> = _project
 
+    private val _selectedPriorityId = MutableLiveData(1)
+    val selectedPriorityId: LiveData<Int> = _selectedPriorityId
+
     fun getProject(projectId: Int) {
         call({
             _getProjectUseCase.getProject(projectId)

@@ -98,39 +98,34 @@ fun ProjectPage(
                     text = stringResource(id = R.string.projfair),
                     style = MaterialTheme.typography.headlineMedium
                 )
-                Row(
-                    modifier = Modifier
-                        .padding(horizontal = 15.dp)
-                        .padding(bottom = 10.dp)
+                SIScrollableTabRow(
+                    modifier = Modifier.padding(bottom = 10.dp),
+                    selectedTabIndex = pagerState.currentPage,
+                    indicator = indicator,
+                    edgePadding = 15.dp
                 ) {
-                    SIScrollableTabRow(
-                        selectedTabIndex = pagerState.currentPage,
-                        indicator = indicator,
-                        edgePadding = 0.dp
-                    ) {
-                        pages.forEachIndexed { index, title ->
-                            Column(
-                                modifier = Modifier
-                                    .height(50.dp)
-                                    .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
-                                    .clickable(
-                                        interactionSource = MutableInteractionSource(),
-                                        indication = null
-                                    ) {
-                                        coroutineScope.launch {
-                                            pagerState.scrollToPage(index)
-                                        }
-                                    },
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text(
-                                    style = MaterialTheme.typography.titleMedium.copy(
-                                        color = Color.White,
-                                        fontSize = 18.sp
-                                    ),
-                                    text = title
-                                )
-                            }
+                    pages.forEachIndexed { index, title ->
+                        Column(
+                            modifier = Modifier
+                                .height(50.dp)
+                                .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
+                                .clickable(
+                                    interactionSource = MutableInteractionSource(),
+                                    indication = null
+                                ) {
+                                    coroutineScope.launch {
+                                        pagerState.scrollToPage(index)
+                                    }
+                                },
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    color = Color.White,
+                                    fontSize = 18.sp
+                                ),
+                                text = title
+                            )
                         }
                     }
                 }

@@ -48,12 +48,12 @@ import kotlinx.coroutines.launch
 private enum class SITabSlots {
     Tabs,
     Divider,
-    Indicator,
+    Indicator
 }
 
 private class SIScrollableTabData(
     private val scrollState: ScrollState,
-    private val coroutineScope: CoroutineScope,
+    private val coroutineScope: CoroutineScope
 ) {
 
     private var selectedTab: Int? = null
@@ -62,7 +62,7 @@ private class SIScrollableTabData(
         density: Density,
         edgeOffset: Int,
         tabPositions: List<SITabPosition>,
-        selectedTab: Int,
+        selectedTab: Int
     ) {
         if (this.selectedTab != selectedTab) {
             this.selectedTab = selectedTab
@@ -72,7 +72,7 @@ private class SIScrollableTabData(
                     coroutineScope.launch {
                         scrollState.animateScrollTo(
                             calculatedOffset,
-                            animationSpec = scrollableTabRowScrollSpec,
+                            animationSpec = scrollableTabRowScrollSpec
                         )
                     }
                 }
@@ -83,7 +83,7 @@ private class SIScrollableTabData(
     private fun SITabPosition.calculateTabOffset(
         density: Density,
         edgeOffset: Int,
-        tabPositions: List<SITabPosition>,
+        tabPositions: List<SITabPosition>
     ): Int = with(density) {
         val totalTabRowWidth = tabPositions.last().right.roundToPx() + edgeOffset
         val visibleWidth = totalTabRowWidth - scrollState.maxValue
@@ -123,22 +123,22 @@ class SITabPosition internal constructor(val left: Dp, val width: Dp) {
 }
 
 fun Modifier.tabIndicatorOffset(
-    currentTabPosition: SITabPosition,
+    currentTabPosition: SITabPosition
 ): Modifier = composed(
     inspectorInfo = debugInspectorInfo {
         name = "tabIndicatorOffset"
         value = currentTabPosition
-    },
+    }
 ) {
     val currentTabWidth by animateDpAsState(
         targetValue = currentTabPosition.width,
         animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
-        label = "",
+        label = ""
     )
     val indicatorOffset by animateDpAsState(
         targetValue = currentTabPosition.left,
         animationSpec = tween(durationMillis = 250, easing = FastOutSlowInEasing),
-        label = "",
+        label = ""
     )
     fillMaxWidth()
         .wrapContentSize(Alignment.BottomStart)
@@ -148,7 +148,7 @@ fun Modifier.tabIndicatorOffset(
 
 private val scrollableTabRowScrollSpec: AnimationSpec<Float> = tween(
     durationMillis = 250,
-    easing = FastOutSlowInEasing,
+    easing = FastOutSlowInEasing
 )
 
 @Composable
@@ -162,22 +162,22 @@ fun SIScrollableTabRow(
     indicator: @Composable @UiComposable
     (tabPositions: List<SITabPosition>) -> Unit = @Composable { tabPositions ->
         TabRowDefaults.Indicator(
-            Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
+            Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
         )
     },
-    tabs: @Composable @UiComposable () -> Unit,
+    tabs: @Composable @UiComposable () -> Unit
 ) {
     Surface(
         modifier = modifier,
         color = backgroundColor,
-        contentColor = contentColor,
+        contentColor = contentColor
     ) {
         val scrollState = rememberScrollState()
         val coroutineScope = rememberCoroutineScope()
         val scrollableTabData = remember(scrollState, coroutineScope) {
             SIScrollableTabData(
                 scrollState = scrollState,
-                coroutineScope = coroutineScope,
+                coroutineScope = coroutineScope
             )
         }
         SubcomposeLayout(
@@ -185,7 +185,7 @@ fun SIScrollableTabRow(
                 .wrapContentSize(align = Alignment.CenterStart)
                 .horizontalScroll(scrollState)
                 .selectableGroup()
-                .clipToBounds(),
+                .clipToBounds()
         ) { constraints ->
             val padding = edgePadding.roundToPx()
             val tabConstraints = constraints.copy(minWidth = 0)
@@ -220,7 +220,7 @@ fun SIScrollableTabRow(
                     density = this@SubcomposeLayout,
                     edgeOffset = padding,
                     tabPositions = tabPositions,
-                    selectedTab = selectedTabIndex,
+                    selectedTab = selectedTabIndex
                 )
             }
         }
@@ -231,7 +231,7 @@ fun SIScrollableTabRow(
 @Composable
 fun CustomIndicator(
     tabPositions: List<SITabPosition>,
-    pagerState: PagerState,
+    pagerState: PagerState
 ) {
     val transition = updateTransition(pagerState.currentPage, label = "")
     val indicatorStart by transition.animateDp(
@@ -242,7 +242,7 @@ fun CustomIndicator(
                 spring(dampingRatio = 1f, stiffness = 1000f)
             }
         },
-        label = "",
+        label = ""
     ) {
         tabPositions[it].left
     }
@@ -255,7 +255,7 @@ fun CustomIndicator(
                 spring(dampingRatio = 1f, stiffness = 50f)
             }
         },
-        label = "",
+        label = ""
     ) {
         tabPositions[it].right
     }
@@ -272,10 +272,18 @@ fun CustomIndicator(
                 drawLine(
                     color = Color.White,
                     start = Offset(0f, y),
-                    end = Offset(size.width - if (pagerState.currentPage != tabPositions.size - 1) 20.dp.toPx() else 0.dp.toPx(), y),
-                    strokeWidth = borderSize,
+                    end = Offset(
+                        size.width -
+                            if (pagerState.currentPage != tabPositions.size - 1) {
+                                20.dp.toPx()
+                            } else {
+                                0.dp.toPx()
+                            },
+                        y
+                    ),
+                    strokeWidth = borderSize
                 )
             }
-            .zIndex(1f),
+            .zIndex(1f)
     )
 }

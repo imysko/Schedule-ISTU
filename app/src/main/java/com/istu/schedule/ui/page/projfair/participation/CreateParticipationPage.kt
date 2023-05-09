@@ -64,7 +64,7 @@ fun CreateParticipationPage(
 }
 
 @Composable
-private fun CreateParticipationPage(
+fun CreateParticipationPage(
     prioritiesList: MutableList<StringResourceItem>,
     selectedPriority: Int,
     onBackClick: () -> Unit,

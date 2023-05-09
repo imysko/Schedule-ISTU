@@ -139,6 +139,6 @@
     <string name="edit_participations">Edit Participations</string>
     <string name="send_participation_page_title">Applying for participation in the project</string>
     <string name="project_priority">Project priority</string>
-    <string name="highest_priority">Highest priority</string>
+    <string name="highest_priority">Highest Priority</string>
     <string name="loading">Loading</string>
 </resources>

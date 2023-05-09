@@ -48,6 +48,12 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    testOptions {
+        unitTests {
+            returnDefaultValues = true
+            includeAndroidResources = true
+        }
+    }
 }
 
 dependencies {
@@ -65,12 +71,12 @@ dependencies {
 
     // https://developer.android.com/jetpack/androidx/releases/datastore
     implementation "androidx.datastore:datastore-preferences:$datastore"
+    implementation "androidx.preference:preference-ktx:1.2.0"
 
     // https://developer.android.com/jetpack/androidx/releases/room
     implementation "androidx.room:room-paging:$room"
     implementation "androidx.room:room-common:$room"
     implementation "androidx.room:room-ktx:$room"
-    implementation "androidx.preference:preference-ktx:1.2.0"
     ksp "androidx.room:room-compiler:$room"
 
     // https://developer.android.com/jetpack/androidx/releases/navigation
@@ -100,6 +106,8 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose"
+    androidTestImplementation "androidx.compose.ui:ui-test:$compose"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose"
 
     // hilt
@@ -110,12 +118,14 @@ dependencies {
     kapt "androidx.hilt:hilt-compiler:1.0.0"
 
     // android
+    implementation "androidx.tracing:tracing:1.1.0"
     implementation "androidx.core:core-ktx:1.10.0"
-    implementation "androidx.activity:activity-compose:1.7.0"
-    implementation 'androidx.compose.runtime:runtime-livedata:1.5.0-alpha02'
+    implementation "androidx.activity:activity-compose:1.7.1"
+    implementation 'androidx.compose.runtime:runtime-livedata:1.5.0-alpha03'
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
-    testImplementation "junit:junit:4.13.2"
-    androidTestImplementation "androidx.test.ext:junit:1.1.5"
-    androidTestImplementation "androidx.test.espresso:espresso-core:3.5.1"
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 }

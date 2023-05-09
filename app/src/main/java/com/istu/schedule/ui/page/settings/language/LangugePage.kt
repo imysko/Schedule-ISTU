@@ -1,21 +1,13 @@
 package com.istu.schedule.ui.page.settings.language
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -29,7 +21,7 @@ import com.istu.schedule.R
 import com.istu.schedule.data.preference.LanguagesPreference
 import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
-import com.istu.schedule.ui.icons.Back
+import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @Composable
@@ -52,31 +44,10 @@ fun LanguagePage(
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            Column(
-                modifier = Modifier
-                    .statusBarsPadding()
-                    .padding(15.dp),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    Box(
-                        modifier = Modifier.clickable { onBackClick() },
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(22.dp),
-                            imageVector = Icons.Back,
-                            contentDescription = stringResource(id = R.string.back)
-                        )
-                    }
-
-                    Text(
-                        text = stringResource(id = R.string.application_language),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                }
-            }
+            TopBar(
+                title = stringResource(id = R.string.application_language),
+                onBackClick = { onBackClick() }
+            )
         },
         content = {
             Column(

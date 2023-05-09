@@ -141,4 +141,7 @@
     <string name="project_priority">Project priority</string>
     <string name="highest_priority">Highest Priority</string>
     <string name="loading">Loading</string>
+    <string name="forward">Forward</string>
+    <string name="down">Down</string>
+    <string name="up">Up</string>
 </resources>

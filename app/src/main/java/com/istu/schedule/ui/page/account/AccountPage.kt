@@ -60,6 +60,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun AccountPage(
+    bottomNavController: NavController,
     navController: NavController,
     viewModel: AccountViewModel = hiltViewModel()
 ) {
@@ -72,7 +73,7 @@ fun AccountPage(
 
     if (authState == ProjfairAuthStatus.SUCCESS) {
         AuthorizedPage(
-            navController = navController,
+            navController = bottomNavController,
             candidate = candidate,
             viewModel = viewModel
         )

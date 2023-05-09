@@ -44,7 +44,7 @@ fun BottomNavGraph(
         animatedComposable(
             route = BottomNavItem.AccountPage.route
         ) {
-            AccountPage(bottomNavController)
+            AccountPage(bottomNavController, navController)
         }
 
         animatedComposable(

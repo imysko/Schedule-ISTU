@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
@@ -21,6 +22,7 @@ fun RadioButtonWithText(
     selected: Boolean,
     onSelect: () -> Unit,
     modifier: Modifier = Modifier,
+    style: TextStyle = MaterialTheme.typography.bodyMedium,
     enabled: Boolean = true
 ) {
     Row(
@@ -33,14 +35,6 @@ fun RadioButtonWithText(
                 }
             }
     ) {
-        val style =
-            if (enabled) {
-                MaterialTheme.typography.bodyMedium
-            } else {
-                MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
         RadioButton(
             selected = selected,
             onClick = { onSelect() }
@@ -49,7 +43,7 @@ fun RadioButtonWithText(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = text,
-            style = style
+            style = if (enabled) style else style.copy(color = MaterialTheme.colorScheme.secondary)
         )
     }
 }

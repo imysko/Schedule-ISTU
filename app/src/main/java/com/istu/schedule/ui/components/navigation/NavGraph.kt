@@ -8,6 +8,7 @@ import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.login.LoginProjfairPage
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
+import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
 import com.istu.schedule.util.NavDestinations
 
@@ -30,6 +31,12 @@ fun NavGraph(
             route = NavDestinations.BINDING_PAGE
         ) {
             BindingPage(navController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.LANGUAGE_PAGE
+        ) {
+            LanguagePage(navController)
         }
 
         animatedComposable(

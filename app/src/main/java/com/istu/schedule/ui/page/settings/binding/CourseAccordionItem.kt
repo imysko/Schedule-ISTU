@@ -10,8 +10,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
 import androidx.compose.material.Card
+import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -39,9 +39,10 @@ import java.util.Locale
 @Composable
 fun CourseAccordionItem(
     course: Course,
-    onChooseGroup: (chosenGroup: Group) -> Unit,
+    expanded: Boolean = false,
+    onChooseGroup: (chosenGroup: Group) -> Unit
 ) {
-    var expanded by remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(expanded) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -54,7 +55,7 @@ fun CourseAccordionItem(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(Shape10)
-                    .clickable { expanded = !expanded },
+                    .clickable { isExpanded = !isExpanded },
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(20.dp),
@@ -70,7 +71,7 @@ fun CourseAccordionItem(
                         )
                     )
 
-                    if (expanded) {
+                    if (isExpanded) {
                         Icon(
                             modifier = Modifier.size(17.dp),
                             imageVector = Icons.Up,
@@ -86,7 +87,7 @@ fun CourseAccordionItem(
                 }
             }
 
-            if (expanded) {
+            if (isExpanded) {
                 FlowGroups(
                     groups = course.groups!!,
                     onChooseGroup = { onChooseGroup(it) }
@@ -165,8 +166,8 @@ fun FlowGroupsPreview() {
 }
 
 @Composable
-@Preview(showBackground = true, locale = "ru")
-fun CourseAccordionItemPreview() {
+@Preview(locale = "ru")
+fun CourseAccordionItemExpandedPreview() {
     ScheduleISTUTheme {
         CourseAccordionItem(
             course = Course(
@@ -195,6 +196,7 @@ fun CourseAccordionItemPreview() {
                     ),
                 ),
             ),
+            expanded = true,
             onChooseGroup = { },
         )
     }

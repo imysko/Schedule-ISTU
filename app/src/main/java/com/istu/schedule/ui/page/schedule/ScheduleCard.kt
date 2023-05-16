@@ -261,9 +261,9 @@ fun ScheduleCardPreview() {
     val schedule = Schedule(
         scheduleId = 0,
         groupsVerbose = "ИСТб-20-3",
-        scheduleGroups = emptyList(),
+        groups = emptyList(),
         teachersVerbose = "Харахинов В.А.",
-        scheduleTeachers = emptyList(),
+        teachers = emptyList(),
         classroomId = 0,
         classroom = Classroom(
             classroomId = 0,

@@ -33,7 +33,7 @@ fun OutlineButton(
 ) {
     Column(
         modifier = modifier
-            .height(50.dp)
+            .height(42.dp)
             .clip(RoundedCornerShape(4.dp))
             .border(2.dp, borderColor, RoundedCornerShape(4.dp))
             .clickable(onClick = onClick)
@@ -58,7 +58,7 @@ fun OutlineButtonPreview() {
     ScheduleISTUTheme {
         Column {
             OutlineButton(
-                modifier = Modifier.fillMaxWidth().height(42.dp),
+                modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.read_more)
             )
         }

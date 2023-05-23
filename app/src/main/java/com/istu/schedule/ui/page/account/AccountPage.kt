@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +46,8 @@ import com.google.accompanist.placeholder.material.placeholder
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.domain.model.projfair.Candidate
+import com.istu.schedule.domain.model.projfair.Participation
+import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.InfoBlock
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
@@ -54,8 +57,10 @@ import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.components.projfair.ParticipationItem
 import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.Red
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.util.collectAsStateValue
 import kotlinx.coroutines.launch
 
 @Composable
@@ -89,6 +94,8 @@ fun AuthorizedPage(
     candidate: Candidate?,
     viewModel: AccountViewModel
 ) {
+    val accountUiState = viewModel.accountUiState.collectAsStateValue()
+
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val pages = listOf(
@@ -99,6 +106,9 @@ fun AuthorizedPage(
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
     }
+
+    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
+    val projectsList by viewModel.projectsList.observeAsState(initial = null)
 
     LaunchedEffect(Unit) {
         viewModel.getCandidateInfo()
@@ -175,11 +185,18 @@ fun AuthorizedPage(
                     }
 
                     1 -> {
-                        ParticipationsPage(navController = navController, viewModel = viewModel)
+                        ParticipationsPage(
+                            navController = navController,
+                            participationsList = participationsList,
+                            isCanEdit = candidate?.canSendParticipations == 1,
+                            isEditMode = accountUiState.isEditMode,
+                            onEditClick = { viewModel.changeEditModeState() },
+                            onDeleteClick = { /* TODO: */ }
+                        )
                     }
 
                     2 -> {
-                        ProjectsPage(navController = navController, viewModel = viewModel)
+                        ProjectsPage(navController = navController, projectsList = projectsList)
                     }
                 }
             }
@@ -217,10 +234,12 @@ fun LoginPage(navController: NavController) {
 @Composable
 fun ParticipationsPage(
     navController: NavController,
-    viewModel: AccountViewModel
+    participationsList: List<Participation>,
+    isCanEdit: Boolean,
+    isEditMode: Boolean,
+    onEditClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {}
 ) {
-    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -241,14 +260,40 @@ fun ParticipationsPage(
                             "${NavDestinations.PROJECT_PAGE}/${participation.project.id}"
                         )
                     }
-                }
+                },
+                onDeleteClick = { onDeleteClick() },
+                isEditMode = isEditMode
             )
         }
-        item {
-            OutlineButton(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.edit_participations)
-            )
+        if (isCanEdit && !isEditMode) {
+            item {
+                OutlineButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = stringResource(R.string.edit_participations),
+                    onClick = { onEditClick() }
+                )
+            }
+        }
+        if (isEditMode) {
+            item {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    FilledButton(
+                        modifier = Modifier.weight(0.6f),
+                        text = stringResource(R.string.save_changes)
+                    )
+                    Spacer(Modifier.weight(0.05f))
+                    OutlineButton(
+                        modifier = Modifier.weight(0.35f),
+                        text = stringResource(R.string.cancel),
+                        borderColor = Red,
+                        contentColor = Red,
+                        onClick = { onEditClick() }
+                    )
+                }
+            }
         }
         item {
             Spacer(modifier = Modifier.height(84.dp))
@@ -334,10 +379,8 @@ fun ProfilePage(candidate: Candidate?) {
 @Composable
 fun ProjectsPage(
     navController: NavController,
-    viewModel: AccountViewModel
+    projectsList: MutableList<Project>?
 ) {
-    val projectsList by viewModel.projectsList.observeAsState(initial = null)
-
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -348,7 +391,7 @@ fun ProjectsPage(
             Spacer(modifier = Modifier.height(25.dp))
         }
         if (projectsList?.isNotEmpty() == true) {
-            items(projectsList!!) { project ->
+            items(projectsList) { project ->
                 ProjectItem(
                     modifier = Modifier.fillMaxWidth(),
                     project = project,

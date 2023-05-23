@@ -15,21 +15,21 @@ import com.istu.schedule.ui.theme.ScheduleISTUTheme
 fun TwoColumnText(
     modifier: Modifier = Modifier,
     key: String,
-    value: String,
+    value: String?
 ) {
     Row(modifier = modifier) {
         Text(
             modifier = Modifier.weight(0.3f),
             text = key,
-            style = MaterialTheme.typography.bodySmall,
+            style = MaterialTheme.typography.bodySmall
         )
         Spacer(Modifier.weight(0.05f))
         Text(
             modifier = Modifier.weight(0.65f),
-            text = value.ifBlank { "-" },
+            text = value?.ifBlank { "-" } ?: "-",
             style = MaterialTheme.typography.bodySmall.copy(
-                fontWeight = FontWeight.Bold,
-            ),
+                fontWeight = FontWeight.Bold
+            )
         )
     }
 }
@@ -41,7 +41,8 @@ fun PreviewTwoColumnText() {
         TwoColumnText(
             modifier = Modifier.fillMaxWidth(),
             key = "Ожидаемый результат",
-            value = "Платформа пригодная для размещения олимпиад, анонса других мероприятий интегрированная с moodle",
+            value = "Платформа пригодная для размещения олимпиад, " +
+                "анонса других мероприятий интегрированная с moodle"
         )
     }
 }

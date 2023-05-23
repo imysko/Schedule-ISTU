@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.UserStatus
+import com.istu.schedule.data.model.RequestException
 import com.istu.schedule.data.model.User
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.domain.model.schedule.StudyDay
@@ -93,6 +94,7 @@ class ScheduleViewModel @Inject constructor(
                     )
                 }, onSuccess = {
                     _scheduleList.postValue(it)
+                }, onError = {it as RequestException
                 })
             }
             UserStatus.TEACHER -> {
@@ -103,6 +105,7 @@ class ScheduleViewModel @Inject constructor(
                     )
                 }, onSuccess = {
                     _scheduleList.postValue(it)
+                }, onError = {it as RequestException
                 })
             }
             else -> { }

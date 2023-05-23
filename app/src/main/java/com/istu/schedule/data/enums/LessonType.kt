@@ -12,5 +12,11 @@ enum class LessonType {
     @SerializedName("3")
     LABORATORY_WORK,
     @SerializedName("4")
+    CLASS,
+    @SerializedName("5")
+    CONSULTATION,
+    @SerializedName("6")
+    EXAM,
+    @SerializedName("7")
     PROJECT
 }

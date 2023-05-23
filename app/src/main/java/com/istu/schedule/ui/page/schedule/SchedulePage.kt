@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
@@ -14,9 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.BackdropScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,6 +40,7 @@ import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.Green
 import com.istu.schedule.ui.theme.GreenContainer
 import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.collectAsStateValue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -84,68 +87,79 @@ fun SchedulePage(
         viewModel.addWeekBackward()
     }
 
-    BackdropScaffold(
-        modifier = Modifier.statusBarsPadding(),
-        appBar = {
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.surface,
+        topBar = {
             Column(
-                modifier = Modifier.padding(15.dp)
-            ) {
-                Text(
-                    text = stringResource(id = R.string.title_schedule),
-                    style = MaterialTheme.typography.headlineMedium
-                )
-                if (scheduleUiState.userDescription != null) {
-                    Text(
-                        text = scheduleUiState.userDescription,
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                }
-            }
-        },
-        backLayerBackgroundColor = MaterialTheme.colorScheme.primary,
-        backLayerContent = {
-            HorizontalCalendar(
-                weeksList = weeksList,
-                currentDate = currentDate,
-                selectedDate = selectedDate,
-                calendarState = scheduleUiState.calendarState,
-                onSelect = {
-                    viewModel.selectDate(it)
-                }
-            )
-        },
-        frontLayerBackgroundColor = MaterialTheme.colorScheme.background,
-        frontLayerContent = {
-            LazyColumn(
                 modifier = Modifier
-                    .padding(start = 15.dp, end = 15.dp, top = 15.dp),
+                    .statusBarsPadding()
+                    .padding(vertical = 15.dp),
                 verticalArrangement = Arrangement.spacedBy(15.dp)
             ) {
-                if (scheduleList.any()) {
-                    scheduleList.first().lessons.forEach {
-                        item {
-                            val currentDateTime = LocalDateTime.now()
+                Column(modifier = Modifier.padding(horizontal = 15.dp)) {
+                    Text(
+                        text = stringResource(id = R.string.title_schedule),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    if (scheduleUiState.userDescription != null) {
+                        Text(
+                            text = scheduleUiState.userDescription,
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    }
+                }
 
-                            ScheduleCard(
-                                currentDateTime = currentDateTime,
-                                lesson = it,
-                                lessonDate = scheduleList.first().date
-                            )
-                        }
-                        it.breakTimeAfter?.let {
+                HorizontalCalendar(
+                    weeksList = weeksList,
+                    currentDate = currentDate,
+                    selectedDate = selectedDate,
+                    calendarState = scheduleUiState.calendarState,
+                    onSelect = {
+                        viewModel.selectDate(it)
+                    }
+                )
+            }
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = it.calculateTopPadding())
+                    .clip(ShapeTop15)
+                    .background(MaterialTheme.colorScheme.background),
+            ) {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
+                ) {
+                    if (scheduleList.any()) {
+                        scheduleList.first().lessons.forEach { lesson ->
                             item {
-                                BreakTime(stringBreakTime = it)
+                                val currentDateTime = LocalDateTime.now()
+
+                                ScheduleCard(
+                                    currentDateTime = currentDateTime,
+                                    lesson = lesson,
+                                    lessonDate = scheduleList.first().date
+                                )
+                            }
+                            lesson.breakTimeAfter?.let {
+                                item {
+                                    BreakTime(stringBreakTime = it)
+                                }
                             }
                         }
-                    }
 
-                    item {
-                        Spacer(modifier = Modifier.height(128.dp))
-                        Spacer(
-                            modifier = Modifier.windowInsetsBottomHeight(
-                                WindowInsets.navigationBars
+                        item {
+                            Spacer(modifier = Modifier.height(128.dp))
+                            Spacer(
+                                modifier = Modifier.windowInsetsBottomHeight(
+                                    WindowInsets.navigationBars
+                                )
                             )
-                        )
+                        }
                     }
                 }
             }

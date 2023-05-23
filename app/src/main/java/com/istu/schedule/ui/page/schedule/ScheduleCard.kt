@@ -62,9 +62,10 @@ fun ScheduleCard(
     }
 
     Card(
-        shape = Shape10,
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .padding(horizontal = 15.dp),
+        shape = Shape10,
     ) {
         Column(
             modifier = Modifier

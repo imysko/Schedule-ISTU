@@ -52,6 +52,24 @@ class BindingViewModel @Inject constructor(
     init {
         getInstitutesList()
         getTeachersList()
+
+        _bindingUiState.update {
+            when (_user.userType) {
+                UserStatus.STUDENT -> {
+                    it.copy(
+                        selectedGroupDescription = _user.userDescription
+                    )
+                }
+                UserStatus.TEACHER -> {
+                    it.copy(
+                        selectedTeacherDescription = _user.userDescription
+                    )
+                }
+                else -> {
+                    it.copy()
+                }
+            }
+        }
     }
 
     private fun getInstitutesList() {
@@ -139,6 +157,8 @@ class BindingViewModel @Inject constructor(
                 selectedTeacherDescription = null,
             )
         }
+
+        bindUser()
     }
 
     fun selectTeacher(teacher: Teacher) {
@@ -161,7 +181,7 @@ class BindingViewModel @Inject constructor(
         }
     }
 
-    fun bindUser() {
+    private fun bindUser() {
         _user.userType = _userState.value
 
         when (_userState.value) {

@@ -5,10 +5,10 @@ import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
 import javax.inject.Inject
 
 class GetParticipationsListUseCase @Inject constructor(
-    private val participationsRepository: ParticipationsRepository,
+    private val participationsRepository: ParticipationsRepository
 ) {
 
-    suspend fun getProjectStatesListList(token: String): Result<List<Participation>> {
+    suspend fun getParticipationsList(token: String): Result<List<Participation>> {
         return participationsRepository.getParticipationsList(token)
     }
 }

@@ -13,7 +13,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,24 +30,56 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Participation
+import com.istu.schedule.ui.icons.Delete
+import com.istu.schedule.ui.theme.Red
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.util.toParticipationPriorityText
-import com.istu.schedule.util.totoParticipationRomanNumerals
+import com.istu.schedule.util.toParticipationRomanNumerals
 
 @Composable
 fun ParticipationItem(
     participation: Participation,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onDeleteClick: () -> Unit = {},
+    onClick: () -> Unit = {},
+    isEditMode: Boolean
 ) {
     Card(
         shape = Shape10,
         modifier = modifier.clickable(onClick = onClick)
     ) {
-        Column(modifier = Modifier.fillMaxWidth().padding(18.dp)) {
-            ParticipationPriorityItem(participation.priority)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(18.dp)
+        ) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                ParticipationPriorityItem(
+                    modifier = Modifier.weight(1f),
+                    priority = participation.priority
+                )
+                if (isEditMode) {
+                    Spacer(Modifier.width(10.dp))
+                    Column(
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clickable { onDeleteClick() }
+                            .clip(RoundedCornerShape(5.dp))
+                            .border(1.dp, Red, RoundedCornerShape(5.dp))
+                            .padding(5.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Delete,
+                            contentDescription = "delete icon",
+                            tint = Red
+                        )
+                    }
+                }
+            }
             Text(
                 modifier = Modifier.padding(top = 18.dp, bottom = 12.dp),
                 text = participation.project?.title ?: stringResource(R.string.unknown),
@@ -59,10 +94,9 @@ fun ParticipationItem(
 }
 
 @Composable
-fun ParticipationPriorityItem(priority: Int) {
+fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier = modifier
             .clip(Shape100)
             .border(
                 1.dp,
@@ -100,7 +134,7 @@ fun ParticipationPriorityItem(priority: Int) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = priority.totoParticipationRomanNumerals(),
+                text = priority.toParticipationRomanNumerals(),
                 style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
                 color = MaterialTheme.colorScheme.onPrimary,
                 textAlign = TextAlign.Center

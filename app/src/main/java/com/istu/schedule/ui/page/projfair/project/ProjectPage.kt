@@ -478,7 +478,7 @@ fun ProjectParticipations(project: Project) {
         }
         itemsIndexed(
             project.participations.sortedWith(
-                compareByDescending<Participation> { it.stateId }.thenBy { it.priority }
+                compareByDescending<Participation> { it.state.id }.thenBy { it.priority }
             )
         ) { index, participation ->
             ParticipationInProject(index + 1, participation)

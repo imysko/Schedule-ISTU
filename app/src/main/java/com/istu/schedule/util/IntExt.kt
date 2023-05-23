@@ -26,7 +26,7 @@ fun Int.toParticipationPriorityText(): String {
 }
 
 @Composable
-fun Int.totoParticipationRomanNumerals(): String {
+fun Int.toParticipationRomanNumerals(): String {
     return when (this) {
         1 -> "I"
         2 -> "II"

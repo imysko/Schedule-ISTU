@@ -33,7 +33,7 @@ fun FilledButton(
 ) {
     Column(
         modifier = modifier
-            .height(56.dp)
+            .height(42.dp)
             .clip(RoundedCornerShape(4.dp))
             .background(containerColor)
             .clickable(onClick = onClick)
@@ -58,7 +58,7 @@ fun FilledButtonPreview() {
     ScheduleISTUTheme {
         Column {
             FilledButton(
-                modifier = Modifier.fillMaxWidth().height(42.dp),
+                modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.read_more)
             )
         }

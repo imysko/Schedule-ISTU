@@ -28,7 +28,7 @@ fun BottomNavBar(navController: NavHostController) {
         BottomNavItem.SchedulePage,
         BottomNavItem.ProjfairPage,
         BottomNavItem.SettingsPage,
-        BottomNavItem.AccountPage,
+        BottomNavItem.AccountPage
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -39,15 +39,14 @@ fun BottomNavBar(navController: NavHostController) {
                 shape = ShapeTop20
                 clip = true
                 shadowElevation = 100f
-            }
-            .navigationBarsPadding(),
-        containerColor = MaterialTheme.colorScheme.onSurface,
+            },
+        containerColor = MaterialTheme.colorScheme.onSurface
     ) {
         bottomNavItems.forEach { item ->
             AddItem(
                 bottomNavItem = item,
                 navBackStackEntry = navBackStackEntry,
-                navController = navController,
+                navController = navController
             )
         }
     }
@@ -57,21 +56,22 @@ fun BottomNavBar(navController: NavHostController) {
 fun RowScope.AddItem(
     bottomNavItem: BottomNavItem,
     navBackStackEntry: NavBackStackEntry?,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     val selected = bottomNavItem.route == navBackStackEntry?.destination?.route
     NavigationBarItem(
+        modifier = Modifier.navigationBarsPadding(),
         label = {
             Text(
                 text = stringResource(id = bottomNavItem.titleResId),
                 style = MaterialTheme.typography.bodySmall.copy(fontSize = 10.sp),
-                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary
             )
         },
         icon = {
             Icon(
                 imageVector = bottomNavItem.icon,
-                contentDescription = "${bottomNavItem.titleResId} Icon",
+                contentDescription = "${bottomNavItem.titleResId} Icon"
             )
         },
         selected = selected,
@@ -79,15 +79,15 @@ fun RowScope.AddItem(
         colors = NavigationBarItemDefaults.colors(
             selectedIconColor = MaterialTheme.colorScheme.primary,
             indicatorColor = MaterialTheme.colorScheme.onSurface,
-            unselectedIconColor = MaterialTheme.colorScheme.secondary,
+            unselectedIconColor = MaterialTheme.colorScheme.secondary
         ),
         onClick = {
             if (navController.currentDestination?.route != bottomNavItem.route) {
                 navController.navigate(
-                    bottomNavItem.route,
+                    bottomNavItem.route
                 )
             }
-        },
+        }
     )
 }
 

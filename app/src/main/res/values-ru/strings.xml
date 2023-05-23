@@ -149,4 +149,5 @@
     <string name="forward">Вперёд</string>
     <string name="down">Вниз</string>
     <string name="up">Вверх</string>
+	<string name="save_changes">Сохранить изменения</string>
 </resources>

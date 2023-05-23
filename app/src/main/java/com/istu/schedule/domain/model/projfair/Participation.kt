@@ -8,8 +8,6 @@ data class Participation(
     val priority: Int,
     @SerializedName("project_id")
     val projectId: Int,
-    @SerializedName("state_id")
-    val stateId: Int,
     @SerializedName("candidate_id")
     val candidateId: Int,
     @SerializedName("created_at")
@@ -17,5 +15,6 @@ data class Participation(
     @SerializedName("updated_at")
     val updatedAt: Date,
     val candidate: Candidate?,
+    val state: State,
     val project: Project?
 )

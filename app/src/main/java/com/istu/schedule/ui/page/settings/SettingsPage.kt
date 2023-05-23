@@ -11,15 +11,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.SettingsItem
 import com.istu.schedule.ui.icons.Account
@@ -31,17 +28,29 @@ import com.istu.schedule.util.NavDestinations
 
 @Composable
 fun SettingsPage(navController: NavHostController) {
-    val context = LocalContext.current
-    val configuration = LocalConfiguration.current
+    SettingsPage(
+        onBindingClick = { navController.navigate(NavDestinations.BINDING_PAGE) },
+        onFavoritesListClick = { },
+        onLanguageClick = { navController.navigate(NavDestinations.LANGUAGE_PAGE) },
+        onAboutClick = { },
+    )
+}
 
+@Composable
+fun SettingsPage(
+    onBindingClick: () -> Unit,
+    onFavoritesListClick: () -> Unit,
+    onLanguageClick: () -> Unit,
+    onAboutClick: () -> Unit,
+) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
-            Column(modifier = Modifier.statusBarsPadding().padding(15.dp)) {
+            Column(modifier = Modifier
+                .statusBarsPadding()
+                .padding(15.dp)) {
                 Text(
-                    text = remember(configuration.locales) {
-                        context.resources.getString(R.string.settings)
-                    },
+                    text = stringResource(id = R.string.settings),
                     style = MaterialTheme.typography.headlineMedium
                 )
             }
@@ -56,40 +65,32 @@ fun SettingsPage(navController: NavHostController) {
             ) {
                 item {
                     SettingsItem(
-                        title = remember(configuration.locales) {
-                            context.resources.getString(R.string.account)
-                        },
+                        title = stringResource(id = R.string.account),
                         icon = Icons.Account,
                         onClick = {
-                            navController.navigate(NavDestinations.BINDING_PAGE)
+                            onBindingClick()
                         }
                     )
                 }
                 item {
                     SettingsItem(
-                        title = remember(configuration.locales) {
-                            context.resources.getString(R.string.favorites_list)
-                        },
+                        title = stringResource(id = R.string.favorites_list),
                         icon = Icons.Star,
-                        onClick = {}
+                        onClick = { onFavoritesListClick() }
                     )
                 }
                 item {
                     SettingsItem(
-                        title = remember(configuration.locales) {
-                            context.resources.getString(R.string.application_language)
-                        },
+                        title = stringResource(id = R.string.application_language),
                         icon = Icons.Account,
-                        onClick = {}
+                        onClick = { onLanguageClick() }
                     )
                 }
                 item {
                     SettingsItem(
-                        title = remember(configuration.locales) {
-                            context.resources.getString(R.string.about_the_developers)
-                        },
+                        title = stringResource(id = R.string.about_the_developers),
                         icon = Icons.People,
-                        onClick = {}
+                        onClick = { onAboutClick() }
                     )
                 }
             }
@@ -101,6 +102,11 @@ fun SettingsPage(navController: NavHostController) {
 @Preview(showBackground = true)
 fun SettingsPagePreview() {
     ScheduleISTUTheme {
-        SettingsPage(rememberNavController())
+        SettingsPage(
+            onBindingClick = {  },
+            onFavoritesListClick = { },
+            onLanguageClick = {  },
+            onAboutClick = { },
+        )
     }
 }

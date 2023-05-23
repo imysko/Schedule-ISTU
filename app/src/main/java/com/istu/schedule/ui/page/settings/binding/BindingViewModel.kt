@@ -32,9 +32,6 @@ class BindingViewModel @Inject constructor(
     private val _coursesList = MutableLiveData<List<Course>>()
     val coursesList: LiveData<List<Course>> = _coursesList
 
-    private val _groupsList = MutableLiveData<List<Group>>()
-    val groupsList: LiveData<List<Group>> = _groupsList
-
     private val _teachersList = MutableLiveData<List<Teacher>>()
     val teachersList: LiveData<List<Teacher>> = _teachersList
 
@@ -42,8 +39,8 @@ class BindingViewModel @Inject constructor(
     val teachersTips: LiveData<List<Teacher>> = _teachersTips
 
     private val _selectedInstitute = MutableLiveData<Institute?>()
-    private val _selectedCourse = MutableLiveData<Course?>()
     private val _selectedGroup = MutableLiveData<Group?>()
+
     private val _selectedTeacher = MutableLiveData<Teacher?>()
 
     private val _userState = MutableStateFlow(UserStatus.UNKNOWN)
@@ -77,10 +74,6 @@ class BindingViewModel @Inject constructor(
         _coursesList.postValue(_institutesList.value!!.find { i -> i == _selectedInstitute.value }?.courses!!)
     }
 
-    private fun getGroupsList() {
-        _groupsList.postValue(_coursesList.value!!.find { i -> i == _selectedCourse.value }?.groups!!)
-    }
-
     fun selectUserStatus(status: UserStatus) {
         _userState.value = status
 
@@ -88,20 +81,37 @@ class BindingViewModel @Inject constructor(
             when (_userState.value) {
                 UserStatus.STUDENT -> {
                     it.copy(
-                        isShowInstitutesInput = true,
-                        canBinding = _selectedGroup.value != null,
-                        isShowFloatingButton = _selectedGroup.value != null,
+                        isShowChooseUserStatusPage = false,
+                        isShowChooseInstitutePage = true,
                     )
                 }
                 UserStatus.TEACHER -> {
                     it.copy(
-                        isShowTeachersInput = true,
-                        canBinding = _selectedTeacher.value != null,
-                        isShowFloatingButton = _selectedTeacher.value != null,
+                        isShowChooseUserStatusPage = false,
+                        isShowChooseTeacherPage = true,
                     )
                 }
                 UserStatus.UNKNOWN -> { it.copy() }
             }
+        }
+    }
+
+    fun onClickBackToChooseUserState() {
+        _bindingUiState.update {
+            it.copy(
+                isShowChooseUserStatusPage = true,
+                isShowChooseInstitutePage = false,
+                isShowChooseTeacherPage = false,
+            )
+        }
+    }
+
+    fun onClickBackToChooseInstitute() {
+        _bindingUiState.update {
+            it.copy(
+                isShowChooseInstitutePage = true,
+                isShowChooseGroupPage = false,
+            )
         }
     }
 
@@ -111,62 +121,9 @@ class BindingViewModel @Inject constructor(
 
         _bindingUiState.update {
             it.copy(
-                canChooseInstitute = false,
-                selectedInstituteText = _selectedInstitute.value!!.instituteTitle!!,
-                isShowCoursesInput = true,
-                canChooseCourse = true,
-            )
-        }
-    }
-
-    fun clearInstitute() {
-        _selectedInstitute.value = null
-        _selectedCourse.value = null
-        _selectedGroup.value = null
-
-        _bindingUiState.update {
-            it.copy(
-                canChooseInstitute = true,
-                selectedInstituteText = "",
-                isShowCoursesInput = false,
-                canChooseCourse = false,
-                isShowGroupsInput = false,
-                selectedCourseText = "",
-                canChooseGroup = false,
-                selectedGroupText = "",
-                canBinding = false,
-                isShowFloatingButton = false,
-            )
-        }
-    }
-
-    fun selectCourse(course: Course) {
-        _selectedCourse.value = course
-        getGroupsList()
-
-        _bindingUiState.update {
-            it.copy(
-                canChooseCourse = false,
-                selectedCourseText = _selectedCourse.value!!.courseNumber.toString(),
-                isShowGroupsInput = true,
-                canChooseGroup = true,
-            )
-        }
-    }
-
-    fun clearCourse() {
-        _selectedCourse.value = null
-        _selectedGroup.value = null
-
-        _bindingUiState.update {
-            it.copy(
-                canChooseCourse = true,
-                isShowGroupsInput = false,
-                selectedCourseText = "",
-                canChooseGroup = false,
-                selectedGroupText = "",
-                canBinding = false,
-                isShowFloatingButton = false,
+                isShowChooseInstitutePage = false,
+                isShowChooseGroupPage = true,
+                selectedInstituteDescription = institute.instituteTitle,
             )
         }
     }
@@ -176,23 +133,10 @@ class BindingViewModel @Inject constructor(
 
         _bindingUiState.update {
             it.copy(
-                canChooseGroup = false,
-                selectedGroupText = _selectedGroup.value!!.name!!,
-                canBinding = true,
-                isShowFloatingButton = true,
-            )
-        }
-    }
-
-    fun clearGroup() {
-        _selectedGroup.value = null
-
-        _bindingUiState.update {
-            it.copy(
-                canChooseGroup = true,
-                selectedGroupText = "",
-                canBinding = false,
-                isShowFloatingButton = false,
+                isShowChooseGroupPage = false,
+                isShowChooseUserStatusPage = true,
+                selectedGroupDescription = group.name,
+                selectedTeacherDescription = null,
             )
         }
     }
@@ -202,23 +146,10 @@ class BindingViewModel @Inject constructor(
 
         _bindingUiState.update {
             it.copy(
-                canEditTeacherName = false,
-                selectedTeacherText = _selectedTeacher.value!!.fullName,
-                canBinding = true,
-                isShowFloatingButton = true,
-            )
-        }
-    }
-
-    fun clearTeacher() {
-        _selectedTeacher.value = null
-
-        _bindingUiState.update {
-            it.copy(
-                canEditTeacherName = true,
-                selectedTeacherText = "",
-                canBinding = false,
-                isShowFloatingButton = false,
+                isShowChooseTeacherPage = false,
+                isShowChooseUserStatusPage = true,
+                selectedTeacherDescription = teacher.fullName,
+                selectedGroupDescription = null,
             )
         }
     }
@@ -230,44 +161,29 @@ class BindingViewModel @Inject constructor(
         }
     }
 
-    fun bindPressed() {
-        if (_bindingUiState.value.canBinding) {
-            _user.userType = _userState.value
-            when (_userState.value) {
-                UserStatus.STUDENT -> {
-                    _user.userId = _selectedGroup.value!!.groupId
-                    _user.userDescription = _selectedGroup.value!!.name
-                }
-                UserStatus.TEACHER -> {
-                    _user.userId = _selectedTeacher.value!!.teacherId
-                    _user.userDescription = _selectedTeacher.value!!.fullName
-                }
-                UserStatus.UNKNOWN -> { }
-            }
-        } else {
-            changeDialogStatus(true)
-        }
-    }
+    fun bindUser() {
+        _user.userType = _userState.value
 
-    fun changeDialogStatus(value: Boolean) {
-        _bindingUiState.update { it.copy(isShowIncompleteInputDialog = value) }
+        when (_userState.value) {
+            UserStatus.STUDENT -> {
+                _user.userId = _selectedGroup.value!!.groupId
+                _user.userDescription = _selectedGroup.value!!.name
+            }
+            UserStatus.TEACHER -> {
+                _user.userId = _selectedTeacher.value!!.teacherId
+                _user.userDescription = _selectedTeacher.value!!.fullName
+            }
+            UserStatus.UNKNOWN -> { }
+        }
     }
 }
 
 data class BindingUiState(
-    val isShowInstitutesInput: Boolean = false,
-    val canChooseInstitute: Boolean = true,
-    val selectedInstituteText: String = "",
-    val isShowCoursesInput: Boolean = false,
-    val canChooseCourse: Boolean = false,
-    val selectedCourseText: String = "",
-    val isShowGroupsInput: Boolean = false,
-    val canChooseGroup: Boolean = false,
-    val selectedGroupText: String = "",
-    val isShowTeachersInput: Boolean = false,
-    val canEditTeacherName: Boolean = true,
-    val selectedTeacherText: String = "",
-    val canBinding: Boolean = false,
-    val isShowFloatingButton: Boolean = false,
-    val isShowIncompleteInputDialog: Boolean = false,
+    val isShowChooseUserStatusPage: Boolean = true,
+    val isShowChooseInstitutePage: Boolean = false,
+    val isShowChooseGroupPage: Boolean = false,
+    val isShowChooseTeacherPage: Boolean = false,
+    val selectedInstituteDescription: String? = null,
+    val selectedGroupDescription: String? = null,
+    val selectedTeacherDescription: String? = null,
 )

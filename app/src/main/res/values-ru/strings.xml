@@ -146,4 +146,7 @@
     <string name="project_priority">Приоритетность проекта</string>
     <string name="highest_priority">Высший приоритет</string>
     <string name="loading">Загрузка</string>
+    <string name="forward">Вперёд</string>
+    <string name="down">Вниз</string>
+    <string name="up">Вверх</string>
 </resources>

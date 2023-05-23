@@ -1,10 +1,16 @@
 package com.istu.schedule
 
+import com.istu.schedule.data.enums.LessonType
 import com.istu.schedule.data.repository.projfair.ProjectsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
+import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
 import com.istu.schedule.data.service.projfair.ProjectsService
+import com.istu.schedule.data.service.schedule.InstitutesService
+import com.istu.schedule.data.service.schedule.ScheduleService
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectsListUseCase
-import java.util.concurrent.TimeUnit
+import com.istu.schedule.domain.usecase.schedule.GetGroupScheduleOnDayUseCase
+import com.istu.schedule.domain.usecase.schedule.GetInstitutesListUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
@@ -12,6 +18,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import org.junit.Test
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class RetrofitTest {
 
@@ -45,16 +52,22 @@ class RetrofitTest {
         .writeTimeout(1, TimeUnit.MINUTES)
         .build()
 
-    private val retrofit = Retrofit.Builder()
+    private val projfairRetrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create())
         .client(okHttpClient)
         .baseUrl("https://projfair.istu.edu/")
         .build()
 
+    private val scheduleRetrofit = Retrofit.Builder()
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .baseUrl("https://schedule-api.imysko.ru/")
+        .build()
+
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProjectTest() = runTest {
-        val repository = ProjectsRepositoryImpl(retrofit.create(ProjectsService::class.java))
+        val repository = ProjectsRepositoryImpl(projfairRetrofit.create(ProjectsService::class.java))
         val getProjectUseCase = GetProjectUseCase(repository)
 
         val response = getProjectUseCase.getProject(307)
@@ -65,7 +78,7 @@ class RetrofitTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun getProjectsTest() = runTest {
-        val repository = ProjectsRepositoryImpl(retrofit.create(ProjectsService::class.java))
+        val repository = ProjectsRepositoryImpl(projfairRetrofit.create(ProjectsService::class.java))
         val getProjectsListUseCase = GetProjectsListUseCase(repository)
 
         val response = getProjectsListUseCase.getProjectsList(title = "Ярмарка проектов", page = 1)
@@ -76,5 +89,63 @@ class RetrofitTest {
                 project.title.contains("Ярмарка проектов")
             }!!
         )
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun getInstitutesTest() = runTest {
+        val repository = InstitutesRepositoryImpl(scheduleRetrofit.create(InstitutesService::class.java))
+        val getInstitutesListUseCase = GetInstitutesListUseCase(repository)
+
+        val response = getInstitutesListUseCase.getInstitutesList()
+
+        val expectedList = listOf(
+            "Аспирантура",
+            "Байкальский институт БРИКС",
+            "Институт авиамашиностроения и транспорта",
+            "Институт архитектуры, строительства и дизайна",
+            "Институт высоких технологий",
+            "Институт заочно-вечернего обучения",
+            "Институт информационных технологий и анализа данных",
+            "Институт лингвистики и межкультурной коммуникации",
+            "Институт недропользования",
+            "Институт экономики, управления и права",
+            "Институт энергетики",
+            "Сибирская Школа Геонаук"
+        )
+
+        assert(response.getOrNull()?.all { expectedList.contains(it.instituteTitle) } ?: false)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun getScheduleTest() = runTest {
+        val repository = ScheduleRepositoryImpl(scheduleRetrofit.create(ScheduleService::class.java))
+        val getGroupScheduleOnDayUseCase = GetGroupScheduleOnDayUseCase(repository)
+
+        val response = getGroupScheduleOnDayUseCase.getGroupScheduleOnDay(
+            groupId = 464443,
+            dateString = "2023-05-10"
+        )
+
+        val expectedDate = "2023-05-10"
+        val expectedGroup = "ИСТб-20-3"
+        val expectedSecondLessonStartTime = "10:00"
+        val expectedSecondLessonType = LessonType.LABORATORY_WORK
+        val expectedSecondLessonName = "Технология разработки программных комплексов"
+        val expectedSecondLessonTeacherShortName = "Бахвалова З.А."
+        val expectedSecondLessonClassroomName = "В-208"
+        val expectedSecondLessonSubgroup = 2
+
+        val secondLesson = response.getOrNull()?.first()?.lessons?.get(1)?.schedules?.get(1)!!
+
+        assert(secondLesson.date == expectedDate)
+        assert(secondLesson.groups.any { it.name == expectedGroup })
+        assert(secondLesson.lessonTime.begTime == expectedSecondLessonStartTime)
+        assert(secondLesson.lessonType == expectedSecondLessonType)
+        assert(secondLesson.disciplineVerbose == expectedSecondLessonName)
+        assert(secondLesson.teachers.any { it.shortname == expectedSecondLessonTeacherShortName })
+        assert(secondLesson.classroomVerbose == expectedSecondLessonClassroomName)
+        assert(secondLesson.subgroup == expectedSecondLessonSubgroup)
     }
 }

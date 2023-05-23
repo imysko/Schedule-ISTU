@@ -5,9 +5,9 @@ import com.istu.schedule.data.enums.LessonType
 data class Schedule(
     val scheduleId: Int,
     val groupsVerbose: String,
-    val scheduleGroups: List<ScheduleGroup>,
+    val groups: List<Group>,
     val teachersVerbose: String,
-    val scheduleTeachers: List<ScheduleTeacher>,
+    val teachers: List<Teacher>,
     val classroomId: Int,
     val classroom: Classroom,
     val classroomVerbose: String,

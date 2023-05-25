@@ -3,7 +3,6 @@ package com.istu.schedule.ui.page.settings.language
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -11,6 +10,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,6 +23,7 @@ import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.Shape10
 
 @Composable
 fun LanguagePage(
@@ -57,22 +58,23 @@ fun LanguagePage(
                     .background(MaterialTheme.colorScheme.background),
             ) {
                 Column(
-                    modifier = Modifier.padding(top = 24.dp, start = 23.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    LanguagesPreference.values.map {
-                        Row {
-                            RadioButtonWithText(
-                                text = it.toDescription(context),
-                                style = MaterialTheme.typography.bodyMedium.copy(
-                                    fontSize = 16.sp
-                                ),
-                                selected = it == languages,
-                                onSelect = {
-                                    it.put(context, scope)
-                                }
-                            )
-                        }
+                    LanguagesPreference.values.map { language ->
+                        RadioButtonWithText(
+                            modifier = Modifier
+                                .padding(vertical = 5.dp, horizontal = 3.dp)
+                                .clip(Shape10),
+                            text = language.toDescription(context),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                fontSize = 16.sp
+                            ),
+                            selected = language == languages,
+                            onSelect = {
+                                language.put(context, scope)
+                            }
+                        )
                     }
                 }
             }

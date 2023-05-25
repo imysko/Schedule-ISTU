@@ -150,4 +150,5 @@
     <string name="down">Вниз</string>
     <string name="up">Вверх</string>
 	<string name="save_changes">Сохранить изменения</string>
+    <string name="not_assigned">" Не назначено"</string>
 </resources>

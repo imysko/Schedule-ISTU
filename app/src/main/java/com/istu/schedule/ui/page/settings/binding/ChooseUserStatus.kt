@@ -66,8 +66,9 @@ fun ChooseUserStatus(
                 ) {
                     item {
                         UserStatusItem(
-                            title = "Я студент",
-                            description = selectedGroupDescription ?: "Не назначена",
+                            title = stringResource(id = R.string.is_student),
+                            description = selectedGroupDescription
+                                ?: stringResource(id = R.string.not_assigned),
                             onClick = { selectUserStatus(UserStatus.STUDENT) },
                         )
                     }
@@ -81,8 +82,9 @@ fun ChooseUserStatus(
                     }
                     item {
                         UserStatusItem(
-                            title = "Я преподаватель",
-                            description = selectedTeacherDescription ?: "Не назначена",
+                            title = stringResource(id = R.string.is_teacher),
+                            description = selectedTeacherDescription
+                                ?: stringResource(id = R.string.not_assigned),
                             onClick = { selectUserStatus(UserStatus.TEACHER) },
                         )
                     }

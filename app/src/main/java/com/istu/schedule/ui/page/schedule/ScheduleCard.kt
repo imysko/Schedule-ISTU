@@ -63,8 +63,7 @@ fun ScheduleCard(
 
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 15.dp),
+            .fillMaxWidth(),
         shape = Shape10,
     ) {
         Column(
@@ -159,12 +158,18 @@ fun ScheduleCard(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalArrangement = Arrangement.spacedBy(5.dp),
                             ) {
-                                Text(
-                                    text = schedule.teachersVerbose,
-                                    style = MaterialTheme.typography.bodyMedium.copy(
-                                        color = MaterialTheme.colorScheme.secondary,
-                                    ),
-                                )
+
+                                schedule.teachers?.let {
+                                    Text(
+                                        text = schedule.teachers.joinToString(
+                                            separator = "\n",
+                                            transform = { it.fullName }
+                                        ),
+                                        style = MaterialTheme.typography.bodyMedium.copy(
+                                            color = MaterialTheme.colorScheme.secondary,
+                                        ),
+                                    )
+                                }
 
                                 var disciplineTitle = schedule.disciplineVerbose
                                 schedule.discipline?.let {
@@ -172,6 +177,9 @@ fun ScheduleCard(
                                 }
                                 schedule.otherDiscipline?.let {
                                     disciplineTitle = it.disciplineTitle
+                                }
+                                schedule.query?.let {
+                                    disciplineTitle = it.description
                                 }
 
                                 Text(
@@ -181,19 +189,21 @@ fun ScheduleCard(
                                     ),
                                 )
 
-                                Box(
-                                    modifier = Modifier
-                                        .background(MaterialTheme.colorScheme.primary, Shape5),
-                                ) {
-                                    Text(
+                                schedule.classroom?.let {
+                                    Box(
                                         modifier = Modifier
-                                            .padding(vertical = 1.dp, horizontal = 7.dp),
-                                        text = schedule.classroomVerbose,
-                                        style = MaterialTheme.typography.titleLarge.copy(
-                                            fontWeight = FontWeight.Light,
-                                            color = MaterialTheme.colorScheme.background,
-                                        ),
-                                    )
+                                            .background(MaterialTheme.colorScheme.primary, Shape5),
+                                    ) {
+                                        Text(
+                                            modifier = Modifier
+                                                .padding(vertical = 1.dp, horizontal = 7.dp),
+                                            text = schedule.classroomVerbose,
+                                            style = MaterialTheme.typography.titleLarge.copy(
+                                                fontWeight = FontWeight.Light,
+                                                color = MaterialTheme.colorScheme.background,
+                                            ),
+                                        )
+                                    }
                                 }
                             }
 
@@ -213,12 +223,18 @@ fun ScheduleCard(
                                     )
                                 }
 
-                                Text(
-                                    text = schedule.groupsVerbose,
-                                    style = MaterialTheme.typography.bodySmall.copy(
-                                        color = MaterialTheme.colorScheme.secondary,
-                                    ),
-                                )
+                                schedule.groups?.let {
+                                    Text(
+                                        text = schedule.groups.joinToString(
+                                            separator = ", ",
+                                            limit = 3,
+                                            transform = { it.name!! },
+                                        ),
+                                        style = MaterialTheme.typography.bodySmall.copy(
+                                            color = MaterialTheme.colorScheme.secondary,
+                                        ),
+                                    )
+                                }
                             }
                         }
                     }
@@ -276,6 +292,8 @@ fun ScheduleCardPreview() {
         disciplineVerbose = "Разработка мобильных приложений",
         otherDisciplineId = 0,
         otherDiscipline = null,
+        queryId = 0,
+        query = null,
         lessonId = 0,
         lessonTime = LessonTime(
             lessonId = 0,

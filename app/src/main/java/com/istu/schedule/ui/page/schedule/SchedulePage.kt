@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -46,7 +45,6 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SchedulePage(
     viewModel: ScheduleViewModel = hiltViewModel()

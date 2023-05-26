@@ -33,7 +33,6 @@ class BindingViewModel @Inject constructor(
     val coursesList: LiveData<List<Course>> = _coursesList
 
     private val _teachersList = MutableLiveData<List<Teacher>>()
-    val teachersList: LiveData<List<Teacher>> = _teachersList
 
     private val _teachersTips = MutableLiveData<List<Teacher>>()
     val teachersTips: LiveData<List<Teacher>> = _teachersTips
@@ -44,7 +43,6 @@ class BindingViewModel @Inject constructor(
     private val _selectedTeacher = MutableLiveData<Teacher?>()
 
     private val _userState = MutableStateFlow(UserStatus.UNKNOWN)
-    val userState: StateFlow<UserStatus> = _userState.asStateFlow()
 
     private val _bindingUiState = MutableStateFlow(BindingUiState())
     val bindingUiState: StateFlow<BindingUiState> = _bindingUiState.asStateFlow()
@@ -85,6 +83,7 @@ class BindingViewModel @Inject constructor(
             _useCaseTeachersList.getTeachersList()
         }, onSuccess = {
             _teachersList.postValue(it)
+            _teachersTips.postValue(it)
         })
     }
 
@@ -172,12 +171,14 @@ class BindingViewModel @Inject constructor(
                 selectedGroupDescription = null,
             )
         }
+
+        bindUser()
     }
 
-    fun inputText(inputtedText: String) {
+    fun onTeacherInput(value: String) {
         _teachersTips.value = _teachersList.value!!.filter {
             it.fullName.lowercase(Locale.getDefault())
-                .contains(inputtedText.lowercase(Locale.getDefault()))
+                .contains(value.lowercase(Locale.getDefault()))
         }
     }
 

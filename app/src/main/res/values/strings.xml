@@ -146,4 +146,6 @@
     <string name="up">Up</string>
     <string name="save_changes">Save changes</string>
     <string name="not_assigned">Not assigned</string>
+    <string name="search_teacher">Search by teachers</string>
+    <string name="not_found">Not found</string>
 </resources>

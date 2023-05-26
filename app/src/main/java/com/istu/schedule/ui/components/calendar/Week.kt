@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -59,8 +60,8 @@ fun Week(
                     Text(
                         modifier = Modifier.padding(top = 7.dp),
                         text = date.dayOfWeek
-                            .getDisplayName(TextStyle.SHORT_STANDALONE, Locale("ru"))
-                            .toString()
+                            .getDisplayName(TextStyle.SHORT,
+                                LocalContext.current.resources.configuration.locales.get(0))
                             .replaceFirstChar {
                                 if (it.isLowerCase()) {
                                     it.titlecase(Locale.getDefault())
@@ -101,16 +102,17 @@ fun Week(
         Row(
             modifier = Modifier
                 .padding(top = 7.dp),
-            horizontalArrangement = Arrangement.spacedBy(7.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             Text(
-                text = selectedDate.toString(),
+                text = selectedDate.dayOfMonth.toString(),
                 fontFamily = interFamily,
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.background,
             )
             Text(
-                text = "чётная",
+                text = selectedDate.month.getDisplayName(TextStyle.FULL,
+                    LocalContext.current.resources.configuration.locales.get(0)),
                 fontFamily = interFamily,
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.background,
@@ -120,7 +122,7 @@ fun Week(
 }
 
 @Composable
-@Preview(showBackground = false)
+@Preview(showBackground = false, locale = "ru")
 fun WeekPreview() {
     Week(
         week = Week(

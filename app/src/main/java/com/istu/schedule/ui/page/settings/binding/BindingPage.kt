@@ -16,6 +16,7 @@ fun BindingPage(
 
     val instituteList by viewModel.institutesList.observeAsState(initial = emptyList())
     val coursesList by viewModel.coursesList.observeAsState(initial = emptyList())
+
     val teachersTips by viewModel.teachersTips.observeAsState(initial = emptyList())
 
     if (bindingUiState.isShowChooseUserStatusPage) {
@@ -44,7 +45,9 @@ fun BindingPage(
     else if (bindingUiState.isShowChooseTeacherPage) {
         ChooseTeacher(
             onBackClick = { viewModel.onClickBackToChooseUserState() },
-            onChooseTeacher = { viewModel.selectTeacher(it) }
+            teachersList = teachersTips,
+            onChooseTeacher = { viewModel.selectTeacher(it) },
+            onValueChange = { viewModel.onTeacherInput(it) },
         )
     }
 }

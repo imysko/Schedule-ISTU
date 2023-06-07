@@ -1,10 +1,8 @@
 package com.istu.schedule.ui.page.settings.binding
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,13 +18,17 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,13 +37,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Teacher
-import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape5
@@ -75,10 +78,11 @@ fun ChooseTeacher(
                     .background(MaterialTheme.colorScheme.background),
                 verticalArrangement = Arrangement.spacedBy(18.dp),
             ) {
+
                 SearchLine(
                     modifier = Modifier.padding(top = 9.dp, start = 15.dp, end = 15.dp),
-                    isError = !teachersList.any(),
                     value = value,
+                    isError = !teachersList.any() && value.any(),
                     onValueChange = { input ->
                         value = input
                         onValueChange(input)
@@ -97,48 +101,52 @@ fun ChooseTeacher(
 @Composable
 fun SearchLine(
     modifier: Modifier = Modifier,
-    isError: Boolean = false,
     value: String = "",
+    isError: Boolean = false,
     onValueChange: (value: String) -> Unit,
+    onDone: () -> Unit = { },
+    onClose: () -> Unit = { },
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
-            .clip(Shape5)
-            .border(BorderStroke(2.dp, if (!isError) MaterialTheme.colorScheme.secondary else
-                MaterialTheme.colorScheme.error)),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        TextField(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp),
-            value = value,
-            onValueChange = { onValueChange(it) },
-            textStyle = MaterialTheme.typography.titleMedium,
-            placeholder = {
-                Text(
-                    text = stringResource(id = R.string.search_teacher),
-                    style = MaterialTheme.typography.titleMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary,
-                    )
+    val focusManager = LocalFocusManager.current
+
+    OutlinedTextField(
+        modifier = modifier.fillMaxWidth(),
+        value = value,
+        isError = isError,
+        onValueChange = { onValueChange(it) },
+        textStyle = MaterialTheme.typography.titleMedium,
+        singleLine = true,
+        placeholder = {
+            Text(
+                text = stringResource(id = R.string.search_teacher),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = MaterialTheme.colorScheme.secondary,
                 )
+            )
+        },
+        trailingIcon = {
+            Icon(
+                modifier = Modifier.size(32.dp),
+                imageVector = Icons.Rounded.Search,
+                tint = MaterialTheme.colorScheme.secondary,
+                contentDescription = stringResource(id = R.string.search),
+            )
+        },
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Done,
+        ),
+        keyboardActions = KeyboardActions(
+            onDone = {
+                focusManager.clearFocus()
+                onDone()
             },
-            trailingIcon = {
-                Icon(
-                    modifier = Modifier.size(32.dp),
-                    imageVector = Icons.Search,
-                    tint = MaterialTheme.colorScheme.secondary,
-                    contentDescription = stringResource(id = R.string.search),
-                )
-            },
-            colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.background,
-                unfocusedContainerColor = MaterialTheme.colorScheme.background,
-            ),
-        )
-    }
+        ),
+        colors = OutlinedTextFieldDefaults.colors(
+            focusedContainerColor = MaterialTheme.colorScheme.background,
+            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+        ),
+        shape = RoundedCornerShape(10.dp),
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -210,9 +218,10 @@ fun TeachersList(
 fun SearchLineErrorPreview() {
     ScheduleISTUTheme {
         SearchLine(
-            isError = true,
             value = "",
+            isError = true,
             onValueChange = { },
+            onDone = { },
         )
     }
 }

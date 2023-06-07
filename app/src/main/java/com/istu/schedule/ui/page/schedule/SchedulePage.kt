@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -126,41 +127,38 @@ fun SchedulePage(
                     .clip(ShapeTop15)
                     .background(MaterialTheme.colorScheme.background),
             ) {
-                Row(
+                LazyColumn(
                     modifier = Modifier
-                        .padding(top = 20.dp, start = 15.dp, end = 15.dp),
+                        .fillMaxSize()
+                        .padding(start = 15.dp, end = 15.dp),
+                    contentPadding = PaddingValues(top = 20.dp),
+                    verticalArrangement = Arrangement.spacedBy(15.dp),
                 ) {
-                    LazyColumn(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(15.dp)
-                    ) {
-                        if (scheduleList.any()) {
-                            scheduleList.first().lessons.forEach { lesson ->
-                                item {
-                                    val currentDateTime = LocalDateTime.now()
-
-                                    ScheduleCard(
-                                        currentDateTime = currentDateTime,
-                                        lesson = lesson,
-                                        lessonDate = scheduleList.first().date
-                                    )
-                                }
-                                lesson.breakTimeAfter?.let {
-                                    item {
-                                        BreakTime(stringBreakTime = it)
-                                    }
-                                }
-                            }
-
+                    if (scheduleList.any()) {
+                        scheduleList.first().lessons.forEach { lesson ->
                             item {
-                                Spacer(modifier = Modifier.height(128.dp))
-                                Spacer(
-                                    modifier = Modifier.windowInsetsBottomHeight(
-                                        WindowInsets.navigationBars
-                                    )
+                                val currentDateTime = LocalDateTime.now()
+
+                                ScheduleCard(
+                                    currentDateTime = currentDateTime,
+                                    lesson = lesson,
+                                    lessonDate = scheduleList.first().date
                                 )
                             }
+                            lesson.breakTimeAfter?.let {
+                                item {
+                                    BreakTime(stringBreakTime = it)
+                                }
+                            }
+                        }
+
+                        item {
+                            Spacer(modifier = Modifier.height(128.dp))
+                            Spacer(
+                                modifier = Modifier.windowInsetsBottomHeight(
+                                    WindowInsets.navigationBars
+                                )
+                            )
                         }
                     }
                 }

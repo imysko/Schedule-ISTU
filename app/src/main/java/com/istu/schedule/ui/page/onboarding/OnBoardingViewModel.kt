@@ -32,10 +32,10 @@ class OnBoardingViewModel : BaseViewModel() {
         }
     }
 
-    fun onSkipSetupScheduleButtonClick() {
+    fun onSetupScheduleButtonClick() {
         _onBoardingUiState.update {
             it.copy(
-                pageNumber = it.pageNumber + 2,
+                pageNumber = it.pageNumber + 1,
                 isShowSetupScheduleButton = false,
                 isShowSkipSetupScheduleButton = false,
                 isShowAuthorizationButton = true,
@@ -44,16 +44,14 @@ class OnBoardingViewModel : BaseViewModel() {
         }
     }
 
-    fun onSetupScheduleButtonClick() {
-
-    }
-
-    fun onSkipAuthorizationButtonClick() {
-
-    }
-
     fun onAuthorizationButtonClick() {
-
+        _onBoardingUiState.update {
+            it.copy(
+                isShowAuthorizationButton = false,
+                isShowSkipAuthorizationButton = false,
+                canNavigateToMainPage = true,
+            )
+        }
     }
 
     data class OnBoardingUiState(

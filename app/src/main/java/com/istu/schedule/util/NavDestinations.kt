@@ -1,6 +1,7 @@
 package com.istu.schedule.util
 
 object NavDestinations {
+    const val ONBOARDING_PAGE = "ONBOARDING_PAGE"
     const val MAIN_PAGE = "MAIN_PAGE"
     const val PROJECT_PAGE = "PROJECT_PAGE"
     const val FILTERS_PAGE = "FILTERS_PAGE"

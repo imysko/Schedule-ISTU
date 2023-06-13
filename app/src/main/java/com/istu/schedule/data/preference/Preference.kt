@@ -11,6 +11,8 @@ sealed class Preference {
 
 fun Preferences.toSettings(): Settings {
     return Settings(
+        // OnBoardingState
+        onBoardingState = OnBoardingState.fromPreferences(this),
         // Theme
         theme = ThemePreference.fromPreferences(this),
         // Languages

@@ -11,12 +11,20 @@ import com.istu.schedule.util.dataStore
 import kotlinx.coroutines.flow.map
 
 data class Settings(
+
+    // OnBoardingState
+    val onBoardingState: OnBoardingState = OnBoardingState.default,
+
     // Theme
     val theme: ThemePreference = ThemePreference.default,
 
     // Languages
     val languages: LanguagesPreference = LanguagesPreference.default,
 )
+
+// OnBoardingState
+val LocalOnBoardingState =
+    compositionLocalOf<OnBoardingState> { OnBoardingState.default }
 
 // Theme
 val LocalTheme =
@@ -39,6 +47,8 @@ fun SettingsProvider(
     }.collectAsStateValue(initial = Settings())
 
     CompositionLocalProvider(
+        // OnBoardingState
+        LocalOnBoardingState provides settings.onBoardingState,
         // Theme
         LocalTheme provides settings.theme,
         // Languages

@@ -100,9 +100,9 @@ fun SchedulePage(
                         text = stringResource(id = R.string.title_schedule),
                         style = MaterialTheme.typography.headlineMedium
                     )
-                    scheduleUiState.userDescription?.let {
+                    if (scheduleUiState.userDescription != "") {
                         Text(
-                            text = scheduleUiState.userDescription,
+                            text = scheduleUiState.userDescription!!,
                             style = MaterialTheme.typography.headlineMedium
                         )
                     }

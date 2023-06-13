@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.onboarding
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,26 +15,38 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
+import com.istu.schedule.data.preference.OnBoardingState
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.theme.GrayDisabled
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 
 @Composable
 fun OnBoardingPage(
+    navController: NavHostController,
     viewModel: OnBoardingViewModel = hiltViewModel()
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+
     val onBoardingUiState = viewModel.onBoardingUiState.collectAsStateValue()
+
+    Log.i("SILog", "onboarding page")
 
     Surface(
         color = MaterialTheme.colorScheme.background,
@@ -73,7 +86,7 @@ fun OnBoardingPage(
                                 )
                             )
                         }
-                        5 -> {
+                        4 -> {
                             OnBoardingContent(
                                 painterResource = painterResource(
                                     id = R.drawable.login_to_personal_account
@@ -97,7 +110,7 @@ fun OnBoardingPage(
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(14.dp)
                         ) {
-                            for (i in 1..5) {
+                            for (i in 1..4) {
                                 Box(
                                     modifier = Modifier
                                         .size(8.dp)
@@ -132,7 +145,7 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.skip_setting),
-                                    onClick = { viewModel.onSkipSetupScheduleButtonClick() }
+                                    onClick = { viewModel.onSetupScheduleButtonClick() }
                                 )
                             }
 
@@ -142,7 +155,10 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.setup_schedule),
-                                    onClick = { viewModel.onSetupScheduleButtonClick() }
+                                    onClick = {
+                                        viewModel.onSetupScheduleButtonClick()
+                                        navController.navigate(NavDestinations.BINDING_PAGE)
+                                    }
                                 )
                             }
 
@@ -152,7 +168,10 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.skip),
-                                    onClick = { viewModel.onSkipAuthorizationButtonClick() }
+                                    onClick = {
+                                        OnBoardingState.isNotFirstLaunch.put(context, scope)
+                                        navController.navigate(NavDestinations.MAIN_PAGE)
+                                    }
                                 )
                             }
 
@@ -162,7 +181,21 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.login_campus),
-                                    onClick = { viewModel.onAuthorizationButtonClick() }
+                                    onClick = {
+                                        OnBoardingState.isNotFirstLaunch.put(context, scope)
+                                        viewModel.onAuthorizationButtonClick()
+                                        navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+                                    }
+                                )
+                            }
+
+                            if (onBoardingUiState.canNavigateToMainPage) {
+                                FilledButton(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(52.dp),
+                                    text = stringResource(id = R.string.next_step),
+                                    onClick = { navController.navigate(NavDestinations.MAIN_PAGE) }
                                 )
                             }
                         }
@@ -177,6 +210,6 @@ fun OnBoardingPage(
 @Preview(showBackground = true, locale = "ru")
 fun OnBoardingPagePreview() {
     ScheduleISTUTheme {
-        OnBoardingPage()
+        OnBoardingPage(navController = rememberNavController())
     }
 }

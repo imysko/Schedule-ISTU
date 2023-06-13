@@ -7,6 +7,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.login.LoginProjfairPage
 import com.istu.schedule.ui.page.main.MainPage
+import com.istu.schedule.ui.page.onboarding.OnBoardingPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.ui.page.settings.theme.ThemePage
@@ -15,12 +16,19 @@ import com.istu.schedule.util.NavDestinations
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    startDestination: String = NavDestinations.MAIN_PAGE
 ) {
     AnimatedNavHost(
         navController = navController,
-        startDestination = NavDestinations.MAIN_PAGE
+        startDestination = startDestination
     ) {
+        animatedComposable(
+            route = NavDestinations.ONBOARDING_PAGE
+        ) {
+            OnBoardingPage(navController)
+        }
+
         animatedComposable(
             route = NavDestinations.MAIN_PAGE
         ) {

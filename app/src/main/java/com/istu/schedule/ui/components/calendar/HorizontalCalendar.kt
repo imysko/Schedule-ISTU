@@ -3,6 +3,7 @@ package com.istu.schedule.ui.components.calendar
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -29,8 +30,9 @@ fun HorizontalCalendar(
 
     LazyRow(
         modifier = Modifier
-            .padding(15.dp)
+            .padding(vertical = 15.dp)
             .fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = 15.dp),
         state = calendarState,
         flingBehavior = snapFlingBehavior,
     ) {

@@ -60,13 +60,15 @@ fun SchedulePage(
     navController: NavHostController,
     viewModel: ScheduleViewModel = hiltViewModel(),
 ) {
-    val scheduleUiState = viewModel.scheduleUiState.collectAsStateValue()
+    val isLoading by viewModel.loading.observeAsState(initial = false)
 
-    val schedule by viewModel.schedule.observeAsState()
+    val scheduleUiState = viewModel.scheduleUiState.collectAsStateValue()
 
     val weeksList by viewModel.weeksList.observeAsState(initial = emptyList())
     val currentDate by viewModel.currentDate.observeAsState(initial = LocalDate.now())
     val selectedDate by viewModel.selectedDate.observeAsState(initial = LocalDate.now())
+
+    val schedule by viewModel.schedule.observeAsState()
 
     val startOfListReached by remember {
         derivedStateOf {
@@ -92,9 +94,12 @@ fun SchedulePage(
         viewModel.getSchedule()
     }
 
-    // LaunchedEffect(startOfListReached) {
-    //     viewModel.addWeekForward()
-    // }
+    LaunchedEffect(startOfListReached) {
+        viewModel.addWeekForward()
+        scheduleUiState.calendarState.scrollToItem(
+            index = scheduleUiState.calendarState.firstVisibleItemIndex + 1
+        )
+    }
 
     LaunchedEffect(endOfListReached) {
         viewModel.addWeekBackward()
@@ -102,6 +107,7 @@ fun SchedulePage(
     
     SchedulePage(
         scheduleUiState = scheduleUiState,
+        isLoading = isLoading,
         schedule = schedule,
         weeksList = weeksList,
         currentDate = currentDate,
@@ -114,6 +120,7 @@ fun SchedulePage(
 @Composable
 fun SchedulePage(
     scheduleUiState: ScheduleUiState,
+    isLoading: Boolean,
     schedule: StudyDay?,
     weeksList: List<Week>,
     currentDate: LocalDate,
@@ -188,44 +195,49 @@ fun SchedulePage(
                             )
                         )
                     }
-                }
-
-                schedule?.let {
-                    if (schedule.lessons.isEmpty()) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(15.dp),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = stringResource(id = R.string.weekend),
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    color = MaterialTheme.colorScheme.onBackground
-                                )
-                            )
-                            Image(
-                                painter = painterResource(
-                                    id = R.drawable.login_to_personal_account
-                                ),
-                                contentDescription = null,
-                            )
-                            Spacer(modifier = Modifier.height(128.dp))
-                            Spacer(
-                                modifier = Modifier.windowInsetsBottomHeight(
-                                    WindowInsets.navigationBars
-                                )
-                            )
-                        }
-                    } else {
-                        LazyColumn(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(horizontal = 15.dp),
-                            contentPadding = PaddingValues(top = 20.dp),
-                            verticalArrangement = Arrangement.spacedBy(15.dp),
-                        ) {
+                } else {
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 15.dp),
+                        contentPadding = PaddingValues(top = 20.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                    ) {
+                        schedule?.let {
+                            if (isLoading) {
+                                items(3) {
+                                    ScheduleCardPlaceHolder()
+                                }
+                            }
+                            if (schedule.lessons.isEmpty()) {
+                                item {
+                                    Column(
+                                        modifier = Modifier
+                                            .fillParentMaxSize(),
+                                        verticalArrangement = Arrangement.Center,
+                                        horizontalAlignment = Alignment.CenterHorizontally
+                                    ) {
+                                        Text(
+                                            text = stringResource(id = R.string.weekend),
+                                            style = MaterialTheme.typography.titleMedium.copy(
+                                                color = MaterialTheme.colorScheme.onBackground
+                                            )
+                                        )
+                                        Image(
+                                            painter = painterResource(
+                                                id = R.drawable.login_to_personal_account
+                                            ),
+                                            contentDescription = null,
+                                        )
+                                        Spacer(modifier = Modifier.height(128.dp))
+                                        Spacer(
+                                            modifier = Modifier.windowInsetsBottomHeight(
+                                                WindowInsets.navigationBars
+                                            )
+                                        )
+                                    }
+                                }
+                            }
                             schedule.lessons.forEach { lesson ->
                                 item {
                                     val currentDateTime = LocalDateTime.now()
@@ -242,17 +254,18 @@ fun SchedulePage(
                                     }
                                 }
                             }
-                            item {
-                                Spacer(modifier = Modifier.height(128.dp))
-                                Spacer(
-                                    modifier = Modifier.windowInsetsBottomHeight(
-                                        WindowInsets.navigationBars
-                                    )
+                        }
+                        item {
+                            Spacer(modifier = Modifier.height(128.dp))
+                            Spacer(
+                                modifier = Modifier.windowInsetsBottomHeight(
+                                    WindowInsets.navigationBars
                                 )
-                            }
+                            )
                         }
                     }
                 }
+
             }
         }
     )
@@ -325,10 +338,30 @@ fun BreakTimePreview() {
 
 @Composable
 @Preview(showBackground = true)
+fun SchedulePageLoadingPreview() {
+    ScheduleISTUTheme {
+        SchedulePage(
+            scheduleUiState = ScheduleUiState(),
+            isLoading = true,
+            schedule = null,
+            weeksList = listOf(
+                Week(LocalDate.of(2023, 6, 12)),
+            ),
+            currentDate = LocalDate.now(),
+            selectedDate = LocalDate.now().plusDays(2),
+            onDateSelect = { },
+            onSetupScheduleClick = { },
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
 fun SchedulePageUnknownUserPreview() {
     ScheduleISTUTheme {
         SchedulePage(
             scheduleUiState = ScheduleUiState(),
+            isLoading = false,
             schedule = StudyDay(
                 date = "",
                 lessons = emptyList(),
@@ -352,6 +385,7 @@ fun SchedulePageWeekendPreview() {
             scheduleUiState = ScheduleUiState(
                 isUserBinded = true,
             ),
+            isLoading = false,
             schedule = StudyDay(
                 date = "",
                 lessons = emptyList(),

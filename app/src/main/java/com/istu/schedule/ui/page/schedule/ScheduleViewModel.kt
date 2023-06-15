@@ -43,7 +43,9 @@ class ScheduleViewModel @Inject constructor(
         val startDate = _currentDate.value!!
             .minusDays((_currentDate.value!!.dayOfWeek.value - 1).toLong())
 
+        value!!.add(Week(startDate.minusWeeks(1)))
         value!!.add(Week(startDate))
+        value!!.add(Week(startDate.plusWeeks(1)))
     }
     val weeksList: LiveData<MutableList<Week>> = _weeksList
 
@@ -54,8 +56,6 @@ class ScheduleViewModel @Inject constructor(
 
     init {
         updateUserInformation()
-        addWeekForward()
-        addWeekBackward()
     }
 
     fun updateUserInformation() {

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.Divider
@@ -20,6 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.fade
+import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.LessonStatus
 import com.istu.schedule.data.enums.LessonType
@@ -270,6 +274,23 @@ fun ScheduleCard(
             }
         }
     }
+}
+
+@Composable
+fun ScheduleCardPlaceHolder() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(200.dp)
+            .placeholder(
+                visible = true,
+                color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.05f),
+                shape = Shape10,
+                highlight = PlaceholderHighlight.fade(
+                    highlightColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.08f)
+                )
+            ),
+    )
 }
 
 @Composable

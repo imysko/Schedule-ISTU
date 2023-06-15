@@ -153,4 +153,6 @@
     <string name="not_assigned">" Не назначено"</string>
     <string name="search_teacher">Поиск по преподавателям</string>
     <string name="not_found">Не найдено</string>
+    <string name="unknown_user">Для просмотра расписания вам необходимо выбрать группу или преподавателя</string>
+    <string name="weekend">Сегодня пар нет, вы можете отдохнуть</string>
 </resources>

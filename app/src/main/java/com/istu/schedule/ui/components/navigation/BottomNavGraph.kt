@@ -26,7 +26,7 @@ fun BottomNavGraph(
         animatedComposable(
             route = BottomNavItem.SchedulePage.route
         ) {
-            SchedulePage()
+            SchedulePage(navController)
         }
 
         animatedComposable(

@@ -21,7 +21,7 @@ class ScheduleRepositoryImpl @Inject constructor(
 
         if (apiResponse != null) {
             cachedList.addAll(apiResponse)
-            return Result.success(apiResponse)
+            return Result.success(cachedList)
         }
 
         return Result.failure(
@@ -51,7 +51,7 @@ class ScheduleRepositoryImpl @Inject constructor(
 
         if (apiResponse != null) {
             cachedList.addAll(apiResponse)
-            return Result.success(apiResponse)
+            return Result.success(cachedList)
         }
 
         return Result.failure(

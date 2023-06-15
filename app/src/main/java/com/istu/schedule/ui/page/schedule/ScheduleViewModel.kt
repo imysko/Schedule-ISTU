@@ -26,17 +26,11 @@ class ScheduleViewModel @Inject constructor(
     private val _user: User,
 ) : BaseViewModel() {
 
-    private val _scheduleUiState = MutableStateFlow(ScheduleUiState()).apply {
-        update {
-            it.copy(
-                userDescription = _user.userDescription,
-            )
-        }
-    }
+    private val _scheduleUiState = MutableStateFlow(ScheduleUiState())
     val scheduleUiState: StateFlow<ScheduleUiState> = _scheduleUiState.asStateFlow()
 
-    private val _scheduleList = MutableLiveData<List<StudyDay>>()
-    val scheduleList: LiveData<List<StudyDay>> = _scheduleList
+    private val _schedule = MutableLiveData<StudyDay>()
+    val schedule: LiveData<StudyDay> = _schedule
 
     private val _currentDate = MutableLiveData<LocalDate>().apply {
         value = LocalDate.now()
@@ -59,8 +53,20 @@ class ScheduleViewModel @Inject constructor(
     val selectedDate: LiveData<LocalDate> = _selectedDate
 
     init {
+        updateUserInformation()
         addWeekForward()
         addWeekBackward()
+    }
+
+    fun updateUserInformation() {
+        if (_user.userType != UserStatus.UNKNOWN) {
+            _scheduleUiState.update {
+                it.copy(
+                    isUserBinded = true,
+                    userDescription = _user.userDescription,
+                )
+            }
+        }
     }
 
     fun addWeekForward() {
@@ -92,9 +98,15 @@ class ScheduleViewModel @Inject constructor(
                         groupId = _user.userId!!,
                         dateString = _selectedDate.value.toString(),
                     )
-                }, onSuccess = {
-                    _scheduleList.postValue(it)
+                }, onSuccess = { list ->
+                    _schedule.postValue(list.first { it.date == _selectedDate.value.toString() })
                 }, onError = {it as RequestException
+                    _schedule.postValue(
+                        StudyDay(
+                            date = _selectedDate.value.toString(),
+                            lessons = emptyList(),
+                        )
+                    )
                 })
             }
             UserStatus.TEACHER -> {
@@ -103,9 +115,15 @@ class ScheduleViewModel @Inject constructor(
                         teacherId = _user.userId!!,
                         dateString = _selectedDate.value.toString(),
                     )
-                }, onSuccess = {
-                    _scheduleList.postValue(it)
+                }, onSuccess = { list ->
+                    _schedule.postValue(list.first { it.date == _selectedDate.value.toString() })
                 }, onError = {it as RequestException
+                    _schedule.postValue(
+                        StudyDay(
+                            date = _selectedDate.value.toString(),
+                            lessons = emptyList(),
+                        )
+                    )
                 })
             }
             else -> { }
@@ -114,6 +132,7 @@ class ScheduleViewModel @Inject constructor(
 }
 
 data class ScheduleUiState(
+    val isUserBinded: Boolean = false,
     val userDescription: String? = null,
     val calendarState: LazyListState = LazyListState(),
 )

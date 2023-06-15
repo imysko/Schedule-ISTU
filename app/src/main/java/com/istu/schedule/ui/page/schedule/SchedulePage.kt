@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.schedule
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,8 +26,10 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -34,13 +37,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.istu.schedule.R
+import com.istu.schedule.data.model.Week
+import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.calendar.HorizontalCalendar
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.Green
 import com.istu.schedule.ui.theme.GreenContainer
+import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
+import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -48,11 +57,12 @@ import java.time.LocalTime
 
 @Composable
 fun SchedulePage(
-    viewModel: ScheduleViewModel = hiltViewModel()
+    navController: NavHostController,
+    viewModel: ScheduleViewModel = hiltViewModel(),
 ) {
     val scheduleUiState = viewModel.scheduleUiState.collectAsStateValue()
 
-    val scheduleList by viewModel.scheduleList.observeAsState(initial = emptyList())
+    val schedule by viewModel.schedule.observeAsState()
 
     val weeksList by viewModel.weeksList.observeAsState(initial = emptyList())
     val currentDate by viewModel.currentDate.observeAsState(initial = LocalDate.now())
@@ -74,6 +84,10 @@ fun SchedulePage(
         scheduleUiState.calendarState.scrollToItem(1)
     }
 
+    LaunchedEffect(navController) {
+        viewModel.updateUserInformation()
+    }
+
     LaunchedEffect(selectedDate) {
         viewModel.getSchedule()
     }
@@ -85,7 +99,28 @@ fun SchedulePage(
     LaunchedEffect(endOfListReached) {
         viewModel.addWeekBackward()
     }
+    
+    SchedulePage(
+        scheduleUiState = scheduleUiState,
+        schedule = schedule,
+        weeksList = weeksList,
+        currentDate = currentDate,
+        selectedDate = selectedDate,
+        onDateSelect = { viewModel.selectDate(it) },
+        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING_PAGE) },
+    )
+}
 
+@Composable
+fun SchedulePage(
+    scheduleUiState: ScheduleUiState,
+    schedule: StudyDay?,
+    weeksList: List<Week>,
+    currentDate: LocalDate,
+    selectedDate: LocalDate,
+    onDateSelect: (LocalDate) -> Unit,
+    onSetupScheduleClick: () -> Unit,
+) {
     Scaffold(
         containerColor = MaterialTheme.colorScheme.surface,
         topBar = {
@@ -100,7 +135,7 @@ fun SchedulePage(
                         text = stringResource(id = R.string.title_schedule),
                         style = MaterialTheme.typography.headlineMedium
                     )
-                    if (scheduleUiState.userDescription != "") {
+                    if (scheduleUiState.isUserBinded) {
                         Text(
                             text = scheduleUiState.userDescription!!,
                             style = MaterialTheme.typography.headlineMedium
@@ -113,9 +148,7 @@ fun SchedulePage(
                     currentDate = currentDate,
                     selectedDate = selectedDate,
                     calendarState = scheduleUiState.calendarState,
-                    onSelect = {
-                        viewModel.selectDate(it)
-                    }
+                    onSelect = { onDateSelect(it) }
                 )
             }
         },
@@ -127,38 +160,96 @@ fun SchedulePage(
                     .clip(ShapeTop15)
                     .background(MaterialTheme.colorScheme.background),
             ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 15.dp, end = 15.dp),
-                    contentPadding = PaddingValues(top = 20.dp),
-                    verticalArrangement = Arrangement.spacedBy(15.dp),
-                ) {
-                    if (scheduleList.any()) {
-                        scheduleList.first().lessons.forEach { lesson ->
-                            item {
-                                val currentDateTime = LocalDateTime.now()
+                if (!scheduleUiState.isUserBinded) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(15.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(R.string.unknown_user),
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        )
+                        FilledButton(
+                            modifier = Modifier
+                                .padding(top = 25.dp)
+                                .fillMaxWidth(),
+                            text = stringResource(R.string.setup_schedule),
+                            onClick = { onSetupScheduleClick() }
+                        )
+                        Spacer(modifier = Modifier.height(128.dp))
+                        Spacer(
+                            modifier = Modifier.windowInsetsBottomHeight(
+                                WindowInsets.navigationBars
+                            )
+                        )
+                    }
+                }
 
-                                ScheduleCard(
-                                    currentDateTime = currentDateTime,
-                                    lesson = lesson,
-                                    lessonDate = scheduleList.first().date
+                schedule?.let {
+                    if (schedule.lessons.isEmpty()) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(15.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = stringResource(id = R.string.weekend),
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    color = MaterialTheme.colorScheme.onBackground
                                 )
-                            }
-                            lesson.breakTimeAfter?.let {
-                                item {
-                                    BreakTime(stringBreakTime = it)
-                                }
-                            }
-                        }
-
-                        item {
+                            )
+                            Image(
+                                painter = painterResource(
+                                    id = R.drawable.login_to_personal_account
+                                ),
+                                contentDescription = null,
+                            )
                             Spacer(modifier = Modifier.height(128.dp))
                             Spacer(
                                 modifier = Modifier.windowInsetsBottomHeight(
                                     WindowInsets.navigationBars
                                 )
                             )
+                        }
+                    } else {
+                        LazyColumn(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(horizontal = 15.dp),
+                            contentPadding = PaddingValues(top = 20.dp),
+                            verticalArrangement = Arrangement.spacedBy(15.dp),
+                        ) {
+                            schedule.lessons.forEach { lesson ->
+                                item {
+                                    val currentDateTime = LocalDateTime.now()
+
+                                    ScheduleCard(
+                                        currentDateTime = currentDateTime,
+                                        lesson = lesson,
+                                        lessonDate = schedule.date
+                                    )
+                                }
+                                lesson.breakTimeAfter?.let {
+                                    item {
+                                        BreakTime(stringBreakTime = it)
+                                    }
+                                }
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(128.dp))
+                                Spacer(
+                                    modifier = Modifier.windowInsetsBottomHeight(
+                                        WindowInsets.navigationBars
+                                    )
+                                )
+                            }
                         }
                     }
                 }
@@ -227,11 +318,51 @@ fun BreakTime(stringBreakTime: String) {
 @Composable
 @Preview(showBackground = true, locale = "ru")
 fun BreakTimePreview() {
-    BreakTime(stringBreakTime = "02:30:00")
+    ScheduleISTUTheme {
+        BreakTime(stringBreakTime = "02:30:00")
+    }
 }
 
 @Composable
 @Preview(showBackground = true)
-fun SchedulePagePreview() {
-    SchedulePage()
+fun SchedulePageUnknownUserPreview() {
+    ScheduleISTUTheme {
+        SchedulePage(
+            scheduleUiState = ScheduleUiState(),
+            schedule = StudyDay(
+                date = "",
+                lessons = emptyList(),
+            ),
+            weeksList = listOf(
+                Week(LocalDate.of(2023, 6, 12)),
+            ),
+            currentDate = LocalDate.now(),
+            selectedDate = LocalDate.now().plusDays(2),
+            onDateSelect = { },
+            onSetupScheduleClick = { },
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SchedulePageWeekendPreview() {
+    ScheduleISTUTheme {
+        SchedulePage(
+            scheduleUiState = ScheduleUiState(
+                isUserBinded = true,
+            ),
+            schedule = StudyDay(
+                date = "",
+                lessons = emptyList(),
+            ),
+            weeksList = listOf(
+                Week(LocalDate.of(2023, 6, 12)),
+            ),
+            currentDate = LocalDate.now(),
+            selectedDate = LocalDate.now().plusDays(2),
+            onDateSelect = { },
+            onSetupScheduleClick = { },
+        )
+    }
 }

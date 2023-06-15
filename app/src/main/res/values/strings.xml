@@ -148,4 +148,6 @@
     <string name="not_assigned">Not assigned</string>
     <string name="search_teacher">Search by teachers</string>
     <string name="not_found">Not found</string>
+    <string name="unknown_user">You need to select a group or teacher for view the schedule</string>
+    <string name="weekend">You can relax there are no classes today</string>
 </resources>

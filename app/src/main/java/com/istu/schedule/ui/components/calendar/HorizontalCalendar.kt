@@ -3,7 +3,6 @@ package com.istu.schedule.ui.components.calendar
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
@@ -20,6 +19,7 @@ import java.time.LocalDate
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun HorizontalCalendar(
+    modifier: Modifier = Modifier,
     weeksList: List<Week> = emptyList(),
     currentDate: LocalDate = LocalDate.now(),
     selectedDate: LocalDate = LocalDate.now(),
@@ -29,10 +29,10 @@ fun HorizontalCalendar(
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = calendarState)
 
     LazyRow(
-        modifier = Modifier
+        modifier = modifier
             .padding(vertical = 15.dp)
             .fillMaxWidth(),
-        contentPadding = PaddingValues(horizontal = 15.dp),
+//        contentPadding = PaddingValues(horizontal = 15.dp),
         state = calendarState,
         flingBehavior = snapFlingBehavior,
     ) {

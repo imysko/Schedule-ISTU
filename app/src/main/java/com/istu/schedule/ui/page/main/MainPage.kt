@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.istu.schedule.ui.components.navigation.BottomNavBar
 import com.istu.schedule.ui.components.navigation.BottomNavGraph
+import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -36,5 +37,7 @@ fun MainPage(
 @Composable
 @Preview(showBackground = true)
 fun PreviewMainPage() {
-    MainPage(rememberNavController())
+    ScheduleISTUTheme {
+        MainPage(navController =  rememberNavController())
+    }
 }

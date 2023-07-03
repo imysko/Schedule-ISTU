@@ -38,6 +38,7 @@ fun Week(
 ) {
     Column(
         modifier = Modifier
+            .padding(horizontal = 15.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

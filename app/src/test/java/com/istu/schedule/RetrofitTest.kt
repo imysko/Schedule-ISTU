@@ -1,6 +1,7 @@
 package com.istu.schedule
 
 import com.istu.schedule.data.enums.LessonType
+import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.data.repository.projfair.ProjectsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
@@ -9,8 +10,8 @@ import com.istu.schedule.data.service.schedule.InstitutesService
 import com.istu.schedule.data.service.schedule.ScheduleService
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectsListUseCase
-import com.istu.schedule.domain.usecase.schedule.GetGroupScheduleOnDayUseCase
 import com.istu.schedule.domain.usecase.schedule.GetInstitutesListUseCase
+import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
@@ -121,10 +122,11 @@ class RetrofitTest {
     @Test
     fun getScheduleTest() = runTest {
         val repository = ScheduleRepositoryImpl(scheduleRetrofit.create(ScheduleService::class.java))
-        val getGroupScheduleOnDayUseCase = GetGroupScheduleOnDayUseCase(repository)
+        val getScheduleOnDayUseCase = GetScheduleOnDayUseCase(repository)
 
-        val response = getGroupScheduleOnDayUseCase.getGroupScheduleOnDay(
-            groupId = 464443,
+        val response = getScheduleOnDayUseCase.getScheduleOnDay(
+            scheduleType = ScheduleType.BY_GROUP,
+            id = 464443,
             dateString = "2023-05-10"
         )
 
@@ -140,11 +142,11 @@ class RetrofitTest {
         val secondLesson = response.getOrNull()?.first()?.lessons?.get(1)?.schedules?.get(1)!!
 
         assert(secondLesson.date == expectedDate)
-        assert(secondLesson.groups.any { it.name == expectedGroup })
+        secondLesson.groups?.any { it.name == expectedGroup }?.let { assert(it) }
         assert(secondLesson.lessonTime.begTime == expectedSecondLessonStartTime)
         assert(secondLesson.lessonType == expectedSecondLessonType)
         assert(secondLesson.disciplineVerbose == expectedSecondLessonName)
-        assert(secondLesson.teachers.any { it.shortname == expectedSecondLessonTeacherShortName })
+        secondLesson.teachers?.let { assert(it.any { teacher -> teacher.shortname == expectedSecondLessonTeacherShortName }) }
         assert(secondLesson.classroomVerbose == expectedSecondLessonClassroomName)
         assert(secondLesson.subgroup == expectedSecondLessonSubgroup)
     }

@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,9 +43,9 @@ import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.calendar.HorizontalCalendar
 import com.istu.schedule.ui.fonts.interFamily
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Green
 import com.istu.schedule.ui.theme.GreenContainer
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -58,7 +57,7 @@ import java.time.LocalTime
 @Composable
 fun SchedulePage(
     navController: NavHostController,
-    viewModel: ScheduleViewModel = hiltViewModel(),
+    viewModel: ScheduleViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.loading.observeAsState(initial = false)
 
@@ -104,7 +103,7 @@ fun SchedulePage(
     LaunchedEffect(endOfListReached) {
         viewModel.addWeekBackward()
     }
-    
+
     SchedulePage(
         scheduleUiState = scheduleUiState,
         isLoading = isLoading,
@@ -113,7 +112,7 @@ fun SchedulePage(
         currentDate = currentDate,
         selectedDate = selectedDate,
         onDateSelect = { viewModel.selectDate(it) },
-        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING_PAGE) },
+        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING_PAGE) }
     )
 }
 
@@ -126,10 +125,10 @@ fun SchedulePage(
     currentDate: LocalDate,
     selectedDate: LocalDate,
     onDateSelect: (LocalDate) -> Unit,
-    onSetupScheduleClick: () -> Unit,
+    onSetupScheduleClick: () -> Unit
 ) {
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = AppTheme.colorScheme.primary,
         topBar = {
             Column(
                 modifier = Modifier
@@ -140,12 +139,14 @@ fun SchedulePage(
                 Column(modifier = Modifier.padding(horizontal = 15.dp)) {
                     Text(
                         text = stringResource(id = R.string.title_schedule),
-                        style = MaterialTheme.typography.headlineMedium
+                        style = AppTheme.typography.pageTitle,
+                        color = AppTheme.colorScheme.textSecondary
                     )
                     if (scheduleUiState.isUserBinded) {
                         Text(
                             text = scheduleUiState.userDescription!!,
-                            style = MaterialTheme.typography.headlineMedium
+                            style = AppTheme.typography.pageTitle,
+                            color = AppTheme.colorScheme.textSecondary
                         )
                     }
                 }
@@ -165,7 +166,7 @@ fun SchedulePage(
                     .fillMaxWidth()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(AppTheme.colorScheme.background)
             ) {
                 if (!scheduleUiState.isUserBinded) {
                     Column(
@@ -177,8 +178,8 @@ fun SchedulePage(
                     ) {
                         Text(
                             text = stringResource(R.string.unknown_user),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                color = MaterialTheme.colorScheme.onBackground
+                            style = AppTheme.typography.subtitle.copy(
+                                color = AppTheme.colorScheme.textPrimary
                             )
                         )
                         FilledButton(
@@ -201,7 +202,7 @@ fun SchedulePage(
                             .fillMaxSize()
                             .padding(horizontal = 15.dp),
                         contentPadding = PaddingValues(top = 20.dp),
-                        verticalArrangement = Arrangement.spacedBy(15.dp),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
                     ) {
                         schedule?.let {
                             if (isLoading) {
@@ -219,15 +220,15 @@ fun SchedulePage(
                                     ) {
                                         Text(
                                             text = stringResource(id = R.string.weekend),
-                                            style = MaterialTheme.typography.titleMedium.copy(
-                                                color = MaterialTheme.colorScheme.onBackground
+                                            style = AppTheme.typography.subtitle.copy(
+                                                color = AppTheme.colorScheme.textPrimary
                                             )
                                         )
                                         Image(
                                             painter = painterResource(
                                                 id = R.drawable.login_to_personal_account
                                             ),
-                                            contentDescription = null,
+                                            contentDescription = null
                                         )
                                         Spacer(modifier = Modifier.height(128.dp))
                                         Spacer(
@@ -265,7 +266,6 @@ fun SchedulePage(
                         }
                     }
                 }
-
             }
         }
     )
@@ -331,7 +331,7 @@ fun BreakTime(stringBreakTime: String) {
 @Composable
 @Preview(showBackground = true, locale = "ru")
 fun BreakTimePreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         BreakTime(stringBreakTime = "02:30:00")
     }
 }
@@ -339,18 +339,18 @@ fun BreakTimePreview() {
 @Composable
 @Preview(showBackground = true)
 fun SchedulePageLoadingPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         SchedulePage(
             scheduleUiState = ScheduleUiState(),
             isLoading = true,
             schedule = null,
             weeksList = listOf(
-                Week(LocalDate.of(2023, 6, 12)),
+                Week(LocalDate.of(2023, 6, 12))
             ),
             currentDate = LocalDate.now(),
             selectedDate = LocalDate.now().plusDays(2),
             onDateSelect = { },
-            onSetupScheduleClick = { },
+            onSetupScheduleClick = { }
         )
     }
 }
@@ -358,21 +358,21 @@ fun SchedulePageLoadingPreview() {
 @Composable
 @Preview(showBackground = true)
 fun SchedulePageUnknownUserPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         SchedulePage(
             scheduleUiState = ScheduleUiState(),
             isLoading = false,
             schedule = StudyDay(
                 date = "",
-                lessons = emptyList(),
+                lessons = emptyList()
             ),
             weeksList = listOf(
-                Week(LocalDate.of(2023, 6, 12)),
+                Week(LocalDate.of(2023, 6, 12))
             ),
             currentDate = LocalDate.now(),
             selectedDate = LocalDate.now().plusDays(2),
             onDateSelect = { },
-            onSetupScheduleClick = { },
+            onSetupScheduleClick = { }
         )
     }
 }
@@ -380,23 +380,23 @@ fun SchedulePageUnknownUserPreview() {
 @Composable
 @Preview(showBackground = true)
 fun SchedulePageWeekendPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         SchedulePage(
             scheduleUiState = ScheduleUiState(
-                isUserBinded = true,
+                isUserBinded = true
             ),
             isLoading = false,
             schedule = StudyDay(
                 date = "",
-                lessons = emptyList(),
+                lessons = emptyList()
             ),
             weeksList = listOf(
-                Week(LocalDate.of(2023, 6, 12)),
+                Week(LocalDate.of(2023, 6, 12))
             ),
             currentDate = LocalDate.now(),
             selectedDate = LocalDate.now().plusDays(2),
             onDateSelect = { },
-            onSetupScheduleClick = { },
+            onSetupScheduleClick = { }
         )
     }
 }

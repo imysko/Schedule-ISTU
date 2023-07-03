@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,8 +37,8 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
 import com.istu.schedule.ui.icons.Check
 import com.istu.schedule.ui.icons.X
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Green
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @Composable
 fun CreateParticipationPage(
@@ -87,7 +86,7 @@ fun CreateParticipationPage(
                     Text(
                         modifier = Modifier.weight(0.7f),
                         text = stringResource(R.string.send_participation_page_title),
-                        style = MaterialTheme.typography.titleLarge
+                        style = AppTheme.typography.title
                     )
                     Column(
                         modifier = Modifier
@@ -101,7 +100,7 @@ fun CreateParticipationPage(
                         Icon(
                             imageVector = Icons.X,
                             contentDescription = "cross icon",
-                            tint = MaterialTheme.colorScheme.secondary
+                            tint = AppTheme.colorScheme.secondary
                         )
                     }
                 }
@@ -112,13 +111,13 @@ fun CreateParticipationPage(
             item {
                 Text(
                     text = stringResource(R.string.project),
-                    style = MaterialTheme.typography.headlineSmall
+                    style = AppTheme.typography.title
                 )
             }
             item {
                 Text(
                     text = stringResource(R.string.fullname),
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
                 )
                 SITextField(
                     modifier = Modifier
@@ -139,7 +138,7 @@ fun CreateParticipationPage(
             item {
                 Text(
                     text = stringResource(R.string.training_group),
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
                 )
                 SITextField(
                     modifier = Modifier
@@ -160,7 +159,7 @@ fun CreateParticipationPage(
             item {
                 Text(
                     text = stringResource(R.string.email),
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
                 )
                 SITextField(
                     modifier = Modifier
@@ -181,7 +180,7 @@ fun CreateParticipationPage(
             item {
                 Text(
                     text = stringResource(R.string.phone_number),
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
                 )
                 SITextField(
                     modifier = Modifier
@@ -202,7 +201,7 @@ fun CreateParticipationPage(
             item {
                 Text(
                     text = stringResource(R.string.project_priority),
-                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
                 )
                 prioritiesList.map { priority ->
                     RadioButtonWithText(
@@ -239,7 +238,7 @@ fun PreviewSendParticipationPage() {
         StringResourceItem(3, R.string.low_priority)
     )
 
-    ScheduleISTUTheme {
+    AppTheme {
         CreateParticipationPage(
             prioritiesList = prioritiesList,
             selectedPriority = 1,

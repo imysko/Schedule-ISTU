@@ -14,6 +14,6 @@ fun TrailingIcon(expanded: Boolean) {
         Icons.ChevronDown,
         null,
         Modifier.rotate(if (expanded) 180f else 0f),
-        MaterialTheme.colorScheme.secondary,
+        MaterialTheme.colorScheme.secondary
     )
 }

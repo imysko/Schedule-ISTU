@@ -10,7 +10,6 @@ import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.onboarding.OnBoardingPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
-import com.istu.schedule.ui.page.settings.theme.ThemePage
 import com.istu.schedule.util.NavDestinations
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -51,12 +50,6 @@ fun NavGraph(
             route = NavDestinations.PROJFAIR_LOGIN_PAGE
         ) {
             LoginProjfairPage(navController)
-        }
-
-        animatedComposable(
-            route = NavDestinations.THEME_PAGE
-        ) {
-            ThemePage(navController)
         }
     }
 }

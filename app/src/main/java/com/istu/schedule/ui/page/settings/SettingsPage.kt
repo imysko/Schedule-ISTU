@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,7 +21,7 @@ import com.istu.schedule.ui.components.base.SettingsItem
 import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
 
@@ -32,7 +31,7 @@ fun SettingsPage(navController: NavHostController) {
         onBindingClick = { navController.navigate(NavDestinations.BINDING_PAGE) },
         onFavoritesListClick = { },
         onLanguageClick = { navController.navigate(NavDestinations.LANGUAGE_PAGE) },
-        onAboutClick = { },
+        onAboutClick = { }
     )
 }
 
@@ -41,17 +40,20 @@ fun SettingsPage(
     onBindingClick: () -> Unit,
     onFavoritesListClick: () -> Unit,
     onLanguageClick: () -> Unit,
-    onAboutClick: () -> Unit,
+    onAboutClick: () -> Unit
 ) {
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = AppTheme.colorScheme.primary,
         topBar = {
-            Column(modifier = Modifier
-                .statusBarsPadding()
-                .padding(15.dp)) {
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(15.dp)
+            ) {
                 Text(
                     text = stringResource(id = R.string.settings),
-                    style = MaterialTheme.typography.headlineMedium
+                    style = AppTheme.typography.pageTitle,
+                    color = AppTheme.colorScheme.textSecondary
                 )
             }
         },
@@ -61,7 +63,7 @@ fun SettingsPage(
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.background)
             ) {
                 item {
                     SettingsItem(
@@ -101,12 +103,12 @@ fun SettingsPage(
 @Composable
 @Preview(showBackground = true)
 fun SettingsPagePreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         SettingsPage(
-            onBindingClick = {  },
+            onBindingClick = { },
             onFavoritesListClick = { },
-            onLanguageClick = {  },
-            onAboutClick = { },
+            onLanguageClick = { },
+            onAboutClick = { }
         )
     }
 }

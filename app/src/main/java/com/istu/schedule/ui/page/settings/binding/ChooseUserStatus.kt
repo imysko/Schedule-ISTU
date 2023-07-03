@@ -15,7 +15,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,8 +29,8 @@ import com.istu.schedule.R
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.ui.icons.Forward
 import com.istu.schedule.ui.page.settings.TopBar
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 
 @Composable
@@ -39,14 +38,14 @@ fun ChooseUserStatus(
     selectedGroupDescription: String?,
     selectedTeacherDescription: String?,
     onBackClick: () -> Unit,
-    selectUserStatus: (status: UserStatus) -> Unit,
+    selectUserStatus: (status: UserStatus) -> Unit
 ) {
     BackHandler {
         onBackClick()
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.background,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.account),
@@ -58,18 +57,18 @@ fun ChooseUserStatus(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(AppTheme.colorScheme.background)
             ) {
                 LazyColumn(
                     modifier = Modifier.padding(top = 34.dp, start = 15.dp, end = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     item {
                         UserStatusItem(
                             title = stringResource(id = R.string.is_student),
                             description = selectedGroupDescription
                                 ?: stringResource(id = R.string.not_assigned),
-                            onClick = { selectUserStatus(UserStatus.STUDENT) },
+                            onClick = { selectUserStatus(UserStatus.STUDENT) }
                         )
                     }
                     item {
@@ -85,12 +84,12 @@ fun ChooseUserStatus(
                             title = stringResource(id = R.string.is_teacher),
                             description = selectedTeacherDescription
                                 ?: stringResource(id = R.string.not_assigned),
-                            onClick = { selectUserStatus(UserStatus.TEACHER) },
+                            onClick = { selectUserStatus(UserStatus.TEACHER) }
                         )
                     }
                 }
             }
-        },
+        }
     )
 }
 
@@ -98,40 +97,40 @@ fun ChooseUserStatus(
 fun UserStatusItem(
     title: String,
     description: String,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(Shape10)
-            .clickable { onClick() },
+            .clickable { onClick() }
     ) {
         Column(
             modifier = Modifier.padding(5.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = title,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = AppTheme.typography.subtitle
                 )
                 Icon(
                     modifier = Modifier.size(15.dp),
                     imageVector = Icons.Forward,
-                    tint = MaterialTheme.colorScheme.secondary,
+                    tint = AppTheme.colorScheme.secondary,
                     contentDescription = stringResource(id = R.string.forward)
                 )
             }
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodySmall.copy(
+                style = AppTheme.typography.bodySmall.copy(
                     fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.primary,
-                ),
+                    color = AppTheme.colorScheme.primary
+                )
             )
         }
     }
@@ -140,7 +139,7 @@ fun UserStatusItem(
 @Composable
 @Preview(showBackground = true)
 fun ChooseUserStatusPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         ChooseUserStatus(
             selectedGroupDescription = null,
             selectedTeacherDescription = null,

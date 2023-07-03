@@ -13,7 +13,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.KeyboardArrowRight
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,8 +25,8 @@ import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.icons.Account
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 
 @Composable
 fun SettingsItem(
@@ -67,20 +66,20 @@ fun SettingsItem(
                         modifier = Modifier
                             .padding(end = 10.dp)
                             .size(20.dp),
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = AppTheme.colorScheme.textPrimary
                     )
                     Text(
                         text = title,
                         maxLines = 1,
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.onBackground
+                        style = AppTheme.typography.subtitle,
+                        color = AppTheme.colorScheme.textPrimary
                     )
                 }
                 Icon(
                     imageVector = Icons.Rounded.KeyboardArrowRight,
                     contentDescription = title,
                     modifier = Modifier.size(16.dp),
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = AppTheme.colorScheme.textPrimary
                 )
             }
             Divider(
@@ -96,7 +95,7 @@ fun SettingsItem(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSettingsItem() {
-    ScheduleISTUTheme {
+    AppTheme {
         SettingsItem(
             title = "Account",
             icon = Icons.Account

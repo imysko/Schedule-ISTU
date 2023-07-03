@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,37 +19,40 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.ui.icons.Back
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 
 @Composable
 fun TopBar(
     title: String,
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .statusBarsPadding()
-            .padding(15.dp),
+            .padding(15.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Box(
                 modifier = Modifier
                     .clip(Shape5)
-                    .clickable { onBackClick() },
+                    .clickable { onBackClick() }
             ) {
                 Icon(
                     modifier = Modifier.size(22.dp),
                     imageVector = Icons.Back,
-                    contentDescription = stringResource(id = R.string.back)
+                    contentDescription = stringResource(id = R.string.back),
+                    tint = AppTheme.colorScheme.textPrimary
                 )
             }
 
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style = AppTheme.typography.subtitle,
+                color = AppTheme.colorScheme.textPrimary
             )
         }
     }

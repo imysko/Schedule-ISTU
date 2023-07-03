@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +35,6 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -47,6 +45,7 @@ import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.components.projfair.ProjectItemPlaceHolder
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Search
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -87,7 +86,7 @@ fun ProjectsListPage(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = AppTheme.colorScheme.primary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding().padding(15.dp)) {
                 Row(
@@ -97,7 +96,8 @@ fun ProjectsListPage(
                 ) {
                     Text(
                         text = stringResource(id = R.string.projfair),
-                        style = MaterialTheme.typography.headlineMedium
+                        color = AppTheme.colorScheme.textSecondary,
+                        style = AppTheme.typography.pageTitle
                     )
                     Column(
                         modifier = Modifier
@@ -111,7 +111,8 @@ fun ProjectsListPage(
                     ) {
                         Icon(
                             imageVector = Icons.Search,
-                            contentDescription = "search icon"
+                            contentDescription = "search icon",
+                            tint = AppTheme.colorScheme.textSecondary
                         )
                     }
                 }
@@ -138,7 +139,7 @@ fun ProjectsListPage(
                 .fillMaxSize()
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(MaterialTheme.colorScheme.background),
+                .background(AppTheme.colorScheme.background),
             state = listState
         ) {
             item {
@@ -151,7 +152,7 @@ fun ProjectsListPage(
                 ) {
                     Text(
                         text = stringResource(R.string.all_projects),
-                        style = MaterialTheme.typography.titleLarge
+                        style = AppTheme.typography.title
                     )
                     Column(
                         modifier = Modifier.clickable(
@@ -163,13 +164,12 @@ fun ProjectsListPage(
                         Icon(
                             imageVector = Icons.Filter,
                             contentDescription = "filter icon",
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = AppTheme.colorScheme.textPrimary
                         )
                         Text(
                             text = stringResource(R.string.filters),
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                fontSize = 10.sp
-                            )
+                            style = AppTheme.typography.labelMedium,
+                            color = AppTheme.colorScheme.textPrimary
                         )
                     }
                 }

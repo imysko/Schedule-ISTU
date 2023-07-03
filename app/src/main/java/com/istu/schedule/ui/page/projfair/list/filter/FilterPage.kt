@@ -18,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +38,7 @@ import com.istu.schedule.ui.components.base.StringResourceItem
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.icons.X
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.util.collectAsStateValue
 
 @Composable
@@ -94,7 +94,7 @@ fun FiltersPage(
             ) {
                 Text(
                     text = stringResource(R.string.filters),
-                    style = MaterialTheme.typography.titleLarge
+                    style = AppTheme.typography.pageTitle
                 )
                 Column(
                     modifier = Modifier
@@ -110,14 +110,14 @@ fun FiltersPage(
                     Icon(
                         imageVector = Icons.X,
                         contentDescription = "cross icon",
-                        tint = MaterialTheme.colorScheme.secondary
+                        tint = AppTheme.colorScheme.secondary
                     )
                 }
             }
             Text(
                 modifier = Modifier.padding(top = 14.dp, bottom = 4.dp, start = 5.dp),
                 text = stringResource(R.string.project_status),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
             )
             CheckboxGroup(
                 items = statusesList,
@@ -128,7 +128,7 @@ fun FiltersPage(
             Text(
                 modifier = Modifier.padding(bottom = 14.dp, start = 5.dp),
                 text = stringResource(R.string.project_tags),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
             )
             SIDropdownMenu(
                 listItems = specialitiesList.map { Pair(it.id, it.name) },
@@ -151,7 +151,7 @@ fun FiltersPage(
             Text(
                 modifier = Modifier.padding(bottom = 4.dp, start = 5.dp),
                 text = stringResource(R.string.level_of_difficulty),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold)
+                style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
             )
             CheckboxGroup(
                 items = difficultiesList,

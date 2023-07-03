@@ -17,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,8 +30,8 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.ui.icons.Delete
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Red
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.util.toParticipationPriorityText
@@ -83,11 +82,13 @@ fun ParticipationItem(
             Text(
                 modifier = Modifier.padding(top = 18.dp, bottom = 12.dp),
                 text = participation.project?.title ?: stringResource(R.string.unknown),
-                style = MaterialTheme.typography.titleMedium
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
             )
             Text(
                 text = participation.project?.goal ?: stringResource(R.string.unknown),
-                style = MaterialTheme.typography.labelMedium
+                style = AppTheme.typography.bodyMedium
             )
         }
     }
@@ -101,9 +102,9 @@ fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
             .border(
                 1.dp,
                 if (priority in 1..3) {
-                    MaterialTheme.colorScheme.primary
+                    AppTheme.colorScheme.primary
                 } else {
-                    MaterialTheme.colorScheme.error
+                    AppTheme.colorScheme.error
                 },
                 Shape100
             ),
@@ -113,11 +114,11 @@ fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
         Text(
             modifier = Modifier.padding(vertical = 6.dp),
             text = priority.toParticipationPriorityText().uppercase(),
-            style = MaterialTheme.typography.bodySmall,
+            style = AppTheme.typography.bodySmall,
             color = if (priority in 1..3) {
-                MaterialTheme.colorScheme.primary
+                AppTheme.colorScheme.primary
             } else {
-                MaterialTheme.colorScheme.error
+                AppTheme.colorScheme.error
             }
         )
         Box(
@@ -126,17 +127,17 @@ fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
                 .clip(Shape100)
                 .background(
                     if (priority in 1..3) {
-                        MaterialTheme.colorScheme.primary
+                        AppTheme.colorScheme.primary
                     } else {
-                        MaterialTheme.colorScheme.error
+                        AppTheme.colorScheme.error
                     }
                 ),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = priority.toParticipationRomanNumerals(),
-                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-                color = MaterialTheme.colorScheme.onPrimary,
+                style = AppTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
+                color = AppTheme.colorScheme.textSecondary,
                 textAlign = TextAlign.Center
             )
         }
@@ -146,7 +147,7 @@ fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun PreviewParticipationPriorityItem() {
-    ScheduleISTUTheme {
+    AppTheme {
         Column(modifier = Modifier.width(300.dp)) {
             ParticipationPriorityItem(1)
             Spacer(modifier = Modifier.height(10.dp))

@@ -11,6 +11,9 @@ val RedContainer = Color(0x14E24C4C)
 val Green = Color(0xFF26AB5B)
 val GreenContainer = Color(0x1A26AB5B)
 
+val Orange = Color(0xFFFFA500)
+val OrangeContainer = Color(0x14FFA500)
+
 val Cyan = Color(0xFF3CB9E0)
 
 val Background = Color(0xFFF4F5FA)
@@ -18,8 +21,8 @@ val Background = Color(0xFFF4F5FA)
 val Gray = Color(0xFFA4A4A4)
 val GrayDisabled = Color(0xFFD9D9D9)
 
-val Orange = Color(0xFFFFA500)
-
-val BlackText = Color(0xFF383838)
-
 val HalfGray = Color(0xFFE7E7E7)
+
+// Text Colors
+val TextPrimary = Color(0xFF383838)
+val TextSecondary = Color(0xFFFFFFFF)

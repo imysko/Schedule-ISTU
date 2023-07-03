@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -31,7 +30,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 
 @Composable
 fun SearchBar(
@@ -41,7 +40,7 @@ fun SearchBar(
     focusRequester: FocusRequester = remember { FocusRequester() },
     onValueChange: (String) -> Unit = {},
     onClose: () -> Unit = {},
-    onDone: () -> Unit = {},
+    onDone: () -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -49,51 +48,51 @@ fun SearchBar(
         modifier = modifier
             .height(42.dp)
             .fillMaxWidth(),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(10.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .background(AppTheme.colorScheme.background),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 modifier = Modifier.padding(10.dp),
                 imageVector = Icons.Rounded.Search,
                 contentDescription = stringResource(R.string.search),
-                tint = MaterialTheme.colorScheme.secondary,
+                tint = AppTheme.colorScheme.secondary
             )
             BasicTextField(
                 modifier = Modifier
                     .fillMaxWidth()
                     .focusRequester(focusRequester),
-                textStyle = MaterialTheme.typography.bodyMedium,
+                textStyle = AppTheme.typography.bodyMedium,
                 value = value,
                 onValueChange = {
                     onValueChange(it)
                 },
                 singleLine = true,
                 keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
+                    imeAction = ImeAction.Done
                 ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
                         onDone()
-                    },
+                    }
                 ),
-                cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                cursorBrush = SolidColor(AppTheme.colorScheme.primary),
                 decorationBox = { innerTextField ->
                     if (value.isEmpty()) {
                         Text(
                             modifier = Modifier.alpha(0.7f),
                             text = placeholder,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = AppTheme.typography.bodyMedium
                         )
                     }
                     innerTextField()
-                },
+                }
             )
         }
     }
@@ -102,7 +101,7 @@ fun SearchBar(
 @Preview(showBackground = true)
 @Composable
 fun SearchBarPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         SearchBar(value = "Ярмарка проектов")
     }
 }

@@ -24,7 +24,7 @@ fun HorizontalCalendar(
     currentDate: LocalDate = LocalDate.now(),
     selectedDate: LocalDate = LocalDate.now(),
     calendarState: LazyListState,
-    onSelect: (selectedDate: LocalDate) -> Unit,
+    onSelect: (selectedDate: LocalDate) -> Unit
 ) {
     val snapFlingBehavior = rememberSnapFlingBehavior(lazyListState = calendarState)
 
@@ -34,7 +34,7 @@ fun HorizontalCalendar(
             .fillMaxWidth(),
         contentPadding = PaddingValues(horizontal = 15.dp),
         state = calendarState,
-        flingBehavior = snapFlingBehavior,
+        flingBehavior = snapFlingBehavior
     ) {
         items(weeksList) {
             Box(modifier = Modifier.fillParentMaxWidth()) {
@@ -42,7 +42,7 @@ fun HorizontalCalendar(
                     week = it,
                     currentDate = currentDate,
                     selectedDate = selectedDate,
-                    onSelect = onSelect,
+                    onSelect = onSelect
                 )
             }
         }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,7 +35,6 @@ import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -44,12 +44,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
@@ -62,6 +60,7 @@ import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.TwoColumnText
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.icons.People
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.toProjectDifficulty
@@ -90,13 +89,14 @@ fun ProjectPage(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = AppTheme.colorScheme.primary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
                 Text(
                     modifier = Modifier.padding(15.dp),
                     text = stringResource(id = R.string.projfair),
-                    style = MaterialTheme.typography.headlineMedium
+                    style = AppTheme.typography.pageTitle,
+                    color = AppTheme.colorScheme.textSecondary
                 )
                 SIScrollableTabRow(
                     modifier = Modifier.padding(bottom = 10.dp),
@@ -120,10 +120,10 @@ fun ProjectPage(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    color = Color.White,
-                                    fontSize = 18.sp
+                                style = AppTheme.typography.title.copy(
+                                    fontWeight = FontWeight.SemiBold
                                 ),
+                                color = AppTheme.colorScheme.textSecondary,
                                 text = title
                             )
                         }
@@ -136,7 +136,7 @@ fun ProjectPage(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.background)
                 .padding(
                     start = 15.dp,
                     end = 15.dp,
@@ -160,13 +160,13 @@ fun ProjectPage(
                         modifier = Modifier.size(18.dp),
                         imageVector = Icons.Rounded.ArrowBackIosNew,
                         contentDescription = stringResource(R.string.back),
-                        tint = MaterialTheme.colorScheme.secondary
+                        tint = AppTheme.colorScheme.secondary
                     )
                     Text(
                         modifier = Modifier.padding(start = 9.dp),
                         text = stringResource(R.string.back_to_list),
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            color = MaterialTheme.colorScheme.secondary,
+                        style = AppTheme.typography.bodyMedium.copy(
+                            color = AppTheme.colorScheme.secondary,
                             fontWeight = FontWeight.SemiBold
                         )
                     )
@@ -175,7 +175,9 @@ fun ProjectPage(
             project?.let { project ->
                 Text(
                     text = project.title,
-                    style = MaterialTheme.typography.titleLarge
+                    style = AppTheme.typography.title.copy(
+                        fontWeight = FontWeight.SemiBold
+                    )
                 )
                 HorizontalPager(
                     pageCount = pages.size,
@@ -216,7 +218,7 @@ fun ProjectInfo(project: Project) {
                     Text(
                         modifier = Modifier.padding(bottom = 10.dp),
                         text = stringResource(R.string.maximum_participants),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = AppTheme.typography.bodyMedium
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically
@@ -225,13 +227,13 @@ fun ProjectInfo(project: Project) {
                             modifier = Modifier.size(28.dp),
                             imageVector = Icons.People,
                             contentDescription = "People Icon",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = AppTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.places.toString(),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.primary,
+                            style = AppTheme.typography.subtitle.copy(
+                                color = AppTheme.colorScheme.primary,
                                 fontWeight = FontWeight.SemiBold
                             )
                         )
@@ -243,7 +245,7 @@ fun ProjectInfo(project: Project) {
                     Text(
                         modifier = Modifier.padding(bottom = 10.dp),
                         text = stringResource(R.string.project_status),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = AppTheme.typography.bodyMedium
                     )
                     Box(
                         modifier = Modifier
@@ -254,7 +256,7 @@ fun ProjectInfo(project: Project) {
                                         1 -> com.istu.schedule.ui.theme.Blue
                                         2 -> com.istu.schedule.ui.theme.Green
                                         5 -> com.istu.schedule.ui.theme.Cyan
-                                        else -> MaterialTheme.colorScheme.secondary
+                                        else -> AppTheme.colorScheme.secondary
                                     }
                                 ),
                                 RoundedCornerShape(72.dp)
@@ -263,12 +265,12 @@ fun ProjectInfo(project: Project) {
                     ) {
                         Text(
                             text = project.state.state.uppercase(),
-                            style = MaterialTheme.typography.bodySmall.copy(
+                            style = AppTheme.typography.bodySmall.copy(
                                 color = when (project.state.id) {
                                     1 -> com.istu.schedule.ui.theme.Blue
                                     2 -> com.istu.schedule.ui.theme.Green
                                     5 -> com.istu.schedule.ui.theme.Cyan
-                                    else -> MaterialTheme.colorScheme.secondary
+                                    else -> AppTheme.colorScheme.secondary
                                 },
                                 fontWeight = FontWeight.SemiBold
                             )
@@ -378,12 +380,12 @@ fun ProjectInfo(project: Project) {
         item {
             Column(modifier = Modifier.padding(vertical = 22.dp)) {
                 Text(
-                    style = MaterialTheme.typography.bodySmall,
+                    style = AppTheme.typography.bodySmall,
                     text = stringResource(R.string.project_idea)
                 )
                 Spacer(Modifier.height(11.dp))
                 Text(
-                    style = MaterialTheme.typography.bodySmall.copy(
+                    style = AppTheme.typography.bodySmall.copy(
                         fontWeight = FontWeight.Bold
                     ),
                     text = project.description
@@ -393,7 +395,7 @@ fun ProjectInfo(project: Project) {
         if (project.skills.isNotEmpty()) {
             item {
                 Text(
-                    style = MaterialTheme.typography.bodySmall,
+                    style = AppTheme.typography.bodySmall,
                     text = stringResource(R.string.required_skills)
                 )
                 FlowRow(modifier = Modifier.padding(top = 15.dp)) {
@@ -429,6 +431,7 @@ fun ProjectParticipations(project: Project) {
     LazyColumn(
         modifier = Modifier
             .padding(top = 23.dp)
+            .fillMaxHeight()
     ) {
         item {
             Row {
@@ -437,7 +440,7 @@ fun ProjectParticipations(project: Project) {
                         .weight(0.05f)
                         .padding(horizontal = 2.dp),
                     text = "№",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AppTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
@@ -446,7 +449,7 @@ fun ProjectParticipations(project: Project) {
                         .weight(0.225f)
                         .padding(horizontal = 2.dp),
                     text = "ФИО",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AppTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -454,7 +457,7 @@ fun ProjectParticipations(project: Project) {
                         .weight(0.150f)
                         .padding(horizontal = 2.dp),
                     text = "Группа",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AppTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -462,7 +465,7 @@ fun ProjectParticipations(project: Project) {
                         .weight(0.080f)
                         .padding(horizontal = 2.dp),
                     text = "Приоритет",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AppTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
@@ -470,7 +473,7 @@ fun ProjectParticipations(project: Project) {
                         .weight(0.205f)
                         .padding(horizontal = 2.dp),
                     text = "Дата подачи заявки",
-                    style = MaterialTheme.typography.labelSmall,
+                    style = AppTheme.typography.labelSmall,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.End
                 )
@@ -503,7 +506,7 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .weight(0.05f)
                 .padding(horizontal = 2.dp),
             text = index.toString(),
-            style = MaterialTheme.typography.labelMedium,
+            style = AppTheme.typography.labelMedium,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center
         )
@@ -512,7 +515,7 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .weight(0.225f)
                 .padding(horizontal = 2.dp),
             text = participation.candidate?.fio ?: "-",
-            style = MaterialTheme.typography.labelMedium,
+            style = AppTheme.typography.labelMedium,
             fontWeight = FontWeight.Bold
         )
         Text(
@@ -520,14 +523,14 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .weight(0.150f)
                 .padding(horizontal = 2.dp),
             text = participation.candidate?.trainingGroup ?: "-",
-            style = MaterialTheme.typography.labelMedium
+            style = AppTheme.typography.labelMedium
         )
         Text(
             modifier = Modifier
                 .weight(0.080f)
                 .padding(horizontal = 2.dp),
             text = participation.priority.toString(),
-            style = MaterialTheme.typography.labelMedium,
+            style = AppTheme.typography.labelMedium,
             textAlign = TextAlign.Center
         )
         Text(
@@ -535,7 +538,7 @@ fun ParticipationInProject(index: Int, participation: Participation) {
                 .weight(0.205f)
                 .padding(horizontal = 2.dp),
             text = simpleDateFormat.format(participation.updatedAt),
-            style = MaterialTheme.typography.labelMedium,
+            style = AppTheme.typography.labelMedium,
             textAlign = TextAlign.End
         )
     }

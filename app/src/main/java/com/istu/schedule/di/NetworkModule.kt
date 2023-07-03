@@ -13,12 +13,12 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
-import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -36,7 +36,7 @@ object NetworkModule {
     @Named("ProjfairRetrofit")
     fun provideProjfairRetrofit(
         @Named("ProjfairBaseUrl") baseUrl: String,
-        okHttpClient: OkHttpClient,
+        okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -49,7 +49,7 @@ object NetworkModule {
     @Named("ScheduleRetrofit")
     fun provideScheduleRetrofit(
         @Named("ScheduleBaseUrl") baseUrl: String,
-        okHttpClient: OkHttpClient,
+        okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -64,7 +64,7 @@ object NetworkModule {
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.BODY
-                },
+                }
             )
             .addInterceptor {
                 val original = it.request()
@@ -94,42 +94,42 @@ object NetworkModule {
     // Projfair
     @Provides
     fun providerProjectsService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit,
+        @Named("ProjfairRetrofit") retrofit: Retrofit
     ): ProjectsService = retrofit.create(ProjectsService::class.java)
 
     @Provides
     fun providerCandidateService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit,
+        @Named("ProjfairRetrofit") retrofit: Retrofit
     ): CandidateService = retrofit.create(CandidateService::class.java)
 
     @Provides
     fun providerProjectStatesService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit,
+        @Named("ProjfairRetrofit") retrofit: Retrofit
     ): ProjectStateService = retrofit.create(ProjectStateService::class.java)
 
     @Provides
     fun providerParticipationsService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit,
+        @Named("ProjfairRetrofit") retrofit: Retrofit
     ): ParticipationsService = retrofit.create(ParticipationsService::class.java)
 
     @Provides
     fun providerFiltersDataService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit,
+        @Named("ProjfairRetrofit") retrofit: Retrofit
     ): FiltersDataService = retrofit.create(FiltersDataService::class.java)
 
     // Schedule
     @Provides
     fun providerInstitutesService(
-        @Named("ScheduleRetrofit") retrofit: Retrofit,
+        @Named("ScheduleRetrofit") retrofit: Retrofit
     ): InstitutesService = retrofit.create(InstitutesService::class.java)
 
     @Provides
     fun providerTeachersService(
-        @Named("ScheduleRetrofit") retrofit: Retrofit,
+        @Named("ScheduleRetrofit") retrofit: Retrofit
     ): TeachersService = retrofit.create(TeachersService::class.java)
 
     @Provides
     fun providerScheduleService(
-        @Named("ScheduleRetrofit") retrofit: Retrofit,
+        @Named("ScheduleRetrofit") retrofit: Retrofit
     ): ScheduleService = retrofit.create(ScheduleService::class.java)
 }

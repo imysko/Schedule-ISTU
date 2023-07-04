@@ -161,4 +161,5 @@
     <string name="back_to_your_schedule">Назад к своему расписанию</string>
     <string name="search_schedule">Поиск расписания</string>
     <string name="schedule_search_bar_label">Введите группу, преподавателя или аудиторию</string>
+    <string name="my_account">Личный кабинет</string>
 </resources>

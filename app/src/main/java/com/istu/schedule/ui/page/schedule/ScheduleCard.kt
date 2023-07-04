@@ -32,7 +32,6 @@ import com.istu.schedule.domain.model.schedule.LessonTime
 import com.istu.schedule.domain.model.schedule.Schedule
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.ui.theme.Shape5
@@ -339,7 +338,7 @@ fun ScheduleCardPreview() {
     )
 
     val currentDateTime = LocalDateTime.of(2023, 3, 31, 14, 4)
-    ScheduleISTUTheme {
+    AppTheme {
         ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
     }
 }

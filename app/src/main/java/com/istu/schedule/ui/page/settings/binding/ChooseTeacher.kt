@@ -46,7 +46,6 @@ import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Teacher
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.Shape5
 
 @Composable
@@ -156,7 +155,7 @@ fun TeachersList(
 ) {
     val groupedTeachersList = teachersList.groupBy { it.fullName[0].toString() }
 
-    ScheduleISTUTheme {
+    AppTheme {
         if (teachersList.any()) {
             LazyColumn(
                 modifier = Modifier.padding(start = 25.dp, end = 15.dp),

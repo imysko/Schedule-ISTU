@@ -39,7 +39,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
@@ -49,7 +48,6 @@ import com.istu.schedule.ui.components.projfair.ProjectItemPlaceHolder
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
@@ -252,10 +250,38 @@ fun InfiniteListHandler(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewProjectsListPage() {
-    ScheduleISTUTheme {
+fun PreviewProjectsListPageLoading() {
+    AppTheme {
         ProjectsListPage(
-            navController = rememberNavController()
+            projectsListUiState = ProjectsListUiState(),
+            isLoading = true,
+            projectsList = listOf(),
+            onSearchTextEdit = { },
+            onSearchButtonClick = { },
+            onSearchConfirmClick = { },
+            onProjectClick = { },
+            onFilterClick = { },
+            onLoadMore = { }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewProjectsListPageWithSearch() {
+    AppTheme {
+        ProjectsListPage(
+            projectsListUiState = ProjectsListUiState(
+                isSearchVisible = true
+            ),
+            isLoading = false,
+            projectsList = listOf(),
+            onSearchTextEdit = { },
+            onSearchButtonClick = { },
+            onSearchConfirmClick = { },
+            onProjectClick = { },
+            onFilterClick = { },
+            onLoadMore = { }
         )
     }
 }

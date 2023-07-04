@@ -35,9 +35,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.material.placeholder
@@ -205,28 +207,47 @@ fun AuthorizedPage(
 
 @Composable
 fun LoginPage(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(15.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.login_to_account),
-            style = AppTheme.typography.title.copy(
-                color = AppTheme.colorScheme.textPrimary
-            )
-        )
-        FilledButton(
-            modifier = Modifier
-                .padding(top = 25.dp)
-                .fillMaxWidth(),
-            text = stringResource(R.string.authorize_via_campus),
-            onClick = {
-                navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+    Scaffold(
+        containerColor = AppTheme.colorScheme.primary,
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(15.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.my_account),
+                    style = AppTheme.typography.pageTitle,
+                    color = AppTheme.colorScheme.textSecondary
+                )
             }
-        )
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding())
+                .clip(ShapeTop15)
+                .background(AppTheme.colorScheme.background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.login_to_account),
+                style = AppTheme.typography.title.copy(
+                    color = AppTheme.colorScheme.textPrimary
+                )
+            )
+            FilledButton(
+                modifier = Modifier
+                    .padding(top = 25.dp, start = 15.dp, end = 15.dp)
+                    .fillMaxWidth(),
+                text = stringResource(R.string.authorize_via_campus),
+                onClick = {
+                    navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+                }
+            )
+        }
     }
 }
 
@@ -406,5 +427,13 @@ fun ProjectsPage(
             Spacer(modifier = Modifier.height(84.dp))
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewLoginPage() {
+    AppTheme {
+        LoginPage(rememberNavController())
     }
 }

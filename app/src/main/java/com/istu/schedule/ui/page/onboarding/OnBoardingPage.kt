@@ -31,7 +31,6 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.GrayDisabled
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 
@@ -206,7 +205,7 @@ fun OnBoardingPage(
 @Composable
 @Preview(showBackground = true, locale = "ru")
 fun OnBoardingPagePreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         OnBoardingPage(navController = rememberNavController())
     }
 }

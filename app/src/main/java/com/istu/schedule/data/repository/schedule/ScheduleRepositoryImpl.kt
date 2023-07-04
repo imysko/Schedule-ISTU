@@ -8,14 +8,14 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class ScheduleRepositoryImpl @Inject constructor(
-    private val scheduleService: ScheduleService,
+    private val scheduleService: ScheduleService
 ) : ScheduleRepository {
 
     private val cachedList: MutableList<StudyDay> = mutableListOf()
 
     override suspend fun getGroupScheduleOnDay(
         groupId: Int,
-        dateString: String,
+        dateString: String
     ): Result<List<StudyDay>> {
         val apiResponse = scheduleService.getGroupScheduleOnDay(groupId, dateString).body()
 
@@ -27,14 +27,14 @@ class ScheduleRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!",
-            ),
+                message = "An error occurred!"
+            )
         )
     }
 
     override suspend fun getGroupScheduleOnWeek(
         groupId: Int,
-        startDateWeekString: String,
+        startDateWeekString: String
     ): Result<List<StudyDay>> {
         TODO("Not yet implemented")
     }
@@ -45,7 +45,7 @@ class ScheduleRepositoryImpl @Inject constructor(
 
     override suspend fun getTeacherScheduleOnDay(
         teacherId: Int,
-        dateString: String,
+        dateString: String
     ): Result<List<StudyDay>> {
         val apiResponse = scheduleService.getTeacherScheduleOnDay(teacherId, dateString).body()
 
@@ -57,21 +57,54 @@ class ScheduleRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!",
-            ),
+                message = "An error occurred!"
+            )
         )
     }
 
     override suspend fun getTeacherScheduleOnWeek(
         teacherId: Int,
-        startDateWeekString: String,
+        startDateWeekString: String
     ): Result<List<StudyDay>> {
         TODO("Not yet implemented")
     }
 
     override suspend fun getTeacherScheduleOnMonth(
         teacherId: Int,
-        month: Int,
+        month: Int
+    ): Result<List<StudyDay>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getClassroomScheduleOnDay(
+        classroomId: Int,
+        dateString: String
+    ): Result<List<StudyDay>> {
+        val apiResponse = scheduleService.getGroupScheduleOnDay(classroomId, dateString).body()
+
+        if (apiResponse != null) {
+            cachedList.addAll(apiResponse)
+            return Result.success(cachedList)
+        }
+
+        return Result.failure(
+            RequestException(
+                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
+                message = "An error occurred!"
+            )
+        )
+    }
+
+    override suspend fun getClassroomScheduleOnWeek(
+        classroomId: Int,
+        startDateWeekString: String
+    ): Result<List<StudyDay>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun getClassroomScheduleOnMonth(
+        classroomId: Int,
+        month: Int
     ): Result<List<StudyDay>> {
         TODO("Not yet implemented")
     }

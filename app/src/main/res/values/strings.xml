@@ -15,7 +15,10 @@
     <string name="cancel">Cancel</string>
     <string name="close">Close</string>
     <string name="group">Group</string>
+    <string name="groups">Groups</string>
     <string name="teacher">Teacher</string>
+    <string name="teachers">Teachers</string>
+    <string name="classrooms">Classrooms</string>
     <string name="login">Log in</string>
     <string name="logout">Log out</string>
     <string name="light">Light</string>
@@ -150,4 +153,7 @@
     <string name="not_found">Not found</string>
     <string name="unknown_user">You need to select a group or teacher for view the schedule</string>
     <string name="weekend">You can relax there are no classes today</string>
+    <string name="back_to_your_schedule">Back to your schedule</string>
+    <string name="search_schedule">Search schedule</string>
+    <string name="schedule_search_bar_label">Input the group, teacher, or classroom</string>
 </resources>

@@ -6,6 +6,8 @@ import com.istu.schedule.data.service.projfair.FiltersDataService
 import com.istu.schedule.data.service.projfair.ParticipationsService
 import com.istu.schedule.data.service.projfair.ProjectStateService
 import com.istu.schedule.data.service.projfair.ProjectsService
+import com.istu.schedule.data.service.schedule.ClassroomsService
+import com.istu.schedule.data.service.schedule.GroupsService
 import com.istu.schedule.data.service.schedule.InstitutesService
 import com.istu.schedule.data.service.schedule.ScheduleService
 import com.istu.schedule.data.service.schedule.TeachersService
@@ -124,9 +126,19 @@ object NetworkModule {
     ): InstitutesService = retrofit.create(InstitutesService::class.java)
 
     @Provides
+    fun providerGroupsService(
+        @Named("ScheduleRetrofit") retrofit: Retrofit
+    ): GroupsService = retrofit.create(GroupsService::class.java)
+
+    @Provides
     fun providerTeachersService(
         @Named("ScheduleRetrofit") retrofit: Retrofit
     ): TeachersService = retrofit.create(TeachersService::class.java)
+
+    @Provides
+    fun providerClassroomsService(
+        @Named("ScheduleRetrofit") retrofit: Retrofit
+    ): ClassroomsService = retrofit.create(ClassroomsService::class.java)
 
     @Provides
     fun providerScheduleService(

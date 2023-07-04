@@ -10,11 +10,12 @@ import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.istu.schedule.ui.components.navigation.BottomNavBar
 import com.istu.schedule.ui.components.navigation.BottomNavGraph
+import com.istu.schedule.ui.theme.AppTheme
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun MainPage(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     val bottomNavController = rememberAnimatedNavController()
 
@@ -23,18 +24,20 @@ fun MainPage(
             Column {
                 BottomNavGraph(
                     navController = navController,
-                    bottomNavController = bottomNavController,
+                    bottomNavController = bottomNavController
                 )
             }
         },
         bottomBar = {
             BottomNavBar(navController = bottomNavController)
-        },
+        }
     )
 }
 
 @Composable
 @Preview(showBackground = true)
 fun PreviewMainPage() {
-    MainPage(rememberNavController())
+    AppTheme {
+        MainPage(navController = rememberNavController())
+    }
 }

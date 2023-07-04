@@ -5,6 +5,8 @@ import com.istu.schedule.data.repository.projfair.FiltersDataRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ParticipationsRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ProjectStateRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ProjectsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.ClassroomsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.GroupsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
 import com.istu.schedule.data.repository.schedule.TeachersRepositoryImpl
@@ -13,6 +15,8 @@ import com.istu.schedule.domain.repository.projfair.FiltersDataRepository
 import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
 import com.istu.schedule.domain.repository.projfair.ProjectStateRepository
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
+import com.istu.schedule.domain.repository.schedule.ClassroomsRepository
+import com.istu.schedule.domain.repository.schedule.GroupsRepository
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import com.istu.schedule.domain.repository.schedule.TeachersRepository
@@ -41,7 +45,9 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindParticipationsRepository(participationsRepository: ParticipationsRepositoryImpl): ParticipationsRepository
+    abstract fun bindParticipationsRepository(
+        participationsRepository: ParticipationsRepositoryImpl
+    ): ParticipationsRepository
 
     @Binds
     @Singleton
@@ -54,7 +60,15 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
+    abstract fun bindGroupsRepository(groupsRepositoryImpl: GroupsRepositoryImpl): GroupsRepository
+
+    @Binds
+    @Singleton
     abstract fun bindTeachersRepository(teachersRepositoryImpl: TeachersRepositoryImpl): TeachersRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindClassroomsRepository(classroomsRepositoryImpl: ClassroomsRepositoryImpl): ClassroomsRepository
 
     @Binds
     @Singleton

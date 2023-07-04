@@ -14,7 +14,10 @@
     <string name="cancel">Отменить</string>
     <string name="close">Закрыть</string>
     <string name="group">Группа</string>
+    <string name="groups">Группы</string>
     <string name="teacher">Преподаватель</string>
+    <string name="teachers">Преподаватели</string>
+    <string name="classrooms">Аудитории</string>
     <string name="login">Войти</string>
     <string name="logout">Выйти</string>
     <string name="light">Светлая</string>
@@ -155,4 +158,7 @@
     <string name="not_found">Не найдено</string>
     <string name="unknown_user">Для просмотра расписания вам необходимо выбрать группу или преподавателя</string>
     <string name="weekend">Сегодня пар нет, вы можете отдохнуть</string>
+    <string name="back_to_your_schedule">Назад к своему расписанию</string>
+    <string name="search_schedule">Поиск расписания</string>
+    <string name="schedule_search_bar_label">Введите группу, преподавателя или аудиторию</string>
 </resources>

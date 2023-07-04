@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 open class BaseViewModel : LifecycleObserver, ViewModel() {
 
-    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
     val loading: LiveData<Boolean>
         get() = _loading
             .distinctUntilChanged()

@@ -25,7 +25,6 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
@@ -46,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Teacher
 import com.istu.schedule.ui.page.settings.TopBar
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 
 @Composable
@@ -54,7 +53,7 @@ fun ChooseTeacher(
     onBackClick: () -> Unit,
     teachersList: List<Teacher> = emptyList(),
     onValueChange: (value: String) -> Unit,
-    onChooseTeacher: (chosenTeacher: Teacher) -> Unit,
+    onChooseTeacher: (chosenTeacher: Teacher) -> Unit
 ) {
     var value by remember { mutableStateOf("") }
 
@@ -63,7 +62,7 @@ fun ChooseTeacher(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.background,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.account),
@@ -75,10 +74,9 @@ fun ChooseTeacher(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(MaterialTheme.colorScheme.background),
-                verticalArrangement = Arrangement.spacedBy(18.dp),
+                    .background(AppTheme.colorScheme.background),
+                verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
-
                 SearchLine(
                     modifier = Modifier.padding(top = 9.dp, start = 15.dp, end = 15.dp),
                     value = value,
@@ -86,15 +84,15 @@ fun ChooseTeacher(
                     onValueChange = { input ->
                         value = input
                         onValueChange(input)
-                    },
+                    }
                 )
 
                 TeachersList(
                     teachersList = teachersList,
-                    onChooseTeacher = { teacher -> onChooseTeacher(teacher) },
+                    onChooseTeacher = { teacher -> onChooseTeacher(teacher) }
                 )
             }
-        },
+        }
     )
 }
 
@@ -105,7 +103,7 @@ fun SearchLine(
     isError: Boolean = false,
     onValueChange: (value: String) -> Unit,
     onDone: () -> Unit = { },
-    onClose: () -> Unit = { },
+    onClose: () -> Unit = { }
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -114,13 +112,13 @@ fun SearchLine(
         value = value,
         isError = isError,
         onValueChange = { onValueChange(it) },
-        textStyle = MaterialTheme.typography.titleMedium,
+        textStyle = AppTheme.typography.subtitle,
         singleLine = true,
         placeholder = {
             Text(
                 text = stringResource(id = R.string.search_teacher),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    color = MaterialTheme.colorScheme.secondary,
+                style = AppTheme.typography.subtitle.copy(
+                    color = AppTheme.colorScheme.secondary
                 )
             )
         },
@@ -128,24 +126,24 @@ fun SearchLine(
             Icon(
                 modifier = Modifier.size(32.dp),
                 imageVector = Icons.Rounded.Search,
-                tint = MaterialTheme.colorScheme.secondary,
-                contentDescription = stringResource(id = R.string.search),
+                tint = AppTheme.colorScheme.secondary,
+                contentDescription = stringResource(id = R.string.search)
             )
         },
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
+            imeAction = ImeAction.Done
         ),
         keyboardActions = KeyboardActions(
             onDone = {
                 focusManager.clearFocus()
                 onDone()
-            },
+            }
         ),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.background,
-            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+            focusedContainerColor = AppTheme.colorScheme.background,
+            unfocusedContainerColor = AppTheme.colorScheme.background
         ),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(10.dp)
     )
 }
 
@@ -153,23 +151,23 @@ fun SearchLine(
 @Composable
 fun TeachersList(
     teachersList: List<Teacher> = emptyList(),
-    onChooseTeacher: (chosenTeacher: Teacher) -> Unit,
+    onChooseTeacher: (chosenTeacher: Teacher) -> Unit
 ) {
     val groupedTeachersList = teachersList.groupBy { it.fullName[0].toString() }
 
-    ScheduleISTUTheme {
+    AppTheme {
         if (teachersList.any()) {
             LazyColumn(
                 modifier = Modifier.padding(start = 25.dp, end = 15.dp),
-                verticalArrangement = Arrangement.spacedBy(7.dp),
+                verticalArrangement = Arrangement.spacedBy(7.dp)
             ) {
                 groupedTeachersList.forEach { (letter, teachers) ->
                     stickyHeader {
                         Text(
                             text = letter,
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontWeight = FontWeight.SemiBold,
-                            ),
+                            style = AppTheme.typography.title.copy(
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                     }
 
@@ -179,13 +177,13 @@ fun TeachersList(
                                 .padding(vertical = 8.dp, horizontal = 20.dp)
                                 .clip(Shape5)
                                 .clickable { onChooseTeacher(teacher) },
-                            verticalAlignment = Alignment.CenterVertically,
+                            verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
                                 text = teacher.fullName,
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    fontWeight = FontWeight.SemiBold,
-                                ),
+                                style = AppTheme.typography.subtitle.copy(
+                                    fontWeight = FontWeight.SemiBold
+                                )
                             )
                         }
                     }
@@ -200,14 +198,13 @@ fun TeachersList(
                     )
                 }
             }
-        }
-        else {
+        } else {
             Text(
                 modifier = Modifier.padding(start = 25.dp, end = 15.dp),
                 text = stringResource(id = R.string.not_found),
-                style = MaterialTheme.typography.titleMedium.copy(
-                    fontWeight = FontWeight.SemiBold,
-                ),
+                style = AppTheme.typography.subtitle.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
             )
         }
     }
@@ -216,12 +213,12 @@ fun TeachersList(
 @Composable
 @Preview
 fun SearchLineErrorPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         SearchLine(
             value = "",
             isError = true,
             onValueChange = { },
-            onDone = { },
+            onDone = { }
         )
     }
 }
@@ -229,7 +226,7 @@ fun SearchLineErrorPreview() {
 @Composable
 @Preview(showBackground = true, locale = "ru")
 fun ChooseTeacherPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         ChooseTeacher(
             onBackClick = { },
             teachersList = listOf(
@@ -257,10 +254,10 @@ fun ChooseTeacherPreview() {
                     teacherId = 0,
                     fullName = "Копайгородский Алексей Николаевич",
                     shortname = ""
-                ),
+                )
             ),
             onValueChange = { },
-            onChooseTeacher = { },
+            onChooseTeacher = { }
         )
     }
 }

@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -22,28 +21,28 @@ import com.istu.schedule.data.preference.LanguagesPreference
 import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
 import com.istu.schedule.ui.page.settings.TopBar
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
 
 @Composable
 fun LanguagePage(
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     LanguagePage(
-        onBackClick = { navController.popBackStack() },
+        onBackClick = { navController.popBackStack() }
     )
 }
 
 @Composable
 fun LanguagePage(
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
     val languages = LocalLanguages.current
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.background,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.application_language),
@@ -55,11 +54,11 @@ fun LanguagePage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(MaterialTheme.colorScheme.background),
+                    .background(AppTheme.colorScheme.background)
             ) {
                 Column(
                     modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     LanguagesPreference.values.map { language ->
                         RadioButtonWithText(
@@ -67,7 +66,7 @@ fun LanguagePage(
                                 .padding(vertical = 5.dp, horizontal = 3.dp)
                                 .clip(Shape10),
                             text = language.toDescription(context),
-                            style = MaterialTheme.typography.bodyMedium.copy(
+                            style = AppTheme.typography.bodyMedium.copy(
                                 fontSize = 16.sp
                             ),
                             selected = language == languages,
@@ -78,14 +77,14 @@ fun LanguagePage(
                     }
                 }
             }
-        },
+        }
     )
 }
 
 @Composable
 @Preview(showBackground = true)
 fun LanguagePagePreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         LanguagePage(onBackClick = { })
     }
 }

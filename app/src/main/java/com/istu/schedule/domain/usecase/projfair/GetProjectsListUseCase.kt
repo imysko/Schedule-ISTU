@@ -5,7 +5,7 @@ import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import javax.inject.Inject
 
 class GetProjectsListUseCase @Inject constructor(
-    private val projectsRepository: ProjectsRepository,
+    private val projectsRepository: ProjectsRepository
 ) {
 
     suspend fun getProjectsList(
@@ -15,7 +15,7 @@ class GetProjectsListUseCase @Inject constructor(
         difficulties: List<Int> = arrayListOf(),
         states: List<Int> = arrayListOf(),
         specialties: List<Int> = arrayListOf(),
-        skills: List<Int> = arrayListOf(),
+        skills: List<Int> = arrayListOf()
     ): Result<List<Project>> {
         return projectsRepository.getProjects(
             token = token,
@@ -24,7 +24,7 @@ class GetProjectsListUseCase @Inject constructor(
             difficulties = difficulties,
             states = states,
             specialties = specialties,
-            skills = skills,
+            skills = skills
         )
     }
 }

@@ -12,7 +12,6 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
 import androidx.compose.material.Text
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -25,7 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 @Composable
@@ -36,27 +35,27 @@ fun SIDropdownMenu(
     listItems: List<Pair<Int, String>>,
     selectedItems: MutableList<Pair<Int, String>>,
     onTextValueChange: (String) -> Unit = {},
-    onItemSelect: (List<Pair<Int, String>>) -> Unit = {},
+    onItemSelect: (List<Pair<Int, String>>) -> Unit = {}
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     ExposedDropdownMenuBox(
         modifier = modifier
             .clip(RoundedCornerShape(4.dp))
-            .border(1.dp, MaterialTheme.colorScheme.secondary, RoundedCornerShape(4.dp))
+            .border(1.dp, AppTheme.colorScheme.secondary, RoundedCornerShape(4.dp))
             .padding(vertical = 10.dp, horizontal = 10.dp),
         expanded = expanded,
         onExpandedChange = {
             expanded = !expanded
-        },
+        }
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             FlowRow(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Center
             ) {
                 selectedItems.forEach { pair ->
                     SIInputChip(
@@ -65,31 +64,31 @@ fun SIDropdownMenu(
                         onClick = {
                             selectedItems.remove(pair)
                             onItemSelect(selectedItems)
-                        },
+                        }
                     )
                 }
                 BasicTextField(
                     modifier = Modifier
                         .weight(1f)
                         .padding(vertical = 3.dp),
-                    textStyle = MaterialTheme.typography.bodyMedium,
+                    textStyle = AppTheme.typography.bodyMedium,
                     value = textValue,
                     onValueChange = {
                         onTextValueChange(it)
                         expanded = true
                     },
                     singleLine = true,
-                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                    cursorBrush = SolidColor(AppTheme.colorScheme.primary),
                     decorationBox = { innerTextField ->
                         if (textValue.isEmpty()) {
                             Text(
                                 modifier = Modifier.alpha(0.7f),
                                 text = placeholder,
-                                style = MaterialTheme.typography.bodyMedium,
+                                style = AppTheme.typography.bodyMedium
                             )
                         }
                         innerTextField()
-                    },
+                    }
                 )
             }
             TrailingIcon(expanded = false)
@@ -104,7 +103,7 @@ fun SIDropdownMenu(
         if (filteredOptions.isNotEmpty()) {
             ExposedDropdownMenu(
                 expanded = expanded,
-                onDismissRequest = { expanded = false },
+                onDismissRequest = { expanded = false }
             ) {
                 filteredOptions.forEach { item ->
                     DropdownMenuItem(
@@ -114,7 +113,7 @@ fun SIDropdownMenu(
                             onTextValueChange("")
                             onItemSelect(selectedItems)
                             expanded = false
-                        },
+                        }
                     )
                 }
             }
@@ -125,7 +124,7 @@ fun SIDropdownMenu(
 @Preview(showBackground = true)
 @Composable
 fun PreviewSIDropdownMenu() {
-    ScheduleISTUTheme {
+    AppTheme {
         SIDropdownMenu(
             modifier = Modifier.padding(10.dp),
             placeholder = "Select speciality",
@@ -133,9 +132,9 @@ fun PreviewSIDropdownMenu() {
                 Pair(1, "Android"),
                 Pair(2, "JavaScript"),
                 Pair(3, "Kotlin"),
-                Pair(4, "C#"),
+                Pair(4, "C#")
             ),
-            selectedItems = mutableListOf(Pair(1, "Android"), Pair(2, "JavaScript")),
+            selectedItems = mutableListOf(Pair(1, "Android"), Pair(2, "JavaScript"))
         )
     }
 }

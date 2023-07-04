@@ -156,4 +156,5 @@
     <string name="back_to_your_schedule">Back to your schedule</string>
     <string name="search_schedule">Search schedule</string>
     <string name="schedule_search_bar_label">Input the group, teacher, or classroom</string>
+    <string name="my_account">My Account</string>
 </resources>

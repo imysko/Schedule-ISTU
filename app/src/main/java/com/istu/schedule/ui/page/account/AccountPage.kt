@@ -33,13 +33,13 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.material.placeholder
@@ -56,6 +56,7 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.components.projfair.ParticipationItem
 import com.istu.schedule.ui.components.projfair.ProjectItem
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Red
 import com.istu.schedule.ui.theme.ShapeTop15
@@ -115,7 +116,7 @@ fun AuthorizedPage(
     }
 
     Scaffold(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = AppTheme.colorScheme.primary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
                 Text(
@@ -124,16 +125,17 @@ fun AuthorizedPage(
                         .padding(15.dp)
                         .placeholder(
                             visible = candidate == null,
-                            color = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.1f),
+                            color = AppTheme.colorScheme.primaryContainer.copy(alpha = 0.1f),
                             highlight = PlaceholderHighlight.fade(
-                                highlightColor = MaterialTheme.colorScheme.primaryContainer.copy(
+                                highlightColor = AppTheme.colorScheme.primaryContainer.copy(
                                     alpha = 0.13f
                                 )
                             ),
                             shape = RoundedCornerShape(4.dp)
                         ),
                     text = candidate?.fio ?: "",
-                    style = MaterialTheme.typography.headlineMedium
+                    style = AppTheme.typography.pageTitle,
+                    color = AppTheme.colorScheme.textSecondary
                 )
                 SIScrollableTabRow(
                     modifier = Modifier.padding(bottom = 10.dp),
@@ -157,9 +159,8 @@ fun AuthorizedPage(
                             verticalArrangement = Arrangement.Center
                         ) {
                             Text(
-                                style = MaterialTheme.typography.titleMedium.copy(
-                                    color = Color.White,
-                                    fontSize = 18.sp
+                                style = AppTheme.typography.title.copy(
+                                    color = AppTheme.colorScheme.textSecondary
                                 ),
                                 text = title
                             )
@@ -173,7 +174,7 @@ fun AuthorizedPage(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(MaterialTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.background)
         ) {
             HorizontalPager(
                 pageCount = pages.size,
@@ -206,28 +207,47 @@ fun AuthorizedPage(
 
 @Composable
 fun LoginPage(navController: NavController) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(15.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = stringResource(R.string.login_to_account),
-            style = MaterialTheme.typography.headlineMedium.copy(
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        )
-        FilledButton(
-            modifier = Modifier
-                .padding(top = 25.dp)
-                .fillMaxWidth(),
-            text = stringResource(R.string.authorize_via_campus),
-            onClick = {
-                navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+    Scaffold(
+        containerColor = AppTheme.colorScheme.primary,
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(15.dp)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.my_account),
+                    style = AppTheme.typography.pageTitle,
+                    color = AppTheme.colorScheme.textSecondary
+                )
             }
-        )
+        }
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding())
+                .clip(ShapeTop15)
+                .background(AppTheme.colorScheme.background),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(R.string.login_to_account),
+                style = AppTheme.typography.title.copy(
+                    color = AppTheme.colorScheme.textPrimary
+                )
+            )
+            FilledButton(
+                modifier = Modifier
+                    .padding(top = 25.dp, start = 15.dp, end = 15.dp)
+                    .fillMaxWidth(),
+                text = stringResource(R.string.authorize_via_campus),
+                onClick = {
+                    navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+                }
+            )
+        }
     }
 }
 
@@ -318,7 +338,7 @@ fun ProfilePage(candidate: Candidate?) {
         item {
             Text(
                 text = stringResource(R.string.contact_info),
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = AppTheme.typography.title.copy(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -348,7 +368,7 @@ fun ProfilePage(candidate: Candidate?) {
         item {
             Text(
                 text = stringResource(R.string.additional_information),
-                style = MaterialTheme.typography.titleMedium.copy(
+                style = AppTheme.typography.title.copy(
                     fontWeight = FontWeight.Bold
                 )
             )
@@ -407,5 +427,13 @@ fun ProjectsPage(
             Spacer(modifier = Modifier.height(84.dp))
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewLoginPage() {
+    AppTheme {
+        LoginPage(rememberNavController())
     }
 }

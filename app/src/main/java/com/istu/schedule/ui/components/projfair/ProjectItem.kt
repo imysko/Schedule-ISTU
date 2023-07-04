@@ -18,7 +18,6 @@ import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -43,6 +42,7 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.util.toProjectDifficulty
@@ -63,22 +63,23 @@ fun ProjectItem(
         Column(modifier = Modifier.padding(15.dp, 20.dp)) {
             Text(
                 text = project.title,
-                style = MaterialTheme.typography.titleMedium.copy(fontSize = 18.sp)
+                style = AppTheme.typography.title,
+                color = AppTheme.colorScheme.textPrimary
             )
             if (project.supervisorsNames.isNotBlank()) {
                 Text(
                     modifier = Modifier.padding(top = 7.dp),
                     text = project.supervisorsNames,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary
+                    style = AppTheme.typography.bodyMedium.copy(
+                        color = AppTheme.colorScheme.secondary
                     )
                 )
             }
             if (project.specialities.isNotEmpty()) {
                 Text(
                     text = project.specialities.joinToString { it.name },
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary
+                    style = AppTheme.typography.bodyMedium.copy(
+                        color = AppTheme.colorScheme.secondary
                     )
                 )
             }
@@ -95,13 +96,13 @@ fun ProjectItem(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.People,
                             contentDescription = "People Icon",
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = AppTheme.colorScheme.primary
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.places.toString(),
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                color = MaterialTheme.colorScheme.primary
+                            style = AppTheme.typography.bodyMedium.copy(
+                                color = AppTheme.colorScheme.primary
                             )
                         )
                         Spacer(modifier = Modifier.width(20.dp))
@@ -109,12 +110,13 @@ fun ProjectItem(
                             modifier = Modifier.size(16.dp),
                             imageVector = Icons.Star,
                             contentDescription = "Star Icon",
-                            tint = MaterialTheme.colorScheme.tertiary
+                            tint = AppTheme.colorScheme.textPrimary
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = project.difficulty.toProjectDifficulty(),
-                            style = MaterialTheme.typography.bodyMedium
+                            style = AppTheme.typography.bodyMedium,
+                            color = AppTheme.colorScheme.textPrimary
                         )
                     }
                 }
@@ -128,7 +130,7 @@ fun ProjectItem(
                                     2 -> com.istu.schedule.ui.theme.Green
                                     3 -> com.istu.schedule.ui.theme.Orange
                                     5 -> com.istu.schedule.ui.theme.Cyan
-                                    else -> MaterialTheme.colorScheme.secondary
+                                    else -> AppTheme.colorScheme.secondary
                                 }
                             ),
                             RoundedCornerShape(72.dp)
@@ -137,12 +139,12 @@ fun ProjectItem(
                 ) {
                     Text(
                         text = project.state.state.uppercase(),
-                        style = MaterialTheme.typography.bodySmall.copy(
+                        style = AppTheme.typography.bodySmall.copy(
                             color = when (project.state.id) {
                                 1 -> com.istu.schedule.ui.theme.Blue
                                 2 -> com.istu.schedule.ui.theme.Green
                                 5 -> com.istu.schedule.ui.theme.Cyan
-                                else -> MaterialTheme.colorScheme.secondary
+                                else -> AppTheme.colorScheme.secondary
                             },
                             fontWeight = FontWeight.SemiBold
                         )
@@ -164,9 +166,10 @@ fun ProjectItem(
                                 text = stringResource(id = R.string.aim_project),
                                 spanStyle = SpanStyle(
                                     fontWeight = FontWeight.SemiBold,
-                                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
+                                    fontFamily = AppTheme.typography.bodyMedium.fontFamily,
+                                    fontSize = AppTheme.typography.bodyMedium.fontSize,
+                                    fontStyle = AppTheme.typography.bodyMedium.fontStyle,
+                                    color = AppTheme.colorScheme.textPrimary
                                 )
                             )
                         )
@@ -174,14 +177,15 @@ fun ProjectItem(
                             AnnotatedString(
                                 text = project.goal,
                                 spanStyle = SpanStyle(
-                                    fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                    fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                    fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                                    color = MaterialTheme.colorScheme.secondary
+                                    fontFamily = AppTheme.typography.bodyMedium.fontFamily,
+                                    fontSize = AppTheme.typography.bodyMedium.fontSize,
+                                    fontStyle = AppTheme.typography.bodyMedium.fontStyle,
+                                    color = AppTheme.colorScheme.secondary
                                 )
                             )
                         )
-                    }
+                    },
+                    lineHeight = 16.sp
                 )
             }
             Text(
@@ -192,9 +196,10 @@ fun ProjectItem(
                             text = stringResource(id = R.string.start_date),
                             spanStyle = SpanStyle(
                                 fontWeight = FontWeight.SemiBold,
-                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle
+                                fontFamily = AppTheme.typography.bodyMedium.fontFamily,
+                                fontSize = AppTheme.typography.bodyMedium.fontSize,
+                                fontStyle = AppTheme.typography.bodyMedium.fontStyle,
+                                color = AppTheme.colorScheme.textPrimary
                             )
                         )
                     )
@@ -203,14 +208,15 @@ fun ProjectItem(
                             text = DateFormat.getDateInstance(DateFormat.LONG)
                                 .format(project.dateStart),
                             spanStyle = SpanStyle(
-                                fontFamily = MaterialTheme.typography.bodyMedium.fontFamily,
-                                fontSize = MaterialTheme.typography.bodyMedium.fontSize,
-                                fontStyle = MaterialTheme.typography.bodyMedium.fontStyle,
-                                color = MaterialTheme.colorScheme.secondary
+                                fontFamily = AppTheme.typography.bodyMedium.fontFamily,
+                                fontSize = AppTheme.typography.bodyMedium.fontSize,
+                                fontStyle = AppTheme.typography.bodyMedium.fontStyle,
+                                color = AppTheme.colorScheme.secondary
                             )
                         )
                     )
-                }
+                },
+                lineHeight = 16.sp
             )
             if (project.skills.isNotEmpty()) {
                 ChipVerticalGrid(
@@ -263,10 +269,10 @@ fun ProjectItemPlaceHolder() {
             .height(400.dp)
             .placeholder(
                 visible = true,
-                color = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.05f),
+                color = AppTheme.colorScheme.textPrimary.copy(alpha = 0.05f),
                 shape = RoundedCornerShape(4.dp),
                 highlight = PlaceholderHighlight.fade(
-                    highlightColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.08f)
+                    highlightColor = AppTheme.colorScheme.textPrimary.copy(alpha = 0.08f)
                 )
             )
     )

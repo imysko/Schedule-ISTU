@@ -3,13 +3,12 @@ package com.istu.schedule.ui.components.base
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 
 @Composable
 fun TwoColumnText(
@@ -21,13 +20,13 @@ fun TwoColumnText(
         Text(
             modifier = Modifier.weight(0.3f),
             text = key,
-            style = MaterialTheme.typography.bodySmall
+            style = AppTheme.typography.bodySmall
         )
         Spacer(Modifier.weight(0.05f))
         Text(
             modifier = Modifier.weight(0.65f),
             text = value?.ifBlank { "-" } ?: "-",
-            style = MaterialTheme.typography.bodySmall.copy(
+            style = AppTheme.typography.bodySmall.copy(
                 fontWeight = FontWeight.Bold
             )
         )
@@ -37,7 +36,7 @@ fun TwoColumnText(
 @Composable
 @Preview(showBackground = true)
 fun PreviewTwoColumnText() {
-    ScheduleISTUTheme {
+    AppTheme {
         TwoColumnText(
             modifier = Modifier.fillMaxWidth(),
             key = "Ожидаемый результат",

@@ -20,7 +20,7 @@ private val lightColorScheme = lightColorScheme(
     onBackground = Color.Black,
     surface = Blue,
     onSurface = Color.White,
-    tertiary = BlackText,
+    tertiary = TextPrimary,
     error = Red,
     errorContainer = RedContainer
 )

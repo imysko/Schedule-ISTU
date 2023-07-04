@@ -5,7 +5,7 @@ import com.istu.schedule.domain.repository.schedule.ClassroomsRepository
 import javax.inject.Inject
 
 class GetClassroomsListUseCase @Inject constructor(
-    private val classroomsRepository: ClassroomsRepository,
+    private val classroomsRepository: ClassroomsRepository
 ) {
 
     suspend fun getClassroomsList(): Result<List<Classroom>> {

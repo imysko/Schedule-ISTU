@@ -9,11 +9,7 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Card
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,9 +26,8 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Course
 import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.ui.icons.Down
-import com.istu.schedule.ui.icons.Up
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.components.base.TrailingIcon
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
 import java.util.Locale
 
@@ -46,44 +41,33 @@ fun CourseAccordionItem(
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = Shape10,
+        shape = Shape10
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(Shape10)
-                    .clickable { isExpanded = !isExpanded },
+                    .clickable { isExpanded = !isExpanded }
             ) {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(20.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "${course.courseNumber} ${
                             stringResource(id = R.string.course).lowercase(Locale.getDefault())
                         }",
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.SemiBold,
-                        )
+                        style = AppTheme.typography.bodyMedium.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        color = AppTheme.colorScheme.textPrimary
                     )
 
-                    if (isExpanded) {
-                        Icon(
-                            modifier = Modifier.size(17.dp),
-                            imageVector = Icons.Up,
-                            contentDescription = stringResource(id = R.string.up)
-                        )
-                    } else {
-                        Icon(
-                            modifier = Modifier.size(17.dp),
-                            imageVector = Icons.Down,
-                            contentDescription = stringResource(id = R.string.down)
-                        )
-                    }
+                    TrailingIcon(isExpanded)
                 }
             }
 
@@ -101,31 +85,29 @@ fun CourseAccordionItem(
 @Composable
 fun FlowGroups(
     groups: List<Group> = emptyList(),
-    onChooseGroup: (chosenGroup: Group) -> Unit,
+    onChooseGroup: (chosenGroup: Group) -> Unit
 ) {
     FlowRow(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         groups.forEach {
             Row(
                 modifier = Modifier
                     .fillMaxWidth(0.48f)
                     .clip(Shape10)
-                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .background(AppTheme.colorScheme.primaryContainer)
                     .clickable { onChooseGroup(it) },
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 10.dp),
                     text = it.name!!,
-                    style = MaterialTheme.typography.titleLarge.copy(
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.primary,
-                    ),
+                    style = AppTheme.typography.title,
+                    color = AppTheme.colorScheme.primary
                 )
             }
         }
@@ -135,7 +117,7 @@ fun FlowGroups(
 @Composable
 @Preview
 fun FlowGroupsPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         FlowGroups(
             groups = mutableListOf(
                 Group(
@@ -143,24 +125,24 @@ fun FlowGroupsPreview() {
                     name = "ИСТб-20-1",
                     course = 3,
                     instituteId = 0,
-                    institute = null,
+                    institute = null
                 ),
                 Group(
                     groupId = 0,
                     name = "ИСТб-20-2",
                     course = 3,
                     instituteId = 0,
-                    institute = null,
+                    institute = null
                 ),
                 Group(
                     groupId = 0,
                     name = "ИСТб-20-3",
                     course = 3,
                     instituteId = 0,
-                    institute = null,
-                ),
+                    institute = null
+                )
             ),
-            onChooseGroup = { },
+            onChooseGroup = { }
         )
     }
 }
@@ -168,7 +150,7 @@ fun FlowGroupsPreview() {
 @Composable
 @Preview(locale = "ru")
 fun CourseAccordionItemExpandedPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         CourseAccordionItem(
             course = Course(
                 courseNumber = 3,
@@ -178,26 +160,26 @@ fun CourseAccordionItemExpandedPreview() {
                         name = "ИСТб-20-1",
                         course = 3,
                         instituteId = 0,
-                        institute = null,
+                        institute = null
                     ),
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-2",
                         course = 3,
                         instituteId = 0,
-                        institute = null,
+                        institute = null
                     ),
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-3",
                         course = 3,
                         instituteId = 0,
-                        institute = null,
-                    ),
-                ),
+                        institute = null
+                    )
+                )
             ),
             expanded = true,
-            onChooseGroup = { },
+            onChooseGroup = { }
         )
     }
 }

@@ -9,7 +9,7 @@ import com.istu.schedule.domain.model.schedule.Group
 import com.istu.schedule.ui.components.base.StringResourceItem
 import com.istu.schedule.ui.page.projfair.participation.CreateParticipationPage
 import com.istu.schedule.ui.page.settings.binding.CourseAccordionItem
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 import org.junit.Rule
 import org.junit.Test
 
@@ -28,7 +28,7 @@ class ComposeTest {
 
         composeTestRule.setContent {
             SettingsProvider {
-                ScheduleISTUTheme {
+                AppTheme {
                     CreateParticipationPage(
                         prioritiesList = prioritiesList,
                         selectedPriority = 1,
@@ -55,32 +55,32 @@ class ComposeTest {
                     name = "ИСТб-20-1",
                     course = 3,
                     instituteId = 0,
-                    institute = null,
+                    institute = null
                 ),
                 Group(
                     groupId = 0,
                     name = "ИСТб-20-2",
                     course = 3,
                     instituteId = 0,
-                    institute = null,
+                    institute = null
                 ),
                 Group(
                     groupId = 0,
                     name = "ИСТб-20-3",
                     course = 3,
                     instituteId = 0,
-                    institute = null,
-                ),
+                    institute = null
+                )
             )
         )
 
         composeTestRule.setContent {
-            ScheduleISTUTheme {
-                   CourseAccordionItem(
-                       course = course,
-                       expanded = true,
-                       onChooseGroup = { },
-                   )
+            AppTheme {
+                CourseAccordionItem(
+                    course = course,
+                    expanded = true,
+                    onChooseGroup = { }
+                )
             }
         }
 

@@ -8,7 +8,7 @@ import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class ProjectsRepositoryImpl @Inject constructor(
-    private val projectsService: ProjectsService,
+    private val projectsService: ProjectsService
 ) : ProjectsRepository {
 
     private val cachedList: MutableList<Project> = mutableListOf()
@@ -20,16 +20,16 @@ class ProjectsRepositoryImpl @Inject constructor(
         difficulties: List<Int>,
         states: List<Int>,
         specialties: List<Int>,
-        skills: List<Int>,
+        skills: List<Int>
     ): Result<List<Project>> {
         val apiResponse = projectsService.getProjects(
             token = token,
             title = title,
             page = page,
-            difficulties = difficulties,
-            states = states,
-            specialties = specialties,
-            skills = skills,
+            difficulties = difficulties.toString().replace(" ", ""),
+            states = states.toString().replace(" ", ""),
+            specialties = specialties.toString().replace(" ", ""),
+            skills = skills.toString().replace(" ", "")
         ).body()
         if (apiResponse?.data != null) {
             val newsList = apiResponse.data
@@ -43,8 +43,8 @@ class ProjectsRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!",
-            ),
+                message = "An error occurred!"
+            )
         )
     }
 
@@ -57,8 +57,8 @@ class ProjectsRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!",
-            ),
+                message = "An error occurred!"
+            )
         )
     }
 
@@ -71,8 +71,8 @@ class ProjectsRepositoryImpl @Inject constructor(
         return Result.failure(
             RequestException(
                 code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!",
-            ),
+                message = "An error occurred!"
+            )
         )
     }
 
@@ -87,8 +87,8 @@ class ProjectsRepositoryImpl @Inject constructor(
             return Result.failure(
                 RequestException(
                     code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                    message = "An error occurred!",
-                ),
+                    message = "An error occurred!"
+                )
             )
         }
     }

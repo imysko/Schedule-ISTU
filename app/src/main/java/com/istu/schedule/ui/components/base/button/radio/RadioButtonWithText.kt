@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 
 @Composable
 fun RadioButtonWithText(
@@ -22,7 +21,7 @@ fun RadioButtonWithText(
     selected: Boolean,
     onSelect: () -> Unit,
     modifier: Modifier = Modifier,
-    style: TextStyle = MaterialTheme.typography.bodyMedium,
+    style: TextStyle = AppTheme.typography.bodyMedium,
     enabled: Boolean = true
 ) {
     Row(
@@ -43,7 +42,7 @@ fun RadioButtonWithText(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = text,
-            style = if (enabled) style else style.copy(color = MaterialTheme.colorScheme.secondary)
+            style = if (enabled) style else style.copy(color = AppTheme.colorScheme.secondary)
         )
     }
 }
@@ -51,7 +50,7 @@ fun RadioButtonWithText(
 @Composable
 @Preview(showBackground = true)
 fun PreviewRadioButtonWithText() {
-    ScheduleISTUTheme {
+    AppTheme {
         RadioButtonWithText(
             modifier = Modifier.padding(10.dp),
             text = "Text",
@@ -64,7 +63,7 @@ fun PreviewRadioButtonWithText() {
 @Composable
 @Preview(showBackground = true)
 fun PreviewRadioButtonWithTextDisabled() {
-    ScheduleISTUTheme {
+    AppTheme {
         RadioButtonWithText(
             modifier = Modifier.padding(10.dp),
             text = "Text",

@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 @Deprecated("Will be removed")
 class GetGroupScheduleOnDayUseCase @Inject constructor(
-    private val scheduleRepository: ScheduleRepository,
+    private val scheduleRepository: ScheduleRepository
 ) {
 
     @Deprecated("Will be removed")

@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.ui.fonts.interFamily
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape21_5
 import java.time.LocalDate
 import java.time.format.TextStyle
@@ -34,35 +34,39 @@ fun Week(
     week: Week,
     currentDate: LocalDate = LocalDate.now(),
     selectedDate: LocalDate = LocalDate.now(),
-    onSelect: (selectedDate: LocalDate) -> Unit,
+    onSelect: (selectedDate: LocalDate) -> Unit
 ) {
     Column(
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Row(
             modifier = Modifier
                 .padding(horizontal = 2.dp)
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             for (date in week.days) {
                 Column(
                     modifier = Modifier
                         .size(width = 43.dp, height = 63.dp)
                         .clip(Shape21_5)
-                        .background(if (date == selectedDate) Color(0xFF325AD6) else Color.Transparent)
+                        .background(
+                            if (date == selectedDate) Color(0xFF325AD6) else Color.Transparent
+                        )
                         .clickable { onSelect(date) },
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(2.dp),
+                    verticalArrangement = Arrangement.spacedBy(2.dp)
                 ) {
                     Text(
                         modifier = Modifier.padding(top = 7.dp),
                         text = date.dayOfWeek
-                            .getDisplayName(TextStyle.SHORT,
-                                LocalContext.current.resources.configuration.locales.get(0))
+                            .getDisplayName(
+                                TextStyle.SHORT,
+                                LocalContext.current.resources.configuration.locales.get(0)
+                            )
                             .replaceFirstChar {
                                 if (it.isLowerCase()) {
                                     it.titlecase(Locale.getDefault())
@@ -70,31 +74,51 @@ fun Week(
                                     it.toString()
                                 }
                             },
-                        style = MaterialTheme.typography.titleMedium.copy(
+                        style = AppTheme.typography.subtitle.copy(
                             fontWeight = FontWeight(350),
-                            color = MaterialTheme.colorScheme.background,
-                        ),
+                            color = AppTheme.colorScheme.background
+                        )
                     )
                     Box(
                         modifier = Modifier
                             .size(24.dp)
                             .clip(CircleShape)
-                            .background(if (date == selectedDate) MaterialTheme.colorScheme.background else Color.Transparent),
-                        contentAlignment = Alignment.Center,
+                            .background(
+                                if (date == selectedDate) {
+                                    AppTheme.colorScheme.background
+                                } else {
+                                    Color.Transparent
+                                }
+                            ),
+                        contentAlignment = Alignment.Center
                     ) {
                         Text(
                             text = date.dayOfMonth.toString(),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = if (date == selectedDate) FontWeight.Normal else FontWeight.SemiBold,
-                                color = if (date == selectedDate) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.background,
-                            ),
+                            style = AppTheme.typography.subtitle.copy(
+                                fontWeight = if (date == selectedDate) {
+                                    FontWeight.Normal
+                                } else {
+                                    FontWeight.SemiBold
+                                },
+                                color = if (date == selectedDate) {
+                                    AppTheme.colorScheme.primary
+                                } else {
+                                    AppTheme.colorScheme.background
+                                }
+                            )
                         )
                     }
                     Box(
                         modifier = Modifier
                             .size(4.dp)
                             .clip(CircleShape)
-                            .background(if (date == currentDate) MaterialTheme.colorScheme.background else Color.Transparent),
+                            .background(
+                                if (date == currentDate) {
+                                    AppTheme.colorScheme.background
+                                } else {
+                                    Color.Transparent
+                                }
+                            )
                     )
                 }
             }
@@ -103,20 +127,22 @@ fun Week(
         Row(
             modifier = Modifier
                 .padding(top = 7.dp),
-            horizontalArrangement = Arrangement.spacedBy(5.dp),
+            horizontalArrangement = Arrangement.spacedBy(5.dp)
         ) {
             Text(
                 text = selectedDate.dayOfMonth.toString(),
                 fontFamily = interFamily,
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.background,
+                color = AppTheme.colorScheme.background
             )
             Text(
-                text = selectedDate.month.getDisplayName(TextStyle.FULL,
-                    LocalContext.current.resources.configuration.locales.get(0)),
+                text = selectedDate.month.getDisplayName(
+                    TextStyle.FULL,
+                    LocalContext.current.resources.configuration.locales.get(0)
+                ),
                 fontFamily = interFamily,
                 fontSize = 12.sp,
-                color = MaterialTheme.colorScheme.background,
+                color = AppTheme.colorScheme.background
             )
         }
     }
@@ -127,10 +153,10 @@ fun Week(
 fun WeekPreview() {
     Week(
         week = Week(
-            startDayOfWeek = LocalDate.of(2023, 4, 3),
+            startDayOfWeek = LocalDate.of(2023, 4, 3)
         ),
         currentDate = LocalDate.of(2023, 4, 4),
         selectedDate = LocalDate.of(2023, 4, 5),
-        onSelect = { },
+        onSelect = { }
     )
 }

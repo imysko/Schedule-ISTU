@@ -26,28 +26,25 @@ fun BindingPage(
             onBackClick = { navController.popBackStack() },
             selectUserStatus = { viewModel.selectUserStatus(it) }
         )
-    }
-    else if (bindingUiState.isShowChooseInstitutePage) {
+    } else if (bindingUiState.isShowChooseInstitutePage) {
         ChooseInstitute(
             institutesList = instituteList,
             onBackClick = { viewModel.onClickBackToChooseUserState() },
             onChooseInstitute = { viewModel.selectInstitute(it) }
         )
-    }
-    else if (bindingUiState.isShowChooseGroupPage) {
+    } else if (bindingUiState.isShowChooseGroupPage) {
         ChooseGroup(
             instituteTitle = bindingUiState.selectedInstituteDescription!!,
             courseList = coursesList,
             onBackClick = { viewModel.onClickBackToChooseInstitute() },
             onChooseGroup = { viewModel.selectGroup(it) }
         )
-    }
-    else if (bindingUiState.isShowChooseTeacherPage) {
+    } else if (bindingUiState.isShowChooseTeacherPage) {
         ChooseTeacher(
             onBackClick = { viewModel.onClickBackToChooseUserState() },
             teachersList = teachersTips,
             onChooseTeacher = { viewModel.selectTeacher(it) },
-            onValueChange = { viewModel.onTeacherInput(it) },
+            onValueChange = { viewModel.onTeacherInput(it) }
         )
     }
 }

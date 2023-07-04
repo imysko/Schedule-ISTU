@@ -1,6 +1,5 @@
 package com.istu.schedule.ui.page.onboarding
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Surface
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -31,8 +29,8 @@ import com.istu.schedule.R
 import com.istu.schedule.data.preference.OnBoardingState
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.OutlineButton
+import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.GrayDisabled
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 
@@ -46,10 +44,8 @@ fun OnBoardingPage(
 
     val onBoardingUiState = viewModel.onBoardingUiState.collectAsStateValue()
 
-    Log.i("SILog", "onboarding page")
-
     Surface(
-        color = MaterialTheme.colorScheme.background,
+        color = AppTheme.colorScheme.background,
         content = {
             Column(
                 modifier = Modifier
@@ -117,7 +113,7 @@ fun OnBoardingPage(
                                         .clip(CircleShape)
                                         .background(
                                             if (onBoardingUiState.pageNumber == i) {
-                                                MaterialTheme.colorScheme.primary
+                                                AppTheme.colorScheme.primary
                                             } else {
                                                 GrayDisabled
                                             }
@@ -209,7 +205,7 @@ fun OnBoardingPage(
 @Composable
 @Preview(showBackground = true, locale = "ru")
 fun OnBoardingPagePreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         OnBoardingPage(navController = rememberNavController())
     }
 }

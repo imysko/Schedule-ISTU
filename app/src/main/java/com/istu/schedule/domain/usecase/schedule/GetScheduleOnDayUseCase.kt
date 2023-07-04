@@ -6,7 +6,7 @@ import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import javax.inject.Inject
 
 class GetScheduleOnDayUseCase @Inject constructor(
-    private val scheduleRepository: ScheduleRepository,
+    private val scheduleRepository: ScheduleRepository
 ) {
 
     suspend fun getScheduleOnDay(
@@ -15,9 +15,20 @@ class GetScheduleOnDayUseCase @Inject constructor(
         dateString: String
     ): Result<List<StudyDay>> {
         return when (scheduleType) {
-            ScheduleType.BY_GROUP -> scheduleRepository.getGroupScheduleOnDay(groupId = id, dateString)
-            ScheduleType.BY_TEACHER -> scheduleRepository.getTeacherScheduleOnDay(teacherId = id, dateString)
-            ScheduleType.BY_CLASSROOM -> scheduleRepository.getClassroomScheduleOnDay(classroomId = id, dateString)
+            ScheduleType.BY_GROUP -> scheduleRepository.getGroupScheduleOnDay(
+                groupId = id,
+                dateString
+            )
+
+            ScheduleType.BY_TEACHER -> scheduleRepository.getTeacherScheduleOnDay(
+                teacherId = id,
+                dateString
+            )
+
+            ScheduleType.BY_CLASSROOM -> scheduleRepository.getClassroomScheduleOnDay(
+                classroomId = id,
+                dateString
+            )
         }
     }
 }

@@ -18,13 +18,13 @@ import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
+import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.time.LocalDate
-import java.util.Locale
-import javax.inject.Inject
 
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
@@ -32,7 +32,7 @@ class ScheduleViewModel @Inject constructor(
     private val _useCaseGroupsList: GetGroupsListUseCase,
     private val _useCaseTeachersList: GetTeachersListUseCase,
     private val _useCaseClassroomsList: GetClassroomsListUseCase,
-    private val _user: User,
+    private val _user: User
 ) : BaseViewModel() {
 
     private val _scheduleUiState = MutableStateFlow(ScheduleUiState())
@@ -84,7 +84,7 @@ class ScheduleViewModel @Inject constructor(
             _scheduleUiState.update {
                 it.copy(
                     isUserBinded = true,
-                    userDescription = _user.userDescription,
+                    userDescription = _user.userDescription
                 )
             }
         }
@@ -94,16 +94,16 @@ class ScheduleViewModel @Inject constructor(
         _weeksList.value!!.add(
             0,
             Week(
-                startDayOfWeek = _weeksList.value!!.first().startDayOfWeek.minusWeeks(1),
-            ),
+                startDayOfWeek = _weeksList.value!!.first().startDayOfWeek.minusWeeks(1)
+            )
         )
     }
 
     fun addWeekBackward() {
         _weeksList.value!!.add(
             Week(
-                startDayOfWeek = _weeksList.value!!.last().startDayOfWeek.plusWeeks(1),
-            ),
+                startDayOfWeek = _weeksList.value!!.last().startDayOfWeek.plusWeeks(1)
+            )
         )
     }
 
@@ -117,7 +117,7 @@ class ScheduleViewModel @Inject constructor(
                 isSearchBarVisible = !it.isSearchBarVisible,
                 isCalendarVisible = !it.isCalendarVisible,
                 isScheduleListVisible = !it.isScheduleListVisible,
-                isSearchContentVisible = !it.isSearchContentVisible,
+                isSearchContentVisible = !it.isSearchContentVisible
             )
         }
     }
@@ -142,7 +142,7 @@ class ScheduleViewModel @Inject constructor(
                 classroomList = _searchedLists.value.classroomList.filter { classroom ->
                     classroom.name.lowercase(Locale.getDefault())
                         .contains(value.lowercase(Locale.getDefault()))
-                },
+                }
             )
         }
     }
@@ -154,38 +154,42 @@ class ScheduleViewModel @Inject constructor(
                     _useCaseScheduleOnDay.getScheduleOnDay(
                         scheduleType = ScheduleType.BY_GROUP,
                         id = _user.userId!!,
-                        dateString = _selectedDate.value.toString(),
+                        dateString = _selectedDate.value.toString()
                     )
                 }, onSuccess = { list ->
                     _schedule.postValue(list.first { it.date == _selectedDate.value.toString() })
-                }, onError = {it as RequestException
+                }, onError = {
+                    it as RequestException
                     _schedule.postValue(
                         StudyDay(
                             date = _selectedDate.value.toString(),
-                            lessons = emptyList(),
+                            lessons = emptyList()
                         )
                     )
                 })
             }
+
             UserStatus.TEACHER -> {
                 call({
                     _useCaseScheduleOnDay.getScheduleOnDay(
                         scheduleType = ScheduleType.BY_TEACHER,
                         id = _user.userId!!,
-                        dateString = _selectedDate.value.toString(),
+                        dateString = _selectedDate.value.toString()
                     )
                 }, onSuccess = { list ->
                     _schedule.postValue(list.first { it.date == _selectedDate.value.toString() })
-                }, onError = {it as RequestException
+                }, onError = {
+                    it as RequestException
                     _schedule.postValue(
                         StudyDay(
                             date = _selectedDate.value.toString(),
-                            lessons = emptyList(),
+                            lessons = emptyList()
                         )
                     )
                 })
             }
-            else -> { }
+
+            else -> {}
         }
     }
 
@@ -193,10 +197,11 @@ class ScheduleViewModel @Inject constructor(
         call({
             _useCaseGroupsList.getGroupsList()
         }, onSuccess = { list ->
-           _searchedLists.update {
-               it.copy(groupList = list)
-           }
-        }, onError = {it as RequestException
+            _searchedLists.update {
+                it.copy(groupList = list)
+            }
+        }, onError = {
+            it as RequestException
         })
     }
 
@@ -207,7 +212,8 @@ class ScheduleViewModel @Inject constructor(
             _searchedLists.update {
                 it.copy(teacherList = list)
             }
-        }, onError = {it as RequestException
+        }, onError = {
+            it as RequestException
         })
     }
 
@@ -218,7 +224,8 @@ class ScheduleViewModel @Inject constructor(
             _searchedLists.update {
                 it.copy(classroomList = list)
             }
-        }, onError = {it as RequestException
+        }, onError = {
+            it as RequestException
         })
     }
 }
@@ -231,11 +238,11 @@ data class ScheduleUiState(
     val isFoundedListsVisible: Boolean = false,
     val isUserBinded: Boolean = false,
     val userDescription: String? = null,
-    val calendarState: LazyListState = LazyListState(),
+    val calendarState: LazyListState = LazyListState()
 )
 
 data class SearchedLists(
     val groupList: List<Group> = emptyList(),
     val teacherList: List<Teacher> = emptyList(),
-    val classroomList: List<Classroom> = emptyList(),
+    val classroomList: List<Classroom> = emptyList()
 )

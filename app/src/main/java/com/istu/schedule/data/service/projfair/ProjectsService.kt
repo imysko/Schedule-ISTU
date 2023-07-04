@@ -14,26 +14,26 @@ interface ProjectsService {
         @Header("Cookie") token: String = "",
         @Query("title") title: String = "",
         @Query("page") page: Int = 0,
-        @Query("difficulty[]") difficulties: List<Int> = emptyList(),
-        @Query("state[]") states: List<Int> = emptyList(),
-        @Query("specialties[]") specialties: List<Int> = emptyList(),
-        @Query("skills[]") skills: List<Int> = emptyList(),
+        @Query("difficulty") difficulties: String = "",
+        @Query("state") states: String = "",
+        @Query("specialties") specialties: String = "",
+        @Query("skills") skills: String = "",
         @Query("order") order: String = "asc",
-        @Query("sortBy") sortBy: String = "state",
+        @Query("sortBy") sortBy: String = "state"
     ): Response<ProjectsResponse>
 
     @GET("api/projects/{id}")
     suspend fun getProject(
-        @Path("id") id: Int = 0,
+        @Path("id") id: Int = 0
     ): Response<Project>
 
     @GET("api/activeProject")
     suspend fun getActiveProject(
-        @Header("Cookie") token: String = "token=",
+        @Header("Cookie") token: String = "token="
     ): Response<Project>
 
     @GET("api/arhiveProjects")
     suspend fun getArchiveProjects(
-        @Header("Cookie") token: String = "token=",
+        @Header("Cookie") token: String = "token="
     ): Response<List<Project>>
 }

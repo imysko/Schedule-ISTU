@@ -45,7 +45,9 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindParticipationsRepository(participationsRepository: ParticipationsRepositoryImpl): ParticipationsRepository
+    abstract fun bindParticipationsRepository(
+        participationsRepository: ParticipationsRepositoryImpl
+    ): ParticipationsRepository
 
     @Binds
     @Singleton

@@ -1,13 +1,18 @@
 package com.istu.schedule.ui.components.base
 
-import androidx.lifecycle.* // ktlint-disable no-wildcard-imports
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.distinctUntilChanged
+import androidx.lifecycle.viewModelScope
 import com.istu.schedule.data.model.RequestException
-import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
+import kotlinx.coroutines.launch
 
 open class BaseViewModel : LifecycleObserver, ViewModel() {
 
-    private val _loading: MutableLiveData<Boolean> = MutableLiveData()
+    private val _loading: MutableLiveData<Boolean> = MutableLiveData(false)
     val loading: LiveData<Boolean>
         get() = _loading
             .distinctUntilChanged()
@@ -23,7 +28,7 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
         onSuccess: ((T) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         handleLoading: Boolean = true,
-        handleError: Boolean = true,
+        handleError: Boolean = true
     ) = viewModelScope.launch {
         if (handleLoading) {
             _loading.postValue(true)

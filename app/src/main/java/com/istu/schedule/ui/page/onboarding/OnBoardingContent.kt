@@ -17,7 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.ui.theme.ScheduleISTUTheme
+import com.istu.schedule.ui.theme.AppTheme
 
 @Composable
 fun OnBoardingContent(
@@ -28,26 +28,26 @@ fun OnBoardingContent(
 ) {
     Column(
         modifier = modifier.fillMaxHeight(0.75F),
-        verticalArrangement = Arrangement.SpaceEvenly,
+        verticalArrangement = Arrangement.SpaceEvenly
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.Center
         ) {
             Image(
                 painter = painterResource,
-                contentDescription = null,
+                contentDescription = null
             )
         }
 
         Column(
-            verticalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
                 text = title,
                 style = MaterialTheme.typography.displaySmall.copy(
                     fontWeight = FontWeight.SemiBold
-                ),
+                )
             )
             Text(
                 text = description,
@@ -62,11 +62,11 @@ fun OnBoardingContent(
 @Composable
 @Preview(showBackground = true)
 fun OnBoardingContentPreview() {
-    ScheduleISTUTheme {
+    AppTheme {
         OnBoardingContent(
             painterResource = painterResource(id = R.drawable.look_schedule),
             title = stringResource(id = R.string.look_schedule),
-            description = stringResource(id = R.string.look_schedule_description),
+            description = stringResource(id = R.string.look_schedule_description)
         )
     }
 }

@@ -4,6 +4,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.systemuicontroller.SystemUiController
@@ -15,18 +16,23 @@ import com.istu.schedule.ui.page.onboarding.OnBoardingPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.util.isFirstLaunch
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun NavGraph(
-    navController: NavHostController,
-    startDestination: String = NavDestinations.MAIN_PAGE
+    navController: NavHostController
 ) {
+    val context = LocalContext.current
     val systemUiController = rememberSystemUiController()
 
     AnimatedNavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = if (context.isFirstLaunch) {
+            NavDestinations.ONBOARDING_PAGE
+        } else {
+            NavDestinations.MAIN_PAGE
+        }
     ) {
         animatedComposable(
             route = NavDestinations.ONBOARDING_PAGE

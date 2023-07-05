@@ -13,6 +13,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 sealed class ThemePreference(val value: Int) : Preference() {
+
     object UseDeviceTheme : ThemePreference(0)
     object Light : ThemePreference(1)
     object Dark : ThemePreference(2)
@@ -22,7 +23,7 @@ sealed class ThemePreference(val value: Int) : Preference() {
         scope.launch {
             context.dataStore.put(
                 DataStoreKeys.DarkTheme,
-                value,
+                value
             )
         }
     }

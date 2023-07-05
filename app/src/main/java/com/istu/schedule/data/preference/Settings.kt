@@ -12,19 +12,12 @@ import kotlinx.coroutines.flow.map
 
 data class Settings(
 
-    // OnBoardingState
-    val onBoardingState: OnBoardingState = OnBoardingState.default,
-
     // Theme
     val theme: ThemePreference = ThemePreference.default,
 
     // Languages
-    val languages: LanguagesPreference = LanguagesPreference.default,
+    val languages: LanguagesPreference = LanguagesPreference.default
 )
-
-// OnBoardingState
-val LocalOnBoardingState =
-    compositionLocalOf<OnBoardingState> { OnBoardingState.default }
 
 // Theme
 val LocalTheme =
@@ -36,7 +29,7 @@ val LocalLanguages =
 
 @Composable
 fun SettingsProvider(
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     val context = LocalContext.current
     val settings = remember {
@@ -47,12 +40,10 @@ fun SettingsProvider(
     }.collectAsStateValue(initial = Settings())
 
     CompositionLocalProvider(
-        // OnBoardingState
-        LocalOnBoardingState provides settings.onBoardingState,
         // Theme
         LocalTheme provides settings.theme,
         // Languages
-        LocalLanguages provides settings.languages,
+        LocalLanguages provides settings.languages
     ) {
         content()
     }

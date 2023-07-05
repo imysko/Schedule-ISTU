@@ -16,17 +16,19 @@ class OnBoardingViewModel : BaseViewModel() {
             when (it.pageNumber) {
                 1 -> {
                     it.copy(
-                        pageNumber = it.pageNumber + 1,
+                        pageNumber = it.pageNumber + 1
                     )
                 }
+
                 2 -> {
                     it.copy(
                         pageNumber = it.pageNumber + 1,
                         isShowNextButton = false,
                         isShowSetupScheduleButton = true,
-                        isShowSkipSetupScheduleButton = true,
+                        isShowSkipSetupScheduleButton = true
                     )
                 }
+
                 else -> it.copy()
             }
         }
@@ -39,7 +41,7 @@ class OnBoardingViewModel : BaseViewModel() {
                 isShowSetupScheduleButton = false,
                 isShowSkipSetupScheduleButton = false,
                 isShowAuthorizationButton = true,
-                isShowSkipAuthorizationButton = true,
+                isShowSkipAuthorizationButton = true
             )
         }
     }
@@ -49,7 +51,7 @@ class OnBoardingViewModel : BaseViewModel() {
             it.copy(
                 isShowAuthorizationButton = false,
                 isShowSkipAuthorizationButton = false,
-                canNavigateToMainPage = true,
+                canNavigateToMainPage = true
             )
         }
     }
@@ -61,6 +63,6 @@ class OnBoardingViewModel : BaseViewModel() {
         val isShowSkipSetupScheduleButton: Boolean = false,
         val isShowAuthorizationButton: Boolean = false,
         val isShowSkipAuthorizationButton: Boolean = false,
-        val canNavigateToMainPage: Boolean = false,
+        val canNavigateToMainPage: Boolean = false
     )
 }

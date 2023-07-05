@@ -26,13 +26,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.R
-import com.istu.schedule.data.preference.OnBoardingState
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.GrayDisabled
+import com.istu.schedule.util.DataStoreKeys
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
+import com.istu.schedule.util.dataStore
+import com.istu.schedule.util.put
+import kotlinx.coroutines.launch
 
 @Composable
 fun OnBoardingPage(
@@ -64,6 +67,7 @@ fun OnBoardingPage(
                                 )
                             )
                         }
+
                         2 -> {
                             OnBoardingContent(
                                 painterResource = painterResource(id = R.drawable.choose_project),
@@ -73,6 +77,7 @@ fun OnBoardingPage(
                                 )
                             )
                         }
+
                         3 -> {
                             OnBoardingContent(
                                 painterResource = painterResource(id = R.drawable.adjust_to_you),
@@ -82,6 +87,7 @@ fun OnBoardingPage(
                                 )
                             )
                         }
+
                         4 -> {
                             OnBoardingContent(
                                 painterResource = painterResource(
@@ -165,7 +171,12 @@ fun OnBoardingPage(
                                         .height(52.dp),
                                     text = stringResource(id = R.string.skip),
                                     onClick = {
-                                        OnBoardingState.isNotFirstLaunch.put(context, scope)
+                                        scope.launch {
+                                            context.dataStore.put(
+                                                DataStoreKeys.IsFirstLaunch,
+                                                false
+                                            )
+                                        }
                                         navController.navigate(NavDestinations.MAIN_PAGE)
                                     }
                                 )
@@ -178,7 +189,12 @@ fun OnBoardingPage(
                                         .height(52.dp),
                                     text = stringResource(id = R.string.login_campus),
                                     onClick = {
-                                        OnBoardingState.isNotFirstLaunch.put(context, scope)
+                                        scope.launch {
+                                            context.dataStore.put(
+                                                DataStoreKeys.IsFirstLaunch,
+                                                false
+                                            )
+                                        }
                                         viewModel.onAuthorizationButtonClick()
                                         navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
                                     }

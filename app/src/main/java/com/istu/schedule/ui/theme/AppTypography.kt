@@ -8,6 +8,12 @@ import androidx.compose.ui.unit.sp
 import com.istu.schedule.ui.fonts.montFamily
 
 data class AppTypography(
+    val display: TextStyle = TextStyle(
+        fontFamily = montFamily,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 36.0.sp,
+        lineHeight = 38.sp
+    ),
     val pageTitle: TextStyle = TextStyle(
         fontFamily = montFamily,
         fontWeight = FontWeight.SemiBold,

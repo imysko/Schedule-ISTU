@@ -7,11 +7,12 @@ import com.istu.schedule.R
 import com.istu.schedule.util.DataStoreKeys
 import com.istu.schedule.util.dataStore
 import com.istu.schedule.util.put
+import java.util.Locale
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import java.util.*
 
 sealed class LanguagesPreference(val value: Int) : Preference() {
+
     object UseDeviceLanguages : LanguagesPreference(0)
     object English : LanguagesPreference(1)
     object Russian : LanguagesPreference(2)
@@ -20,7 +21,7 @@ sealed class LanguagesPreference(val value: Int) : Preference() {
         scope.launch {
             context.dataStore.put(
                 DataStoreKeys.Languages,
-                value,
+                value
             )
             setLocale(context)
         }
@@ -32,6 +33,7 @@ sealed class LanguagesPreference(val value: Int) : Preference() {
             Russian -> context.getString(R.string.russian)
             English -> context.getString(R.string.english)
         }
+
     private fun getLocale(): Locale =
         when (this) {
             UseDeviceLanguages -> LocaleList.getDefault().get(0)
@@ -64,7 +66,7 @@ sealed class LanguagesPreference(val value: Int) : Preference() {
         val values = listOf(
             UseDeviceLanguages,
             English,
-            Russian,
+            Russian
         )
 
         fun fromPreferences(preferences: Preferences): LanguagesPreference =

@@ -9,11 +9,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.core.view.WindowCompat
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.istu.schedule.data.preference.LanguagesPreference
-import com.istu.schedule.data.preference.OnBoardingState
 import com.istu.schedule.data.preference.SettingsProvider
 import com.istu.schedule.ui.components.navigation.NavGraph
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.util.isFirstLaunch
 import com.istu.schedule.util.languages
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,8 +28,6 @@ class MainActivity : ComponentActivity() {
             it.setLocale(this)
         }
 
-        val startDestination = OnBoardingState.getStartDestination(isFirstLaunch)
-
         setContentView(
             ComposeView(this).apply {
                 consumeWindowInsets = false
@@ -40,10 +36,7 @@ class MainActivity : ComponentActivity() {
                         AppTheme {
                             Surface {
                                 val navController = rememberAnimatedNavController()
-                                NavGraph(
-                                    navController = navController,
-                                    startDestination = startDestination
-                                )
+                                NavGraph(navController = navController)
                             }
                         }
                     }

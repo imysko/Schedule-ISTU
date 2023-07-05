@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -45,13 +44,11 @@ fun OnBoardingContent(
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.displaySmall.copy(
-                    fontWeight = FontWeight.SemiBold
-                )
+                style = AppTheme.typography.display
             )
             Text(
                 text = description,
-                style = MaterialTheme.typography.bodyMedium.copy(
+                style = AppTheme.typography.bodyMedium.copy(
                     fontWeight = FontWeight.SemiBold
                 )
             )

@@ -36,10 +36,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.material.placeholder
@@ -48,6 +48,7 @@ import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.model.projfair.SampleCandidateProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.InfoBlock
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
@@ -81,24 +82,60 @@ fun AccountPage(
         AuthorizedPage(
             navController = bottomNavController,
             candidate = candidate,
-            canCreateParticipation = viewModel.canCreateParticipation,
             viewModel = viewModel
         )
     } else {
-        LoginPage(navController)
+        LoginPage(
+            onLoginPressed = { navController.navigate(NavDestinations.PROJFAIR_LOGIN) }
+        )
     }
+}
+
+@Composable
+fun AuthorizedPage(
+    navController: NavController,
+    candidate: Candidate?,
+    viewModel: AccountViewModel
+) {
+    val accountUiState = viewModel.accountUiState.collectAsStateValue()
+    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
+    val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
+
+    LaunchedEffect(Unit) {
+        viewModel.getCandidateInfo()
+    }
+
+    AuthorizedPage(
+        candidate = candidate,
+        participationsList = participationsList,
+        projectsList = projectsList.toMutableList(),
+        isEditMode = accountUiState.isEditMode,
+        onProjectPressed = {
+            navController.navigate(
+                "${NavDestinations.PROJECT}/$it/false"
+            )
+        },
+        onParticipationPressed = {
+            navController.navigate(
+                "${NavDestinations.PROJECT}/$it/${viewModel.canCreateParticipation}"
+            )
+        },
+        onEditPressed = { viewModel.changeEditModeState() }
+    )
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun AuthorizedPage(
-    navController: NavController,
     candidate: Candidate?,
-    canCreateParticipation: Boolean,
-    viewModel: AccountViewModel
+    participationsList: List<Participation>,
+    projectsList: MutableList<Project>,
+    isEditMode: Boolean,
+    onProjectPressed: (Int) -> Unit = {},
+    onParticipationPressed: (Int) -> Unit = {},
+    onEditPressed: () -> Unit = {},
+    onDeletePressed: () -> Unit = {}
 ) {
-    val accountUiState = viewModel.accountUiState.collectAsStateValue()
-
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val pages = listOf(
@@ -108,13 +145,6 @@ fun AuthorizedPage(
     )
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
-    }
-
-    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
-    val projectsList by viewModel.projectsList.observeAsState(initial = null)
-
-    LaunchedEffect(Unit) {
-        viewModel.getCandidateInfo()
     }
 
     Scaffold(
@@ -189,18 +219,20 @@ fun AuthorizedPage(
 
                     1 -> {
                         ParticipationsPage(
-                            navController = navController,
                             participationsList = participationsList,
                             isCanEdit = candidate?.canSendParticipations == 1,
-                            isEditMode = accountUiState.isEditMode,
-                            canCreateParticipation = canCreateParticipation,
-                            onEditClick = { viewModel.changeEditModeState() },
-                            onDeleteClick = { /* TODO: */ }
+                            isEditMode = isEditMode,
+                            onParticipationPressed = onParticipationPressed,
+                            onEditPressed = onEditPressed,
+                            onDeletePressed = onDeletePressed
                         )
                     }
 
                     2 -> {
-                        ProjectsPage(navController = navController, projectsList = projectsList)
+                        ProjectsPage(
+                            projectsList = projectsList,
+                            onProjectPressed = onProjectPressed
+                        )
                     }
                 }
             }
@@ -209,7 +241,9 @@ fun AuthorizedPage(
 }
 
 @Composable
-fun LoginPage(navController: NavController) {
+fun LoginPage(
+    onLoginPressed: () -> Unit = {}
+) {
     Scaffold(
         containerColor = AppTheme.colorScheme.primary,
         topBar = {
@@ -246,9 +280,7 @@ fun LoginPage(navController: NavController) {
                     .padding(top = 25.dp, start = 15.dp, end = 15.dp)
                     .fillMaxWidth(),
                 text = stringResource(R.string.authorize_via_campus),
-                onClick = {
-                    navController.navigate(NavDestinations.PROJFAIR_LOGIN)
-                }
+                onClick = { onLoginPressed() }
             )
         }
     }
@@ -256,13 +288,12 @@ fun LoginPage(navController: NavController) {
 
 @Composable
 fun ParticipationsPage(
-    navController: NavController,
     participationsList: List<Participation>,
     isCanEdit: Boolean,
     isEditMode: Boolean,
-    canCreateParticipation: Boolean,
-    onEditClick: () -> Unit = {},
-    onDeleteClick: () -> Unit = {}
+    onParticipationPressed: (Int) -> Unit = {},
+    onEditPressed: () -> Unit = {},
+    onDeletePressed: () -> Unit = {}
 ) {
     LazyColumn(
         modifier = Modifier
@@ -280,13 +311,10 @@ fun ParticipationsPage(
                 participation = participation,
                 onClick = {
                     if (participation.project != null) {
-                        navController.navigate(
-                            "${NavDestinations.PROJECT}/${participation.project.id}/" +
-                                "$canCreateParticipation"
-                        )
+                        onParticipationPressed(participation.projectId)
                     }
                 },
-                onDeleteClick = { onDeleteClick() },
+                onDeleteClick = { onDeletePressed() },
                 isEditMode = isEditMode
             )
         }
@@ -295,7 +323,7 @@ fun ParticipationsPage(
                 OutlineButton(
                     modifier = Modifier.fillMaxWidth(),
                     text = stringResource(R.string.edit_participations),
-                    onClick = { onEditClick() }
+                    onClick = { onEditPressed() }
                 )
             }
         }
@@ -315,7 +343,7 @@ fun ParticipationsPage(
                         text = stringResource(R.string.cancel),
                         borderColor = Red,
                         contentColor = Red,
-                        onClick = { onEditClick() }
+                        onClick = { onEditPressed() }
                     )
                 }
             }
@@ -403,8 +431,8 @@ fun ProfilePage(candidate: Candidate?) {
 
 @Composable
 fun ProjectsPage(
-    navController: NavController,
-    projectsList: MutableList<Project>?
+    projectsList: MutableList<Project>?,
+    onProjectPressed: (Int) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -420,11 +448,7 @@ fun ProjectsPage(
                 ProjectItem(
                     modifier = Modifier.fillMaxWidth(),
                     project = project,
-                    onClick = {
-                        navController.navigate(
-                            "${NavDestinations.PROJECT}/${project.id}/false"
-                        )
-                    }
+                    onClick = { onProjectPressed(project.id) }
                 )
             }
         }
@@ -435,10 +459,23 @@ fun ProjectsPage(
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 fun PreviewLoginPage() {
     AppTheme {
-        LoginPage(rememberNavController())
+        LoginPage()
+    }
+}
+
+@Preview
+@Composable
+fun PreviewAuthorizedPage(@PreviewParameter(SampleCandidateProvider::class) candidate: Candidate) {
+    AppTheme {
+        AuthorizedPage(
+            candidate = candidate,
+            participationsList = listOf(),
+            projectsList = mutableListOf(),
+            isEditMode = false
+        )
     }
 }

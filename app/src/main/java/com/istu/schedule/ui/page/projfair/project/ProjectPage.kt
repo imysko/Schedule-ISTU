@@ -47,12 +47,15 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
@@ -69,7 +72,6 @@ import java.text.DateFormat
 import java.text.SimpleDateFormat
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ProjectPage(
     projectId: Int,
@@ -79,7 +81,26 @@ fun ProjectPage(
 ) {
     val project by viewModel.project.observeAsState(initial = null)
     viewModel.getProjectById(projectId)
+    ProjectPage(
+        project = project,
+        canCreateParticipation = canCreateParticipation,
+        onBackPressed = { navController.popBackStack() },
+        onCreateParticipationPressed = {
+            navController.navigate(
+                "${NavDestinations.CREATE_PARTICIPATION}/$projectId"
+            )
+        }
+    )
+}
 
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun ProjectPage(
+    project: Project?,
+    canCreateParticipation: Boolean,
+    onBackPressed: () -> Unit = {},
+    onCreateParticipationPressed: () -> Unit = {}
+) {
     val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState()
     val pages = listOf(
@@ -150,9 +171,7 @@ fun ProjectPage(
                 modifier = Modifier.clickable(
                     interactionSource = MutableInteractionSource(),
                     indication = null
-                ) {
-                    navController.popBackStack()
-                }
+                ) { onBackPressed() }
             ) {
                 Row(
                     modifier = Modifier.padding(bottom = 16.dp),
@@ -189,11 +208,7 @@ fun ProjectPage(
                         0 -> ProjectInfo(
                             project = project,
                             canCreateParticipation = canCreateParticipation,
-                            onCreateParticipationClick = {
-                                navController.navigate(
-                                    "${NavDestinations.PROJECT}/${project.id}/true"
-                                )
-                            }
+                            onCreateParticipationClick = { onCreateParticipationPressed() }
                         )
 
                         1 -> ProjectParticipations(project)
@@ -557,5 +572,37 @@ fun ParticipationInProject(index: Int, participation: Participation) {
             style = AppTheme.typography.labelMedium,
             textAlign = TextAlign.End
         )
+    }
+}
+
+@Preview(group = "Loading")
+@Composable
+fun PreviewProjectPageLoading() {
+    AppTheme {
+        ProjectPage(
+            project = null,
+            canCreateParticipation = true
+        )
+    }
+}
+
+@Preview(group = "Loaded")
+@Composable
+fun PreviewProjectAboutPage(@PreviewParameter(SampleProjectProvider::class) project: Project) {
+    AppTheme {
+        ProjectPage(
+            project = project,
+            canCreateParticipation = true
+        )
+    }
+}
+
+@Preview(group = "Loaded", showBackground = true)
+@Composable
+fun PreviewProjectListOfParticipationsPage(
+    @PreviewParameter(SampleProjectProvider::class) project: Project
+) {
+    AppTheme {
+        ProjectParticipations(project)
     }
 }

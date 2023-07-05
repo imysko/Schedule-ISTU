@@ -36,11 +36,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.components.projfair.ProjectItem
@@ -285,14 +287,16 @@ fun PreviewProjectsListPageLoading() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewProjectsListPageWithSearch() {
+fun PreviewProjectsListPageWithSearch(
+    @PreviewParameter(SampleProjectProvider::class) project: Project
+) {
     AppTheme {
         ProjectsListPage(
             projectsListUiState = ProjectsListUiState(
                 isSearchVisible = true
             ),
             isLoading = false,
-            projectsList = listOf(),
+            projectsList = listOf(project),
             canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },

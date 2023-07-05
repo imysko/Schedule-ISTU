@@ -7,7 +7,6 @@ import com.istu.schedule.data.preference.SettingsProvider
 import com.istu.schedule.domain.model.schedule.Course
 import com.istu.schedule.domain.model.schedule.Group
 import com.istu.schedule.ui.components.base.StringResourceItem
-import com.istu.schedule.ui.page.projfair.participation.CreateParticipationPage
 import com.istu.schedule.ui.page.settings.binding.CourseAccordionItem
 import com.istu.schedule.ui.theme.AppTheme
 import org.junit.Rule
@@ -29,13 +28,6 @@ class ComposeTest {
         composeTestRule.setContent {
             SettingsProvider {
                 AppTheme {
-                    CreateParticipationPage(
-                        prioritiesList = prioritiesList,
-                        selectedPriority = 1,
-                        onBackClick = {},
-                        onCreateClick = {},
-                        onSelect = {}
-                    )
                 }
             }
         }

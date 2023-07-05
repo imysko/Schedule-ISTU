@@ -1,5 +1,6 @@
 package com.istu.schedule.domain.model.projfair
 
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.google.gson.annotations.SerializedName
 
 data class Candidate(
@@ -15,3 +16,30 @@ data class Candidate(
     val trainingGroup: String,
     val canSendParticipations: Int
 )
+
+class SampleCandidateProvider : PreviewParameterProvider<Candidate> {
+    override val values = sequenceOf(
+        Candidate(
+            id = 1,
+            fio = "Иванов Иван Иванович",
+            about = "",
+            email = "ivanov@yandex.ru",
+            courseBookNumber = "1",
+            phone = "+7 (912) 345-67-89",
+            course = 3,
+            trainingGroup = "ИСТб-20-3",
+            canSendParticipations = 1
+        ),
+        Candidate(
+            id = 1,
+            fio = "Иванов Иван Иванович",
+            about = "",
+            email = "ivanov@yandex.ru",
+            courseBookNumber = "1",
+            phone = "",
+            course = 3,
+            trainingGroup = "ИСТб-20-3",
+            canSendParticipations = 0
+        )
+    )
+}

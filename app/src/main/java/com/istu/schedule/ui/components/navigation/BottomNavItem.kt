@@ -7,33 +7,34 @@ import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.Book
 import com.istu.schedule.ui.icons.Calendar
 import com.istu.schedule.ui.icons.Settings
+import com.istu.schedule.util.NavDestinations
 
 sealed class BottomNavItem(
     val route: String,
     val titleResId: Int,
-    val icon: ImageVector,
+    val icon: ImageVector
 ) {
     object SchedulePage : BottomNavItem(
-        route = "schedule",
+        route = NavDestinations.SCHEDULE,
         titleResId = R.string.schedule,
-        icon = Icons.Calendar,
+        icon = Icons.Calendar
     )
 
     object ProjfairPage : BottomNavItem(
-        route = "projfair",
+        route = NavDestinations.PROJFAIR,
         titleResId = R.string.projects,
-        icon = Icons.Book,
+        icon = Icons.Book
     )
 
     object SettingsPage : BottomNavItem(
-        route = "settings",
+        route = NavDestinations.SETTINGS,
         titleResId = R.string.settings,
-        icon = Icons.Settings,
+        icon = Icons.Settings
     )
 
     object AccountPage : BottomNavItem(
-        route = "account",
+        route = NavDestinations.ACCOUNT,
         titleResId = R.string.account,
-        icon = Icons.Account,
+        icon = Icons.Account
     )
 }

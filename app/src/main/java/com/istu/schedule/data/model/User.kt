@@ -11,6 +11,7 @@ import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
 import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
 import com.istu.schedule.util.addNewItem
+import com.istu.schedule.util.toUserStatusEnum
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.MainScope
@@ -161,16 +162,6 @@ class User @Inject constructor(
         const val PROJFAIR_TOKEN = "projfairToken"
         const val USER_TYPE = "userType"
         const val USER_ID = "userId"
-        const val USER_DESCRIPTION = ""
-    }
-}
-
-private fun String?.toUserStatusEnum(): UserStatus? {
-    return try {
-        this?.let {
-            UserStatus.valueOf(it)
-        } ?: UserStatus.UNKNOWN
-    } catch (ex: Exception) {
-        UserStatus.UNKNOWN
+        const val USER_DESCRIPTION = "userDescription"
     }
 }

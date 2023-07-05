@@ -159,7 +159,7 @@ fun OnBoardingPage(
                                     text = stringResource(id = R.string.setup_schedule),
                                     onClick = {
                                         viewModel.onSetupScheduleButtonClick()
-                                        navController.navigate(NavDestinations.BINDING_PAGE)
+                                        navController.navigate(NavDestinations.BINDING)
                                     }
                                 )
                             }
@@ -177,7 +177,7 @@ fun OnBoardingPage(
                                                 false
                                             )
                                         }
-                                        navController.navigate(NavDestinations.MAIN_PAGE)
+                                        navController.navigate(NavDestinations.MAIN)
                                     }
                                 )
                             }
@@ -196,7 +196,7 @@ fun OnBoardingPage(
                                             )
                                         }
                                         viewModel.onAuthorizationButtonClick()
-                                        navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+                                        navController.navigate(NavDestinations.PROJFAIR_LOGIN)
                                     }
                                 )
                             }
@@ -207,7 +207,7 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.next_step),
-                                    onClick = { navController.navigate(NavDestinations.MAIN_PAGE) }
+                                    onClick = { navController.navigate(NavDestinations.MAIN) }
                                 )
                             }
                         }

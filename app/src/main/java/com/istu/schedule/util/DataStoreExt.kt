@@ -9,19 +9,21 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import java.io.IOException
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
+// Is first launch
 val Context.isFirstLaunch: Boolean
     get() = this.dataStore.get(DataStoreKeys.IsFirstLaunch) ?: true
 
+// Languages
 val Context.languages: Int
     get() = this.dataStore.get(DataStoreKeys.Languages) ?: 0
 
@@ -45,7 +47,7 @@ fun <T> DataStore<Preferences>.get(dataStoreKeys: DataStoreKeys<T>): T? {
     return runBlocking {
         this@get.data.catch { exception ->
             if (exception is IOException) {
-                Log.e("UMLog", "Get data store error $exception")
+                Log.e("SILog", "Get data store error $exception")
                 exception.printStackTrace()
                 emit(emptyPreferences())
             } else {
@@ -73,12 +75,6 @@ sealed class DataStoreKeys<T> {
 
         override val key: Preferences.Key<Int>
             get() = intPreferencesKey("darkTheme")
-    }
-
-    object AmoledDarkTheme : DataStoreKeys<Boolean>() {
-
-        override val key: Preferences.Key<Boolean>
-            get() = booleanPreferencesKey("amoledDarkTheme")
     }
 
     // Languages

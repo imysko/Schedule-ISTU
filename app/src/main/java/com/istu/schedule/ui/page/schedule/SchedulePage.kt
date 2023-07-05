@@ -138,7 +138,7 @@ fun SchedulePage(
         onSearchButtonClick = { viewModel.changeSearchBarVisibility() },
         onDateSelect = { viewModel.selectDate(it) },
         onValueInputDone = { viewModel.onValueInput(it) },
-        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING_PAGE) }
+        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING) }
     )
 }
 

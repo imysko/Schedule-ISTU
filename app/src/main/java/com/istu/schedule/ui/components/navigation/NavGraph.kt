@@ -29,41 +29,41 @@ fun NavGraph(
     AnimatedNavHost(
         navController = navController,
         startDestination = if (context.isFirstLaunch) {
-            NavDestinations.ONBOARDING_PAGE
+            NavDestinations.ONBOARDING
         } else {
-            NavDestinations.MAIN_PAGE
+            NavDestinations.MAIN
         }
     ) {
         animatedComposable(
-            route = NavDestinations.ONBOARDING_PAGE
+            route = NavDestinations.ONBOARDING
         ) {
             OnBoardingPage(navController)
             SetStatusBarIconColor(systemUiController, true)
         }
 
         animatedComposable(
-            route = NavDestinations.MAIN_PAGE
+            route = NavDestinations.MAIN
         ) {
             MainPage(navController)
             SetStatusBarIconColor(systemUiController)
         }
 
         animatedComposable(
-            route = NavDestinations.BINDING_PAGE
+            route = NavDestinations.BINDING
         ) {
             BindingPage(navController)
             SetStatusBarIconColor(systemUiController, true)
         }
 
         animatedComposable(
-            route = NavDestinations.LANGUAGE_PAGE
+            route = NavDestinations.LANGUAGE
         ) {
             LanguagePage(navController)
             SetStatusBarIconColor(systemUiController, true)
         }
 
         animatedComposable(
-            route = NavDestinations.PROJFAIR_LOGIN_PAGE
+            route = NavDestinations.PROJFAIR_LOGIN
         ) {
             LoginProjfairPage(navController)
             SetStatusBarIconColor(systemUiController, true)

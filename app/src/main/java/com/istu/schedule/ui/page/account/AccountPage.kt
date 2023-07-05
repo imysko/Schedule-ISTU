@@ -244,7 +244,7 @@ fun LoginPage(navController: NavController) {
                     .fillMaxWidth(),
                 text = stringResource(R.string.authorize_via_campus),
                 onClick = {
-                    navController.navigate(NavDestinations.PROJFAIR_LOGIN_PAGE)
+                    navController.navigate(NavDestinations.PROJFAIR_LOGIN)
                 }
             )
         }
@@ -277,7 +277,7 @@ fun ParticipationsPage(
                 onClick = {
                     if (participation.project != null) {
                         navController.navigate(
-                            "${NavDestinations.PROJECT_PAGE}/${participation.project.id}"
+                            "${NavDestinations.PROJECT}/${participation.project.id}"
                         )
                     }
                 },
@@ -417,7 +417,7 @@ fun ProjectsPage(
                     project = project,
                     onClick = {
                         navController.navigate(
-                            "${NavDestinations.PROJECT_PAGE}/${project.id}"
+                            "${NavDestinations.PROJECT}/${project.id}"
                         )
                     }
                 )

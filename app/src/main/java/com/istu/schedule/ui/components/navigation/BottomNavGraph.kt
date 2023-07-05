@@ -58,14 +58,14 @@ fun BottomNavGraph(
         }
 
         animatedComposable(
-            route = NavDestinations.FILTERS_PAGE
+            route = NavDestinations.FILTERS
         ) {
             FiltersPage(bottomNavController)
             SetStatusBarIconColor(systemUiController, true)
         }
 
         animatedComposable(
-            route = "${NavDestinations.PROJECT_PAGE}/{projectId}"
+            route = "${NavDestinations.PROJECT}/{projectId}"
         ) {
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
                 ProjectPage(projectId, bottomNavController)

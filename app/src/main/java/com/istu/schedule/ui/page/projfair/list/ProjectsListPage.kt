@@ -84,10 +84,10 @@ fun ProjectsListPage(
             viewModel.getProjectsList()
         },
         onProjectClick = {
-            navController.navigate("${NavDestinations.PROJECT_PAGE}/$it")
+            navController.navigate("${NavDestinations.PROJECT}/$it")
         },
         onFilterClick = {
-            navController.navigate(NavDestinations.FILTERS_PAGE)
+            navController.navigate(NavDestinations.FILTERS)
         },
         onLoadMore = {
             viewModel.getProjectsList()

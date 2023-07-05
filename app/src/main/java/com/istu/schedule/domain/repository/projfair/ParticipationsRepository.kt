@@ -10,7 +10,8 @@ interface ParticipationsRepository {
 
     suspend fun createParticipation(
         token: String,
-        projectId: Int
+        projectId: Int,
+        priority: PriorityRequest
     ): Result<Unit>
 
     suspend fun editParticipation(

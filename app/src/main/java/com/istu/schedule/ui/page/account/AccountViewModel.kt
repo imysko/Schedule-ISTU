@@ -40,6 +40,10 @@ class AccountViewModel @Inject constructor(
 
     val authState: LiveData<ProjfairAuthStatus> = _user.authStatus
 
+    val canCreateParticipation: Boolean =
+        _user.candidate.value?.canSendParticipations == 1 &&
+            ((_user.participationsList.value?.size ?: 3) < 3)
+
     fun collectSettingsState() {
         viewModelScope.launch {
             _user.candidate.collect {

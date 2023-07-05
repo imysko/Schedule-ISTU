@@ -3,12 +3,16 @@ package com.istu.schedule.ui.page.projfair.participation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.model.User
+import com.istu.schedule.data.model.request.PriorityRequest
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.domain.usecase.projfair.CreateParticipationUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class CreateParticipationViewModel @Inject constructor(
@@ -23,6 +27,16 @@ class CreateParticipationViewModel @Inject constructor(
     private val _selectedPriorityId = MutableLiveData(1)
     val selectedPriorityId: LiveData<Int> = _selectedPriorityId
 
+    val existsPriorities: List<Int> = _user.participationsList.value?.map { participation ->
+        participation.priority
+    } ?: emptyList()
+
+    private val _createParticipationUiState = MutableStateFlow(CreateParticipationUiState())
+    val createParticipationUiState: StateFlow<CreateParticipationUiState> =
+        _createParticipationUiState.asStateFlow()
+
+    val candidate = _user.candidate.value!!
+
     fun getProject(projectId: Int) {
         call({
             _getProjectUseCase.getProject(projectId)
@@ -31,15 +45,34 @@ class CreateParticipationViewModel @Inject constructor(
         })
     }
 
+    fun setPriorityId(priorityId: Int) {
+        _selectedPriorityId.value = priorityId
+        if (!_createParticipationUiState.value.isShowSubmitButton) {
+            _createParticipationUiState.value = _createParticipationUiState.value.copy(
+                isShowSubmitButton = true
+            )
+        }
+    }
+
     fun createParticipation() {
         _user.projfairToken?.let { token ->
             _project.value?.id.let { projectId ->
-                call({
-                    _createParticipationUseCase.createParticipation(token, projectId!!)
-                }, onSuccess = {
-                }, onError = {
-                })
+                _selectedPriorityId.value?.let { priority ->
+                    call({
+                        _createParticipationUseCase.createParticipation(
+                            token,
+                            projectId!!,
+                            PriorityRequest(priority)
+                        )
+                    }, onSuccess = {
+                    }, onError = {
+                    })
+                }
             }
         }
     }
+
+    data class CreateParticipationUiState(
+        val isShowSubmitButton: Boolean = false
+    )
 }

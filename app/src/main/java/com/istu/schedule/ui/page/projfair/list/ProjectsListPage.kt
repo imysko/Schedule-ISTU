@@ -61,6 +61,7 @@ fun ProjectsListPage(
     val isLoading by viewModel.loading.observeAsState(initial = false)
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
     val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
+    val canCreateParticipation = viewModel.canCreateParticipation
 
     LaunchedEffect(projectsListUiState) {
         if (viewModel.projfairFiltersState.value.isChanged) {
@@ -73,6 +74,7 @@ fun ProjectsListPage(
         projectsListUiState = projectsListUiState,
         isLoading = isLoading,
         projectsList = projectsList,
+        canCreateParticipation = canCreateParticipation,
         onSearchTextEdit = {
             viewModel.inputSearchContent(it)
         },
@@ -84,7 +86,10 @@ fun ProjectsListPage(
             viewModel.getProjectsList()
         },
         onProjectClick = {
-            navController.navigate("${NavDestinations.PROJECT}/$it")
+            navController.navigate("${NavDestinations.PROJECT}/$it/$canCreateParticipation")
+        },
+        onCreateParticipationClick = {
+            navController.navigate("${NavDestinations.CREATE_PARTICIPATION}/$it")
         },
         onFilterClick = {
             navController.navigate(NavDestinations.FILTERS)
@@ -99,11 +104,13 @@ fun ProjectsListPage(
 fun ProjectsListPage(
     projectsListUiState: ProjectsListUiState,
     isLoading: Boolean,
+    canCreateParticipation: Boolean,
     projectsList: List<Project>,
     onSearchTextEdit: (String) -> Unit,
     onSearchButtonClick: () -> Unit,
     onSearchConfirmClick: () -> Unit,
     onProjectClick: (Int) -> Unit,
+    onCreateParticipationClick: (Int) -> Unit,
     onFilterClick: () -> Unit,
     onLoadMore: () -> Unit
 ) {
@@ -113,7 +120,11 @@ fun ProjectsListPage(
     Scaffold(
         containerColor = AppTheme.colorScheme.primary,
         topBar = {
-            Column(modifier = Modifier.statusBarsPadding().padding(15.dp)) {
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(15.dp)
+            ) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -143,7 +154,9 @@ fun ProjectsListPage(
                 }
                 SIExtensibleVisibility(visible = projectsListUiState.isSearchVisible) {
                     SearchBar(
-                        modifier = Modifier.padding(top = 15.dp).height(42.dp),
+                        modifier = Modifier
+                            .padding(top = 15.dp)
+                            .height(42.dp),
                         value = projectsListUiState.titleSearchText,
                         focusRequester = focusRequester,
                         placeholder = stringResource(R.string.projects_search_tint),
@@ -199,7 +212,9 @@ fun ProjectsListPage(
                     ProjectItem(
                         modifier = Modifier.fillMaxWidth(),
                         project = project,
-                        onClick = { onProjectClick(project.id) }
+                        canCreateParticipation = canCreateParticipation,
+                        onClick = { onProjectClick(project.id) },
+                        onCreateParticipationClick = { onCreateParticipationClick(project.id) }
                     )
                 }
             }
@@ -256,10 +271,12 @@ fun PreviewProjectsListPageLoading() {
             projectsListUiState = ProjectsListUiState(),
             isLoading = true,
             projectsList = listOf(),
+            canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },
             onSearchConfirmClick = { },
             onProjectClick = { },
+            onCreateParticipationClick = { },
             onFilterClick = { },
             onLoadMore = { }
         )
@@ -276,10 +293,12 @@ fun PreviewProjectsListPageWithSearch() {
             ),
             isLoading = false,
             projectsList = listOf(),
+            canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },
             onSearchConfirmClick = { },
             onProjectClick = { },
+            onCreateParticipationClick = { },
             onFilterClick = { },
             onLoadMore = { }
         )

@@ -81,6 +81,7 @@ fun AccountPage(
         AuthorizedPage(
             navController = bottomNavController,
             candidate = candidate,
+            canCreateParticipation = viewModel.canCreateParticipation,
             viewModel = viewModel
         )
     } else {
@@ -93,6 +94,7 @@ fun AccountPage(
 fun AuthorizedPage(
     navController: NavController,
     candidate: Candidate?,
+    canCreateParticipation: Boolean,
     viewModel: AccountViewModel
 ) {
     val accountUiState = viewModel.accountUiState.collectAsStateValue()
@@ -191,6 +193,7 @@ fun AuthorizedPage(
                             participationsList = participationsList,
                             isCanEdit = candidate?.canSendParticipations == 1,
                             isEditMode = accountUiState.isEditMode,
+                            canCreateParticipation = canCreateParticipation,
                             onEditClick = { viewModel.changeEditModeState() },
                             onDeleteClick = { /* TODO: */ }
                         )
@@ -257,6 +260,7 @@ fun ParticipationsPage(
     participationsList: List<Participation>,
     isCanEdit: Boolean,
     isEditMode: Boolean,
+    canCreateParticipation: Boolean,
     onEditClick: () -> Unit = {},
     onDeleteClick: () -> Unit = {}
 ) {
@@ -277,7 +281,8 @@ fun ParticipationsPage(
                 onClick = {
                     if (participation.project != null) {
                         navController.navigate(
-                            "${NavDestinations.PROJECT}/${participation.project.id}"
+                            "${NavDestinations.PROJECT}/${participation.project.id}/" +
+                                "$canCreateParticipation"
                         )
                     }
                 },
@@ -417,7 +422,7 @@ fun ProjectsPage(
                     project = project,
                     onClick = {
                         navController.navigate(
-                            "${NavDestinations.PROJECT}/${project.id}"
+                            "${NavDestinations.PROJECT}/${project.id}/false"
                         )
                     }
                 )

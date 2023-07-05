@@ -12,6 +12,7 @@ import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.AccountPage
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage
 import com.istu.schedule.ui.page.projfair.list.filter.FiltersPage
+import com.istu.schedule.ui.page.projfair.participation.CreateParticipationPage
 import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.schedule.SchedulePage
 import com.istu.schedule.ui.page.settings.SettingsPage
@@ -65,12 +66,24 @@ fun BottomNavGraph(
         }
 
         animatedComposable(
-            route = "${NavDestinations.PROJECT}/{projectId}"
+            route = "${NavDestinations.PROJECT}/{projectId}/{canCreateParticipation}"
         ) {
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
-                ProjectPage(projectId, bottomNavController)
+                it.arguments?.getString("canCreateParticipation")?.toBoolean()
+                    ?.let { canCreateParticipation ->
+                        ProjectPage(projectId, canCreateParticipation, bottomNavController)
+                    }
             }
             SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = "${NavDestinations.CREATE_PARTICIPATION}/{projectId}"
+        ) {
+            it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
+                CreateParticipationPage(projectId, navController)
+            }
+            SetStatusBarIconColor(systemUiController, true)
         }
     }
 }

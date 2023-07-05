@@ -31,9 +31,11 @@ class ParticipationsRepositoryImpl @Inject constructor(
 
     override suspend fun createParticipation(
         token: String,
-        projectId: Int
+        projectId: Int,
+        priority: PriorityRequest
     ): Result<Unit> {
-        val apiResponse = participationsService.createParticipation(token, projectId).body()
+        val apiResponse =
+            participationsService.createParticipation(token, projectId, priority).body()
         if (apiResponse != null) {
             return Result.success(Unit)
         }

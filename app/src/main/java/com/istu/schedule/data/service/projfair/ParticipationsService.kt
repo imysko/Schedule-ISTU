@@ -17,19 +17,20 @@ interface ParticipationsService {
         @Header("Cookie") token: String = "token="
     ): Response<List<Participation>>
 
-    @POST("api/participations/")
+    @POST("api/participations/{id}")
     suspend fun createParticipation(
         @Header("Cookie") token: String = "token=",
-        @Path("id") projectId: Int = 0
+        @Path("id") projectId: Int = 0,
+        @Body body: PriorityRequest
     ): Response<Unit>
 
-    @DELETE("api/participations/")
+    @DELETE("api/participations/{id}")
     suspend fun deleteParticipation(
         @Header("Cookie") token: String = "token=",
         @Path("id") participationId: Int = 0
     ): Response<Unit>
 
-    @PATCH("api/participations/")
+    @PATCH("api/participations/{id}")
     suspend fun editParticipation(
         @Header("Cookie") token: String = "token=",
         @Path("id") projectId: Int = 0,

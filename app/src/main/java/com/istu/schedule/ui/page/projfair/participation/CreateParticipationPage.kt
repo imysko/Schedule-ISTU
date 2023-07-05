@@ -20,6 +20,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -31,6 +32,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
+import com.istu.schedule.domain.model.projfair.Candidate
+import com.istu.schedule.ui.components.base.SIExtensibleVisibility
 import com.istu.schedule.ui.components.base.SITextField
 import com.istu.schedule.ui.components.base.StringResourceItem
 import com.istu.schedule.ui.components.base.button.FilledButton
@@ -39,13 +42,17 @@ import com.istu.schedule.ui.icons.Check
 import com.istu.schedule.ui.icons.X
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Green
+import com.istu.schedule.util.collectAsStateValue
 
 @Composable
 fun CreateParticipationPage(
+    projectId: Int,
     navController: NavController,
     viewModel: CreateParticipationViewModel = hiltViewModel()
 ) {
-    val selectedPriorityId by viewModel.selectedPriorityId.observeAsState(initial = 1)
+    val selectedPriorityId by viewModel.selectedPriorityId.observeAsState(initial = 0)
+    val project by viewModel.project.observeAsState(initial = null)
+    val uiState = viewModel.createParticipationUiState.collectAsStateValue()
 
     val prioritiesList = mutableListOf(
         StringResourceItem(1, R.string.highest_priority),
@@ -53,12 +60,28 @@ fun CreateParticipationPage(
         StringResourceItem(3, R.string.low_priority)
     )
 
+    viewModel.existsPriorities.forEach { priorityId ->
+        val item = prioritiesList.firstOrNull {
+            it.id == priorityId
+        }
+        if (item != null) {
+            prioritiesList.remove(item)
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        viewModel.getProject(projectId)
+    }
+
     CreateParticipationPage(
         prioritiesList = prioritiesList,
         selectedPriority = selectedPriorityId,
         onBackClick = { navController.popBackStack() },
         onCreateClick = { viewModel.createParticipation() },
-        onSelect = { }
+        onSelect = { viewModel.setPriorityId(it) },
+        isButtonVisible = uiState.isShowSubmitButton,
+        candidate = viewModel.candidate,
+        projectTitle = project?.title
     )
 }
 
@@ -68,7 +91,10 @@ fun CreateParticipationPage(
     selectedPriority: Int,
     onBackClick: () -> Unit,
     onCreateClick: () -> Unit,
-    onSelect: (Int) -> Unit
+    onSelect: (Int) -> Unit,
+    isButtonVisible: Boolean,
+    candidate: Candidate?,
+    projectTitle: String? = null
 ) {
     Scaffold {
         LazyColumn(
@@ -110,7 +136,7 @@ fun CreateParticipationPage(
             }
             item {
                 Text(
-                    text = stringResource(R.string.project),
+                    text = projectTitle ?: stringResource(R.string.project),
                     style = AppTheme.typography.title
                 )
             }
@@ -123,7 +149,7 @@ fun CreateParticipationPage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp),
-                    value = "",
+                    value = candidate?.fio ?: "",
                     onValueChange = {},
                     placeholder = stringResource(R.string.fullname),
                     tailingIcon = {
@@ -144,7 +170,7 @@ fun CreateParticipationPage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp),
-                    value = "",
+                    value = candidate?.trainingGroup ?: "",
                     onValueChange = {},
                     placeholder = stringResource(R.string.training_group),
                     tailingIcon = {
@@ -165,7 +191,7 @@ fun CreateParticipationPage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp),
-                    value = "",
+                    value = candidate?.email ?: "",
                     onValueChange = {},
                     placeholder = stringResource(R.string.email),
                     tailingIcon = {
@@ -186,7 +212,9 @@ fun CreateParticipationPage(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 10.dp),
-                    value = "",
+                    value = candidate?.phone?.ifBlank {
+                        stringResource(R.string.not_specified)
+                    } ?: "",
                     onValueChange = {},
                     placeholder = stringResource(R.string.phone_number),
                     tailingIcon = {
@@ -213,13 +241,15 @@ fun CreateParticipationPage(
                 }
             }
             item {
-                FilledButton(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(42.dp),
-                    text = stringResource(R.string.send_participation),
-                    onClick = { onCreateClick() }
-                )
+                SIExtensibleVisibility(visible = isButtonVisible) {
+                    FilledButton(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(42.dp),
+                        text = stringResource(R.string.send_participation),
+                        onClick = { onCreateClick() }
+                    )
+                }
             }
             item {
                 Spacer(modifier = Modifier.height(128.dp))
@@ -244,7 +274,9 @@ fun PreviewSendParticipationPage() {
             selectedPriority = 1,
             onBackClick = {},
             onCreateClick = {},
-            onSelect = {}
+            onSelect = {},
+            candidate = null,
+            isButtonVisible = true
         )
     }
 }

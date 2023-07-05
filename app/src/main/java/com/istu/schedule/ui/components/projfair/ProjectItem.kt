@@ -52,7 +52,9 @@ import java.text.DateFormat
 fun ProjectItem(
     modifier: Modifier = Modifier,
     project: Project,
-    onClick: () -> Unit = {}
+    canCreateParticipation: Boolean = false,
+    onClick: () -> Unit = {},
+    onCreateParticipationClick: () -> Unit = {}
 ) {
     Card(
         shape = Shape10,
@@ -247,13 +249,14 @@ fun ProjectItem(
                 text = stringResource(R.string.read_more),
                 onClick = onClick
             )
-            if (project.state.id == 1) {
+            if (project.state.id == 1 && canCreateParticipation) {
                 OutlineButton(
                     modifier = Modifier
                         .padding(top = 5.dp)
                         .fillMaxWidth()
                         .height(42.dp),
-                    text = stringResource(R.string.send_participation)
+                    text = stringResource(R.string.send_participation),
+                    onClick = onCreateParticipationClick
                 )
             }
         }

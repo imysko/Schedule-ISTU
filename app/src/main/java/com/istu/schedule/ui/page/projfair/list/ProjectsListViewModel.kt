@@ -30,6 +30,10 @@ class ListViewModel @Inject constructor(
 
     val projfairFiltersState: StateFlow<ProjfairFiltersState> = _user.projfairFiltersState
 
+    val canCreateParticipation: Boolean =
+        _user.candidate.value?.canSendParticipations == 1 &&
+            ((_user.participationsList.value?.size ?: 3) < 3)
+
     private var _currentPage = 1
 
     fun getProjectsList() {

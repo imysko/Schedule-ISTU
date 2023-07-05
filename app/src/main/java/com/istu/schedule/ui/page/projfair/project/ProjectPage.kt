@@ -63,6 +63,7 @@ import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.ShapeTop15
+import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -72,6 +73,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun ProjectPage(
     projectId: Int,
+    canCreateParticipation: Boolean,
     navController: NavController,
     viewModel: ProjectViewModel = hiltViewModel()
 ) {
@@ -184,7 +186,16 @@ fun ProjectPage(
                     state = pagerState
                 ) { page ->
                     when (page) {
-                        0 -> ProjectInfo(project)
+                        0 -> ProjectInfo(
+                            project = project,
+                            canCreateParticipation = canCreateParticipation,
+                            onCreateParticipationClick = {
+                                navController.navigate(
+                                    "${NavDestinations.PROJECT}/${project.id}/true"
+                                )
+                            }
+                        )
+
                         1 -> ProjectParticipations(project)
                     }
                 }
@@ -202,7 +213,11 @@ fun ProjectPage(
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProjectInfo(project: Project) {
+fun ProjectInfo(
+    project: Project,
+    canCreateParticipation: Boolean,
+    onCreateParticipationClick: () -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .padding(top = 23.dp)
@@ -408,14 +423,15 @@ fun ProjectInfo(project: Project) {
                 }
             }
         }
-        if (project.state.id == 1) {
+        if (project.state.id == 1 && canCreateParticipation) {
             item {
                 FilledButton(
                     modifier = Modifier
                         .padding(top = 13.dp)
                         .fillMaxWidth()
                         .height(42.dp),
-                    text = stringResource(R.string.send_participation)
+                    text = stringResource(R.string.send_participation),
+                    onClick = { onCreateParticipationClick() }
                 )
             }
         }

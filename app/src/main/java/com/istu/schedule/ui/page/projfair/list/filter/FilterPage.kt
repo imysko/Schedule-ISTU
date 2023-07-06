@@ -24,14 +24,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
+import com.istu.schedule.data.model.ProjfairFiltersState
+import com.istu.schedule.domain.model.projfair.Skill
+import com.istu.schedule.domain.model.projfair.SkillCategory
+import com.istu.schedule.domain.model.projfair.Speciality
 import com.istu.schedule.ui.components.base.CheckboxGroup
 import com.istu.schedule.ui.components.base.SIDropdownMenu
 import com.istu.schedule.ui.components.base.StringResourceItem
@@ -39,45 +47,58 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.icons.X
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.util.collectAsStateValue
 
 @Composable
 fun FiltersPage(
     navController: NavController,
     viewModel: FilterViewModel = hiltViewModel()
 ) {
-    val filtersPageUiState = viewModel.filtersPageUiState.collectAsStateValue()
-
     val skillsList by viewModel.skillsList.observeAsState(initial = emptyList())
-
     val specialitiesList by viewModel.specialitiesList.observeAsState(initial = emptyList())
 
-    val statusesList = mutableListOf(
+    val filters = viewModel.getFilters()
+
+    LaunchedEffect(Unit) {
+        viewModel.getSpecialitiesList()
+        viewModel.getSkillsList()
+    }
+
+    FiltersPage(
+        filters = filters,
+        skillsList = skillsList,
+        specialitiesList = specialitiesList,
+        onFindPressed = { viewModel.setFilters(it) },
+        onBackPressed = { navController.popBackStack() }
+    )
+}
+
+@Composable
+fun FiltersPage(
+    filters: ProjfairFiltersState,
+    skillsList: List<Skill>,
+    specialitiesList: List<Speciality>,
+    onFindPressed: (ProjfairFiltersState) -> Unit = {},
+    onBackPressed: () -> Unit = {}
+) {
+    var selectedStatusesList by remember { mutableStateOf(filters.statusesList) }
+    var selectedDifficultiesList by remember { mutableStateOf(filters.difficultiesList) }
+    var selectedSpecialitiesList by remember { mutableStateOf(filters.specialitiesList) }
+    var selectedSkillsList by remember { mutableStateOf(filters.skillsList) }
+    var specialitySearchText by remember { mutableStateOf("") }
+    var skillSearchText by remember { mutableStateOf("") }
+
+    val statusesList = listOf(
         StringResourceItem(1, R.string.recruitment_is_open),
         StringResourceItem(2, R.string.active),
         StringResourceItem(4, R.string.in_archive),
         StringResourceItem(5, R.string.processing_of_participants)
     )
 
-    val difficultiesList = mutableListOf(
+    val difficultiesList = listOf(
         StringResourceItem(1, R.string.easy),
         StringResourceItem(2, R.string.medium),
         StringResourceItem(3, R.string.difficult)
     )
-
-    val selectedStatusesList = filtersPageUiState.statusesList
-
-    val selectedDifficultiesList = filtersPageUiState.difficultiesList
-
-    val selectedSkillsList = filtersPageUiState.skillsList
-
-    val selectedSpecialitiesList = filtersPageUiState.specialitiesList
-
-    LaunchedEffect(Unit) {
-        viewModel.loadFilters()
-        viewModel.getSpecialitiesList()
-        viewModel.getSkillsList()
-    }
 
     Scaffold {
         Column(
@@ -102,9 +123,7 @@ fun FiltersPage(
                         .clickable(
                             interactionSource = MutableInteractionSource(),
                             indication = null
-                        ) {
-                            navController.popBackStack()
-                        },
+                        ) { onBackPressed() },
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Icon(
@@ -122,7 +141,7 @@ fun FiltersPage(
             CheckboxGroup(
                 items = statusesList,
                 selectedList = selectedStatusesList.toMutableList(),
-                onCheckedChange = { viewModel.setStatusesList(it) }
+                onCheckedChange = { selectedStatusesList = it }
             )
             Divider(Modifier.padding(vertical = 22.dp))
             Text(
@@ -132,20 +151,20 @@ fun FiltersPage(
             )
             SIDropdownMenu(
                 listItems = specialitiesList.map { Pair(it.id, it.name) },
-                textValue = filtersPageUiState.specialitySearchText,
-                onTextValueChange = { viewModel.setSpecialitySearchText(it) },
+                textValue = specialitySearchText,
+                onTextValueChange = { specialitySearchText = it },
                 selectedItems = selectedSpecialitiesList.toMutableList(),
                 placeholder = stringResource(R.string.select_a_specialty),
-                onItemSelect = { viewModel.setSpecialitiesList(it) }
+                onItemSelect = { selectedSpecialitiesList = it }
             )
             SIDropdownMenu(
                 modifier = Modifier.padding(top = 8.dp),
                 listItems = skillsList.map { Pair(it.id, it.name) },
-                textValue = filtersPageUiState.skillSearchText,
-                onTextValueChange = { viewModel.setSkillSearchText(it) },
+                textValue = skillSearchText,
+                onTextValueChange = { skillSearchText = it },
                 selectedItems = selectedSkillsList.toMutableList(),
                 placeholder = stringResource(R.string.select_a_skill),
-                onItemSelect = { viewModel.setSkillsList(it) }
+                onItemSelect = { selectedSkillsList = it }
             )
             Divider(Modifier.padding(vertical = 22.dp))
             Text(
@@ -156,7 +175,7 @@ fun FiltersPage(
             CheckboxGroup(
                 items = difficultiesList,
                 selectedList = selectedDifficultiesList.toMutableList(),
-                onCheckedChange = { viewModel.setDifficultiesList(it) }
+                onCheckedChange = { selectedDifficultiesList = it }
             )
             FilledButton(
                 modifier = Modifier
@@ -165,8 +184,15 @@ fun FiltersPage(
                     .height(42.dp),
                 text = stringResource(R.string.find),
                 onClick = {
-                    viewModel.saveFilters()
-                    navController.popBackStack()
+                    val projfairFiltersState = ProjfairFiltersState(
+                        isChanged = true,
+                        statusesList = selectedStatusesList,
+                        difficultiesList = selectedDifficultiesList,
+                        specialitiesList = selectedSpecialitiesList,
+                        skillsList = selectedSkillsList
+                    )
+                    onFindPressed(projfairFiltersState)
+                    onBackPressed()
                 }
             )
             TextButton(
@@ -175,10 +201,29 @@ fun FiltersPage(
                     .padding(top = 4.dp)
                     .height(42.dp),
                 text = stringResource(R.string.reset_filter),
-                onClick = { viewModel.resetFilters() }
+                onClick = {
+                    selectedStatusesList = listOf()
+                    selectedDifficultiesList = listOf()
+                    selectedSpecialitiesList = listOf()
+                    selectedSkillsList = listOf()
+                    specialitySearchText = ""
+                    skillSearchText = ""
+                }
             )
             Spacer(modifier = Modifier.height(128.dp))
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
+    }
+}
+
+@Preview
+@Composable
+fun PreviewComposablePage() {
+    AppTheme {
+        FiltersPage(
+            filters = ProjfairFiltersState(),
+            skillsList = listOf(Skill(1, "Skill", SkillCategory(1, "Category"))),
+            specialitiesList = listOf()
+        )
     }
 }

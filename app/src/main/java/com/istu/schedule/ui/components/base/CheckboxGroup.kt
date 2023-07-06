@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CheckboxGroup(
-    modifier: Modifier = Modifier,
-    items: MutableList<StringResourceItem>,
+    items: List<StringResourceItem>,
     selectedList: MutableList<Int>,
+    modifier: Modifier = Modifier,
     onCheckedChange: (List<Int>) -> Unit = {}
 ) {
     Column(

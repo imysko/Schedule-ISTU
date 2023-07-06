@@ -162,4 +162,6 @@
     <string name="search_schedule">Поиск расписания</string>
     <string name="schedule_search_bar_label">Введите группу, преподавателя или аудиторию</string>
     <string name="my_account">Личный кабинет</string>
+    <string name="delete_participation">Удаление заявки</string>
+    <string name="delete_participation_text">Вы уверены что хотите удалить эту заявку?</string>
 </resources>

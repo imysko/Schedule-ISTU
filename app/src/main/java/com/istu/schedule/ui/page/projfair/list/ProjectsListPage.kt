@@ -21,6 +21,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -137,22 +138,17 @@ fun ProjectsListPage(
                         color = AppTheme.colorScheme.textSecondary,
                         style = AppTheme.typography.pageTitle
                     )
-                    Column(
-                        modifier = Modifier
-                            .size(32.dp)
-                            .clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) { onSearchButtonClick() },
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Search,
-                            contentDescription = "search icon",
-                            tint = AppTheme.colorScheme.textSecondary
-                        )
-                    }
+                    IconButton(
+                        modifier = Modifier.size(32.dp),
+                        onClick = { onSearchButtonClick() },
+                        content = {
+                            Icon(
+                                imageVector = Icons.Search,
+                                contentDescription = stringResource(id = R.string.search),
+                                tint = AppTheme.colorScheme.textSecondary
+                            )
+                        }
+                    )
                 }
                 SIExtensibleVisibility(visible = projectsListUiState.isSearchVisible) {
                     SearchBar(

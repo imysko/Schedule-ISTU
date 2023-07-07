@@ -183,7 +183,10 @@ fun AuthorizedPage(
                     )
                     Row(
                         modifier = Modifier
-                            .clickable {}
+                            .clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null
+                            ) {}
                             .padding(15.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {

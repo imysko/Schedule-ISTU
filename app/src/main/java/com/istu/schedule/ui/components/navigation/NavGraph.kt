@@ -14,6 +14,7 @@ import com.istu.schedule.ui.page.account.login.LoginProjfairPage
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.onboarding.OnBoardingPage
 import com.istu.schedule.ui.page.settings.binding.BindingPage
+import com.istu.schedule.ui.page.settings.developers.DevelopersPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.isFirstLaunch
@@ -59,6 +60,13 @@ fun NavGraph(
             route = NavDestinations.LANGUAGE
         ) {
             LanguagePage(navController)
+            SetStatusBarIconColor(systemUiController, true)
+        }
+
+        animatedComposable(
+            route = NavDestinations.DEVELOPERS
+        ) {
+            DevelopersPage(navController)
             SetStatusBarIconColor(systemUiController, true)
         }
 

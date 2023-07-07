@@ -31,7 +31,7 @@ fun SettingsPage(navController: NavHostController) {
         onBindingClick = { navController.navigate(NavDestinations.BINDING) },
         onFavoritesListClick = { },
         onLanguageClick = { navController.navigate(NavDestinations.LANGUAGE) },
-        onAboutClick = { }
+        onAboutClick = { navController.navigate(NavDestinations.DEVELOPERS) }
     )
 }
 

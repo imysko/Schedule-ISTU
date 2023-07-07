@@ -21,8 +21,8 @@ import com.istu.schedule.ui.theme.AppTheme
 
 @Composable
 fun TextButton(
+    text: String,
     modifier: Modifier = Modifier,
-    text: String = "",
     contentColor: Color = AppTheme.colorScheme.primary,
     onClick: () -> Unit = {}
 ) {

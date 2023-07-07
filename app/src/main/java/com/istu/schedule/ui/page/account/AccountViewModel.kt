@@ -8,27 +8,22 @@ import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.usecase.projfair.DeleteParticipationUseCase
 import com.istu.schedule.domain.usecase.projfair.GetActiveProjectUseCase
 import com.istu.schedule.domain.usecase.projfair.GetArchiveProjectsListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val _archiveProjectsListUseCase: GetArchiveProjectsListUseCase,
     private val _activeProjectUseCase: GetActiveProjectUseCase,
+    private val _deleteParticipationUseCase: DeleteParticipationUseCase,
     private val _user: User
 ) : BaseViewModel() {
-
-    private val _accountUiState = MutableStateFlow(AccountUiState())
-    val accountUiState: StateFlow<AccountUiState> = _accountUiState.asStateFlow()
 
     val participationsList: LiveData<MutableList<Participation>> = _user.participationsList
 
@@ -75,11 +70,12 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    fun changeEditModeState() {
-        _accountUiState.update { it.copy(isEditMode = !it.isEditMode) }
+    fun deleteParticipation(participationId: Int) {
+        _user.projfairToken?.let { token ->
+            call({
+                _deleteParticipationUseCase.deleteParticipation(token, participationId)
+            }, onSuccess = {
+            })
+        }
     }
 }
-
-data class AccountUiState(
-    val isEditMode: Boolean = false
-)

@@ -17,4 +17,5 @@ object NavDestinations {
     const val SETTINGS = "Settings"
     const val BINDING = "Binding"
     const val LANGUAGE = "Language"
+    const val DEVELOPERS = "Developers"
 }

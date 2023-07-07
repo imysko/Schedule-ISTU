@@ -164,4 +164,15 @@
     <string name="my_account">Личный кабинет</string>
     <string name="delete_participation">Удаление заявки</string>
     <string name="delete_participation_text">Вы уверены что хотите удалить эту заявку?</string>
+    <string name="address">Адрес</string>
+    <string name="personalities">Персоналии</string>
+    <string name="work_schedule">Режим работы</string>
+    <string name="work_schedule_detail">Пн-Пт с 9:00 до 16:00\nПерерыв с 12:30 до 13:00</string>
+    <string name="project_learning_center">Центр проектного обучения</string>
+    <string name="developers_contacts">Технические вопросы по работе приложения</string>
+    <string name="contact">Контакты</string>
+    <string name="head_of_plc">Руководитель центра проектного обучения</string>
+    <string name="head_of_plc_fio">Чимитов Павел Евгеньевич</string>
+    <string name="admin_of_projfair">Администратор сайта \"Ярмарка проектов\"</string>
+    <string name="admin_of_projfair_fio">Аршинский Вадим Леонидович</string>
 </resources>

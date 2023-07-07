@@ -67,7 +67,7 @@ import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.components.projfair.ParticipationItem
 import com.istu.schedule.ui.components.projfair.ProjectItem
-import com.istu.schedule.ui.icons.X
+import com.istu.schedule.ui.icons.Logout
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape20
@@ -183,7 +183,10 @@ fun AuthorizedPage(
                     )
                     Row(
                         modifier = Modifier
-                            .clickable {}
+                            .clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null
+                            ) {}
                             .padding(15.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
@@ -195,7 +198,7 @@ fun AuthorizedPage(
                         Spacer(modifier = Modifier.width(6.dp))
                         Icon(
                             modifier = Modifier.size(20.dp),
-                            imageVector = Icons.X,
+                            imageVector = Icons.Logout,
                             contentDescription = "Logout Icon",
                             tint = AppTheme.colorScheme.textSecondary
                         )

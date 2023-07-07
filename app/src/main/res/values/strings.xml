@@ -159,4 +159,20 @@
     <string name="my_account">My Account</string>
     <string name="delete_participation">Deleting a participation</string>
     <string name="delete_participation_text">Are you sure you want to delete this application?</string>
+    <string name="address">Address</string>
+    <string name="personalities">Personalities</string>
+    <string name="address_detail" translatable="false">664074, г. Иркутск,\nул. Лермонтова, 83, ИРНИТУ</string>
+    <string name="work_schedule">Work schedule</string>
+    <string name="work_schedule_detail">Mon-Fri from 9:00 to 16:00\nBreak from 12:30 to 13:00</string>
+    <string name="project_learning_center">Project Learning Center</string>
+    <string name="project_learning_center_phone" translatable="false">+7 (3952) 40-57-36</string>
+    <string name="project_learning_center_email" translatable="false">e-project@ex.istu.edu</string>
+    <string name="developers_contacts">Technical questions about the app</string>
+    <string name="contact">Contact</string>
+    <string name="telegram_progneo" translatable="false">\@progneo</string>
+    <string name="telegram_ilmysko" translatable="false">\@ilmysko</string>
+    <string name="head_of_plc">Head of the Project Learning Center</string>
+    <string name="head_of_plc_fio">Pavel Yevgenyevich Chimitov</string>
+    <string name="admin_of_projfair">Administrator of the \"Projfair\"</string>
+    <string name="admin_of_projfair_fio">Vadim Leonidovich Arshinskiy</string>
 </resources>

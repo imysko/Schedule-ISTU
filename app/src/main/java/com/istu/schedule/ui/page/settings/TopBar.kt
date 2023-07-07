@@ -13,9 +13,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.ui.icons.Back
@@ -34,15 +36,18 @@ fun TopBar(
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
                 modifier = Modifier
+                    .size(25.dp)
                     .clip(Shape5)
-                    .clickable { onBackClick() }
+                    .clickable { onBackClick() },
+                contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    modifier = Modifier.size(22.dp),
+                    modifier = Modifier.size(14.dp),
                     imageVector = Icons.Back,
                     contentDescription = stringResource(id = R.string.back),
                     tint = AppTheme.colorScheme.textPrimary
@@ -55,5 +60,16 @@ fun TopBar(
                 color = AppTheme.colorScheme.textPrimary
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewTopBar() {
+    AppTheme {
+        TopBar(
+            title = "Settings",
+            onBackClick = {}
+        )
     }
 }

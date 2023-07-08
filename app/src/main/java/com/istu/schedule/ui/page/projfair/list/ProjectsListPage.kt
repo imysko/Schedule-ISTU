@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
@@ -29,11 +28,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -61,8 +58,8 @@ import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.util.OnBottomReached
 import com.istu.schedule.util.collectAsStateValue
-import kotlinx.coroutines.flow.distinctUntilChanged
 
 @Composable
 fun ProjectsListPage(
@@ -70,12 +67,13 @@ fun ProjectsListPage(
     viewModel: ListViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.loading.observeAsState(initial = true)
-    val isSearchCompleted by viewModel.isSearchCompleted.observeAsState(initial = true)
+    val isSearchCompleted by viewModel.isSearchCompleted.observeAsState(initial = false)
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
     val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
+    val projfairFiltersState = viewModel.projfairFiltersState.collectAsStateValue()
     val canCreateParticipation = viewModel.canCreateParticipation
 
-    LaunchedEffect(projectsListUiState) {
+    LaunchedEffect(projfairFiltersState) {
         if (viewModel.projfairFiltersState.value.isChanged) {
             viewModel.clearList()
             viewModel.getProjectsList()
@@ -130,6 +128,10 @@ fun ProjectsListPage(
 ) {
     val focusRequester = remember { FocusRequester() }
     val listState = projectsListUiState.listState
+
+    listState.OnBottomReached(buffer = 2) {
+        onLoadMore()
+    }
 
     Scaffold(
         containerColor = AppTheme.colorScheme.primary,
@@ -306,34 +308,6 @@ fun ProjectsListPage(
                 }
             }
         }
-        InfiniteListHandler(listState = listState) {
-            onLoadMore()
-        }
-    }
-}
-
-@Composable
-fun InfiniteListHandler(
-    listState: LazyListState,
-    buffer: Int = 2,
-    onLoadMore: () -> Unit
-) {
-    val loadMore = remember {
-        derivedStateOf {
-            val layoutInfo = listState.layoutInfo
-            val totalItemsNumber = layoutInfo.totalItemsCount
-            val lastVisibleItemIndex = (layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0) + 1
-
-            lastVisibleItemIndex > (totalItemsNumber - buffer)
-        }
-    }
-
-    LaunchedEffect(loadMore) {
-        snapshotFlow { loadMore.value }
-            .distinctUntilChanged()
-            .collect {
-                onLoadMore()
-            }
     }
 }
 

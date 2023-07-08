@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.settings.developers
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -31,9 +35,19 @@ import com.istu.schedule.ui.icons.Send
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.Shape5
+import com.istu.schedule.util.dial
+import com.istu.schedule.util.sendMail
 
 @Composable
 fun DevelopersPage(navController: NavController) {
+    val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
+
+    val plcPhone = stringResource(R.string.project_learning_center_phone)
+    val plcEmail = stringResource(R.string.project_learning_center_email)
+    val emailSubject = stringResource(R.string.projfair)
+
     Scaffold(
         containerColor = AppTheme.colorScheme.background,
         topBar = {
@@ -121,10 +135,13 @@ fun DevelopersPage(navController: NavController) {
                                 tint = AppTheme.colorScheme.secondary
                             )
                             Text(
-                                modifier = Modifier.padding(start = 10.dp),
+                                modifier = Modifier
+                                    .padding(start = 10.dp)
+                                    .clip(Shape5)
+                                    .clickable { context.dial(phone = plcPhone) },
                                 text = stringResource(R.string.project_learning_center_phone),
                                 style = AppTheme.typography.bodyMedium,
-                                color = AppTheme.colorScheme.textPrimary
+                                color = AppTheme.colorScheme.primary
                             )
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -135,10 +152,18 @@ fun DevelopersPage(navController: NavController) {
                                 tint = AppTheme.colorScheme.secondary
                             )
                             Text(
-                                modifier = Modifier.padding(start = 10.dp),
+                                modifier = Modifier
+                                    .padding(start = 10.dp)
+                                    .clip(Shape5)
+                                    .clickable {
+                                        context.sendMail(
+                                            to = plcEmail,
+                                            subject = emailSubject
+                                        )
+                                    },
                                 text = stringResource(R.string.project_learning_center_email),
                                 style = AppTheme.typography.bodyMedium,
-                                color = AppTheme.colorScheme.textPrimary
+                                color = AppTheme.colorScheme.primary
                             )
                         }
                     }
@@ -160,10 +185,13 @@ fun DevelopersPage(navController: NavController) {
                                 tint = AppTheme.colorScheme.secondary
                             )
                             Text(
-                                modifier = Modifier.padding(start = 10.dp),
+                                modifier = Modifier
+                                    .padding(start = 10.dp)
+                                    .clip(Shape5)
+                                    .clickable { uriHandler.openUri("https://t.me/progneo") },
                                 text = stringResource(R.string.telegram_progneo),
                                 style = AppTheme.typography.bodyMedium,
-                                color = AppTheme.colorScheme.textPrimary
+                                color = AppTheme.colorScheme.primary
                             )
                         }
                         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -174,10 +202,13 @@ fun DevelopersPage(navController: NavController) {
                                 tint = AppTheme.colorScheme.secondary
                             )
                             Text(
-                                modifier = Modifier.padding(start = 10.dp),
+                                modifier = Modifier
+                                    .padding(start = 10.dp)
+                                    .clip(Shape5)
+                                    .clickable { uriHandler.openUri("https://t.me/ilmysko") },
                                 text = stringResource(R.string.telegram_ilmysko),
                                 style = AppTheme.typography.bodyMedium,
-                                color = AppTheme.colorScheme.textPrimary
+                                color = AppTheme.colorScheme.primary
                             )
                         }
                     }

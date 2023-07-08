@@ -40,31 +40,29 @@ class ListViewModel @Inject constructor(
     private var _currentPage = 1
 
     fun getProjectsList() {
-        if (loading.value == false) {
-            _isSearchCompleted.value = false
-            call({
-                _projectsUseCase.getProjectsList(
-                    token = _user.projfairToken ?: "",
-                    title = _projectsListUiState.value.titleSearchText,
-                    page = _currentPage,
-                    difficulties = _user.projfairFiltersState.value.difficultiesList,
-                    states = _user.projfairFiltersState.value.statusesList,
-                    specialties = _user.projfairFiltersState.value.specialitiesList.map {
-                        it.first
-                    },
-                    skills = _user.projfairFiltersState.value.skillsList.map { it.first }
-                )
-            }, onSuccess = {
-                for (item in it) {
-                    _projectsList.addNewItem(item)
-                }
-                _currentPage += 1
-                _user.setFiltersChanged(false)
-                _isSearchCompleted.postValue(true)
-            }, onError = {
-                _isSearchCompleted.postValue(true)
-            })
-        }
+        _isSearchCompleted.value = false
+        call({
+            _projectsUseCase.getProjectsList(
+                token = _user.projfairToken ?: "",
+                title = _projectsListUiState.value.titleSearchText,
+                page = _currentPage,
+                difficulties = _user.projfairFiltersState.value.difficultiesList,
+                states = _user.projfairFiltersState.value.statusesList,
+                specialties = _user.projfairFiltersState.value.specialitiesList.map {
+                    it.first
+                },
+                skills = _user.projfairFiltersState.value.skillsList.map { it.first }
+            )
+        }, onSuccess = {
+            for (item in it) {
+                _projectsList.addNewItem(item)
+            }
+            _currentPage += 1
+            _user.setFiltersChanged(false)
+            _isSearchCompleted.postValue(true)
+        }, onError = {
+            _isSearchCompleted.postValue(true)
+        })
     }
 
     fun changeSearchBarVisibility() {

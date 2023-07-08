@@ -4,10 +4,13 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -35,7 +38,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -49,6 +55,7 @@ import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.components.projfair.ProjectItemPlaceHolder
 import com.istu.schedule.ui.icons.Filter
+import com.istu.schedule.ui.icons.Logo152
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
@@ -165,69 +172,127 @@ fun ProjectsListPage(
             }
         }
     ) {
-        LazyColumn(
+        Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxHeight()
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background),
-            state = listState
+                .background(AppTheme.colorScheme.background)
         ) {
-            item {
-                Row(
-                    modifier = Modifier
-                        .padding(15.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(R.string.all_projects),
-                        style = AppTheme.typography.title
-                    )
-                    Column(
-                        modifier = Modifier.clickable(
-                            interactionSource = MutableInteractionSource(),
-                            indication = null
-                        ) { onFilterClick() },
-                        horizontalAlignment = Alignment.CenterHorizontally
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                state = listState,
+                contentPadding = PaddingValues(
+                    top = 15.dp,
+                    start = 15.dp,
+                    end = 15.dp
+                )
+            ) {
+                item {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Icon(
-                            imageVector = Icons.Filter,
-                            contentDescription = "filter icon",
-                            tint = AppTheme.colorScheme.textPrimary
-                        )
                         Text(
-                            text = stringResource(R.string.filters),
-                            style = AppTheme.typography.labelMedium,
-                            color = AppTheme.colorScheme.textPrimary
+                            text = stringResource(R.string.all_projects),
+                            style = AppTheme.typography.title
+                        )
+                        Column(
+                            modifier = Modifier.clickable(
+                                interactionSource = MutableInteractionSource(),
+                                indication = null
+                            ) { onFilterClick() },
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filter,
+                                contentDescription = "filter icon",
+                                tint = AppTheme.colorScheme.textPrimary
+                            )
+                            Text(
+                                text = stringResource(R.string.filters),
+                                style = AppTheme.typography.labelMedium,
+                                color = AppTheme.colorScheme.textPrimary
+                            )
+                        }
+                    }
+                }
+                if (projectsList.isNotEmpty()) {
+                    items(projectsList) { project ->
+                        ProjectItem(
+                            modifier = Modifier.fillMaxWidth(),
+                            project = project,
+                            canCreateParticipation = canCreateParticipation,
+                            onClick = { onProjectClick(project.id) },
+                            onCreateParticipationClick = { onCreateParticipationClick(project.id) }
+                        )
+                    }
+                    if (isLoading) {
+                        item {
+                            Box(
+                                modifier = Modifier.fillMaxWidth(),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(48.dp),
+                                    imageVector = Icons.Logo152,
+                                    contentDescription = "Loading Icon",
+                                    tint = Color.Unspecified
+                                )
+                            }
+                        }
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(128.dp))
+                        Spacer(
+                            modifier = Modifier.windowInsetsBottomHeight(
+                                WindowInsets.navigationBars
+                            )
                         )
                     }
                 }
             }
-            if (projectsList.isNotEmpty()) {
-                items(projectsList) { project ->
-                    ProjectItem(
-                        modifier = Modifier.fillMaxWidth(),
-                        project = project,
-                        canCreateParticipation = canCreateParticipation,
-                        onClick = { onProjectClick(project.id) },
-                        onCreateParticipationClick = { onCreateParticipationClick(project.id) }
-                    )
+            if (projectsList.isEmpty()) {
+                if (isLoading) {
+                    Column(
+                        modifier = Modifier.padding(
+                            top = 15.dp,
+                            start = 15.dp,
+                            end = 15.dp
+                        ),
+                        verticalArrangement = Arrangement.spacedBy(15.dp)
+                    ) {
+                        ProjectItemPlaceHolder()
+                        ProjectItemPlaceHolder()
+                    }
                 }
-            }
-            if (isLoading) {
-                item {
-                    ProjectItemPlaceHolder()
+                if (!isLoading) {
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(15.dp),
+                        verticalArrangement = Arrangement.spacedBy(
+                            space = 15.dp,
+                            alignment = Alignment.CenterVertically
+                        )
+                    ) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = stringResource(R.string.projects_not_found),
+                            style = AppTheme.typography.title.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            color = AppTheme.colorScheme.secondary,
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
+                            text = stringResource(R.string.projects_not_found_desc),
+                            style = AppTheme.typography.subtitle,
+                            color = AppTheme.colorScheme.secondary,
+                            textAlign = TextAlign.Center
+                        )
+                    }
                 }
-            }
-            item {
-                Spacer(modifier = Modifier.height(128.dp))
-                Spacer(
-                    modifier = Modifier.windowInsetsBottomHeight(
-                        WindowInsets.navigationBars
-                    )
-                )
             }
         }
         InfiniteListHandler(listState = listState) {
@@ -283,6 +348,26 @@ fun PreviewProjectsListPageLoading() {
 
 @Preview(showBackground = true)
 @Composable
+fun PreviewProjectsListPageEmpty() {
+    AppTheme {
+        ProjectsListPage(
+            projectsListUiState = ProjectsListUiState(),
+            isLoading = false,
+            projectsList = listOf(),
+            canCreateParticipation = true,
+            onSearchTextEdit = { },
+            onSearchButtonClick = { },
+            onSearchConfirmClick = { },
+            onProjectClick = { },
+            onCreateParticipationClick = { },
+            onFilterClick = { },
+            onLoadMore = { }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
 fun PreviewProjectsListPageWithSearch(
     @PreviewParameter(SampleProjectProvider::class) project: Project
 ) {
@@ -292,6 +377,30 @@ fun PreviewProjectsListPageWithSearch(
                 isSearchVisible = true
             ),
             isLoading = false,
+            projectsList = listOf(project),
+            canCreateParticipation = true,
+            onSearchTextEdit = { },
+            onSearchButtonClick = { },
+            onSearchConfirmClick = { },
+            onProjectClick = { },
+            onCreateParticipationClick = { },
+            onFilterClick = { },
+            onLoadMore = { }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewProjectsListPageWithLoading(
+    @PreviewParameter(SampleProjectProvider::class) project: Project
+) {
+    AppTheme {
+        ProjectsListPage(
+            projectsListUiState = ProjectsListUiState(
+                isSearchVisible = false
+            ),
+            isLoading = true,
             projectsList = listOf(project),
             canCreateParticipation = true,
             onSearchTextEdit = { },

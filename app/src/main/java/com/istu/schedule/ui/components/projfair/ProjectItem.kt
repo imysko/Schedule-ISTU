@@ -61,9 +61,7 @@ fun ProjectItem(
 ) {
     Card(
         shape = Shape10,
-        modifier = modifier
-            .padding(start = 15.dp, bottom = 15.dp, end = 15.dp)
-            .clickable(onClick = onClick)
+        modifier = modifier.clickable(onClick = onClick)
     ) {
         Column(modifier = Modifier.padding(15.dp, 20.dp)) {
             Text(
@@ -270,13 +268,12 @@ fun ProjectItem(
 fun ProjectItemPlaceHolder() {
     Box(
         modifier = Modifier
-            .padding(start = 15.dp, bottom = 15.dp, end = 15.dp)
             .fillMaxWidth()
             .height(400.dp)
             .placeholder(
                 visible = true,
                 color = AppTheme.colorScheme.textPrimary.copy(alpha = 0.05f),
-                shape = RoundedCornerShape(4.dp),
+                shape = Shape10,
                 highlight = PlaceholderHighlight.fade(
                     highlightColor = AppTheme.colorScheme.textPrimary.copy(alpha = 0.08f)
                 )

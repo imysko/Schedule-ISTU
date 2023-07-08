@@ -34,10 +34,14 @@ class ListViewModel @Inject constructor(
         _user.candidate.value?.canSendParticipations == 1 &&
             ((_user.participationsList.value?.size ?: 3) < 3)
 
+    private val _isSearchCompleted = MutableLiveData(false)
+    val isSearchCompleted: LiveData<Boolean> = _isSearchCompleted
+
     private var _currentPage = 1
 
     fun getProjectsList() {
         if (loading.value == false) {
+            _isSearchCompleted.value = false
             call({
                 _projectsUseCase.getProjectsList(
                     token = _user.projfairToken ?: "",
@@ -56,6 +60,9 @@ class ListViewModel @Inject constructor(
                 }
                 _currentPage += 1
                 _user.setFiltersChanged(false)
+                _isSearchCompleted.postValue(true)
+            }, onError = {
+                _isSearchCompleted.postValue(true)
             })
         }
     }

@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
@@ -32,7 +31,6 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -57,6 +55,7 @@ import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
+import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
@@ -214,14 +213,8 @@ fun ProjectPage(
                         1 -> ProjectParticipations(project)
                     }
                 }
-            } ?: run {
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    CircularProgressIndicator()
-                }
             }
+            LoadingPanel(project == null)
         }
     }
 }

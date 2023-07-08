@@ -175,4 +175,6 @@
     <string name="head_of_plc_fio">Чимитов Павел Евгеньевич</string>
     <string name="admin_of_projfair">Администратор сайта \"Ярмарка проектов\"</string>
     <string name="admin_of_projfair_fio">Аршинский Вадим Леонидович</string>
+    <string name="projects_not_found">Проекты не найдены :(</string>
+    <string name="projects_not_found_desc">Пока нет ни одного проекта с введённым названием и/или выбранными фильтрами</string>
 </resources>

@@ -51,6 +51,7 @@ import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.SIExtensibleVisibility
+import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.components.projfair.ProjectItemPlaceHolder
@@ -68,7 +69,8 @@ fun ProjectsListPage(
     navController: NavController,
     viewModel: ListViewModel = hiltViewModel()
 ) {
-    val isLoading by viewModel.loading.observeAsState(initial = false)
+    val isLoading by viewModel.loading.observeAsState(initial = true)
+    val isSearchCompleted by viewModel.isSearchCompleted.observeAsState(initial = true)
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
     val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
     val canCreateParticipation = viewModel.canCreateParticipation
@@ -83,6 +85,7 @@ fun ProjectsListPage(
     ProjectsListPage(
         projectsListUiState = projectsListUiState,
         isLoading = isLoading,
+        isSearchCompleted = isSearchCompleted,
         projectsList = projectsList,
         canCreateParticipation = canCreateParticipation,
         onSearchTextEdit = {
@@ -114,6 +117,7 @@ fun ProjectsListPage(
 fun ProjectsListPage(
     projectsListUiState: ProjectsListUiState,
     isLoading: Boolean,
+    isSearchCompleted: Boolean,
     canCreateParticipation: Boolean,
     projectsList: List<Project>,
     onSearchTextEdit: (String) -> Unit,
@@ -228,8 +232,8 @@ fun ProjectsListPage(
                             onCreateParticipationClick = { onCreateParticipationClick(project.id) }
                         )
                     }
-                    if (isLoading) {
-                        item {
+                    item {
+                        SIExtensibleVisibilityFadeOnly(visible = isLoading) {
                             Box(
                                 modifier = Modifier.fillMaxWidth(),
                                 contentAlignment = Alignment.Center
@@ -243,6 +247,7 @@ fun ProjectsListPage(
                             }
                         }
                     }
+
                     item {
                         Spacer(modifier = Modifier.height(128.dp))
                         Spacer(
@@ -253,44 +258,50 @@ fun ProjectsListPage(
                     }
                 }
             }
-            if (projectsList.isEmpty()) {
-                if (isLoading) {
-                    Column(
-                        modifier = Modifier.padding(
-                            top = 15.dp,
-                            start = 15.dp,
-                            end = 15.dp
-                        ),
-                        verticalArrangement = Arrangement.spacedBy(15.dp)
-                    ) {
-                        ProjectItemPlaceHolder()
-                        ProjectItemPlaceHolder()
+            SIExtensibleVisibilityFadeOnly(visible = projectsList.isEmpty()) {
+                Box {
+                    SIExtensibleVisibilityFadeOnly(visible = !isLoading && isSearchCompleted) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(15.dp),
+                            verticalArrangement = Arrangement.spacedBy(
+                                space = 15.dp,
+                                alignment = Alignment.CenterVertically
+                            )
+                        ) {
+                            Text(
+                                modifier = Modifier.fillMaxWidth(),
+                                text = stringResource(R.string.projects_not_found),
+                                style = AppTheme.typography.title.copy(
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                color = AppTheme.colorScheme.secondary,
+                                textAlign = TextAlign.Center
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(horizontal = 15.dp),
+                                text = stringResource(R.string.projects_not_found_desc),
+                                style = AppTheme.typography.subtitle,
+                                color = AppTheme.colorScheme.secondary,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
-                }
-                if (!isLoading) {
-                    Column(
-                        modifier = Modifier.fillMaxSize().padding(15.dp),
-                        verticalArrangement = Arrangement.spacedBy(
-                            space = 15.dp,
-                            alignment = Alignment.CenterVertically
-                        )
-                    ) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = stringResource(R.string.projects_not_found),
-                            style = AppTheme.typography.title.copy(
-                                fontWeight = FontWeight.Bold
+                    SIExtensibleVisibilityFadeOnly(visible = isLoading) {
+                        Column(
+                            modifier = Modifier.padding(
+                                top = 15.dp,
+                                start = 15.dp,
+                                end = 15.dp
                             ),
-                            color = AppTheme.colorScheme.secondary,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(
-                            modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp),
-                            text = stringResource(R.string.projects_not_found_desc),
-                            style = AppTheme.typography.subtitle,
-                            color = AppTheme.colorScheme.secondary,
-                            textAlign = TextAlign.Center
-                        )
+                            verticalArrangement = Arrangement.spacedBy(15.dp)
+                        ) {
+                            ProjectItemPlaceHolder()
+                            ProjectItemPlaceHolder()
+                        }
                     }
                 }
             }
@@ -333,6 +344,7 @@ fun PreviewProjectsListPageLoading() {
         ProjectsListPage(
             projectsListUiState = ProjectsListUiState(),
             isLoading = true,
+            isSearchCompleted = false,
             projectsList = listOf(),
             canCreateParticipation = true,
             onSearchTextEdit = { },
@@ -353,6 +365,7 @@ fun PreviewProjectsListPageEmpty() {
         ProjectsListPage(
             projectsListUiState = ProjectsListUiState(),
             isLoading = false,
+            isSearchCompleted = true,
             projectsList = listOf(),
             canCreateParticipation = true,
             onSearchTextEdit = { },
@@ -377,6 +390,7 @@ fun PreviewProjectsListPageWithSearch(
                 isSearchVisible = true
             ),
             isLoading = false,
+            isSearchCompleted = true,
             projectsList = listOf(project),
             canCreateParticipation = true,
             onSearchTextEdit = { },
@@ -401,6 +415,7 @@ fun PreviewProjectsListPageWithLoading(
                 isSearchVisible = false
             ),
             isLoading = true,
+            isSearchCompleted = false,
             projectsList = listOf(project),
             canCreateParticipation = true,
             onSearchTextEdit = { },

@@ -32,7 +32,6 @@ fun HorizontalCalendar(
         modifier = modifier
             .padding(vertical = 15.dp)
             .fillMaxWidth(),
-//        contentPadding = PaddingValues(horizontal = 15.dp),
         state = calendarState,
         flingBehavior = snapFlingBehavior
     ) {

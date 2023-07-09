@@ -148,7 +148,22 @@ fun FlowGroupsPreview() {
 }
 
 @Composable
-@Preview(locale = "ru")
+@Preview(name = "Accordion item compressed", locale = "ru")
+fun CourseAccordionItemPreview() {
+    AppTheme {
+        CourseAccordionItem(
+            course = Course(
+                courseNumber = 3,
+                groups = emptyList()
+            ),
+            expanded = false,
+            onChooseGroup = { }
+        )
+    }
+}
+
+@Composable
+@Preview(name = "Accordion item expanded")
 fun CourseAccordionItemExpandedPreview() {
     AppTheme {
         CourseAccordionItem(

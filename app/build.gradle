@@ -84,6 +84,7 @@ dependencies {
 
     // https://developer.android.com/jetpack/androidx/releases/lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle"
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:$lifecycle"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle"
 
     // https://github.com/google/accompanist/releases

@@ -18,6 +18,7 @@ import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -26,12 +27,14 @@ import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.LessonStatus
 import com.istu.schedule.data.enums.LessonType
-import com.istu.schedule.domain.model.schedule.Classroom
 import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.LessonTime
+import com.istu.schedule.domain.model.schedule.SampleScheduleProvider
 import com.istu.schedule.domain.model.schedule.Schedule
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
+import com.istu.schedule.ui.theme.Green
+import com.istu.schedule.ui.theme.GreenContainer
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.ui.theme.Shape5
@@ -276,6 +279,63 @@ fun ScheduleCard(
 }
 
 @Composable
+fun BreakTime(stringBreakTime: String) {
+    Box(
+        modifier = Modifier
+            .background(
+                color = GreenContainer,
+                shape = Shape10
+            )
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(horizontal = 10.dp, vertical = 15.dp)
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            androidx.compose.material3.Text(
+                text = stringResource(id = R.string.break_time),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Normal,
+                fontFamily = interFamily,
+                color = Green
+            )
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(5.dp)
+            ) {
+                if (LocalTime.parse(stringBreakTime).hour > 0) {
+                    androidx.compose.material3.Text(
+                        text = pluralStringResource(
+                            id = R.plurals.hours,
+                            count = LocalTime.parse(stringBreakTime).hour,
+                            LocalTime.parse(stringBreakTime).hour
+                        ),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = interFamily,
+                        color = Green
+                    )
+                }
+                if (LocalTime.parse(stringBreakTime).minute > 0) {
+                    androidx.compose.material3.Text(
+                        text = pluralStringResource(
+                            id = R.plurals.minutes,
+                            count = LocalTime.parse(stringBreakTime).minute,
+                            LocalTime.parse(stringBreakTime).minute
+                        ),
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Normal,
+                        fontFamily = interFamily,
+                        color = Green
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
 fun ScheduleCardPlaceHolder() {
     Box(
         modifier = Modifier
@@ -294,39 +354,59 @@ fun ScheduleCardPlaceHolder() {
 
 @Composable
 @Preview(showBackground = false, locale = "ru")
-fun ScheduleCardPreview() {
-    val schedule = Schedule(
-        scheduleId = 0,
-        groupsVerbose = "ИСТб-20-3",
-        groups = emptyList(),
-        teachersVerbose = "Харахинов В.А.",
-        teachers = emptyList(),
-        classroomId = 0,
-        classroom = Classroom(
-            classroomId = 0,
-            name = ""
-        ),
-        classroomVerbose = "Д-105б",
-        disciplineId = 0,
-        discipline = null,
-        disciplineVerbose = "Разработка мобильных приложений",
-        otherDisciplineId = 0,
-        otherDiscipline = null,
-        queryId = 0,
-        query = null,
-        lessonId = 0,
-        lessonTime = LessonTime(
+fun BreakTimePreview() {
+    AppTheme {
+        BreakTime(stringBreakTime = "01:30:00")
+    }
+}
+
+@Composable
+@Preview(name = "Lesson", showBackground = false)
+fun ScheduleCardPreview(
+    @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
+) {
+    val lesson = Lesson(
+        time = LessonTime(
             lessonId = 0,
             lessonNumber = "4",
             begTime = "13:45",
             endTime = "15:15"
         ),
-        subgroup = 1,
-        lessonType = LessonType.LECTURE,
-        scheduleType = "",
-        date = "2023-03-31"
+        schedules = listOf(schedule)
     )
 
+    val currentDateTime = LocalDateTime.of(2023, 3, 31, 0, 0)
+    AppTheme {
+        ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+    }
+}
+
+@Composable
+@Preview(name = "Current lesson", showBackground = false, locale = "ru")
+fun ScheduleCardCurrentLessonPreview(
+    @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
+) {
+    val lesson = Lesson(
+        time = LessonTime(
+            lessonId = 0,
+            lessonNumber = "4",
+            begTime = "13:45",
+            endTime = "15:15"
+        ),
+        schedules = listOf(schedule)
+    )
+
+    val currentDateTime = LocalDateTime.of(2023, 3, 31, 14, 4)
+    AppTheme {
+        ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+    }
+}
+
+@Composable
+@Preview(name = "Expanded lesson", showBackground = false, locale = "ru")
+fun ScheduleCardExpandedPreview(
+    @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
+) {
     val lesson = Lesson(
         time = LessonTime(
             lessonId = 0,
@@ -337,7 +417,7 @@ fun ScheduleCardPreview() {
         schedules = listOf(schedule, schedule)
     )
 
-    val currentDateTime = LocalDateTime.of(2023, 3, 31, 14, 4)
+    val currentDateTime = LocalDateTime.of(2023, 3, 31, 0, 0)
     AppTheme {
         ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
     }

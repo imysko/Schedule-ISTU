@@ -53,7 +53,7 @@ fun SearchBar(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(AppTheme.colorScheme.background),
+                .background(AppTheme.colorScheme.backgroundSecondary),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {

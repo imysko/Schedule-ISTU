@@ -42,7 +42,7 @@ fun LanguagePage(
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.backgroundSecondary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.application_language),
@@ -54,7 +54,7 @@ fun LanguagePage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(AppTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 Column(
                     modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp),

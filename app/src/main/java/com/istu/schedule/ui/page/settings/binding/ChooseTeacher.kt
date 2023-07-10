@@ -62,7 +62,7 @@ fun ChooseTeacher(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.backgroundSecondary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.account),
@@ -74,7 +74,7 @@ fun ChooseTeacher(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(AppTheme.colorScheme.background),
+                    .background(AppTheme.colorScheme.backgroundSecondary),
                 verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {
                 SearchLine(
@@ -140,8 +140,8 @@ fun SearchLine(
             }
         ),
         colors = OutlinedTextFieldDefaults.colors(
-            focusedContainerColor = AppTheme.colorScheme.background,
-            unfocusedContainerColor = AppTheme.colorScheme.background
+            focusedContainerColor = AppTheme.colorScheme.backgroundSecondary,
+            unfocusedContainerColor = AppTheme.colorScheme.backgroundSecondary
         ),
         shape = RoundedCornerShape(10.dp)
     )

@@ -111,7 +111,7 @@ fun ProjectPage(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
                 Text(
@@ -158,7 +158,7 @@ fun ProjectPage(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.backgroundSecondary)
                 .padding(
                     start = 15.dp,
                     end = 15.dp,

@@ -157,7 +157,7 @@ fun SchedulePage(
     onSetupScheduleClick: () -> Unit
 ) {
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             ScheduleTopBar(
                 scheduleUiState = scheduleUiState,
@@ -175,7 +175,7 @@ fun SchedulePage(
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 SIExtensibleVisibility(scheduleUiState.isScheduleListVisible) {
                     ScheduleContent(
@@ -460,7 +460,7 @@ internal fun LazyListScope.foundedList(
         stickyHeader {
             Text(
                 modifier = Modifier
-                    .background(AppTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
                     .fillMaxWidth(),
                 text = title,
                 style = AppTheme.typography.title

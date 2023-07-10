@@ -31,7 +31,7 @@ fun LoadingPanel(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = AppTheme.colorScheme.background.copy(alpha = 0.75f))
+                .background(color = AppTheme.colorScheme.backgroundSecondary.copy(alpha = 0.75f))
                 .alpha(0.75f),
             contentAlignment = Alignment.Center
         ) {

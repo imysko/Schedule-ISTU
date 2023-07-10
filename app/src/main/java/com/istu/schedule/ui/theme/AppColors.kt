@@ -12,7 +12,8 @@ class AppColors(
     secondary: Color,
     textPrimary: Color,
     textSecondary: Color,
-    background: Color,
+    backgroundPrimary: Color,
+    backgroundSecondary: Color,
     surface: Color,
     success: Color,
     warning: Color,
@@ -31,7 +32,9 @@ class AppColors(
         private set
     var textSecondary by mutableStateOf(textSecondary)
         private set
-    var background by mutableStateOf(background)
+    var backgroundPrimary by mutableStateOf(backgroundPrimary)
+        private set
+    var backgroundSecondary by mutableStateOf(backgroundSecondary)
         private set
     var surface by mutableStateOf(surface)
         private set
@@ -52,7 +55,8 @@ class AppColors(
         secondary: Color = this.secondary,
         textPrimary: Color = this.textPrimary,
         textSecondary: Color = this.textSecondary,
-        background: Color = this.background,
+        backgroundPrimary: Color = this.backgroundPrimary,
+        backgroundSecondary: Color = this.backgroundSecondary,
         surface: Color = this.surface,
         success: Color = this.success,
         warning: Color = this.warning,
@@ -65,7 +69,8 @@ class AppColors(
         secondary,
         textPrimary,
         textSecondary,
-        background,
+        backgroundPrimary,
+        backgroundSecondary,
         surface,
         success,
         warning,
@@ -81,7 +86,8 @@ class AppColors(
         secondary = other.secondary
         textPrimary = other.textPrimary
         textSecondary = other.textSecondary
-        background = other.background
+        backgroundPrimary = other.backgroundPrimary
+        backgroundSecondary = other.backgroundSecondary
         success = other.success
         warning = other.warning
         error = other.error
@@ -95,7 +101,8 @@ fun lightColors(
     secondary: Color = Gray,
     textPrimary: Color = TextPrimary,
     textSecondary: Color = TextSecondary,
-    background: Color = Background,
+    backgroundPrimary: Color = Blue,
+    backgroundSecondary: Color = Background,
     surface: Color = Color.White,
     success: Color = Green,
     warning: Color = Orange,
@@ -107,7 +114,8 @@ fun lightColors(
     secondary = secondary,
     textPrimary = textPrimary,
     textSecondary = textSecondary,
-    background = background,
+    backgroundPrimary = backgroundPrimary,
+    backgroundSecondary = backgroundSecondary,
     surface = surface,
     success = success,
     warning = warning,

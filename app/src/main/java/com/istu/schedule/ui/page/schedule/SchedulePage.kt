@@ -111,7 +111,7 @@ fun SchedulePage(
     onSetupScheduleClick: () -> Unit
 ) {
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             ScheduleTopBar(
                 scheduleUiState = scheduleUiState,

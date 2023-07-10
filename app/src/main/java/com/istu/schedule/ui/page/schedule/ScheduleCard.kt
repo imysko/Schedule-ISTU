@@ -117,7 +117,7 @@ fun ScheduleCard(
                                     .padding(horizontal = 7.dp),
                                 text = lesson.time.lessonNumber,
                                 style = AppTheme.typography.bodyMedium.copy(
-                                    color = AppTheme.colorScheme.background
+                                    color = AppTheme.colorScheme.backgroundSecondary
                                 )
                             )
                         }
@@ -205,7 +205,7 @@ fun ScheduleCard(
                                             text = schedule.classroomVerbose,
                                             style = AppTheme.typography.title.copy(
                                                 fontWeight = FontWeight.Light,
-                                                color = AppTheme.colorScheme.background
+                                                color = AppTheme.colorScheme.backgroundSecondary
                                             )
                                         )
                                     }

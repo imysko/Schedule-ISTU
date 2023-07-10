@@ -134,7 +134,7 @@ fun ProjectsListPage(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(
                 modifier = Modifier
@@ -183,7 +183,7 @@ fun ProjectsListPage(
                 .fillMaxHeight()
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(15.dp),

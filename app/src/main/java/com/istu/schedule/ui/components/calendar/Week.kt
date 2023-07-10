@@ -76,7 +76,7 @@ fun Week(
                             },
                         style = AppTheme.typography.subtitle.copy(
                             fontWeight = FontWeight(350),
-                            color = AppTheme.colorScheme.background
+                            color = AppTheme.colorScheme.backgroundSecondary
                         )
                     )
                     Box(
@@ -85,7 +85,7 @@ fun Week(
                             .clip(CircleShape)
                             .background(
                                 if (date == selectedDate) {
-                                    AppTheme.colorScheme.background
+                                    AppTheme.colorScheme.backgroundSecondary
                                 } else {
                                     Color.Transparent
                                 }
@@ -103,7 +103,7 @@ fun Week(
                                 color = if (date == selectedDate) {
                                     AppTheme.colorScheme.primary
                                 } else {
-                                    AppTheme.colorScheme.background
+                                    AppTheme.colorScheme.backgroundSecondary
                                 }
                             )
                         )
@@ -114,7 +114,7 @@ fun Week(
                             .clip(CircleShape)
                             .background(
                                 if (date == currentDate) {
-                                    AppTheme.colorScheme.background
+                                    AppTheme.colorScheme.backgroundSecondary
                                 } else {
                                     Color.Transparent
                                 }
@@ -133,7 +133,7 @@ fun Week(
                 text = selectedDate.dayOfMonth.toString(),
                 fontFamily = interFamily,
                 fontSize = 12.sp,
-                color = AppTheme.colorScheme.background
+                color = AppTheme.colorScheme.backgroundSecondary
             )
             Text(
                 text = selectedDate.month.getDisplayName(
@@ -142,7 +142,7 @@ fun Week(
                 ),
                 fontFamily = interFamily,
                 fontSize = 12.sp,
-                color = AppTheme.colorScheme.background
+                color = AppTheme.colorScheme.backgroundSecondary
             )
         }
     }

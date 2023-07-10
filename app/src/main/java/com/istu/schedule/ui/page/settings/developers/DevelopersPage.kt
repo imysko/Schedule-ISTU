@@ -49,7 +49,7 @@ fun DevelopersPage(navController: NavController) {
     val emailSubject = stringResource(R.string.projfair)
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.backgroundSecondary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.developers),

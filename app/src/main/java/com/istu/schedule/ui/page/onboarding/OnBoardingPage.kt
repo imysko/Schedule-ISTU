@@ -48,7 +48,7 @@ fun OnBoardingPage(
     val onBoardingUiState = viewModel.onBoardingUiState.collectAsStateValue()
 
     Surface(
-        color = AppTheme.colorScheme.background,
+        color = AppTheme.colorScheme.backgroundSecondary,
         content = {
             Column(
                 modifier = Modifier

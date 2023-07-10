@@ -45,7 +45,7 @@ fun ChooseUserStatus(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.backgroundSecondary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.account),
@@ -57,7 +57,7 @@ fun ChooseUserStatus(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(AppTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 LazyColumn(
                     modifier = Modifier.padding(top = 34.dp, start = 15.dp, end = 15.dp),

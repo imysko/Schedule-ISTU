@@ -130,7 +130,7 @@ fun AuthorizedPage(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
                 Row(
@@ -215,7 +215,7 @@ fun AuthorizedPage(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
             HorizontalPager(
                 pageCount = pages.size,
@@ -261,7 +261,7 @@ fun ParticipationsPage(
     SIDialog(
         modifier = Modifier.clip(Shape20),
         visible = deleteDialogVisible,
-        backgroundColor = AppTheme.colorScheme.background,
+        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),

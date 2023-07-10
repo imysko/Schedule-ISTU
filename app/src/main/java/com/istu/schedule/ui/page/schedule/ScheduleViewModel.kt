@@ -3,6 +3,7 @@ package com.istu.schedule.ui.page.schedule
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.model.RequestException
@@ -18,13 +19,19 @@ import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import java.util.Locale
-import javax.inject.Inject
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Locale
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class ScheduleViewModel @Inject constructor(
@@ -53,16 +60,23 @@ class ScheduleViewModel @Inject constructor(
     private val _searchedSchedule = MutableLiveData<StudyDay>()
     val searchedSchedule: LiveData<StudyDay> = _searchedSchedule
 
-    private val _currentDate = MutableLiveData<LocalDate>().apply {
-        value = LocalDate.now()
+    val currentDateTime = flow {
+        while (true) {
+            delay(1.seconds)
+            emit(LocalDateTime.now())
+        }
     }
-    val currentDate: LiveData<LocalDate> = _currentDate
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000L),
+            LocalDateTime.now()
+        )
 
     private val _weeksList = MutableLiveData<MutableList<Week>>().apply {
         value = mutableListOf()
 
-        val startDate = _currentDate.value!!
-            .minusDays((_currentDate.value!!.dayOfWeek.value - 1).toLong())
+        val startDate = currentDateTime.value.toLocalDate()
+            .minusDays((currentDateTime.value.toLocalDate().dayOfWeek.value - 1).toLong())
 
         value!!.add(Week(startDate.minusWeeks(1)))
         value!!.add(Week(startDate))
@@ -71,7 +85,7 @@ class ScheduleViewModel @Inject constructor(
     val weeksList: LiveData<MutableList<Week>> = _weeksList
 
     private val _selectedDate = MutableLiveData<LocalDate>().apply {
-        value = _currentDate.value
+        value = currentDateTime.value.toLocalDate()
     }
     val selectedDate: LiveData<LocalDate> = _selectedDate
 

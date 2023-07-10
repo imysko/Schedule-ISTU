@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -119,12 +120,17 @@ fun AuthorizedPage(
     onDeletePressed: (Int) -> Unit = {}
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
     val pages = listOf(
         stringResource(R.string.my_profile),
         stringResource(R.string.my_participations),
         stringResource(R.string.my_projects)
     )
+
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) { pages.count() }
+
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
     }
@@ -217,10 +223,7 @@ fun AuthorizedPage(
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
-            HorizontalPager(
-                pageCount = pages.size,
-                state = pagerState
-            ) { page ->
+            HorizontalPager(state = pagerState) { page ->
                 when (page) {
                     0 -> {
                         ProfilePage(candidate = candidate)
@@ -256,7 +259,7 @@ fun ParticipationsPage(
 ) {
     var deleteDialogVisible by remember { mutableStateOf(false) }
     var isEditMode by remember { mutableStateOf(false) }
-    var selectedParticipation by remember { mutableStateOf(0) }
+    var selectedParticipation by remember { mutableIntStateOf(0) }
 
     SIDialog(
         modifier = Modifier.clip(Shape20),

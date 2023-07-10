@@ -58,7 +58,7 @@ fun SearchContent(
             .fillMaxSize()
             .padding(top = paddingValues.calculateTopPadding())
             .clip(ShapeTop15)
-            .background(AppTheme.colorScheme.background)
+            .background(AppTheme.colorScheme.backgroundSecondary)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -121,7 +121,7 @@ internal fun LazyListScope.foundedList(
         stickyHeader {
             Text(
                 modifier = Modifier
-                    .background(AppTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
                     .fillMaxWidth(),
                 text = title,
                 style = AppTheme.typography.title

@@ -100,12 +100,17 @@ fun ProjectPage(
     onBackPressed: () -> Unit = {},
     onCreateParticipationPressed: () -> Unit = {}
 ) {
-    val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
     val pages = listOf(
         stringResource(R.string.about_project),
         stringResource(R.string.list_of_particpations)
     )
+
+    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) { pages.count() }
+
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
     }
@@ -199,10 +204,7 @@ fun ProjectPage(
                         fontWeight = FontWeight.SemiBold
                     )
                 )
-                HorizontalPager(
-                    pageCount = pages.size,
-                    state = pagerState
-                ) { page ->
+                HorizontalPager(state = pagerState) { page ->
                     when (page) {
                         0 -> ProjectInfo(
                             project = project,

@@ -30,14 +30,14 @@ import java.time.LocalDateTime
 @Composable
 fun ScheduleContent(
     paddingValues: PaddingValues = PaddingValues(),
-    content: @Composable() () -> Unit = { }
+    content: @Composable () -> Unit = { }
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = paddingValues.calculateTopPadding())
             .clip(ShapeTop15)
-            .background(AppTheme.colorScheme.background),
+            .background(AppTheme.colorScheme.backgroundSecondary),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -49,7 +49,7 @@ fun ScheduleContent(
 fun ScheduleList(
     currentDateTime: LocalDateTime,
     studyDay: StudyDay,
-    spacer: @Composable() () -> Unit = { }
+    spacer: @Composable () -> Unit = { }
 ) {
     LazyColumn(
         modifier = Modifier
@@ -80,7 +80,7 @@ fun ScheduleList(
 
 @Composable
 fun ScheduleListIsLoading(
-    spacer: @Composable() () -> Unit = { }
+    spacer: @Composable () -> Unit = { }
 ) {
     LazyColumn(
         modifier = Modifier
@@ -101,7 +101,7 @@ fun ScheduleListIsLoading(
 @Composable
 fun UserNotBindedPlaceholder(
     onSetupScheduleClick: () -> Unit,
-    spacer: @Composable() () -> Unit = { },
+    spacer: @Composable () -> Unit = { }
 ) {
     Text(
         modifier = Modifier.padding(horizontal = 15.dp),
@@ -122,7 +122,7 @@ fun UserNotBindedPlaceholder(
 
 @Composable
 fun WeekendPlaceholder(
-    spacer: @Composable() () -> Unit = { }
+    spacer: @Composable () -> Unit = { }
 ) {
     Text(
         text = stringResource(id = R.string.weekend),

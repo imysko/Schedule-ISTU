@@ -106,10 +106,13 @@ dependencies {
     implementation "androidx.compose.material:material:$compose"
     implementation "androidx.compose.material:material-icons-extended:$compose"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose"
+    implementation "androidx.compose.runtime:runtime-livedata:$compose"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose"
     androidTestImplementation "androidx.compose.ui:ui-test:$compose"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose"
+
+    implementation "androidx.lifecycle:lifecycle-runtime-compose:2.6.1"
 
     // hilt
     implementation "androidx.hilt:hilt-work:1.0.0"
@@ -120,9 +123,8 @@ dependencies {
 
     // android
     implementation "androidx.tracing:tracing:1.1.0"
-    implementation "androidx.core:core-ktx:1.10.0"
-    implementation "androidx.activity:activity-compose:1.7.1"
-    implementation 'androidx.compose.runtime:runtime-livedata:1.5.0-alpha03'
+    implementation "androidx.core:core-ktx:1.10.1"
+    implementation "androidx.activity:activity-compose:1.7.2"
     implementation 'androidx.work:work-runtime-ktx:2.8.1'
 
     testImplementation 'junit:junit:4.13.2'

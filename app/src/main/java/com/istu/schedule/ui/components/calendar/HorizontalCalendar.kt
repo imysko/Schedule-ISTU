@@ -35,7 +35,7 @@ fun HorizontalCalendar(
 
     LazyRow(
         modifier = modifier
-            .padding(vertical = 15.dp
+            .padding(vertical = 15.dp)
             .fillMaxWidth()
             .pointerInput(Unit) {
                 detectHorizontalDragGestures(

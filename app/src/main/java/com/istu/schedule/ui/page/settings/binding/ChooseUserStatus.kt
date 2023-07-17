@@ -32,6 +32,7 @@ import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.theme.ShapeTop15
 
 @Composable
 fun ChooseUserStatus(
@@ -45,10 +46,11 @@ fun ChooseUserStatus(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.backgroundSecondary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.account),
+                isShowBackButton = true,
                 onBackClick = { onBackClick() }
             )
         },
@@ -57,10 +59,11 @@ fun ChooseUserStatus(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
+                    .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 LazyColumn(
-                    modifier = Modifier.padding(top = 34.dp, start = 15.dp, end = 15.dp),
+                    modifier = Modifier.padding(top = 20.dp, start = 15.dp, end = 15.dp),
                     verticalArrangement = Arrangement.spacedBy(20.dp)
                 ) {
                     item {

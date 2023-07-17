@@ -47,6 +47,7 @@ import com.istu.schedule.domain.model.schedule.Teacher
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
+import com.istu.schedule.ui.theme.ShapeTop15
 
 @Composable
 fun ChooseTeacher(
@@ -62,10 +63,11 @@ fun ChooseTeacher(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.backgroundSecondary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.account),
+                isShowBackButton = true,
                 onBackClick = { onBackClick() }
             )
         },
@@ -74,6 +76,7 @@ fun ChooseTeacher(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
+                    .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary),
                 verticalArrangement = Arrangement.spacedBy(18.dp)
             ) {

@@ -16,6 +16,9 @@ import com.istu.schedule.ui.page.projfair.participation.CreateParticipationPage
 import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.schedule.SchedulePage
 import com.istu.schedule.ui.page.settings.SettingsPage
+import com.istu.schedule.ui.page.settings.binding.BindingPage
+import com.istu.schedule.ui.page.settings.developers.DevelopersPage
+import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.util.NavDestinations
 
 @OptIn(ExperimentalAnimationApi::class)
@@ -47,7 +50,7 @@ fun BottomNavGraph(
         animatedComposable(
             route = BottomNavItem.SettingsPage.route
         ) {
-            SettingsPage(navController)
+            SettingsPage(bottomNavController)
             SetStatusBarIconColor(systemUiController)
         }
 
@@ -55,6 +58,27 @@ fun BottomNavGraph(
             route = BottomNavItem.AccountPage.route
         ) {
             AccountPage(bottomNavController, navController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.BINDING
+        ) {
+            BindingPage(bottomNavController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.LANGUAGE
+        ) {
+            LanguagePage(bottomNavController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.DEVELOPERS
+        ) {
+            DevelopersPage(bottomNavController)
             SetStatusBarIconColor(systemUiController)
         }
 

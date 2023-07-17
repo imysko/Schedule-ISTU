@@ -55,7 +55,11 @@ class ListViewModel @Inject constructor(
             )
         }, onSuccess = {
             for (item in it) {
-                _projectsList.addNewItem(item)
+                // TODO: resolve the double query problem
+                // temporary solution
+                if (_projectsList.value?.any { project -> project.id == item.id } != true) {
+                    _projectsList.addNewItem(item)
+                }
             }
             _currentPage += 1
             _user.setFiltersChanged(false)

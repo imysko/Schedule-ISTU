@@ -42,6 +42,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -64,6 +65,7 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.toProjectDifficulty
@@ -527,15 +529,28 @@ fun ProjectParticipations(project: Project) {
 fun ParticipationInProject(index: Int, participation: Participation) {
     val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
     Row(modifier = Modifier.padding(vertical = 10.dp)) {
-        Text(
+        Box(
             modifier = Modifier
                 .weight(0.05f)
-                .padding(horizontal = 2.dp),
-            text = index.toString(),
-            style = AppTheme.typography.labelMedium,
-            fontWeight = FontWeight.SemiBold,
-            textAlign = TextAlign.Center
-        )
+                .padding(horizontal = 2.dp)
+                .clip(Shape10)
+                .background(
+                    if (participation.state.id == 2) {
+                        AppTheme.colorScheme.success.copy(alpha = 0.3f)
+                    } else {
+                        Color.Transparent
+                    }
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = index.toString(),
+                style = AppTheme.typography.labelMedium,
+                fontWeight = FontWeight.SemiBold,
+                textAlign = TextAlign.Center
+            )
+        }
         Text(
             modifier = Modifier
                 .weight(0.225f)

@@ -18,6 +18,6 @@ class LoginProjfairViewModel @Inject constructor(
                 break
             }
         }
-        _user.projfairToken = token
+        _user.loginProjfair(token)
     }
 }

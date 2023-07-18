@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 @HiltViewModel
-class ListViewModel @Inject constructor(
+class ProjectsListViewModel @Inject constructor(
     private val _projectsUseCase: GetProjectsListUseCase,
     private val _user: User
 ) : BaseViewModel() {
@@ -25,21 +25,20 @@ class ListViewModel @Inject constructor(
     private val _projectsListUiState = MutableStateFlow(ProjectsListUiState())
     val projectsListUiState: StateFlow<ProjectsListUiState> = _projectsListUiState.asStateFlow()
 
-    private val _projectsList = MutableLiveData<MutableList<Project>>()
-    val projectsList: LiveData<MutableList<Project>> = _projectsList
+    private val _projectsList = MutableLiveData<List<Project>>()
+    val projectsList: LiveData<List<Project>> = _projectsList
 
     val projfairFiltersState: StateFlow<ProjfairFiltersState> = _user.projfairFiltersState
 
-    val canCreateParticipation: Boolean =
-        _user.candidate.value?.canSendParticipations == 1 &&
-            ((_user.participationsList.value?.size ?: 3) < 3)
+    val canCreateParticipation: Boolean = _user.candidate.value?.canSendParticipations == 1 &&
+        ((_user.participationsList.value?.size ?: 3) < 3)
 
     private val _isSearchCompleted = MutableLiveData(false)
     val isSearchCompleted: LiveData<Boolean> = _isSearchCompleted
 
     private var _currentPage = 1
 
-    fun getProjectsList() {
+    fun fetchProjectsList() {
         _isSearchCompleted.value = false
         call({
             _projectsUseCase.getProjectsList(
@@ -55,11 +54,7 @@ class ListViewModel @Inject constructor(
             )
         }, onSuccess = {
             for (item in it) {
-                // TODO: resolve the double query problem
-                // temporary solution
-                if (_projectsList.value?.any { project -> project.id == item.id } != true) {
-                    _projectsList.addNewItem(item)
-                }
+                _projectsList.addNewItem(item)
             }
             _currentPage += 1
             _user.setFiltersChanged(false)
@@ -79,7 +74,7 @@ class ListViewModel @Inject constructor(
 
     fun clearList() {
         _currentPage = 1
-        _projectsList.value?.clear()
+        _projectsList.value = listOf()
     }
 }
 

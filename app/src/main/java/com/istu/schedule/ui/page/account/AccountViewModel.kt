@@ -2,7 +2,6 @@ package com.istu.schedule.ui.page.account
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.projfair.Candidate
@@ -15,7 +14,6 @@ import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.launch
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
@@ -25,33 +23,23 @@ class AccountViewModel @Inject constructor(
     private val _user: User
 ) : BaseViewModel() {
 
-    val participationsList: LiveData<MutableList<Participation>> = _user.participationsList
+    val participationsList: LiveData<List<Participation>> = _user.participationsList
 
-    private val _projectsList = MutableLiveData<MutableList<Project>>()
-    val projectsList: LiveData<MutableList<Project>> = _projectsList
+    private val _projectsList = MutableLiveData<List<Project>>()
+    val projectsList: LiveData<List<Project>> = _projectsList
 
-    private val _candidate = MutableLiveData<Candidate>(_user.candidate.value)
-    val candidate: LiveData<Candidate> = _candidate
+    val candidate: LiveData<Candidate?> = _user.candidate
 
     val authState: LiveData<ProjfairAuthStatus> = _user.authStatus
 
-    val canCreateParticipation: Boolean =
-        _user.candidate.value?.canSendParticipations == 1 &&
-            ((_user.participationsList.value?.size ?: 3) < 3)
-
-    fun collectSettingsState() {
-        viewModelScope.launch {
-            _user.candidate.collect {
-                _candidate.value = it
-            }
-        }
-    }
+    val canCreateParticipation: Boolean = _user.candidate.value?.canSendParticipations == 1 &&
+        ((_user.participationsList.value?.size ?: 3) < 3)
 
     fun logout() {
         _user.logoutProjfair()
     }
 
-    fun getCandidateInfo() {
+    fun fetchCandidateInfo() {
         if (_projectsList.value?.isNotEmpty() == true) return
 
         _user.projfairToken?.let { token ->
@@ -75,6 +63,7 @@ class AccountViewModel @Inject constructor(
             call({
                 _deleteParticipationUseCase.deleteParticipation(token, participationId)
             }, onSuccess = {
+                _user.fetchParticipationsList()
             })
         }
     }

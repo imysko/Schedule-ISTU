@@ -36,7 +36,7 @@ fun BottomNavGraph(
         animatedComposable(
             route = BottomNavItem.SchedulePage.route
         ) {
-            SchedulePage(navController)
+            SchedulePage(bottomNavController)
             SetStatusBarIconColor(systemUiController)
         }
 

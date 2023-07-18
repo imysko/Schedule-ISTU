@@ -12,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.istu.schedule.util.NavDestinations
 
 @Composable
 fun LoginProjfairPage(
@@ -52,7 +53,9 @@ fun LoginProjfairPage(
                                 view.visibility = View.INVISIBLE
                                 val cookies = CookieManager.getInstance().getCookie(url)
                                 viewModel.login(cookies)
-                                navController.popBackStack()
+                                navController.navigate(NavDestinations.MAIN) {
+                                    popUpTo(0)
+                                }
                             }
                         }
 

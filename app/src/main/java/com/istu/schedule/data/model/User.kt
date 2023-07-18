@@ -10,11 +10,12 @@ import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
 import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
-import com.istu.schedule.util.addNewItem
+import com.istu.schedule.util.addNewItemAsync
 import com.istu.schedule.util.toUserStatusEnum
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -32,14 +33,14 @@ class User @Inject constructor(
     private val _projfairFiltersState = MutableStateFlow(ProjfairFiltersState())
     val projfairFiltersState: StateFlow<ProjfairFiltersState> = _projfairFiltersState.asStateFlow()
 
-    private val _candidate = MutableStateFlow<Candidate?>(null)
-    val candidate: StateFlow<Candidate?> = _candidate
+    private val _candidate = MutableLiveData<Candidate?>(null)
+    val candidate: LiveData<Candidate?> = _candidate
 
     private val _authStatus = MutableLiveData(ProjfairAuthStatus.UNDEFINED)
     val authStatus: LiveData<ProjfairAuthStatus> = _authStatus
 
-    private val _participationsList = MutableLiveData<MutableList<Participation>>()
-    val participationsList: LiveData<MutableList<Participation>> = _participationsList
+    private val _participationsList = MutableLiveData<List<Participation>>()
+    val participationsList: LiveData<List<Participation>> = _participationsList
 
     init {
         setAuth()
@@ -56,45 +57,54 @@ class User @Inject constructor(
     private fun setAuth() {
         if (projfairToken != null) {
             _authStatus.value = ProjfairAuthStatus.SUCCESS
-            MainScope().launch { getCandidate() }
+            fetchCandidate()
+            fetchParticipationsList()
         } else {
             _authStatus.value = ProjfairAuthStatus.AUTH
         }
     }
 
-    private suspend fun getCandidate() {
-        _candidateUseCase.getCandidate(projfairToken!!)
-            .onSuccess {
-                _candidate.value = it
-                getParticipationsList()
-            }
-            .onFailure {
-                _authStatus.postValue(ProjfairAuthStatus.AUTH)
-                projfairToken = null
-            }
+    private fun fetchCandidate() {
+        CoroutineScope(Dispatchers.IO).launch {
+            _candidateUseCase.getCandidate(projfairToken!!)
+                .onSuccess {
+                    _candidate.postValue(it)
+                }
+                .onFailure {
+                    _authStatus.postValue(ProjfairAuthStatus.AUTH)
+                    projfairToken = null
+                }
+        }
     }
 
-    private suspend fun getParticipationsList() {
-        _participationsListUseCase.getParticipationsList(projfairToken!!)
-            .onSuccess {
-                for (item in it.sortedBy { participation -> participation.priority }) {
-                    if (item.state.id in 1..2) {
-                        _projectUseCase.getProject(item.projectId).onSuccess { project ->
-                            val participation = item.copy(project = project)
-                            _participationsList.addNewItem(participation)
+    fun fetchParticipationsList() {
+        CoroutineScope(Dispatchers.IO).launch {
+            _participationsListUseCase.getParticipationsList(projfairToken!!)
+                .onSuccess {
+                    for (item in it.sortedBy { participation -> participation.priority }) {
+                        if (item.state.id in 1..2) {
+                            _projectUseCase.getProject(item.projectId).onSuccess { project ->
+                                val participation = item.copy(project = project)
+                                _participationsList.addNewItemAsync(participation)
+                            }
                         }
                     }
                 }
-            }
-            .onFailure {
-                delay(5000)
-                getParticipationsList()
-            }
+                .onFailure {
+                    delay(5000)
+                    fetchParticipationsList()
+                }
+        }
+    }
+
+    fun loginProjfair(token: String) {
+        projfairToken = token
     }
 
     fun logoutProjfair() {
         projfairToken = null
         _candidate.value = null
+        _participationsList.value = listOf()
     }
 
     var projfairToken: String?

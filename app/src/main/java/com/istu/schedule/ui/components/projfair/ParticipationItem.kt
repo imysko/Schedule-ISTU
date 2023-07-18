@@ -48,8 +48,9 @@ fun ParticipationItem(
     isEditMode: Boolean
 ) {
     Card(
-        shape = Shape10,
-        modifier = modifier.clickable(onClick = onClick)
+        modifier = modifier
+            .clip(Shape10)
+            .clickable(onClick = onClick)
     ) {
         Column(
             modifier = Modifier

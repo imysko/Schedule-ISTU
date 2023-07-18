@@ -71,6 +71,7 @@ import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.icons.Logout
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -86,7 +87,7 @@ fun AuthorizedPage(
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
-        viewModel.getCandidateInfo()
+        viewModel.fetchCandidateInfo()
     }
 
     AuthorizedPage(
@@ -105,6 +106,9 @@ fun AuthorizedPage(
         },
         onDeletePressed = {
             viewModel.deleteParticipation(it)
+        },
+        onLogoutPressed = {
+            viewModel.logout()
         }
     )
 }
@@ -117,8 +121,11 @@ fun AuthorizedPage(
     projectsList: MutableList<Project>,
     onProjectPressed: (Int) -> Unit = {},
     onParticipationPressed: (Int) -> Unit = {},
-    onDeletePressed: (Int) -> Unit = {}
+    onDeletePressed: (Int) -> Unit = {},
+    onLogoutPressed: () -> Unit = {}
 ) {
+    var logoutDialogVisible by remember { mutableStateOf(false) }
+
     val coroutineScope = rememberCoroutineScope()
     val pages = listOf(
         stringResource(R.string.my_profile),
@@ -134,6 +141,49 @@ fun AuthorizedPage(
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
     }
+
+    SIDialog(
+        modifier = Modifier.clip(Shape20),
+        visible = logoutDialogVisible,
+        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
+        title = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.logout_text),
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = AppTheme.colorScheme.textPrimary,
+                textAlign = TextAlign.Center
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.logout_dialog_text),
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colorScheme.secondary,
+                textAlign = TextAlign.Center
+            )
+        },
+        onDismissRequest = { logoutDialogVisible = false },
+        dismissButton = {
+            TextButton(
+                text = stringResource(R.string.cancel),
+                contentColor = AppTheme.colorScheme.primary,
+                onClick = { logoutDialogVisible = false }
+            )
+        },
+        confirmButton = {
+            TextButton(
+                text = stringResource(R.string.logout),
+                contentColor = AppTheme.colorScheme.error,
+                onClick = {
+                    onLogoutPressed()
+                    logoutDialogVisible = false
+                }
+            )
+        }
+    )
 
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
@@ -163,11 +213,10 @@ fun AuthorizedPage(
                     )
                     Row(
                         modifier = Modifier
-                            .clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) {}
-                            .padding(15.dp),
+                            .padding(5.dp)
+                            .clip(Shape10)
+                            .clickable { logoutDialogVisible = true }
+                            .padding(10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(

@@ -27,7 +27,8 @@ import com.istu.schedule.ui.theme.Shape5
 @Composable
 fun TopBar(
     title: String,
-    onBackClick: () -> Unit
+    isShowBackButton: Boolean = false,
+    onBackClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -39,37 +40,49 @@ fun TopBar(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(25.dp)
-                    .clip(Shape5)
-                    .clickable { onBackClick() },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    modifier = Modifier.size(14.dp),
-                    imageVector = Icons.Back,
-                    contentDescription = stringResource(id = R.string.back),
-                    tint = AppTheme.colorScheme.textPrimary
-                )
+            if (isShowBackButton) {
+                Box(
+                    modifier = Modifier
+                        .size(30.dp)
+                        .clip(Shape5)
+                        .clickable { onBackClick() },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Back,
+                        contentDescription = stringResource(id = R.string.back),
+                        tint = AppTheme.colorScheme.textSecondary
+                    )
+                }
             }
 
             Text(
                 text = title,
-                style = AppTheme.typography.subtitle,
-                color = AppTheme.colorScheme.textPrimary
+                style = AppTheme.typography.pageTitle,
+                color = AppTheme.colorScheme.textSecondary
             )
         }
     }
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
-fun PreviewTopBar() {
+fun PreviewTopBarWithoutBack() {
+    AppTheme {
+        TopBar(
+            title = "Settings"
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewTopBarWithBack() {
     AppTheme {
         TopBar(
             title = "Settings",
-            onBackClick = {}
+            isShowBackButton = true
         )
     }
 }

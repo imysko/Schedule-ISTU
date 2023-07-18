@@ -12,7 +12,8 @@ import com.istu.schedule.util.NavDestinations
 sealed class BottomNavItem(
     val route: String,
     val titleResId: Int,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val subroutes: List<String> = listOf()
 ) {
     object SchedulePage : BottomNavItem(
         route = NavDestinations.SCHEDULE,
@@ -23,13 +24,23 @@ sealed class BottomNavItem(
     object ProjfairPage : BottomNavItem(
         route = NavDestinations.PROJFAIR,
         titleResId = R.string.projects,
-        icon = Icons.Book
+        icon = Icons.Book,
+        subroutes = listOf(
+            NavDestinations.FILTERS,
+            NavDestinations.PROJECT,
+            NavDestinations.CREATE_PARTICIPATION
+        )
     )
 
     object SettingsPage : BottomNavItem(
         route = NavDestinations.SETTINGS,
         titleResId = R.string.settings,
-        icon = Icons.Settings
+        icon = Icons.Settings,
+        subroutes = listOf(
+            NavDestinations.BINDING,
+            NavDestinations.LANGUAGE,
+            NavDestinations.DEVELOPERS
+        )
     )
 
     object AccountPage : BottomNavItem(

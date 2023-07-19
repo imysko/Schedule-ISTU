@@ -92,7 +92,7 @@ fun AuthorizedPage(
 
     AuthorizedPage(
         candidate = candidate,
-        participationsList = participationsList,
+        participationsList = participationsList.distinctBy { participation -> participation.id },
         projectsList = projectsList.toMutableList(),
         onProjectPressed = {
             navController.navigate(
@@ -154,14 +154,6 @@ fun AuthorizedPage(
                     fontWeight = FontWeight.SemiBold
                 ),
                 color = AppTheme.colorScheme.textPrimary,
-                textAlign = TextAlign.Center
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.logout_dialog_text),
-                style = AppTheme.typography.bodyMedium,
-                color = AppTheme.colorScheme.secondary,
                 textAlign = TextAlign.Center
             )
         },

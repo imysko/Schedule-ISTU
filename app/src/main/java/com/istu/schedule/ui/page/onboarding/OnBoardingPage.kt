@@ -177,7 +177,9 @@ fun OnBoardingPage(
                                                 false
                                             )
                                         }
-                                        navController.navigate(NavDestinations.MAIN)
+                                        navController.navigate(NavDestinations.MAIN) {
+                                            popUpTo(0)
+                                        }
                                     }
                                 )
                             }
@@ -207,7 +209,11 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.next_step),
-                                    onClick = { navController.navigate(NavDestinations.MAIN) }
+                                    onClick = {
+                                        navController.navigate(NavDestinations.MAIN) {
+                                            popUpTo(0)
+                                        }
+                                    }
                                 )
                             }
                         }

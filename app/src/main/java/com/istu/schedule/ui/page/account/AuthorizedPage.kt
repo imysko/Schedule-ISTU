@@ -92,7 +92,7 @@ fun AuthorizedPage(
 
     AuthorizedPage(
         candidate = candidate,
-        participationsList = participationsList,
+        participationsList = participationsList.distinctBy { participation -> participation.id },
         projectsList = projectsList.toMutableList(),
         onProjectPressed = {
             navController.navigate(

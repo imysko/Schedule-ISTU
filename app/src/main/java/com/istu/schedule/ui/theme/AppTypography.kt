@@ -17,7 +17,7 @@ data class AppTypography(
     val pageTitle: TextStyle = TextStyle(
         fontFamily = montFamily,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 24.sp
+        fontSize = 22.sp
     ),
     val title: TextStyle = TextStyle(
         fontFamily = montFamily,

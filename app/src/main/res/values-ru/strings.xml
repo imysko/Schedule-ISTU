@@ -178,5 +178,5 @@
     <string name="projects_not_found">Проекты не найдены :(</string>
     <string name="projects_not_found_desc">Пока нет ни одного проекта с введённым названием и/или выбранными фильтрами</string>
     <string name="logout_dialog_text">Вы действительно хотите выйти из аккаунта?</string>
-    <string name="logout_text">Выход из аккаунта</string>
+    <string name="logout_text">Выйти из аккаунта?</string>
 </resources>

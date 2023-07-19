@@ -157,14 +157,6 @@ fun AuthorizedPage(
                 textAlign = TextAlign.Center
             )
         },
-        text = {
-            Text(
-                text = stringResource(R.string.logout_dialog_text),
-                style = AppTheme.typography.bodyMedium,
-                color = AppTheme.colorScheme.secondary,
-                textAlign = TextAlign.Center
-            )
-        },
         onDismissRequest = { logoutDialogVisible = false },
         dismissButton = {
             TextButton(

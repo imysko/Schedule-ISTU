@@ -178,5 +178,5 @@
     <string name="projects_not_found">No projects found :(</string>
     <string name="projects_not_found_desc">There are no projects with the entered name and/or selected filters</string>
     <string name="logout_dialog_text">Do you really want to log out of your account?</string>
-    <string name="logout_text">Account logout</string>
+    <string name="logout_text">Log out of the account?</string>
 </resources>

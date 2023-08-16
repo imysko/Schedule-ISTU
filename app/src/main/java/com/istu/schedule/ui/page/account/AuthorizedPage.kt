@@ -33,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -70,6 +71,7 @@ import com.istu.schedule.ui.components.projfair.ProjectItem
 import com.istu.schedule.ui.icons.Logout
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -85,12 +87,12 @@ fun AuthorizedPage(
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
-        viewModel.getCandidateInfo()
+        viewModel.fetchCandidateInfo()
     }
 
     AuthorizedPage(
         candidate = candidate,
-        participationsList = participationsList,
+        participationsList = participationsList.distinctBy { participation -> participation.id },
         projectsList = projectsList.toMutableList(),
         onProjectPressed = {
             navController.navigate(
@@ -104,6 +106,9 @@ fun AuthorizedPage(
         },
         onDeletePressed = {
             viewModel.deleteParticipation(it)
+        },
+        onLogoutPressed = {
+            viewModel.logout()
         }
     )
 }
@@ -116,21 +121,64 @@ fun AuthorizedPage(
     projectsList: MutableList<Project>,
     onProjectPressed: (Int) -> Unit = {},
     onParticipationPressed: (Int) -> Unit = {},
-    onDeletePressed: (Int) -> Unit = {}
+    onDeletePressed: (Int) -> Unit = {},
+    onLogoutPressed: () -> Unit = {}
 ) {
+    var logoutDialogVisible by remember { mutableStateOf(false) }
+
     val coroutineScope = rememberCoroutineScope()
-    val pagerState = rememberPagerState()
     val pages = listOf(
         stringResource(R.string.my_profile),
         stringResource(R.string.my_participations),
         stringResource(R.string.my_projects)
     )
+
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0f
+    ) { pages.count() }
+
     val indicator = @Composable { tabPositions: List<SITabPosition> ->
         CustomIndicator(tabPositions, pagerState)
     }
 
+    SIDialog(
+        modifier = Modifier.clip(Shape20),
+        visible = logoutDialogVisible,
+        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
+        title = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.logout_text),
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = AppTheme.colorScheme.textPrimary,
+                textAlign = TextAlign.Center
+            )
+        },
+        onDismissRequest = { logoutDialogVisible = false },
+        dismissButton = {
+            TextButton(
+                text = stringResource(R.string.cancel),
+                contentColor = AppTheme.colorScheme.primary,
+                onClick = { logoutDialogVisible = false }
+            )
+        },
+        confirmButton = {
+            TextButton(
+                text = stringResource(R.string.logout),
+                contentColor = AppTheme.colorScheme.error,
+                onClick = {
+                    onLogoutPressed()
+                    logoutDialogVisible = false
+                }
+            )
+        }
+    )
+
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
                 Row(
@@ -157,11 +205,10 @@ fun AuthorizedPage(
                     )
                     Row(
                         modifier = Modifier
-                            .clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) {}
-                            .padding(15.dp),
+                            .padding(5.dp)
+                            .clip(Shape10)
+                            .clickable { logoutDialogVisible = true }
+                            .padding(10.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
@@ -215,12 +262,9 @@ fun AuthorizedPage(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
-            HorizontalPager(
-                pageCount = pages.size,
-                state = pagerState
-            ) { page ->
+            HorizontalPager(state = pagerState) { page ->
                 when (page) {
                     0 -> {
                         ProfilePage(candidate = candidate)
@@ -256,12 +300,12 @@ fun ParticipationsPage(
 ) {
     var deleteDialogVisible by remember { mutableStateOf(false) }
     var isEditMode by remember { mutableStateOf(false) }
-    var selectedParticipation by remember { mutableStateOf(0) }
+    var selectedParticipation by remember { mutableIntStateOf(0) }
 
     SIDialog(
         modifier = Modifier.clip(Shape20),
         visible = deleteDialogVisible,
-        backgroundColor = AppTheme.colorScheme.background,
+        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
         title = {
             Text(
                 modifier = Modifier.fillMaxWidth(),

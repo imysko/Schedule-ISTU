@@ -14,7 +14,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
 import com.istu.schedule.data.preference.LanguagesPreference
@@ -22,7 +21,7 @@ import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.theme.ShapeTop15
 
 @Composable
 fun LanguagePage(
@@ -42,10 +41,11 @@ fun LanguagePage(
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.application_language),
+                isShowBackButton = true,
                 onBackClick = { onBackClick() }
             )
         },
@@ -54,21 +54,18 @@ fun LanguagePage(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
-                    .background(AppTheme.colorScheme.background)
+                    .clip(ShapeTop15)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 Column(
-                    modifier = Modifier.padding(top = 24.dp, start = 20.dp, end = 20.dp),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                    modifier = Modifier.padding(top = 24.dp, start = 15.dp, end = 15.dp),
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     LanguagesPreference.values.map { language ->
                         RadioButtonWithText(
-                            modifier = Modifier
-                                .padding(vertical = 5.dp, horizontal = 3.dp)
-                                .clip(Shape10),
+                            modifier = Modifier.padding(5.dp),
                             text = language.toDescription(context),
-                            style = AppTheme.typography.bodyMedium.copy(
-                                fontSize = 16.sp
-                            ),
+                            style = AppTheme.typography.subtitle,
                             selected = language == languages,
                             onSelect = {
                                 language.put(context, scope)

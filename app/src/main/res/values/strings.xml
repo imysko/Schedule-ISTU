@@ -158,7 +158,7 @@
     <string name="schedule_search_bar_label">Input the group, teacher, or classroom</string>
     <string name="my_account">My Account</string>
     <string name="delete_participation">Deleting a participation</string>
-    <string name="delete_participation_text">Are you sure you want to delete this application?</string>
+    <string name="delete_participation_text">Are you sure you want to delete this participation?</string>
     <string name="address">Address</string>
     <string name="personalities">Personalities</string>
     <string name="address_detail" translatable="false">664074, г. Иркутск,\nул. Лермонтова, 83, ИРНИТУ</string>
@@ -177,4 +177,7 @@
     <string name="admin_of_projfair_fio">Vadim Leonidovich Arshinskiy</string>
     <string name="projects_not_found">No projects found :(</string>
     <string name="projects_not_found_desc">There are no projects with the entered name and/or selected filters</string>
+    <string name="logout_dialog_text">Do you really want to log out of your account?</string>
+    <string name="logout_text">Log out of the account?</string>
+    <string name="back_to_schedule_search">Back to schedule search</string>
 </resources>

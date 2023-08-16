@@ -48,7 +48,7 @@ fun OnBoardingPage(
     val onBoardingUiState = viewModel.onBoardingUiState.collectAsStateValue()
 
     Surface(
-        color = AppTheme.colorScheme.background,
+        color = AppTheme.colorScheme.backgroundSecondary,
         content = {
             Column(
                 modifier = Modifier
@@ -177,7 +177,9 @@ fun OnBoardingPage(
                                                 false
                                             )
                                         }
-                                        navController.navigate(NavDestinations.MAIN)
+                                        navController.navigate(NavDestinations.MAIN) {
+                                            popUpTo(0)
+                                        }
                                     }
                                 )
                             }
@@ -207,7 +209,11 @@ fun OnBoardingPage(
                                         .fillMaxWidth()
                                         .height(52.dp),
                                     text = stringResource(id = R.string.next_step),
-                                    onClick = { navController.navigate(NavDestinations.MAIN) }
+                                    onClick = {
+                                        navController.navigate(NavDestinations.MAIN) {
+                                            popUpTo(0)
+                                        }
+                                    }
                                 )
                             }
                         }

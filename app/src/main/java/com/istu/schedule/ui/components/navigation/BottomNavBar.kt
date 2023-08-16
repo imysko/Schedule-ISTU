@@ -18,11 +18,14 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop20
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
+    val languages = LocalLanguages.current
+
     val bottomNavItems = listOf(
         BottomNavItem.SchedulePage,
         BottomNavItem.ProjfairPage,
@@ -57,7 +60,11 @@ fun RowScope.AddItem(
     navBackStackEntry: NavBackStackEntry?,
     navController: NavHostController
 ) {
-    val selected = bottomNavItem.route == navBackStackEntry?.destination?.route
+    val selected =
+        bottomNavItem.route == navBackStackEntry?.destination?.route ||
+            bottomNavItem.subroutes.any { route ->
+                navBackStackEntry?.destination?.route?.contains(route) == true
+            }
     NavigationBarItem(
         modifier = Modifier.navigationBarsPadding(),
         label = {

@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.settings.developers
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,6 +37,7 @@ import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape5
+import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.dial
 import com.istu.schedule.util.sendMail
 
@@ -49,10 +51,11 @@ fun DevelopersPage(navController: NavController) {
     val emailSubject = stringResource(R.string.projfair)
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.background,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
                 title = stringResource(id = R.string.developers),
+                isShowBackButton = true,
                 onBackClick = { navController.popBackStack() }
             )
         },
@@ -61,6 +64,8 @@ fun DevelopersPage(navController: NavController) {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
+                    .clip(ShapeTop15)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
                     .padding(
                         start = 15.dp,
                         end = 15.dp,

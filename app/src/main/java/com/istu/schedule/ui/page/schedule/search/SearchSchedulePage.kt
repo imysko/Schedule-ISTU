@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.schedule
+package com.istu.schedule.ui.page.schedule.search
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -25,29 +26,117 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.domain.model.schedule.Classroom
 import com.istu.schedule.domain.model.schedule.Group
 import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
+import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.util.collectAsStateValue
+
+@Composable
+fun SearchSchedulePage(
+    navController: NavHostController,
+    viewModel: SearchScheduleViewModel = hiltViewModel()
+) {
+    val searchedListsHints = viewModel.searchedListsHints.collectAsStateValue()
+    val isFoundedListsVisible = viewModel.isFoundedListsVisible.collectAsStateValue(initial = false)
+
+    SearchSchedulePage(
+        searchedListsHints = searchedListsHints,
+        isFoundedListsVisible = isFoundedListsVisible,
+        onValueInputDone = { viewModel.onValueInput(it) },
+        onHintClick = { scheduleType, id ->
+            navController.navigate("${NavDestinations.FOUND_SCHEDULE}/${scheduleType.name}/$id")
+        },
+        onBackClick = { navController.popBackStack() }
+    )
+}
+
+@Composable
+fun SearchSchedulePage(
+    searchedListsHints: SearchedLists,
+    isFoundedListsVisible: Boolean,
+    onValueInputDone: (String) -> Unit,
+    onHintClick: (ScheduleType, Int) -> Unit,
+    onBackClick: () -> Unit
+) {
+    val focusRequester = remember { FocusRequester() }
+    var value by remember { mutableStateOf("") }
+
+    Scaffold(
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
+        topBar = {
+            Column(
+                modifier = Modifier
+                    .statusBarsPadding()
+                    .padding(vertical = 15.dp)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.search_schedule),
+                        style = AppTheme.typography.pageTitle,
+                        color = AppTheme.colorScheme.textSecondary
+                    )
+                }
+
+                SearchBar(
+                    modifier = Modifier
+                        .padding(top = 15.dp, end = 15.dp, start = 15.dp)
+                        .height(42.dp),
+                    value = value,
+                    focusRequester = focusRequester,
+                    placeholder = stringResource(R.string.schedule_search_bar_label),
+                    onValueChange = { value = it },
+                    onDone = { onValueInputDone(value) }
+                )
+            }
+        },
+        content = {
+            SearchContent(
+                paddingValues = it,
+                isFoundedListsVisible = isFoundedListsVisible,
+                searchedListsHints = searchedListsHints,
+                onHintClick = { scheduleType, id -> onHintClick(scheduleType, id) },
+                onBackClick = { onBackClick() }
+            )
+        }
+    )
+}
 
 @Composable
 fun SearchContent(
     paddingValues: PaddingValues = PaddingValues(),
     isFoundedListsVisible: Boolean,
-    searchedListsTips: SearchedLists,
-    onSearchButtonClick: () -> Unit
+    searchedListsHints: SearchedLists,
+    onHintClick: (ScheduleType, Int) -> Unit,
+    onBackClick: () -> Unit
 ) {
     val titleGroups = stringResource(id = R.string.groups)
     val titleTeachers = stringResource(id = R.string.teachers)
@@ -58,7 +147,7 @@ fun SearchContent(
             .fillMaxSize()
             .padding(top = paddingValues.calculateTopPadding())
             .clip(ShapeTop15)
-            .background(AppTheme.colorScheme.background)
+            .background(AppTheme.colorScheme.backgroundSecondary)
     ) {
         LazyColumn(
             modifier = Modifier
@@ -72,7 +161,7 @@ fun SearchContent(
                     modifier = Modifier.clickable(
                         interactionSource = MutableInteractionSource(),
                         indication = null,
-                        onClick = { onSearchButtonClick() }
+                        onClick = { onBackClick() }
                     )
                 ) {
                     Row(
@@ -96,9 +185,21 @@ fun SearchContent(
                 }
             }
             if (isFoundedListsVisible) {
-                foundedList(title = titleGroups, list = searchedListsTips.groupList)
-                foundedList(title = titleTeachers, list = searchedListsTips.teacherList)
-                foundedList(title = titleClassrooms, list = searchedListsTips.classroomList)
+                foundedList(
+                    title = titleGroups,
+                    list = searchedListsHints.groupsList,
+                    onHintClick = { onHintClick(ScheduleType.BY_GROUP, it) }
+                )
+                foundedList(
+                    title = titleTeachers,
+                    list = searchedListsHints.teachersList,
+                    onHintClick = { onHintClick(ScheduleType.BY_TEACHER, it) }
+                )
+                foundedList(
+                    title = titleClassrooms,
+                    list = searchedListsHints.classroomsList,
+                    onHintClick = { onHintClick(ScheduleType.BY_CLASSROOM, it) }
+                )
             }
             item {
                 Spacer(modifier = Modifier.height(128.dp))
@@ -115,13 +216,14 @@ fun SearchContent(
 @OptIn(ExperimentalFoundationApi::class)
 internal fun LazyListScope.foundedList(
     title: String,
-    list: List<Any> = emptyList()
+    list: List<Any> = emptyList(),
+    onHintClick: (Int) -> Unit
 ) {
     list.also {
         stickyHeader {
             Text(
                 modifier = Modifier
-                    .background(AppTheme.colorScheme.background)
+                    .background(AppTheme.colorScheme.backgroundSecondary)
                     .fillMaxWidth(),
                 text = title,
                 style = AppTheme.typography.title
@@ -139,7 +241,14 @@ internal fun LazyListScope.foundedList(
                 modifier = Modifier
                     .padding(vertical = 8.dp, horizontal = 20.dp)
                     .clip(Shape5)
-                    .clickable { },
+                    .clickable {
+                        when (item) {
+                            is Group -> onHintClick(item.groupId)
+                            is Teacher -> onHintClick(item.teacherId)
+                            is Classroom -> onHintClick(item.classroomId)
+                            else -> { }
+                        }
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -167,36 +276,39 @@ internal fun LazyListScope.foundedList(
 
 @Composable
 @Preview(name = "Not visible founded lists")
-fun SearchContentNotVisibleFoundedListsPreview() {
+fun SearchSchedulePageNotVisibleFoundedListsPreview() {
     AppTheme {
-        SearchContent(
+        SearchSchedulePage(
+            searchedListsHints = SearchedLists(),
             isFoundedListsVisible = false,
-            searchedListsTips = SearchedLists(),
-            onSearchButtonClick = { }
+            onValueInputDone = { },
+            onHintClick = { _, _ -> },
+            onBackClick = { }
         )
     }
 }
 
 @Composable
 @Preview(name = "Not found")
-fun SearchContentNotFoundPreview() {
+fun SearchSchedulePageNotFoundPreview() {
     AppTheme {
-        SearchContent(
+        SearchSchedulePage(
+            searchedListsHints = SearchedLists(),
             isFoundedListsVisible = true,
-            searchedListsTips = SearchedLists(),
-            onSearchButtonClick = { }
+            onValueInputDone = { },
+            onHintClick = { _, _ -> },
+            onBackClick = { }
         )
     }
 }
 
 @Composable
 @Preview
-fun SearchContentPreview() {
+fun SearchSchedulePagePreview() {
     AppTheme {
-        SearchContent(
-            isFoundedListsVisible = true,
-            searchedListsTips = SearchedLists(
-                groupList = listOf(
+        SearchSchedulePage(
+            searchedListsHints = SearchedLists(
+                groupsList = listOf(
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-1",
@@ -219,14 +331,17 @@ fun SearchContentPreview() {
                         institute = null
                     )
                 ),
-                classroomList = listOf(
+                classroomsList = listOf(
                     Classroom(
                         classroomId = 0,
                         name = "В-107"
                     )
                 )
             ),
-            onSearchButtonClick = { }
+            isFoundedListsVisible = true,
+            onValueInputDone = { },
+            onHintClick = { _, _ -> },
+            onBackClick = { }
         )
     }
 }

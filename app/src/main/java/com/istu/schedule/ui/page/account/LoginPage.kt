@@ -26,7 +26,7 @@ fun LoginPage(
     onLoginPressed: () -> Unit = {}
 ) {
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(
                 modifier = Modifier
@@ -46,7 +46,7 @@ fun LoginPage(
                 .fillMaxSize()
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background),
+                .background(AppTheme.colorScheme.backgroundSecondary),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

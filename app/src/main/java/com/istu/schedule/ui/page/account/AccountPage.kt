@@ -1,7 +1,6 @@
 package com.istu.schedule.ui.page.account
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -18,10 +17,6 @@ fun AccountPage(
     val candidate by viewModel.candidate.observeAsState(initial = null)
     val authState by viewModel.authState.observeAsState(ProjfairAuthStatus.UNDEFINED)
 
-    LaunchedEffect(Unit) {
-        viewModel.collectSettingsState()
-    }
-
     if (authState == ProjfairAuthStatus.SUCCESS) {
         AuthorizedPage(
             navController = bottomNavController,
@@ -30,7 +25,9 @@ fun AccountPage(
         )
     } else {
         LoginPage(
-            onLoginPressed = { navController.navigate(NavDestinations.PROJFAIR_LOGIN) }
+            onLoginPressed = {
+                navController.navigate(NavDestinations.PROJFAIR_LOGIN)
+            }
         )
     }
 }

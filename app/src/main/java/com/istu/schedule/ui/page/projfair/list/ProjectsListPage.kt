@@ -1,8 +1,8 @@
 package com.istu.schedule.ui.page.projfair.list
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -56,6 +56,7 @@ import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Logo152
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
+import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.OnBottomReached
@@ -64,7 +65,7 @@ import com.istu.schedule.util.collectAsStateValue
 @Composable
 fun ProjectsListPage(
     navController: NavController,
-    viewModel: ListViewModel = hiltViewModel()
+    viewModel: ProjectsListViewModel = hiltViewModel()
 ) {
     val isLoading by viewModel.loading.observeAsState(initial = true)
     val isSearchCompleted by viewModel.isSearchCompleted.observeAsState(initial = false)
@@ -74,10 +75,13 @@ fun ProjectsListPage(
     val canCreateParticipation = viewModel.canCreateParticipation
 
     LaunchedEffect(projfairFiltersState) {
-        if (viewModel.projfairFiltersState.value.isChanged) {
+        if (projfairFiltersState.isChanged) {
             viewModel.clearList()
-            viewModel.getProjectsList()
         }
+    }
+
+    LaunchedEffect(projectsList) {
+        Log.i("ProjectsList", projectsList.size.toString())
     }
 
     ProjectsListPage(
@@ -94,7 +98,7 @@ fun ProjectsListPage(
         },
         onSearchConfirmClick = {
             viewModel.clearList()
-            viewModel.getProjectsList()
+            viewModel.fetchProjectsList()
         },
         onProjectClick = {
             navController.navigate("${NavDestinations.PROJECT}/$it/$canCreateParticipation")
@@ -106,7 +110,7 @@ fun ProjectsListPage(
             navController.navigate(NavDestinations.FILTERS)
         },
         onLoadMore = {
-            viewModel.getProjectsList()
+            viewModel.fetchProjectsList()
         }
     )
 }
@@ -134,7 +138,7 @@ fun ProjectsListPage(
     }
 
     Scaffold(
-        containerColor = AppTheme.colorScheme.primary,
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(
                 modifier = Modifier
@@ -183,7 +187,7 @@ fun ProjectsListPage(
                 .fillMaxHeight()
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
-                .background(AppTheme.colorScheme.background)
+                .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -205,10 +209,10 @@ fun ProjectsListPage(
                             style = AppTheme.typography.title
                         )
                         Column(
-                            modifier = Modifier.clickable(
-                                interactionSource = MutableInteractionSource(),
-                                indication = null
-                            ) { onFilterClick() },
+                            modifier = Modifier
+                                .clip(Shape5)
+                                .clickable { onFilterClick() }
+                                .padding(3.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Icon(

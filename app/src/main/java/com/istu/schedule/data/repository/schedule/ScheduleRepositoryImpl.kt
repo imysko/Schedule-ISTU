@@ -20,6 +20,8 @@ class ScheduleRepositoryImpl @Inject constructor(
         val apiResponse = scheduleService.getGroupScheduleOnDay(groupId, dateString).body()
 
         if (apiResponse != null) {
+            cachedList.clear()
+
             cachedList.addAll(apiResponse)
             return Result.success(cachedList)
         }
@@ -50,6 +52,8 @@ class ScheduleRepositoryImpl @Inject constructor(
         val apiResponse = scheduleService.getTeacherScheduleOnDay(teacherId, dateString).body()
 
         if (apiResponse != null) {
+            cachedList.clear()
+
             cachedList.addAll(apiResponse)
             return Result.success(cachedList)
         }
@@ -83,6 +87,8 @@ class ScheduleRepositoryImpl @Inject constructor(
         val apiResponse = scheduleService.getGroupScheduleOnDay(classroomId, dateString).body()
 
         if (apiResponse != null) {
+            cachedList.clear()
+
             cachedList.addAll(apiResponse)
             return Result.success(cachedList)
         }

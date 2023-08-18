@@ -5,7 +5,9 @@ object NavDestinations {
 
     const val MAIN = "Main"
 
-    const val SCHEDULE = "Schedule"
+    const val MINE_SCHEDULE = "MineSchedule"
+    const val SEARCH_SCHEDULE = "SearchSchedule"
+    const val FOUND_SCHEDULE = "FoundSchedule"
 
     const val PROJFAIR = "Projfair"
     const val PROJECT = "Project"

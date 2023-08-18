@@ -16,9 +16,13 @@ sealed class BottomNavItem(
     val subroutes: List<String> = listOf()
 ) {
     object SchedulePage : BottomNavItem(
-        route = NavDestinations.SCHEDULE,
+        route = NavDestinations.MINE_SCHEDULE,
         titleResId = R.string.schedule,
-        icon = Icons.Calendar
+        icon = Icons.Calendar,
+        subroutes = listOf(
+            NavDestinations.SEARCH_SCHEDULE,
+            NavDestinations.FOUND_SCHEDULE
+        )
     )
 
     object ProjfairPage : BottomNavItem(

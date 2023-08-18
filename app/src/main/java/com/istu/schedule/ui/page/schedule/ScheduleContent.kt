@@ -49,6 +49,8 @@ fun ScheduleContent(
             .padding(top = paddingValues.calculateTopPadding())
             .clip(ShapeTop15)
             .background(AppTheme.colorScheme.backgroundSecondary),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         if (isShowBackButton) {
             Box(

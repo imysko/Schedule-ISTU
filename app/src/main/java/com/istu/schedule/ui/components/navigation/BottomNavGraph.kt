@@ -36,7 +36,6 @@ fun BottomNavGraph(
         navController = bottomNavController,
         startDestination = BottomNavItem.SchedulePage.route
     ) {
-
         animatedComposable(
             route = BottomNavItem.SchedulePage.route
         ) {
@@ -50,7 +49,7 @@ fun BottomNavGraph(
             SearchSchedulePage(bottomNavController)
             SetStatusBarIconColor(systemUiController)
         }
-        
+
         animatedComposable(
             route = "${NavDestinations.FOUND_SCHEDULE}/{scheduleType}/{id}"
         ) {

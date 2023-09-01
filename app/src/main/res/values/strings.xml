@@ -32,7 +32,7 @@
     <string name="other">Other</string>
     <string name="dark_theme">Dark theme</string>
     <string name="amoled" translatable="false">Amoled</string>
-    <string name="my_projects">My projects</string>
+    <string name="my_projects">Projects</string>
     <string name="projects">Projects</string>
     <string name="email" translatable="false">E-mail</string>
     <string name="phone_number">Phone</string>
@@ -126,8 +126,8 @@
     <string name="favorites_list">Favorites List</string>
     <string name="application_language">Application language</string>
     <string name="about_the_developers">About the developers</string>
-    <string name="my_profile">My Profile</string>
-    <string name="my_participations">My Participations</string>
+    <string name="my_profile">Profile</string>
+    <string name="my_participations">Participations</string>
     <string name="skills">Skills</string>
     <string name="training_group">Training group</string>
     <string name="institute">Institute</string>

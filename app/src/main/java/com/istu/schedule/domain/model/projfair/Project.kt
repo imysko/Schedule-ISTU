@@ -24,13 +24,11 @@ data class Project(
     @SerializedName("study_result")
     val studyResult: String,
     val customer: String,
-    val supervisor: List<Supervisor>,
-    val projectSupervisors: List<ProjectSupervisor>,
+    val supervisors: List<ProjectSupervisor>,
     val skills: List<Skill>,
     val specialities: List<Speciality>,
     @SerializedName("project_specialities")
     val projectSpecialities: List<ProjectSpeciality>,
-    val supervisorsNames: String?,
     val state: ProjectState,
     val department: Department,
     val type: ProjectType,
@@ -58,19 +56,32 @@ class SampleProjectProvider : PreviewParameterProvider<Project> {
             productResult = "Реализация следующих функций: добавление отзыва руководителя на работу участника проекта,  интерфейс руководителя центра проектного обучения для загрузки аннотаций проектов в систему, ручного перераспределения студентов по проектам, запуска механизма автоматического распределения студентов, в том числе «молчунов» (не подавших заявки на проекты), выгрузки списков распределения студентов по проектам.",
             studyResult = "Знания: принципы работы веб-сайта, основы веб-программирования, ORM-фреймворки, нотация Чена, стандарты описания UML, IDEF0, RDF\r\nУмения: читать и составлять техническую документацию с использованием стандартов UML, IDEF0, RDF, моделирование данных, составление SQL-запросов, \r\nНавыки: работа с СУБД MySQL, администрирование Linux, работа с Figma, разработка JavaScript скриптов, разработка php-скриптов, работы с Laravel",
             customer = "Центр проектного обучения",
-            supervisor = listOf(
-                Supervisor(
-                    id = 2,
-                    fio = "Аршинский Вадим Леонидович",
-                    email = "arshinskyv@mail.ru",
-                    about = "Руководитель центра программной инженерии",
-                    position = "251100 Центр программной инженерии",
-                    department = Department(
-                        id = 59,
-                        name = "Информационных технологий и анализа данных",
-                        institute = Institute(
-                            id = 4,
-                            name = "Институт информационных технологий и анализа данных"
+            supervisors = listOf(
+                ProjectSupervisor(
+                    id = 109,
+                    roles = listOf(
+                        ProjectSupervisorRole(
+                            id = 1,
+                            name = "Создатель задания"
+                        ),
+                        ProjectSupervisorRole(
+                            id = 2,
+                            name = "Руководитель"
+                        )
+                    ),
+                    supervisor = Supervisor(
+                        id = 2,
+                        fio = "Аршинский Вадим Леонидович",
+                        email = "arshinskyv@mail.ru",
+                        about = "Руководитель центра программной инженерии",
+                        position = "251100 Центр программной инженерии",
+                        department = Department(
+                            id = 59,
+                            name = "Информационных технологий и анализа данных",
+                            institute = Institute(
+                                id = 4,
+                                name = "Институт информационных технологий и анализа данных"
+                            )
                         )
                     )
                 )
@@ -78,7 +89,6 @@ class SampleProjectProvider : PreviewParameterProvider<Project> {
             skills = listOf(),
             specialities = listOf(),
             projectSpecialities = listOf(),
-            supervisorsNames = "Аршинский Вадим Леонидович, Серышева Ирина Анатольевна",
             state = ProjectState(
                 id = 2,
                 state = "Активный"
@@ -95,7 +105,6 @@ class SampleProjectProvider : PreviewParameterProvider<Project> {
                 id = 1,
                 type = "Прикладной"
             ),
-            projectSupervisors = listOf(),
             participations = listOf(
                 Participation(
                     id = 0,
@@ -134,19 +143,32 @@ class SampleProjectProvider : PreviewParameterProvider<Project> {
                         productResult = "Реализация следующих функций: добавление отзыва руководителя на работу участника проекта,  интерфейс руководителя центра проектного обучения для загрузки аннотаций проектов в систему, ручного перераспределения студентов по проектам, запуска механизма автоматического распределения студентов, в том числе «молчунов» (не подавших заявки на проекты), выгрузки списков распределения студентов по проектам.",
                         studyResult = "Знания: принципы работы веб-сайта, основы веб-программирования, ORM-фреймворки, нотация Чена, стандарты описания UML, IDEF0, RDF\r\nУмения: читать и составлять техническую документацию с использованием стандартов UML, IDEF0, RDF, моделирование данных, составление SQL-запросов, \r\nНавыки: работа с СУБД MySQL, администрирование Linux, работа с Figma, разработка JavaScript скриптов, разработка php-скриптов, работы с Laravel",
                         customer = "Центр проектного обучения",
-                        supervisor = listOf(
-                            Supervisor(
-                                id = 2,
-                                fio = "Аршинский Вадим Леонидович",
-                                email = "arshinskyv@mail.ru",
-                                about = "Руководитель центра программной инженерии",
-                                position = "251100 Центр программной инженерии",
-                                department = Department(
-                                    id = 59,
-                                    name = "Информационных технологий и анализа данных",
-                                    institute = Institute(
-                                        id = 4,
-                                        name = "Институт информационных технологий и анализа данных"
+                        supervisors = listOf(
+                            ProjectSupervisor(
+                                id = 109,
+                                roles = listOf(
+                                    ProjectSupervisorRole(
+                                        id = 1,
+                                        name = "Создатель задания"
+                                    ),
+                                    ProjectSupervisorRole(
+                                        id = 2,
+                                        name = "Руководитель"
+                                    )
+                                ),
+                                supervisor = Supervisor(
+                                    id = 2,
+                                    fio = "Аршинский Вадим Леонидович",
+                                    email = "arshinskyv@mail.ru",
+                                    about = "Руководитель центра программной инженерии",
+                                    position = "251100 Центр программной инженерии",
+                                    department = Department(
+                                        id = 59,
+                                        name = "Информационных технологий и анализа данных",
+                                        institute = Institute(
+                                            id = 4,
+                                            name = "Институт информационных технологий и анализа данных"
+                                        )
                                     )
                                 )
                             )
@@ -154,7 +176,6 @@ class SampleProjectProvider : PreviewParameterProvider<Project> {
                         skills = listOf(),
                         specialities = listOf(),
                         projectSpecialities = listOf(),
-                        supervisorsNames = "Аршинский Вадим Леонидович, Серышева Ирина Анатольевна",
                         state = ProjectState(
                             id = 2,
                             state = "Активный"
@@ -171,7 +192,6 @@ class SampleProjectProvider : PreviewParameterProvider<Project> {
                             id = 1,
                             type = "Прикладной"
                         ),
-                        projectSupervisors = listOf(),
                         participations = listOf(),
                         createdAt = Date(),
                         updatedAt = Date()

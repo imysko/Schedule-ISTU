@@ -336,7 +336,7 @@ fun ProjectInfo(
                     .fillMaxWidth()
                     .padding(top = 22.dp),
                 key = stringResource(R.string.project_manager),
-                value = project.supervisorsNames
+                value = project.supervisors.joinToString(separator = ", ") { it.supervisor.fio }
             )
         }
         item {

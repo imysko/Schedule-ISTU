@@ -70,10 +70,10 @@ fun ProjectItem(
                 style = AppTheme.typography.title,
                 color = AppTheme.colorScheme.textPrimary
             )
-            if (!project.supervisorsNames.isNullOrBlank()) {
+            if (project.supervisors.isNotEmpty()) {
                 Text(
                     modifier = Modifier.padding(top = 7.dp),
-                    text = project.supervisorsNames,
+                    text = project.supervisors.joinToString(separator = ", ") { it.supervisor.fio },
                     style = AppTheme.typography.bodyMedium.copy(
                         color = AppTheme.colorScheme.secondary
                     )

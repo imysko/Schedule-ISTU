@@ -30,7 +30,7 @@
     <string name="back">Назад</string>
     <string name="other">Прочее</string>
     <string name="dark_theme">Тёмная тема</string>
-    <string name="my_projects">Мои проекты</string>
+    <string name="my_projects">Проекты</string>
     <string name="projects">Проекты</string>
     <string name="phone_number">Телефон</string>
     <string name="course">Курс</string>
@@ -131,8 +131,8 @@
     <string name="favorites_list">Список избранного</string>
     <string name="application_language">Язык приложения</string>
     <string name="about_the_developers">О разработчиках</string>
-    <string name="my_profile">Мой Профиль</string>
-    <string name="my_participations">Мои Заявки</string>
+    <string name="my_profile">Профиль</string>
+    <string name="my_participations">Заявки</string>
     <string name="skills">Навыки</string>
     <string name="training_group">Учебная группа</string>
     <string name="institute">Институт</string>

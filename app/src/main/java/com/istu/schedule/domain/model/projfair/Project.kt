@@ -30,7 +30,7 @@ data class Project(
     val specialities: List<Speciality>,
     @SerializedName("project_specialities")
     val projectSpecialities: List<ProjectSpeciality>,
-    val supervisorsNames: String,
+    val supervisorsNames: String?,
     val state: ProjectState,
     val department: Department,
     val type: ProjectType,

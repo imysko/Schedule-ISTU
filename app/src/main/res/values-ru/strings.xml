@@ -180,4 +180,8 @@
     <string name="logout_dialog_text">Вы действительно хотите выйти из аккаунта?</string>
     <string name="logout_text">Выйти из аккаунта?</string>
     <string name="back_to_schedule_search">Назад к поиску расписания</string>
+    <string name="didnt_participate_in_any_projects">Вы не участвовали в проектах</string>
+    <string name="participations_not_found">Заявки не найдены :(</string>
+    <string name="didnt_applied_participations">Вы не подали заявку на участие ни на один проект</string>
+    <string name="participation_submitted">Заявка на участие подана</string>
 </resources>

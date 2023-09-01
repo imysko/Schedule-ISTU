@@ -6,28 +6,21 @@ import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.domain.model.projfair.Candidate
-import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
-import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
-import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
-import com.istu.schedule.util.addNewItemAsync
 import com.istu.schedule.util.toUserStatusEnum
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 class User @Inject constructor(
     private val _sharedPreference: SharedPreferences,
-    private val _candidateUseCase: GetCandidateUseCase,
-    private val _projectUseCase: GetProjectUseCase,
-    private val _participationsListUseCase: GetParticipationsListUseCase
+    private val _candidateUseCase: GetCandidateUseCase
 ) {
 
     private val _projfairFiltersState = MutableStateFlow(ProjfairFiltersState())
@@ -38,9 +31,6 @@ class User @Inject constructor(
 
     private val _authStatus = MutableLiveData(ProjfairAuthStatus.UNDEFINED)
     val authStatus: LiveData<ProjfairAuthStatus> = _authStatus
-
-    private val _participationsList = MutableLiveData<List<Participation>>()
-    val participationsList: LiveData<List<Participation>> = _participationsList
 
     init {
         setAuth()
@@ -56,11 +46,10 @@ class User @Inject constructor(
 
     private fun setAuth() {
         if (projfairToken != null) {
-            _authStatus.value = ProjfairAuthStatus.SUCCESS
+            _authStatus.postValue(ProjfairAuthStatus.SUCCESS)
             fetchCandidate()
-            fetchParticipationsList()
         } else {
-            _authStatus.value = ProjfairAuthStatus.AUTH
+            _authStatus.postValue(ProjfairAuthStatus.AUTH)
         }
     }
 
@@ -77,26 +66,6 @@ class User @Inject constructor(
         }
     }
 
-    fun fetchParticipationsList() {
-        CoroutineScope(Dispatchers.IO).launch {
-            _participationsListUseCase.getParticipationsList(projfairToken!!)
-                .onSuccess {
-                    for (item in it.sortedBy { participation -> participation.priority }) {
-                        if (item.state.id in 1..2) {
-                            _projectUseCase.getProject(item.projectId).onSuccess { project ->
-                                val participation = item.copy(project = project)
-                                _participationsList.addNewItemAsync(participation)
-                            }
-                        }
-                    }
-                }
-                .onFailure {
-                    delay(5000)
-                    fetchParticipationsList()
-                }
-        }
-    }
-
     fun loginProjfair(token: String) {
         projfairToken = token
     }
@@ -104,7 +73,6 @@ class User @Inject constructor(
     fun logoutProjfair() {
         projfairToken = null
         _candidate.value = null
-        _participationsList.value = listOf()
     }
 
     var projfairToken: String?

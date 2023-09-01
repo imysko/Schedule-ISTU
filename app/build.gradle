@@ -9,12 +9,12 @@ plugins {
 
 android {
     namespace 'com.istu.schedule'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.istu.schedule"
         minSdk 27
-        targetSdk 33
+        targetSdk 34
         versionCode 3
         versionName "0.3"
 
@@ -71,7 +71,7 @@ dependencies {
 
     // https://developer.android.com/jetpack/androidx/releases/datastore
     implementation "androidx.datastore:datastore-preferences:$datastore"
-    implementation "androidx.preference:preference-ktx:1.2.0"
+    implementation "androidx.preference:preference-ktx:1.2.1"
 
     // https://developer.android.com/jetpack/androidx/releases/room
     implementation "androidx.room:room-paging:$room"

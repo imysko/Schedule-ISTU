@@ -4,20 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.model.User
 import com.istu.schedule.data.model.request.PriorityRequest
+import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.domain.usecase.projfair.CreateParticipationUseCase
+import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
+import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 
 @HiltViewModel
 class CreateParticipationViewModel @Inject constructor(
     private val _getProjectUseCase: GetProjectUseCase,
     private val _createParticipationUseCase: CreateParticipationUseCase,
+    private val _participationsListUseCase: GetParticipationsListUseCase,
     private val _user: User
 ) : BaseViewModel() {
 
@@ -27,31 +28,45 @@ class CreateParticipationViewModel @Inject constructor(
     private val _selectedPriorityId = MutableLiveData(1)
     val selectedPriorityId: LiveData<Int> = _selectedPriorityId
 
-    val existsPriorities: List<Int> = _user.participationsList.value?.map { participation ->
-        participation.priority
-    } ?: emptyList()
+    private val _participationsList = MutableLiveData<List<Participation>>()
+    val participationsList: LiveData<List<Participation>> = _participationsList
 
-    private val _createParticipationUiState = MutableStateFlow(CreateParticipationUiState())
-    val createParticipationUiState: StateFlow<CreateParticipationUiState> =
-        _createParticipationUiState.asStateFlow()
+    private val _isLoaded = MutableLiveData(false)
+    val isLoaded: LiveData<Boolean> = _isLoaded
 
     val candidate = _user.candidate.value!!
 
-    fun getProject(projectId: Int) {
-        call({
-            _getProjectUseCase.getProject(projectId)
-        }, onSuccess = {
-            _project.value = it
-        })
+    fun fetchProject(projectId: Int) {
+        call(
+            handleLoading = false,
+            apiCall = {
+                _getProjectUseCase.getProject(projectId)
+            },
+            onSuccess = {
+                _project.value = it
+            }
+        )
+    }
+
+    fun fetchParticipationsList() {
+        _user.projfairToken?.let { token ->
+            call(
+                { _participationsListUseCase.getParticipationsList(token) },
+                onSuccess = {
+                    for (participation in it) {
+                        if (participation.state.id in 1..2) {
+                            _participationsList.addNewItem(participation)
+                        }
+                    }
+                    _isLoaded.postValue(true)
+                },
+                onError = {}
+            )
+        }
     }
 
     fun setPriorityId(priorityId: Int) {
         _selectedPriorityId.value = priorityId
-        if (!_createParticipationUiState.value.isShowSubmitButton) {
-            _createParticipationUiState.value = _createParticipationUiState.value.copy(
-                isShowSubmitButton = true
-            )
-        }
     }
 
     fun createParticipation() {
@@ -71,8 +86,4 @@ class CreateParticipationViewModel @Inject constructor(
             }
         }
     }
-
-    data class CreateParticipationUiState(
-        val isShowSubmitButton: Boolean = false
-    )
 }

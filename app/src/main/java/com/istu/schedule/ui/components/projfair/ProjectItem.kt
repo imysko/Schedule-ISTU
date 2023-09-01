@@ -43,7 +43,6 @@ import com.istu.schedule.ui.components.base.ChipVerticalGrid
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SITextChip
 import com.istu.schedule.ui.components.base.button.FilledButton
-import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.icons.Star
 import com.istu.schedule.ui.theme.AppTheme
@@ -71,7 +70,7 @@ fun ProjectItem(
                 style = AppTheme.typography.title,
                 color = AppTheme.colorScheme.textPrimary
             )
-            if (project.supervisorsNames.isNotBlank()) {
+            if (!project.supervisorsNames.isNullOrBlank()) {
                 Text(
                     modifier = Modifier.padding(top = 7.dp),
                     text = project.supervisorsNames,
@@ -252,16 +251,16 @@ fun ProjectItem(
                 text = stringResource(R.string.read_more),
                 onClick = onClick
             )
-            if (project.state.id == 1 && canCreateParticipation) {
-                OutlineButton(
-                    modifier = Modifier
-                        .padding(top = 5.dp)
-                        .fillMaxWidth()
-                        .height(42.dp),
-                    text = stringResource(R.string.send_participation),
-                    onClick = onCreateParticipationClick
-                )
-            }
+            // if (project.state.id == 1 && canCreateParticipation) {
+            //     OutlineButton(
+            //         modifier = Modifier
+            //             .padding(top = 5.dp)
+            //             .fillMaxWidth()
+            //             .height(42.dp),
+            //         text = stringResource(R.string.send_participation),
+            //         onClick = onCreateParticipationClick
+            //     )
+            // }
         }
     }
 }

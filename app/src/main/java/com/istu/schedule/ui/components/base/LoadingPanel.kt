@@ -1,6 +1,7 @@
 package com.istu.schedule.ui.components.base
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
@@ -21,11 +22,12 @@ import com.istu.schedule.ui.theme.AppTheme
 
 @Composable
 fun LoadingPanel(
-    isLoading: Boolean
+    isLoading: Boolean,
+    isOnlyExit: Boolean = false
 ) {
     AnimatedVisibility(
         visible = isLoading,
-        enter = fadeIn(),
+        enter = if (isOnlyExit) fadeIn(tween(0)) else fadeIn(),
         exit = fadeOut()
     ) {
         Box(

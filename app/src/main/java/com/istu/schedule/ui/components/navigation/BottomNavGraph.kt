@@ -127,7 +127,7 @@ fun BottomNavGraph(
             route = "${NavDestinations.CREATE_PARTICIPATION}/{projectId}"
         ) {
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
-                CreateParticipationPage(projectId, navController)
+                CreateParticipationPage(projectId, bottomNavController)
             }
             SetStatusBarIconColor(systemUiController, true)
         }

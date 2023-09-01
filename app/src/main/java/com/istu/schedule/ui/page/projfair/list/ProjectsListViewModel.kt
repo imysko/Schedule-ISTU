@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.model.ProjfairFiltersState
 import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectsListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
@@ -19,8 +20,11 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel
 class ProjectsListViewModel @Inject constructor(
     private val _projectsUseCase: GetProjectsListUseCase,
+    private val _participationsListUseCase: GetParticipationsListUseCase,
     private val _user: User
 ) : BaseViewModel() {
+
+    val projfairFiltersState: StateFlow<ProjfairFiltersState> = _user.projfairFiltersState
 
     private val _projectsListUiState = MutableStateFlow(ProjectsListUiState())
     val projectsListUiState: StateFlow<ProjectsListUiState> = _projectsListUiState.asStateFlow()
@@ -28,10 +32,8 @@ class ProjectsListViewModel @Inject constructor(
     private val _projectsList = MutableLiveData<List<Project>>()
     val projectsList: LiveData<List<Project>> = _projectsList
 
-    val projfairFiltersState: StateFlow<ProjfairFiltersState> = _user.projfairFiltersState
-
-    val canCreateParticipation: Boolean = _user.candidate.value?.canSendParticipations == 1 &&
-        ((_user.participationsList.value?.size ?: 3) < 3)
+    private val _canCreateParticipation = MutableStateFlow(false)
+    val canCreateParticipation: StateFlow<Boolean> = _canCreateParticipation
 
     private val _isSearchCompleted = MutableLiveData(false)
     val isSearchCompleted: LiveData<Boolean> = _isSearchCompleted
@@ -54,7 +56,9 @@ class ProjectsListViewModel @Inject constructor(
             )
         }, onSuccess = {
             for (item in it) {
-                _projectsList.addNewItem(item)
+                if (_projectsList.value?.contains(item) == false) {
+                    _projectsList.addNewItem(item)
+                }
             }
             _currentPage += 1
             _user.setFiltersChanged(false)
@@ -62,6 +66,22 @@ class ProjectsListViewModel @Inject constructor(
         }, onError = {
             _isSearchCompleted.postValue(true)
         })
+    }
+
+    fun fetchParticipationsList() {
+        _user.projfairToken?.let { token ->
+            call(
+                handleLoading = false,
+                apiCall = { _participationsListUseCase.getParticipationsList(token) },
+                onSuccess = { participations ->
+                    _canCreateParticipation.value =
+                        participations.count {
+                            it.state.id in 1..2
+                        } < 3 && _user.candidate.value?.canSendParticipations == 1
+                },
+                onError = {}
+            )
+        }
     }
 
     fun changeSearchBarVisibility() {

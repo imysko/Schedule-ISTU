@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -23,7 +24,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -48,9 +48,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.fade
-import com.google.accompanist.placeholder.material.placeholder
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.model.projfair.Participation
@@ -60,7 +57,9 @@ import com.istu.schedule.domain.model.projfair.SampleParticipationProvider
 import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.InfoBlock
+import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.SIDialog
+import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.button.FilledButton
@@ -83,15 +82,20 @@ fun AuthorizedPage(
     candidate: Candidate?,
     viewModel: AccountViewModel
 ) {
+    val isParticipationsLoaded by viewModel.isParticipationsLoaded.observeAsState(initial = false)
+    val isProjectsLoaded by viewModel.isProjectsLoaded.observeAsState(initial = false)
     val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
         viewModel.fetchCandidateInfo()
+        viewModel.fetchParticipationsList()
     }
 
     AuthorizedPage(
         candidate = candidate,
+        isParticipationsLoaded = isParticipationsLoaded,
+        isProjectsLoaded = isProjectsLoaded,
         participationsList = participationsList.distinctBy { participation -> participation.id },
         projectsList = projectsList.toMutableList(),
         onProjectPressed = {
@@ -101,7 +105,7 @@ fun AuthorizedPage(
         },
         onParticipationPressed = {
             navController.navigate(
-                "${NavDestinations.PROJECT}/$it/${viewModel.canCreateParticipation}"
+                "${NavDestinations.PROJECT}/$it/false"
             )
         },
         onDeletePressed = {
@@ -117,6 +121,8 @@ fun AuthorizedPage(
 @Composable
 fun AuthorizedPage(
     candidate: Candidate?,
+    isParticipationsLoaded: Boolean,
+    isProjectsLoaded: Boolean,
     participationsList: List<Participation>,
     projectsList: MutableList<Project>,
     onProjectPressed: (Int) -> Unit = {},
@@ -188,18 +194,8 @@ fun AuthorizedPage(
                     Text(
                         modifier = Modifier
                             .weight(1f)
-                            .padding(15.dp)
-                            .placeholder(
-                                visible = candidate == null,
-                                color = AppTheme.colorScheme.primaryContainer.copy(alpha = 0.1f),
-                                highlight = PlaceholderHighlight.fade(
-                                    highlightColor = AppTheme.colorScheme.primaryContainer.copy(
-                                        alpha = 0.13f
-                                    )
-                                ),
-                                shape = RoundedCornerShape(4.dp)
-                            ),
-                        text = candidate?.fio ?: "",
+                            .padding(15.dp),
+                        text = stringResource(R.string.account),
                         style = AppTheme.typography.pageTitle,
                         color = AppTheme.colorScheme.textSecondary
                     )
@@ -274,6 +270,7 @@ fun AuthorizedPage(
                         ParticipationsPage(
                             participationsList = participationsList,
                             isCanEdit = candidate?.canSendParticipations == 1,
+                            isParticipationsLoaded = isParticipationsLoaded,
                             onParticipationPressed = onParticipationPressed,
                             onDeletePressed = onDeletePressed
                         )
@@ -282,6 +279,7 @@ fun AuthorizedPage(
                     2 -> {
                         ProjectsPage(
                             projectsList = projectsList,
+                            isProjectsLoaded = isProjectsLoaded,
                             onProjectPressed = onProjectPressed
                         )
                     }
@@ -295,6 +293,7 @@ fun AuthorizedPage(
 fun ParticipationsPage(
     participationsList: List<Participation>,
     isCanEdit: Boolean,
+    isParticipationsLoaded: Boolean,
     onParticipationPressed: (Int) -> Unit = {},
     onDeletePressed: (Int) -> Unit = {}
 ) {
@@ -345,49 +344,86 @@ fun ParticipationsPage(
         }
     )
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.spacedBy(9.dp),
-        contentPadding = PaddingValues(
-            start = 15.dp,
-            end = 15.dp,
-            top = 25.dp
-        )
+    LoadingPanel(!isParticipationsLoaded)
+
+    SIExtensibleVisibilityFadeOnly(
+        visible = participationsList.isEmpty() && isParticipationsLoaded
     ) {
-        items(participationsList) { participation ->
-            ParticipationItem(
-                participation = participation,
-                onClick = { onParticipationPressed(participation.projectId) },
-                onDeleteClick = {
-                    selectedParticipation = participation.id
-                    deleteDialogVisible = true
-                },
-                isEditMode = isEditMode
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 15.dp,
+                alignment = Alignment.CenterVertically
+            )
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.participations_not_found),
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.Bold
+                ),
+                color = AppTheme.colorScheme.secondary,
+                textAlign = TextAlign.Center
+            )
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp),
+                text = stringResource(R.string.didnt_applied_participations),
+                style = AppTheme.typography.subtitle,
+                color = AppTheme.colorScheme.secondary,
+                textAlign = TextAlign.Center
             )
         }
-        if (isCanEdit && !isEditMode) {
-            item {
-                OutlineButton(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = stringResource(R.string.edit_participations),
-                    onClick = { isEditMode = true }
+    }
+
+    if (participationsList.isNotEmpty() && isParticipationsLoaded) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(9.dp),
+            contentPadding = PaddingValues(
+                start = 15.dp,
+                end = 15.dp,
+                top = 25.dp
+            )
+        ) {
+            items(participationsList) { participation ->
+                ParticipationItem(
+                    participation = participation,
+                    onClick = { onParticipationPressed(participation.projectId) },
+                    onDeleteClick = {
+                        selectedParticipation = participation.id
+                        deleteDialogVisible = true
+                    },
+                    isEditMode = isEditMode
                 )
             }
-        }
-        if (isEditMode) {
-            item {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    FilledButton(
-                        modifier = Modifier.weight(1f),
-                        text = stringResource(R.string.save_changes),
-                        onClick = { isEditMode = false }
+            if (isCanEdit && !isEditMode) {
+                item {
+                    OutlineButton(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = stringResource(R.string.edit_participations),
+                        onClick = { isEditMode = true }
                     )
                 }
             }
-        }
-        item {
-            Spacer(modifier = Modifier.height(84.dp))
-            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+            if (isEditMode) {
+                item {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        FilledButton(
+                            modifier = Modifier.weight(1f),
+                            text = stringResource(R.string.save_changes),
+                            onClick = { isEditMode = false }
+                        )
+                    }
+                }
+            }
+            item {
+                Spacer(modifier = Modifier.height(84.dp))
+                Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+            }
         }
     }
 }
@@ -411,6 +447,12 @@ fun ProfilePage(candidate: Candidate?) {
                 style = AppTheme.typography.title.copy(
                     fontWeight = FontWeight.Bold
                 )
+            )
+        }
+        item {
+            InfoBlock(
+                title = stringResource(R.string.fullname),
+                description = candidate?.fio ?: ""
             )
         }
         item {
@@ -469,30 +511,71 @@ fun ProfilePage(candidate: Candidate?) {
 @Composable
 fun ProjectsPage(
     projectsList: MutableList<Project>?,
+    isProjectsLoaded: Boolean,
     onProjectPressed: (Int) -> Unit
 ) {
-    LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            top = 25.dp,
-            start = 15.dp,
-            end = 15.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
-    ) {
-        if (projectsList?.isNotEmpty() == true) {
-            items(projectsList) { project ->
-                ProjectItem(
+    val isProjectsListEmpty = projectsList?.isEmpty()
+    Box {
+        SIExtensibleVisibilityFadeOnly(visible = isProjectsListEmpty == true && isProjectsLoaded) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(15.dp),
+                verticalArrangement = Arrangement.spacedBy(
+                    space = 15.dp,
+                    alignment = Alignment.CenterVertically
+                )
+            ) {
+                Text(
                     modifier = Modifier.fillMaxWidth(),
-                    project = project,
-                    onClick = { onProjectPressed(project.id) }
+                    text = stringResource(R.string.projects_not_found),
+                    style = AppTheme.typography.title.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = AppTheme.colorScheme.secondary,
+                    textAlign = TextAlign.Center
+                )
+                Text(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 15.dp),
+                    text = stringResource(R.string.didnt_participate_in_any_projects),
+                    style = AppTheme.typography.subtitle,
+                    color = AppTheme.colorScheme.secondary,
+                    textAlign = TextAlign.Center
                 )
             }
-            item {
-                Spacer(modifier = Modifier.height(84.dp))
-                Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+        }
+        SIExtensibleVisibilityFadeOnly(visible = isProjectsListEmpty != true && isProjectsLoaded) {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(
+                    top = 25.dp,
+                    start = 15.dp,
+                    end = 15.dp
+                ),
+                verticalArrangement = Arrangement.spacedBy(15.dp)
+            ) {
+                if (isProjectsListEmpty != true) {
+                    items(projectsList!!) { project ->
+                        ProjectItem(
+                            modifier = Modifier.fillMaxWidth(),
+                            project = project,
+                            onClick = { onProjectPressed(project.id) }
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(84.dp))
+                        Spacer(
+                            modifier = Modifier.windowInsetsBottomHeight(
+                                WindowInsets.navigationBars
+                            )
+                        )
+                    }
+                }
             }
         }
+        LoadingPanel(!isProjectsLoaded)
     }
 }
 
@@ -504,7 +587,8 @@ fun PreviewParticipationsPage(
     AppTheme {
         ParticipationsPage(
             participationsList = listOf(participation, participation, participation),
-            isCanEdit = true
+            isCanEdit = true,
+            isParticipationsLoaded = true
         )
     }
 }
@@ -515,6 +599,8 @@ fun PreviewAuthorizedPage(@PreviewParameter(SampleCandidateProvider::class) cand
     AppTheme {
         AuthorizedPage(
             candidate = candidate,
+            isParticipationsLoaded = true,
+            isProjectsLoaded = true,
             participationsList = listOf(),
             projectsList = mutableListOf()
         )
@@ -527,6 +613,10 @@ fun PreviewProjectsPage(
     @PreviewParameter(SampleProjectProvider::class) project: Project
 ) {
     AppTheme {
-        ProjectsPage(projectsList = mutableListOf(project, project, project), onProjectPressed = {})
+        ProjectsPage(
+            projectsList = mutableListOf(project, project, project),
+            isProjectsLoaded = true,
+            onProjectPressed = {}
+        )
     }
 }

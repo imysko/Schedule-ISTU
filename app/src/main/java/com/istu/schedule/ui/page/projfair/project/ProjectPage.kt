@@ -36,9 +36,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -81,10 +85,21 @@ fun ProjectPage(
     viewModel: ProjectViewModel = hiltViewModel()
 ) {
     val project by viewModel.project.observeAsState(initial = null)
-    viewModel.getProjectById(projectId)
+    val participationList by viewModel.participationsList.observeAsState(initial = emptyList())
+
+    var participationExists by remember { mutableStateOf(false) }
+
+    viewModel.fetchProjectById(projectId)
+    viewModel.fetchParticipationList()
+
+    LaunchedEffect(participationList) {
+        participationExists =
+            participationList.any { participation -> participation.projectId == projectId }
+    }
+
     ProjectPage(
         project = project,
-        canCreateParticipation = canCreateParticipation,
+        canCreateParticipation = canCreateParticipation && !participationExists,
         onBackPressed = { navController.popBackStack() },
         onCreateParticipationPressed = {
             navController.navigate(
@@ -166,6 +181,7 @@ fun ProjectPage(
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
+                .fillMaxHeight()
                 .padding(
                     start = 15.dp,
                     end = 15.dp,

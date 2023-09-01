@@ -1,6 +1,5 @@
 package com.istu.schedule.ui.page.projfair.list
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -70,9 +69,9 @@ fun ProjectsListPage(
     val isLoading by viewModel.loading.observeAsState(initial = true)
     val isSearchCompleted by viewModel.isSearchCompleted.observeAsState(initial = false)
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
+    val canCreateParticipation = viewModel.canCreateParticipation.collectAsStateValue()
     val projectsListUiState = viewModel.projectsListUiState.collectAsStateValue()
     val projfairFiltersState = viewModel.projfairFiltersState.collectAsStateValue()
-    val canCreateParticipation = viewModel.canCreateParticipation
 
     LaunchedEffect(projfairFiltersState) {
         if (projfairFiltersState.isChanged) {
@@ -80,8 +79,8 @@ fun ProjectsListPage(
         }
     }
 
-    LaunchedEffect(projectsList) {
-        Log.i("ProjectsList", projectsList.size.toString())
+    LaunchedEffect(Unit) {
+        viewModel.fetchParticipationsList()
     }
 
     ProjectsListPage(
@@ -238,6 +237,7 @@ fun ProjectsListPage(
                             onCreateParticipationClick = { onCreateParticipationClick(project.id) }
                         )
                     }
+
                     item {
                         SIExtensibleVisibilityFadeOnly(visible = isLoading) {
                             Box(

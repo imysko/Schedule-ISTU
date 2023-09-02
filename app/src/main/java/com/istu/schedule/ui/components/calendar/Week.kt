@@ -36,12 +36,33 @@ fun Week(
     selectedDate: LocalDate = LocalDate.now(),
     onSelect: (selectedDate: LocalDate) -> Unit
 ) {
+    val monthNames = arrayOf(
+        "Январь",
+        "Февраль",
+        "Март",
+        "Апрель",
+        "Май",
+        "Июнь",
+        "Июль",
+        "Август",
+        "Сентябрь",
+        "Октябрь",
+        "Ноябрь",
+        "Декабрь"
+    )
+
     Column(
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text(
+            text = monthNames[week.days[0].month.value - 1],
+            fontFamily = interFamily,
+            fontSize = 12.sp,
+            color = AppTheme.colorScheme.backgroundSecondary
+        )
         Row(
             modifier = Modifier
                 .padding(horizontal = 2.dp)
@@ -122,28 +143,6 @@ fun Week(
                     )
                 }
             }
-        }
-
-        Row(
-            modifier = Modifier
-                .padding(top = 7.dp),
-            horizontalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            Text(
-                text = selectedDate.dayOfMonth.toString(),
-                fontFamily = interFamily,
-                fontSize = 12.sp,
-                color = AppTheme.colorScheme.backgroundSecondary
-            )
-            Text(
-                text = selectedDate.month.getDisplayName(
-                    TextStyle.FULL,
-                    LocalContext.current.resources.configuration.locales.get(0)
-                ),
-                fontFamily = interFamily,
-                fontSize = 12.sp,
-                color = AppTheme.colorScheme.backgroundSecondary
-            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.schedule
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.height
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
 import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
 import com.istu.schedule.ui.theme.AppTheme
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -48,55 +50,47 @@ fun SchedulePage(
             ScheduleContent(
                 paddingValues = it,
                 content = {
-                    if (!scheduleUiState.isShowSchedule) {
-                        UserNotBindedPlaceholder(
-                            onSetupScheduleClick = { onSetupScheduleClick() },
-                            spacer = {
-                                Spacer(modifier = Modifier.height(128.dp))
-                                Spacer(
-                                    modifier = Modifier.windowInsetsBottomHeight(
-                                        WindowInsets.navigationBars
+                    SIExtensibleVisibilityFadeOnly(visible = !scheduleUiState.isShowSchedule) {
+                        UserNotBindedPlaceholder(onSetupScheduleClick = { onSetupScheduleClick() })
+                    }
+                    SIExtensibleVisibilityFadeOnly(visible = scheduleUiState.isShowSchedule) {
+                        Box {
+                            SIExtensibleVisibilityFadeOnly(visible = isLoading) {
+                                ScheduleListIsLoading(spacer = {
+                                    Spacer(modifier = Modifier.height(64.dp))
+                                    Spacer(
+                                        modifier = Modifier.windowInsetsBottomHeight(
+                                            WindowInsets.navigationBars
+                                        )
                                     )
-                                )
+                                })
                             }
-                        )
-                    } else if (isLoading) {
-                        ScheduleListIsLoading(
-                            spacer = {
-                                Spacer(modifier = Modifier.height(128.dp))
-                                Spacer(
-                                    modifier = Modifier.windowInsetsBottomHeight(
-                                        WindowInsets.navigationBars
-                                    )
-                                )
-                            }
-                        )
-                    } else {
-                        studyDay?.let { studyDay ->
-                            if (studyDay.lessons.isEmpty()) {
-                                WeekendPlaceholder(
-                                    spacer = {
-                                        Spacer(modifier = Modifier.height(128.dp))
-                                        Spacer(
-                                            modifier = Modifier.windowInsetsBottomHeight(
-                                                WindowInsets.navigationBars
+                            SIExtensibleVisibilityFadeOnly(visible = !isLoading) {
+                                studyDay?.let { studyDay ->
+                                    if (studyDay.lessons.isEmpty()) {
+                                        WeekendPlaceholder(spacer = {
+                                            Spacer(modifier = Modifier.height(64.dp))
+                                            Spacer(
+                                                modifier = Modifier.windowInsetsBottomHeight(
+                                                    WindowInsets.navigationBars
+                                                )
                                             )
+                                        })
+                                    } else {
+                                        ScheduleList(
+                                            currentDateTime = currentDateTime,
+                                            studyDay = studyDay,
+                                            spacer = {
+                                                Spacer(modifier = Modifier.height(64.dp))
+                                                Spacer(
+                                                    modifier = Modifier.windowInsetsBottomHeight(
+                                                        WindowInsets.navigationBars
+                                                    )
+                                                )
+                                            }
                                         )
                                     }
-                                )
-                            } else {
-                                ScheduleList(
-                                    currentDateTime = currentDateTime,
-                                    studyDay = studyDay,
-                                    spacer = {
-                                        Spacer(modifier = Modifier.height(128.dp))
-                                        Spacer(
-                                            modifier = Modifier.windowInsetsBottomHeight(
-                                                WindowInsets.navigationBars
-                                            )
-                                        )
-                                    }
-                                )
+                                }
                             }
                         }
                     }
@@ -140,9 +134,7 @@ fun SchedulePageUnknownUserPreview() {
             scheduleUiState = ScheduleUiState(),
             isLoading = false,
             studyDay = null,
-            weeksList = listOf(
-                Week(LocalDate.of(2023, 5, 29))
-            ),
+            weeksList = listOf(Week(LocalDate.of(2023, 5, 29))),
             currentDateTime = LocalDateTime.of(2023, 6, 1, 12, 30),
             selectedDate = LocalDate.of(2023, 6, 3),
             onSearchButtonClick = { },

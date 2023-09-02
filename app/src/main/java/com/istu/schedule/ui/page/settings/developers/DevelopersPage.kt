@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,7 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -65,14 +66,9 @@ fun DevelopersPage(navController: NavController) {
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.backgroundSecondary)
-                    .padding(
-                        start = 15.dp,
-                        end = 15.dp,
-                        top = 23.dp,
-                        bottom = 50.dp
-                    ),
-                verticalArrangement = Arrangement.spacedBy(14.dp)
+                    .background(AppTheme.colorScheme.backgroundSecondary),
+                verticalArrangement = Arrangement.spacedBy(17.dp),
+                contentPadding = PaddingValues(vertical = 25.dp, horizontal = 15.dp)
             ) {
                 item {
                     Text(
@@ -91,7 +87,7 @@ fun DevelopersPage(navController: NavController) {
                     )
                 }
                 item {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.work_schedule),
                             style = AppTheme.typography.bodyMedium.copy(
@@ -107,7 +103,7 @@ fun DevelopersPage(navController: NavController) {
                     }
                 }
                 item {
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(2.dp),
@@ -124,7 +120,7 @@ fun DevelopersPage(navController: NavController) {
                     )
                 }
                 item {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.project_learning_center),
                             style = AppTheme.typography.bodyMedium.copy(
@@ -174,7 +170,7 @@ fun DevelopersPage(navController: NavController) {
                     }
                 }
                 item {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.developers_contacts),
                             style = AppTheme.typography.bodyMedium.copy(
@@ -219,7 +215,7 @@ fun DevelopersPage(navController: NavController) {
                     }
                 }
                 item {
-                    Divider(
+                    HorizontalDivider(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(2.dp),
@@ -236,7 +232,7 @@ fun DevelopersPage(navController: NavController) {
                     )
                 }
                 item {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.head_of_plc),
 
@@ -254,7 +250,7 @@ fun DevelopersPage(navController: NavController) {
                     }
                 }
                 item {
-                    Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.admin_of_projfair),
                             style = AppTheme.typography.bodyMedium.copy(

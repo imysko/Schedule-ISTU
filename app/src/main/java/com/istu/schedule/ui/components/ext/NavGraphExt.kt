@@ -1,7 +1,6 @@
 package com.istu.schedule.ui.components.ext
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -10,14 +9,13 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 
-@OptIn(ExperimentalAnimationApi::class)
 fun NavGraphBuilder.animatedComposable(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
     deepLinks: List<NavDeepLink> = emptyList(),
-    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit,
+    content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
 ) = composable(
     route = route,
     arguments = arguments,
@@ -34,5 +32,5 @@ fun NavGraphBuilder.animatedComposable(
     popExitTransition = {
         fadeOut(animationSpec = tween(0))
     },
-    content = content,
+    content = content
 )

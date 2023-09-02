@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -99,7 +99,6 @@ fun CreateParticipationPage(
         StringResourceItem(2, R.string.medium_priority),
         StringResourceItem(3, R.string.low_priority)
     )
-
     existsParticipations.forEach { participation ->
         val item = prioritiesList.firstOrNull {
             it.id == participation.priority
@@ -137,10 +136,10 @@ fun CreateParticipationPage(
         }
     )
 
-    Scaffold {
+    Scaffold { padding ->
         Column(
             modifier = Modifier.fillMaxSize().statusBarsPadding()
-                .padding(top = 15.dp, start = 15.dp, end = 15.dp),
+                .padding(top = 15.dp, start = 15.dp, end = 15.dp).padding(padding),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Row(
@@ -154,7 +153,7 @@ fun CreateParticipationPage(
                 )
                 Column(
                     modifier = Modifier.padding(7.dp).clickable(
-                        interactionSource = MutableInteractionSource(),
+                        interactionSource = remember { MutableInteractionSource() },
                         indication = null
                     ) { onBackClick() },
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -166,7 +165,7 @@ fun CreateParticipationPage(
                     )
                 }
             }
-            Divider()
+            HorizontalDivider()
             LazyColumn(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                 item {
                     Text(
@@ -291,7 +290,7 @@ fun CreateParticipationPage(
                     }
                 }
                 item {
-                    Spacer(modifier = Modifier.height(128.dp))
+                    Spacer(modifier = Modifier.height(64.dp))
                     Spacer(
                         modifier = Modifier.windowInsetsBottomHeight(
                             WindowInsets.navigationBars

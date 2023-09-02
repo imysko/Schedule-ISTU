@@ -97,8 +97,13 @@ fun ScheduleCard(
                         )
                 ) {
                     Row(
-                        modifier = Modifier
-                            .padding(start = 5.dp, end = 12.dp, top = 4.dp, bottom = 4.dp)
+                        modifier = Modifier.padding(
+                            start = 5.dp,
+                            end = 12.dp,
+                            top = 4.dp,
+                            bottom = 4.dp
+                        ),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Box(
                             modifier = Modifier
@@ -113,8 +118,7 @@ fun ScheduleCard(
                                 )
                         ) {
                             Text(
-                                modifier = Modifier
-                                    .padding(horizontal = 7.dp),
+                                modifier = Modifier.padding(horizontal = 7.dp, vertical = 3.dp),
                                 text = lesson.time.lessonNumber,
                                 style = AppTheme.typography.bodyMedium.copy(
                                     color = AppTheme.colorScheme.backgroundSecondary
@@ -162,7 +166,7 @@ fun ScheduleCard(
                         ) {
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
-                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                                verticalArrangement = Arrangement.spacedBy(8.dp)
                             ) {
                                 schedule.teachers?.let {
                                     Text(
@@ -201,7 +205,7 @@ fun ScheduleCard(
                                     ) {
                                         Text(
                                             modifier = Modifier
-                                                .padding(vertical = 1.dp, horizontal = 7.dp),
+                                                .padding(vertical = 6.dp, horizontal = 8.dp),
                                             text = schedule.classroomVerbose,
                                             style = AppTheme.typography.title.copy(
                                                 fontWeight = FontWeight.Light,

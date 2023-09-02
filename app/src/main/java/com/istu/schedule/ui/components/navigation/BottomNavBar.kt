@@ -24,7 +24,7 @@ import com.istu.schedule.ui.theme.ShapeTop20
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
-    val languages = LocalLanguages.current
+    LocalLanguages.current
 
     val bottomNavItems = listOf(
         BottomNavItem.SchedulePage,

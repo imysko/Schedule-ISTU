@@ -10,8 +10,4 @@ class App : Application() {
 
     @Inject
     lateinit var user: User
-
-    override fun onCreate() {
-        super.onCreate()
-    }
 }

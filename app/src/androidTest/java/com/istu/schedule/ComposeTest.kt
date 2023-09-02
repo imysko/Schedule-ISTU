@@ -6,7 +6,6 @@ import androidx.compose.ui.test.onNodeWithText
 import com.istu.schedule.data.preference.SettingsProvider
 import com.istu.schedule.domain.model.schedule.Course
 import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.ui.components.base.StringResourceItem
 import com.istu.schedule.ui.page.settings.binding.CourseAccordionItem
 import com.istu.schedule.ui.theme.AppTheme
 import org.junit.Rule
@@ -19,12 +18,6 @@ class ComposeTest {
 
     @Test
     fun prioritiesListTest() {
-        val prioritiesList = mutableListOf(
-            StringResourceItem(1, R.string.highest_priority),
-            StringResourceItem(2, R.string.medium_priority),
-            StringResourceItem(3, R.string.low_priority)
-        )
-
         composeTestRule.setContent {
             SettingsProvider {
                 AppTheme {

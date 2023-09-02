@@ -24,24 +24,19 @@ import com.istu.schedule.util.NavDestinations
 fun SettingsPage(navController: NavHostController) {
     SettingsPage(
         onBindingClick = { navController.navigate(NavDestinations.BINDING) },
-        onFavoritesListClick = { },
-        onLanguageClick = { navController.navigate(NavDestinations.LANGUAGE) },
-        onAboutClick = { navController.navigate(NavDestinations.DEVELOPERS) }
-    )
+        onLanguageClick = { navController.navigate(NavDestinations.LANGUAGE) }
+    ) { navController.navigate(NavDestinations.DEVELOPERS) }
 }
 
 @Composable
 fun SettingsPage(
     onBindingClick: () -> Unit,
-    onFavoritesListClick: () -> Unit,
     onLanguageClick: () -> Unit,
     onAboutClick: () -> Unit
 ) {
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
-        topBar = {
-            TopBar(title = stringResource(id = R.string.settings))
-        },
+        topBar = { TopBar(title = stringResource(id = R.string.settings)) },
         content = {
             LazyColumn(
                 modifier = Modifier
@@ -92,9 +87,7 @@ fun SettingsPagePreview() {
     AppTheme {
         SettingsPage(
             onBindingClick = { },
-            onFavoritesListClick = { },
-            onLanguageClick = { },
-            onAboutClick = { }
-        )
+            onLanguageClick = { }
+        ) { }
     }
 }

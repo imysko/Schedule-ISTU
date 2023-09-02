@@ -18,15 +18,12 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,10 +64,9 @@ import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.components.projfair.ParticipationItem
 import com.istu.schedule.ui.components.projfair.ProjectItem
-import com.istu.schedule.ui.icons.Logout
+import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
-import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -187,40 +183,7 @@ fun AuthorizedPage(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(15.dp),
-                        text = stringResource(R.string.account),
-                        style = AppTheme.typography.pageTitle,
-                        color = AppTheme.colorScheme.textSecondary
-                    )
-                    Row(
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .clip(Shape10)
-                            .clickable { logoutDialogVisible = true }
-                            .padding(10.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(R.string.logout),
-                            style = AppTheme.typography.title,
-                            color = AppTheme.colorScheme.textSecondary
-                        )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            imageVector = Icons.Logout,
-                            contentDescription = "Logout Icon",
-                            tint = AppTheme.colorScheme.textSecondary
-                        )
-                    }
-                }
+                TopBar(title = stringResource(id = R.string.my_account))
                 SIScrollableTabRow(
                     modifier = Modifier.padding(bottom = 10.dp),
                     selectedTabIndex = pagerState.currentPage,
@@ -436,10 +399,9 @@ fun ProfilePage(candidate: Candidate?) {
             .padding(
                 start = 15.dp,
                 end = 15.dp,
-                top = 23.dp,
-                bottom = 50.dp
+                top = 23.dp
             ),
-        verticalArrangement = Arrangement.spacedBy(14.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         item {
             Text(
@@ -470,7 +432,7 @@ fun ProfilePage(candidate: Candidate?) {
             )
         }
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
@@ -498,7 +460,7 @@ fun ProfilePage(candidate: Candidate?) {
             )
         }
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
@@ -560,9 +522,8 @@ fun ProjectsPage(
                     items(projectsList!!) { project ->
                         ProjectItem(
                             modifier = Modifier.fillMaxWidth(),
-                            project = project,
-                            onClick = { onProjectPressed(project.id) }
-                        )
+                            project = project
+                        ) { onProjectPressed(project.id) }
                     }
                     item {
                         Spacer(modifier = Modifier.height(84.dp))

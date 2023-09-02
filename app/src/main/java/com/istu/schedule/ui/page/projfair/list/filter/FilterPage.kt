@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.projfair.list.filter
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -16,7 +17,7 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -72,6 +73,7 @@ fun FiltersPage(
     )
 }
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiltersPage(
     filters: ProjfairFiltersState,
@@ -121,7 +123,7 @@ fun FiltersPage(
                     modifier = Modifier
                         .padding(7.dp)
                         .clickable(
-                            interactionSource = MutableInteractionSource(),
+                            interactionSource = remember { MutableInteractionSource() },
                             indication = null
                         ) { onBackPressed() },
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -143,7 +145,7 @@ fun FiltersPage(
                 selectedList = selectedStatusesList.toMutableList(),
                 onCheckedChange = { selectedStatusesList = it }
             )
-            Divider(Modifier.padding(vertical = 22.dp))
+            HorizontalDivider(Modifier.padding(vertical = 22.dp))
             Text(
                 modifier = Modifier.padding(bottom = 14.dp, start = 5.dp),
                 text = stringResource(R.string.project_tags),
@@ -166,7 +168,7 @@ fun FiltersPage(
                 placeholder = stringResource(R.string.select_a_skill),
                 onItemSelect = { selectedSkillsList = it }
             )
-            Divider(Modifier.padding(vertical = 22.dp))
+            HorizontalDivider(Modifier.padding(vertical = 22.dp))
             Text(
                 modifier = Modifier.padding(bottom = 4.dp, start = 5.dp),
                 text = stringResource(R.string.level_of_difficulty),
@@ -210,7 +212,7 @@ fun FiltersPage(
                     skillSearchText = ""
                 }
             )
-            Spacer(modifier = Modifier.height(128.dp))
+            Spacer(modifier = Modifier.height(72.dp))
             Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
     }

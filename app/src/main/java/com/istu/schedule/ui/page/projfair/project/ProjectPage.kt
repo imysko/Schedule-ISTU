@@ -12,10 +12,12 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
@@ -31,7 +33,7 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -67,9 +69,11 @@ import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.TwoColumnText
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.icons.People
+import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.toProjectDifficulty
@@ -136,12 +140,7 @@ fun ProjectPage(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
-                Text(
-                    modifier = Modifier.padding(15.dp),
-                    text = stringResource(id = R.string.projfair),
-                    style = AppTheme.typography.pageTitle,
-                    color = AppTheme.colorScheme.textSecondary
-                )
+                TopBar(stringResource(id = R.string.projfair))
                 SIScrollableTabRow(
                     modifier = Modifier.padding(bottom = 10.dp),
                     selectedTabIndex = pagerState.currentPage,
@@ -182,21 +181,15 @@ fun ProjectPage(
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
                 .fillMaxHeight()
-                .padding(
-                    start = 15.dp,
-                    end = 15.dp,
-                    top = 23.dp,
-                    bottom = 50.dp
-                )
         ) {
             Box(
-                modifier = Modifier.clickable(
-                    interactionSource = MutableInteractionSource(),
-                    indication = null
-                ) { onBackPressed() }
+                modifier = Modifier.padding(9.dp)
             ) {
                 Row(
-                    modifier = Modifier.padding(bottom = 16.dp),
+                    modifier = Modifier
+                        .clip(Shape5)
+                        .clickable { onBackPressed() }
+                        .padding(6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
@@ -216,12 +209,6 @@ fun ProjectPage(
                 }
             }
             project?.let { project ->
-                Text(
-                    text = project.title,
-                    style = AppTheme.typography.title.copy(
-                        fontWeight = FontWeight.SemiBold
-                    )
-                )
                 HorizontalPager(state = pagerState) { page ->
                     when (page) {
                         0 -> ProjectInfo(
@@ -248,13 +235,26 @@ fun ProjectInfo(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(top = 23.dp)
+            .fillMaxSize()
+            .padding(
+                start = 15.dp,
+                end = 15.dp
+            ),
+        contentPadding = PaddingValues(bottom = 24.dp)
     ) {
+        item {
+            Text(
+                text = project.title,
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+        }
         item {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 22.dp),
+                    .padding(vertical = 22.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Column {
@@ -304,7 +304,7 @@ fun ProjectInfo(
                                 ),
                                 RoundedCornerShape(72.dp)
                             )
-                            .padding(24.dp, 7.dp)
+                            .padding(24.dp, 9.dp)
                     ) {
                         Text(
                             text = project.state.state.uppercase(),
@@ -323,7 +323,7 @@ fun ProjectInfo(
             }
         }
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
@@ -387,7 +387,7 @@ fun ProjectInfo(
             )
         }
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
@@ -413,7 +413,7 @@ fun ProjectInfo(
             )
         }
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
@@ -474,8 +474,12 @@ fun ProjectInfo(
 fun ProjectParticipations(project: Project) {
     LazyColumn(
         modifier = Modifier
-            .padding(top = 23.dp)
-            .fillMaxHeight()
+            .fillMaxSize()
+            .padding(
+                start = 15.dp,
+                end = 15.dp
+            ),
+        contentPadding = PaddingValues(bottom = 24.dp)
     ) {
         item {
             Row {
@@ -531,11 +535,8 @@ fun ProjectParticipations(project: Project) {
             ParticipationInProject(index + 1, participation)
         }
         item {
-            Spacer(
-                modifier = Modifier
-                    .height(64.dp)
-                    .windowInsetsBottomHeight(WindowInsets.navigationBars)
-            )
+            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
         }
     }
 }

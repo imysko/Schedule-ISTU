@@ -105,8 +105,7 @@ fun SearchLine(
     value: String = "",
     isError: Boolean = false,
     onValueChange: (value: String) -> Unit,
-    onDone: () -> Unit = { },
-    onClose: () -> Unit = { }
+    onDone: () -> Unit = { }
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -193,7 +192,7 @@ fun TeachersList(
                 }
 
                 item {
-                    Spacer(modifier = Modifier.height(128.dp))
+                    Spacer(modifier = Modifier.height(64.dp))
                     Spacer(
                         modifier = Modifier.windowInsetsBottomHeight(
                             WindowInsets.navigationBars
@@ -220,9 +219,8 @@ fun SearchLineErrorPreview() {
         SearchLine(
             value = "",
             isError = true,
-            onValueChange = { },
-            onDone = { }
-        )
+            onValueChange = { }
+        ) { }
     }
 }
 

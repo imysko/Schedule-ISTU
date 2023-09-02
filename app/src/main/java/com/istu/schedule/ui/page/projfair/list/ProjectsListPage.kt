@@ -88,7 +88,6 @@ fun ProjectsListPage(
         isLoading = isLoading,
         isSearchCompleted = isSearchCompleted,
         projectsList = projectsList,
-        canCreateParticipation = canCreateParticipation,
         onSearchTextEdit = {
             viewModel.inputSearchContent(it)
         },
@@ -102,16 +101,12 @@ fun ProjectsListPage(
         onProjectClick = {
             navController.navigate("${NavDestinations.PROJECT}/$it/$canCreateParticipation")
         },
-        onCreateParticipationClick = {
-            navController.navigate("${NavDestinations.CREATE_PARTICIPATION}/$it")
-        },
         onFilterClick = {
             navController.navigate(NavDestinations.FILTERS)
-        },
-        onLoadMore = {
-            viewModel.fetchProjectsList()
         }
-    )
+    ) {
+        viewModel.fetchProjectsList()
+    }
 }
 
 @Composable
@@ -119,13 +114,11 @@ fun ProjectsListPage(
     projectsListUiState: ProjectsListUiState,
     isLoading: Boolean,
     isSearchCompleted: Boolean,
-    canCreateParticipation: Boolean,
     projectsList: List<Project>,
     onSearchTextEdit: (String) -> Unit,
     onSearchButtonClick: () -> Unit,
     onSearchConfirmClick: () -> Unit,
     onProjectClick: (Int) -> Unit,
-    onCreateParticipationClick: (Int) -> Unit,
     onFilterClick: () -> Unit,
     onLoadMore: () -> Unit
 ) {
@@ -172,11 +165,10 @@ fun ProjectsListPage(
                             .padding(top = 15.dp)
                             .height(42.dp),
                         value = projectsListUiState.titleSearchText,
-                        focusRequester = focusRequester,
                         placeholder = stringResource(R.string.projects_search_tint),
-                        onValueChange = { onSearchTextEdit(it) },
-                        onDone = { onSearchConfirmClick() }
-                    )
+                        focusRequester = focusRequester,
+                        onValueChange = { onSearchTextEdit(it) }
+                    ) { onSearchConfirmClick() }
                 }
             }
         }
@@ -191,11 +183,7 @@ fun ProjectsListPage(
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(15.dp),
                 state = listState,
-                contentPadding = PaddingValues(
-                    top = 15.dp,
-                    start = 15.dp,
-                    end = 15.dp
-                )
+                contentPadding = PaddingValues(15.dp)
             ) {
                 item {
                     Row(
@@ -231,11 +219,8 @@ fun ProjectsListPage(
                     items(projectsList) { project ->
                         ProjectItem(
                             modifier = Modifier.fillMaxWidth(),
-                            project = project,
-                            canCreateParticipation = canCreateParticipation,
-                            onClick = { onProjectClick(project.id) },
-                            onCreateParticipationClick = { onCreateParticipationClick(project.id) }
-                        )
+                            project = project
+                        ) { onProjectClick(project.id) }
                     }
 
                     item {
@@ -255,7 +240,7 @@ fun ProjectsListPage(
                     }
 
                     item {
-                        Spacer(modifier = Modifier.height(128.dp))
+                        Spacer(modifier = Modifier.height(64.dp))
                         Spacer(
                             modifier = Modifier.windowInsetsBottomHeight(
                                 WindowInsets.navigationBars
@@ -324,15 +309,12 @@ fun PreviewProjectsListPageLoading() {
             isLoading = true,
             isSearchCompleted = false,
             projectsList = listOf(),
-            canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },
             onSearchConfirmClick = { },
             onProjectClick = { },
-            onCreateParticipationClick = { },
-            onFilterClick = { },
-            onLoadMore = { }
-        )
+            onFilterClick = { }
+        ) { }
     }
 }
 
@@ -345,15 +327,12 @@ fun PreviewProjectsListPageEmpty() {
             isLoading = false,
             isSearchCompleted = true,
             projectsList = listOf(),
-            canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },
             onSearchConfirmClick = { },
             onProjectClick = { },
-            onCreateParticipationClick = { },
-            onFilterClick = { },
-            onLoadMore = { }
-        )
+            onFilterClick = { }
+        ) { }
     }
 }
 
@@ -370,15 +349,12 @@ fun PreviewProjectsListPageWithSearch(
             isLoading = false,
             isSearchCompleted = true,
             projectsList = listOf(project),
-            canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },
             onSearchConfirmClick = { },
             onProjectClick = { },
-            onCreateParticipationClick = { },
-            onFilterClick = { },
-            onLoadMore = { }
-        )
+            onFilterClick = { }
+        ) { }
     }
 }
 
@@ -395,14 +371,11 @@ fun PreviewProjectsListPageWithLoading(
             isLoading = true,
             isSearchCompleted = false,
             projectsList = listOf(project),
-            canCreateParticipation = true,
             onSearchTextEdit = { },
             onSearchButtonClick = { },
             onSearchConfirmClick = { },
             onProjectClick = { },
-            onCreateParticipationClick = { },
-            onFilterClick = { },
-            onLoadMore = { }
-        )
+            onFilterClick = { }
+        ) { }
     }
 }

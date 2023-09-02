@@ -39,7 +39,6 @@ fun SearchBar(
     placeholder: String = "",
     focusRequester: FocusRequester = remember { FocusRequester() },
     onValueChange: (String) -> Unit = {},
-    onClose: () -> Unit = {},
     onDone: () -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current

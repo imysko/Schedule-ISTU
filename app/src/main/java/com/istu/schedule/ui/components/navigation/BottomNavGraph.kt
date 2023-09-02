@@ -1,11 +1,10 @@
 package com.istu.schedule.ui.components.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
-import com.google.accompanist.navigation.animation.AnimatedNavHost
+import androidx.navigation.compose.NavHost
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.istu.schedule.data.enums.ScheduleType
@@ -24,7 +23,6 @@ import com.istu.schedule.ui.page.settings.developers.DevelopersPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.util.NavDestinations
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun BottomNavGraph(
     navController: NavHostController,
@@ -32,7 +30,7 @@ fun BottomNavGraph(
 ) {
     val systemUiController = rememberSystemUiController()
 
-    AnimatedNavHost(
+    NavHost(
         navController = bottomNavController,
         startDestination = BottomNavItem.SchedulePage.route
     ) {

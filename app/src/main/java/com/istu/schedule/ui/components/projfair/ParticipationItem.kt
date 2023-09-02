@@ -111,11 +111,11 @@ fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
                 },
                 Shape100
             ),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Box {}
         Text(
-            modifier = Modifier.padding(vertical = 6.dp),
             text = priority.toParticipationPriorityText().uppercase(),
             style = AppTheme.typography.bodySmall,
             color = if (priority in 1..3) {

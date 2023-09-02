@@ -24,7 +24,7 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -111,11 +111,10 @@ fun SearchSchedulePage(
                         .padding(top = 15.dp, end = 15.dp, start = 15.dp)
                         .height(42.dp),
                     value = value,
-                    focusRequester = focusRequester,
                     placeholder = stringResource(R.string.schedule_search_bar_label),
-                    onValueChange = { value = it },
-                    onDone = { onValueInputDone(value) }
-                )
+                    focusRequester = focusRequester,
+                    onValueChange = { value = it }
+                ) { onValueInputDone(value) }
             }
         },
         content = {
@@ -159,7 +158,7 @@ fun SearchContent(
             item {
                 Box(
                     modifier = Modifier.clickable(
-                        interactionSource = MutableInteractionSource(),
+                        interactionSource = remember { MutableInteractionSource() },
                         indication = null,
                         onClick = { onBackClick() }
                     )
@@ -202,7 +201,7 @@ fun SearchContent(
                 )
             }
             item {
-                Spacer(modifier = Modifier.height(128.dp))
+                Spacer(modifier = Modifier.height(64.dp))
                 Spacer(
                     modifier = Modifier.windowInsetsBottomHeight(
                         WindowInsets.navigationBars
@@ -230,7 +229,7 @@ internal fun LazyListScope.foundedList(
             )
         }
         item {
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .height(2.dp)
                     .fillMaxWidth()

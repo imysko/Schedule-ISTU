@@ -152,11 +152,11 @@
     <string name="search_teacher">Search by teachers</string>
     <string name="not_found">Not found</string>
     <string name="unknown_user">You need to select a group or teacher for view the schedule</string>
-    <string name="weekend">You can relax there are no classes today</string>
+    <string name="weekend">There are no classes on the selected day</string>
     <string name="back_to_your_schedule">Back to your schedule</string>
     <string name="search_schedule">Search schedule</string>
     <string name="schedule_search_bar_label">Input the group, teacher, or classroom</string>
-    <string name="my_account">My Account</string>
+    <string name="my_account">Account</string>
     <string name="delete_participation">Deleting a participation</string>
     <string name="delete_participation_text">Are you sure you want to delete this participation?</string>
     <string name="address">Address</string>

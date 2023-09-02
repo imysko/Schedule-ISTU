@@ -39,7 +39,7 @@
     <string name="choose_institute">Выберете свой институт</string>
     <string name="choose_course">Выберете номер курса</string>
     <string name="choose_group">Выберете вашу группу</string>
-    <string name="fullname">Полное имя</string>
+    <string name="fullname">ФИО</string>
     <string name="confirm">Подтвердить</string>
     <string name="input_complete">Пожалуйста, заполните поля ввода</string>
     <string name="student">Студент</string>
@@ -157,7 +157,7 @@
     <string name="search_teacher">Поиск по преподавателям</string>
     <string name="not_found">Не найдено</string>
     <string name="unknown_user">Для просмотра расписания вам необходимо выбрать группу или преподавателя</string>
-    <string name="weekend">Сегодня пар нет, вы можете отдохнуть</string>
+    <string name="weekend">В выбранный день нет пар</string>
     <string name="back_to_your_schedule">Назад к своему расписанию</string>
     <string name="search_schedule">Поиск расписания</string>
     <string name="schedule_search_bar_label">Введите группу, преподавателя или аудиторию</string>

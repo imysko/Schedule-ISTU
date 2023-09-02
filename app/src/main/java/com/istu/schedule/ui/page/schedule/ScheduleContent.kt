@@ -3,7 +3,6 @@ package com.istu.schedule.ui.page.schedule
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,6 +24,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -33,6 +33,7 @@ import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
 import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.theme.AppTheme
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
 import java.time.LocalDateTime
 
@@ -54,15 +55,13 @@ fun ScheduleContent(
     ) {
         if (isShowBackButton) {
             Box(
-                modifier = Modifier
-                    .padding(top = 23.dp, start = 15.dp)
-                    .clickable(
-                        interactionSource = MutableInteractionSource(),
-                        indication = null,
-                        onClick = { onBackClick() }
-                    )
+                modifier = Modifier.padding(top = 13.dp)
             ) {
                 Row(
+                    modifier = Modifier
+                        .clip(Shape10)
+                        .clickable(onClick = { onBackClick() })
+                        .padding(5.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(9.dp)
                 ) {
@@ -103,7 +102,7 @@ fun ScheduleList(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 15.dp),
-        contentPadding = PaddingValues(top = 20.dp),
+        contentPadding = PaddingValues(vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         studyDay.lessons.forEach { lesson ->
@@ -172,19 +171,30 @@ fun UserNotBindedPlaceholder(
 fun WeekendPlaceholder(
     spacer: @Composable () -> Unit = { }
 ) {
-    Text(
-        text = stringResource(id = R.string.weekend),
-        style = AppTheme.typography.subtitle.copy(
-            color = AppTheme.colorScheme.textPrimary
-        )
-    )
-    Image(
-        painter = painterResource(
-            id = R.drawable.login_to_personal_account
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 50.dp),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 15.dp,
+            alignment = Alignment.CenterVertically
         ),
-        contentDescription = null
-    )
-    spacer()
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            modifier = Modifier.size(180.dp),
+            painter = painterResource(R.drawable.login_to_personal_account),
+            contentDescription = null
+        )
+        Text(
+            modifier = Modifier.fillMaxWidth(),
+            text = stringResource(R.string.weekend),
+            style = AppTheme.typography.subtitle,
+            color = AppTheme.colorScheme.secondary,
+            textAlign = TextAlign.Center
+        )
+        spacer()
+    }
 }
 
 @Composable

@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.schedule
 
+import android.util.Log
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,10 @@ import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
+import java.time.LocalDateTime
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,10 +23,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
-import java.time.LocalDate
-import java.time.LocalDateTime
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 open class ScheduleViewModel @Inject constructor(
@@ -94,7 +95,11 @@ open class ScheduleViewModel @Inject constructor(
                 dateString = _selectedDate.value.toString()
             )
         }, onSuccess = { list ->
-            _schedule.postValue(list.first { it.date == _selectedDate.value.toString() })
+            try {
+                _schedule.postValue(list.first { it.date == _selectedDate.value.toString() })
+            } catch (ex: Exception) {
+                Log.e("getSchedule", ex.toString())
+            }
         }, onError = {
             it as RequestException
             _schedule.postValue(

@@ -16,7 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -55,9 +55,7 @@ import java.text.DateFormat
 fun ProjectItem(
     modifier: Modifier = Modifier,
     project: Project,
-    canCreateParticipation: Boolean = false,
-    onClick: () -> Unit = {},
-    onCreateParticipationClick: () -> Unit = {}
+    onClick: () -> Unit = {}
 ) {
     Card(
         modifier = modifier
@@ -81,6 +79,7 @@ fun ProjectItem(
             }
             if (project.specialities.isNotEmpty()) {
                 Text(
+                    modifier = Modifier.padding(top = 7.dp),
                     text = project.specialities.joinToString { it.name },
                     style = AppTheme.typography.bodyMedium.copy(
                         color = AppTheme.colorScheme.secondary
@@ -139,7 +138,7 @@ fun ProjectItem(
                             ),
                             RoundedCornerShape(72.dp)
                         )
-                        .padding(24.dp, 7.dp)
+                        .padding(24.dp, 9.dp)
                 ) {
                     Text(
                         text = project.state.state.uppercase(),
@@ -155,7 +154,7 @@ fun ProjectItem(
                     )
                 }
             }
-            Divider(
+            HorizontalDivider(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(2.dp),
@@ -251,16 +250,6 @@ fun ProjectItem(
                 text = stringResource(R.string.read_more),
                 onClick = onClick
             )
-            // if (project.state.id == 1 && canCreateParticipation) {
-            //     OutlineButton(
-            //         modifier = Modifier
-            //             .padding(top = 5.dp)
-            //             .fillMaxWidth()
-            //             .height(42.dp),
-            //         text = stringResource(R.string.send_participation),
-            //         onClick = onCreateParticipationClick
-            //     )
-            // }
         }
     }
 }

@@ -26,7 +26,7 @@ fun SICheckbox(
     text: String = ""
 ) {
     Row(
-        modifier = modifier.padding(horizontal = 5.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         CompositionLocalProvider(LocalMinimumInteractiveComponentEnforcement provides false) {

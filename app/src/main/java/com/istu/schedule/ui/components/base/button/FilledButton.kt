@@ -33,8 +33,7 @@ fun FilledButton(
             .height(42.dp)
             .clip(RoundedCornerShape(4.dp))
             .background(containerColor)
-            .clickable(onClick = onClick)
-            .padding(horizontal = 5.dp),
+            .clickable(onClick = onClick),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {

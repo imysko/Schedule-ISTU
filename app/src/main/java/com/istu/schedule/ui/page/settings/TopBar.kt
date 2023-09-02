@@ -29,7 +29,7 @@ import com.istu.schedule.ui.theme.Shape5
 fun TopBar(
     title: String,
     isShowBackButton: Boolean = false,
-    onBackClick: () -> Unit = {}
+    onBackPressed: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -46,7 +46,7 @@ fun TopBar(
                     modifier = Modifier
                         .size(30.dp)
                         .clip(Shape5)
-                        .clickable { onBackClick() },
+                        .clickable { onBackPressed() },
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(

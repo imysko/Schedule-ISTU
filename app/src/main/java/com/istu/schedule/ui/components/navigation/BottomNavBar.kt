@@ -15,12 +15,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.istu.schedule.data.preference.LocalLanguages
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop20
+import com.istu.schedule.util.NavDestinations
 
 @Composable
 fun BottomNavBar(navController: NavHostController) {
@@ -29,8 +31,8 @@ fun BottomNavBar(navController: NavHostController) {
     val bottomNavItems = listOf(
         BottomNavItem.SchedulePage,
         BottomNavItem.ProjfairPage,
-        BottomNavItem.SettingsPage,
-        BottomNavItem.AccountPage
+        BottomNavItem.AccountPage,
+        BottomNavItem.SettingsPage
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -93,9 +95,10 @@ fun RowScope.AddItem(
         ),
         onClick = {
             if (navController.currentDestination?.route != bottomNavItem.route) {
-                navController.navigate(
-                    bottomNavItem.route
-                )
+                navController.navigate(bottomNavItem.route) {
+                    launchSingleTop = true
+                    popUpTo(NavDestinations.MINE_SCHEDULE)
+                }
             }
         }
     )

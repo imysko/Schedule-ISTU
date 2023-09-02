@@ -50,7 +50,7 @@ fun ChooseInstitute(
             TopBar(
                 title = stringResource(id = R.string.account),
                 isShowBackButton = true,
-                onBackClick = { onBackClick() }
+                onBackPressed = { onBackClick() }
             )
         },
         content = {

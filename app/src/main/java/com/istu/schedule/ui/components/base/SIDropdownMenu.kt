@@ -2,11 +2,12 @@ package com.istu.schedule.ui.components.base
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ExposedDropdownMenuBox
@@ -25,6 +26,8 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.theme.AppTheme
+import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.theme.Shape20
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalLayoutApi::class)
 @Composable
@@ -41,25 +44,25 @@ fun SIDropdownMenu(
 
     ExposedDropdownMenuBox(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
-            .border(1.dp, AppTheme.colorScheme.secondary, RoundedCornerShape(4.dp))
-            .padding(vertical = 10.dp, horizontal = 10.dp),
+            .clip(Shape10)
+            .border(1.dp, AppTheme.colorScheme.secondary, Shape10),
         expanded = expanded,
         onExpandedChange = {
             expanded = !expanded
         }
     ) {
         Row(
+            modifier = Modifier.padding(vertical = 10.dp, horizontal = 10.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             FlowRow(
                 modifier = Modifier.weight(1f),
-                verticalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalArrangement = Arrangement.spacedBy(3.dp)
             ) {
                 selectedItems.forEach { pair ->
                     SIInputChip(
-                        modifier = Modifier.padding(end = 2.dp, top = 1.dp, bottom = 1.dp),
                         text = pair.second,
                         onClick = {
                             selectedItems.remove(pair)
@@ -67,29 +70,36 @@ fun SIDropdownMenu(
                         }
                     )
                 }
-                BasicTextField(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 3.dp),
-                    textStyle = AppTheme.typography.bodyMedium,
-                    value = textValue,
-                    onValueChange = {
-                        onTextValueChange(it)
-                        expanded = true
-                    },
-                    singleLine = true,
-                    cursorBrush = SolidColor(AppTheme.colorScheme.primary),
-                    decorationBox = { innerTextField ->
-                        if (textValue.isEmpty()) {
-                            Text(
-                                modifier = Modifier.alpha(0.7f),
-                                text = placeholder,
-                                style = AppTheme.typography.bodyMedium
-                            )
+                Box(
+                    modifier = Modifier.weight(1f).defaultMinSize(minHeight = 25.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    BasicTextField(
+                        textStyle = AppTheme.typography.bodyMedium,
+                        value = textValue,
+                        onValueChange = {
+                            onTextValueChange(it)
+                            expanded = true
+                        },
+                        singleLine = true,
+                        cursorBrush = SolidColor(AppTheme.colorScheme.primary),
+                        decorationBox = { innerTextField ->
+                            Box(
+                                modifier = Modifier.defaultMinSize(minHeight = 25.dp),
+                                contentAlignment = Alignment.CenterStart
+                            ) {
+                                if (textValue.isEmpty()) {
+                                    Text(
+                                        modifier = Modifier.alpha(0.7f),
+                                        text = placeholder,
+                                        style = AppTheme.typography.bodyMedium
+                                    )
+                                }
+                                innerTextField()
+                            }
                         }
-                        innerTextField()
-                    }
-                )
+                    )
+                }
             }
             TrailingIcon(expanded = false)
         }

@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.istu.schedule.ui.theme.Shape5
 
 @Composable
 fun CheckboxGroup(
@@ -16,13 +17,12 @@ fun CheckboxGroup(
     modifier: Modifier = Modifier,
     onCheckedChange: (List<Int>) -> Unit = {}
 ) {
-    Column(
-        modifier = modifier
-    ) {
+    Column(modifier = modifier) {
         for (item in items) {
             SICheckbox(
                 modifier = Modifier
-                    .clip(com.istu.schedule.ui.theme.Shape5)
+                    .padding(top = 5.dp)
+                    .clip(Shape5)
                     .clickable {
                         if (item.id in selectedList) {
                             selectedList.remove(item.id)
@@ -30,8 +30,7 @@ fun CheckboxGroup(
                             selectedList.add(item.id)
                         }
                         onCheckedChange(selectedList)
-                    }
-                    .padding(vertical = 5.dp),
+                    },
                 text = stringResource(item.stringId),
                 onCheckedChange = {
                     if (item.id in selectedList) {

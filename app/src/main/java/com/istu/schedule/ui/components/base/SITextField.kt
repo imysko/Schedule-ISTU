@@ -4,8 +4,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.icons.Check
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Green
+import com.istu.schedule.ui.theme.Shape10
 
 @Composable
 fun SITextField(
@@ -28,41 +30,49 @@ fun SITextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     readOnly: Boolean = false,
+    enabled: Boolean = true,
     placeholder: String,
     tailingIcon: (@Composable () -> Unit)? = null
 ) {
-    BasicTextField(
+    Box(
         modifier = modifier
-            .clip(RoundedCornerShape(4.dp))
-            .border(1.dp, AppTheme.colorScheme.secondary, RoundedCornerShape(4.dp))
-            .padding(10.dp),
-        textStyle = AppTheme.typography.bodyMedium,
-        value = value,
-        onValueChange = {
-            onValueChange(it)
-        },
-        readOnly = readOnly,
-        singleLine = true,
-        cursorBrush = SolidColor(AppTheme.colorScheme.primary),
-        decorationBox = { innerTextField ->
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Box {
-                    if (value.isEmpty()) {
-                        Text(
-                            modifier = Modifier.alpha(0.7f),
-                            text = placeholder,
-                            style = AppTheme.typography.bodyMedium
-                        )
+            .clip(Shape10)
+            .border(1.dp, AppTheme.colorScheme.secondary, Shape10)
+    ) {
+        BasicTextField(
+            modifier = Modifier.padding(10.dp).fillMaxWidth(),
+            textStyle = AppTheme.typography.bodyMedium,
+            value = value,
+            enabled = enabled,
+            onValueChange = {
+                onValueChange(it)
+            },
+            readOnly = readOnly,
+            singleLine = true,
+            cursorBrush = SolidColor(AppTheme.colorScheme.primary),
+            decorationBox = { innerTextField ->
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Box(
+                        modifier = Modifier.defaultMinSize(minHeight = 25.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        if (value.isEmpty()) {
+                            Text(
+                                modifier = Modifier.alpha(0.7f),
+                                text = placeholder,
+                                style = AppTheme.typography.bodyMedium
+                            )
+                        }
+                        innerTextField()
                     }
-                    innerTextField()
+                    tailingIcon?.let { it() }
                 }
-                tailingIcon?.let { it() }
             }
-        }
-    )
+        )
+    }
 }
 
 @Preview(showBackground = true)
@@ -73,6 +83,7 @@ fun PreviewSITextFieldEmpty() {
             value = "",
             modifier = Modifier.padding(10.dp),
             placeholder = "Select speciality",
+            enabled = false,
             onValueChange = {},
             tailingIcon = {
                 Icon(imageVector = Icons.Check, tint = Green, contentDescription = null)
@@ -89,6 +100,7 @@ fun PreviewSITextFieldNotEmpty() {
             value = "Text",
             modifier = Modifier.padding(10.dp),
             placeholder = "Select speciality",
+            enabled = false,
             onValueChange = {},
             tailingIcon = {
                 Icon(imageVector = Icons.Check, tint = Green, contentDescription = null)
@@ -106,6 +118,7 @@ fun PreviewSITextFieldReadOnly() {
             modifier = Modifier.padding(10.dp),
             readOnly = true,
             placeholder = "Select speciality",
+            enabled = false,
             onValueChange = {},
             tailingIcon = {
                 Icon(imageVector = Icons.Check, tint = Green, contentDescription = null)

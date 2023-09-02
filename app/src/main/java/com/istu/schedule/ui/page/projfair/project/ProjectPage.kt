@@ -32,7 +32,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBackIosNew
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
@@ -73,7 +72,6 @@ import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
-import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.toProjectDifficulty
@@ -140,7 +138,11 @@ fun ProjectPage(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             Column(modifier = Modifier.statusBarsPadding()) {
-                TopBar(stringResource(id = R.string.projfair))
+                TopBar(
+                    title = stringResource(id = R.string.projfair),
+                    isShowBackButton = true,
+                    onBackPressed = onBackPressed
+                )
                 SIScrollableTabRow(
                     modifier = Modifier.padding(bottom = 10.dp),
                     selectedTabIndex = pagerState.currentPage,
@@ -182,32 +184,6 @@ fun ProjectPage(
                 .background(AppTheme.colorScheme.backgroundSecondary)
                 .fillMaxHeight()
         ) {
-            Box(
-                modifier = Modifier.padding(9.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .clip(Shape5)
-                        .clickable { onBackPressed() }
-                        .padding(6.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(
-                        modifier = Modifier.size(18.dp),
-                        imageVector = Icons.Rounded.ArrowBackIosNew,
-                        contentDescription = stringResource(R.string.back),
-                        tint = AppTheme.colorScheme.secondary
-                    )
-                    Text(
-                        modifier = Modifier.padding(start = 9.dp),
-                        text = stringResource(R.string.back_to_list),
-                        style = AppTheme.typography.bodyMedium.copy(
-                            color = AppTheme.colorScheme.secondary,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
-                }
-            }
             project?.let { project ->
                 HorizontalPager(state = pagerState) { page ->
                     when (page) {
@@ -236,11 +212,8 @@ fun ProjectInfo(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                start = 15.dp,
-                end = 15.dp
-            ),
-        contentPadding = PaddingValues(bottom = 24.dp)
+            .padding(horizontal = 15.dp),
+        contentPadding = PaddingValues(vertical = 24.dp)
     ) {
         item {
             Text(
@@ -475,11 +448,8 @@ fun ProjectParticipations(project: Project) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(
-                start = 15.dp,
-                end = 15.dp
-            ),
-        contentPadding = PaddingValues(bottom = 24.dp)
+            .padding(horizontal = 15.dp),
+        contentPadding = PaddingValues(vertical = 24.dp)
     ) {
         item {
             Row {

@@ -15,7 +15,7 @@ sealed class BottomNavItem(
     val icon: ImageVector,
     val subroutes: List<String> = listOf()
 ) {
-    object SchedulePage : BottomNavItem(
+    data object SchedulePage : BottomNavItem(
         route = NavDestinations.MINE_SCHEDULE,
         titleResId = R.string.schedule,
         icon = Icons.Calendar,
@@ -25,7 +25,7 @@ sealed class BottomNavItem(
         )
     )
 
-    object ProjfairPage : BottomNavItem(
+    data object ProjfairPage : BottomNavItem(
         route = NavDestinations.PROJFAIR,
         titleResId = R.string.projects,
         icon = Icons.Book,
@@ -36,7 +36,7 @@ sealed class BottomNavItem(
         )
     )
 
-    object SettingsPage : BottomNavItem(
+    data object SettingsPage : BottomNavItem(
         route = NavDestinations.SETTINGS,
         titleResId = R.string.settings,
         icon = Icons.Settings,
@@ -47,7 +47,7 @@ sealed class BottomNavItem(
         )
     )
 
-    object AccountPage : BottomNavItem(
+    data object AccountPage : BottomNavItem(
         route = NavDestinations.ACCOUNT,
         titleResId = R.string.account,
         icon = Icons.Account

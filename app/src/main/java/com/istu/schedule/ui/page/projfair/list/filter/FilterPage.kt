@@ -1,24 +1,19 @@
 package com.istu.schedule.ui.page.projfair.list.filter
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,8 +23,8 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,8 +41,9 @@ import com.istu.schedule.ui.components.base.SIDropdownMenu
 import com.istu.schedule.ui.components.base.StringResourceItem
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.TextButton
-import com.istu.schedule.ui.icons.X
+import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
+import com.istu.schedule.ui.theme.ShapeTop15
 
 @Composable
 fun FiltersPage(
@@ -102,118 +98,118 @@ fun FiltersPage(
         StringResourceItem(3, R.string.difficult)
     )
 
-    Scaffold {
-        Column(
+    Scaffold(
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
+        topBar = {
+            TopBar(
+                title = stringResource(R.string.filters),
+                isShowBackButton = true,
+                onBackPressed = onBackPressed
+            )
+        }
+    ) {
+        LazyColumn(
             modifier = Modifier
-                .statusBarsPadding()
-                .padding(15.dp)
-                .verticalScroll(rememberScrollState())
+                .fillMaxSize()
+                .padding(top = it.calculateTopPadding())
+                .clip(ShapeTop15)
+                .background(AppTheme.colorScheme.backgroundSecondary),
+            contentPadding = PaddingValues(20.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
+            item {
                 Text(
-                    text = stringResource(R.string.filters),
-                    style = AppTheme.typography.pageTitle
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    text = stringResource(R.string.project_status),
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
                 )
-                Column(
-                    modifier = Modifier
-                        .padding(7.dp)
-                        .clickable(
-                            interactionSource = remember { MutableInteractionSource() },
-                            indication = null
-                        ) { onBackPressed() },
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Icon(
-                        imageVector = Icons.X,
-                        contentDescription = "cross icon",
-                        tint = AppTheme.colorScheme.secondary
-                    )
-                }
+                CheckboxGroup(
+                    items = statusesList,
+                    selectedList = selectedStatusesList.toMutableList(),
+                    onCheckedChange = { selectedStatusesList = it }
+                )
             }
-            Text(
-                modifier = Modifier.padding(top = 14.dp, bottom = 4.dp, start = 5.dp),
-                text = stringResource(R.string.project_status),
-                style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-            )
-            CheckboxGroup(
-                items = statusesList,
-                selectedList = selectedStatusesList.toMutableList(),
-                onCheckedChange = { selectedStatusesList = it }
-            )
-            HorizontalDivider(Modifier.padding(vertical = 22.dp))
-            Text(
-                modifier = Modifier.padding(bottom = 14.dp, start = 5.dp),
-                text = stringResource(R.string.project_tags),
-                style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-            )
-            SIDropdownMenu(
-                listItems = specialitiesList.map { Pair(it.id, it.name) },
-                textValue = specialitySearchText,
-                onTextValueChange = { specialitySearchText = it },
-                selectedItems = selectedSpecialitiesList.toMutableList(),
-                placeholder = stringResource(R.string.select_a_specialty),
-                onItemSelect = { selectedSpecialitiesList = it }
-            )
-            SIDropdownMenu(
-                modifier = Modifier.padding(top = 8.dp),
-                listItems = skillsList.map { Pair(it.id, it.name) },
-                textValue = skillSearchText,
-                onTextValueChange = { skillSearchText = it },
-                selectedItems = selectedSkillsList.toMutableList(),
-                placeholder = stringResource(R.string.select_a_skill),
-                onItemSelect = { selectedSkillsList = it }
-            )
-            HorizontalDivider(Modifier.padding(vertical = 22.dp))
-            Text(
-                modifier = Modifier.padding(bottom = 4.dp, start = 5.dp),
-                text = stringResource(R.string.level_of_difficulty),
-                style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-            )
-            CheckboxGroup(
-                items = difficultiesList,
-                selectedList = selectedDifficultiesList.toMutableList(),
-                onCheckedChange = { selectedDifficultiesList = it }
-            )
-            FilledButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 22.dp)
-                    .height(42.dp),
-                text = stringResource(R.string.find),
-                onClick = {
-                    val projfairFiltersState = ProjfairFiltersState(
-                        isChanged = true,
-                        statusesList = selectedStatusesList,
-                        difficultiesList = selectedDifficultiesList,
-                        specialitiesList = selectedSpecialitiesList,
-                        skillsList = selectedSkillsList
-                    )
-                    onFindPressed(projfairFiltersState)
-                    onBackPressed()
-                }
-            )
-            TextButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-                    .height(42.dp),
-                text = stringResource(R.string.reset_filter),
-                onClick = {
-                    selectedStatusesList = listOf()
-                    selectedDifficultiesList = listOf()
-                    selectedSpecialitiesList = listOf()
-                    selectedSkillsList = listOf()
-                    specialitySearchText = ""
-                    skillSearchText = ""
-                }
-            )
-            Spacer(modifier = Modifier.height(72.dp))
-            Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+            item {
+                HorizontalDivider()
+            }
+            item {
+                Text(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    text = stringResource(R.string.project_tags),
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
+                )
+                SIDropdownMenu(
+                    modifier = Modifier.padding(top = 5.dp),
+                    listItems = specialitiesList.map { Pair(it.id, it.name) },
+                    textValue = specialitySearchText,
+                    onTextValueChange = { specialitySearchText = it },
+                    selectedItems = selectedSpecialitiesList.toMutableList(),
+                    placeholder = stringResource(R.string.select_a_specialty),
+                    onItemSelect = { selectedSpecialitiesList = it }
+                )
+                SIDropdownMenu(
+                    modifier = Modifier.padding(top = 5.dp),
+                    listItems = skillsList.map { Pair(it.id, it.name) },
+                    textValue = skillSearchText,
+                    onTextValueChange = { skillSearchText = it },
+                    selectedItems = selectedSkillsList.toMutableList(),
+                    placeholder = stringResource(R.string.select_a_skill),
+                    onItemSelect = { selectedSkillsList = it }
+                )
+            }
+            item {
+                HorizontalDivider()
+            }
+            item {
+                Text(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    text = stringResource(R.string.level_of_difficulty),
+                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
+                )
+                CheckboxGroup(
+                    items = difficultiesList,
+                    selectedList = selectedDifficultiesList.toMutableList(),
+                    onCheckedChange = { selectedDifficultiesList = it }
+                )
+            }
+            item {
+                FilledButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(42.dp),
+                    text = stringResource(R.string.find),
+                    onClick = {
+                        val projfairFiltersState = ProjfairFiltersState(
+                            isChanged = true,
+                            statusesList = selectedStatusesList,
+                            difficultiesList = selectedDifficultiesList,
+                            specialitiesList = selectedSpecialitiesList,
+                            skillsList = selectedSkillsList
+                        )
+                        onFindPressed(projfairFiltersState)
+                        onBackPressed()
+                    }
+                )
+                TextButton(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 4.dp)
+                        .height(42.dp),
+                    text = stringResource(R.string.reset_filter),
+                    onClick = {
+                        selectedStatusesList = listOf()
+                        selectedDifficultiesList = listOf()
+                        selectedSpecialitiesList = listOf()
+                        selectedSkillsList = listOf()
+                        specialitySearchText = ""
+                        skillSearchText = ""
+                    }
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(72.dp))
+                Spacer(modifier = Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+            }
         }
     }
 }

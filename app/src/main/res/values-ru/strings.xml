@@ -110,7 +110,7 @@
 	<string name="project_tags">Теги проекта</string>
 	<string name="level_of_difficulty">Уровень сложности</string>
 	<string name="find">Найти</string>
-	<string name="reset_filter">Сбросить фильтр</string>
+	<string name="reset_filter">Сбросить фильтры</string>
 	<string name="select_a_specialty">Введите специальность</string>
     <string name="select_a_skill">Введите навык</string>
     <string name="active">Активный</string>
@@ -145,7 +145,7 @@
     <string name="low_priority">Низкий приоритет</string>
     <string name="automatic_allocation">Автоматическое распределение</string>
     <string name="edit_participations">Редактировать заявки</string>
-    <string name="send_participation_page_title">Подача заявки на проект</string>
+    <string name="send_participation_page_title">Подача заявки</string>
     <string name="project_priority">Приоритетность проекта</string>
     <string name="highest_priority">Высший приоритет</string>
     <string name="loading">Загрузка</string>

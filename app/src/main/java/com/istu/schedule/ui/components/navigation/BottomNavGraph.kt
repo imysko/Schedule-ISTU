@@ -106,7 +106,7 @@ fun BottomNavGraph(
             route = NavDestinations.FILTERS
         ) {
             FiltersPage(bottomNavController)
-            SetStatusBarIconColor(systemUiController, true)
+            SetStatusBarIconColor(systemUiController)
         }
 
         animatedComposable(
@@ -127,7 +127,7 @@ fun BottomNavGraph(
             it.arguments?.getString("projectId")?.toInt()?.let { projectId ->
                 CreateParticipationPage(projectId, bottomNavController)
             }
-            SetStatusBarIconColor(systemUiController, true)
+            SetStatusBarIconColor(systemUiController)
         }
     }
 }

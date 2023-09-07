@@ -42,7 +42,8 @@ fun MineSchedulePage(
     }
 
     LaunchedEffect(Unit) {
-        scheduleUiState.calendarState.scrollToItem(1)
+        val currentWeek = weeksList.first { it.days.contains(LocalDate.now()) }
+        scheduleUiState.calendarState.scrollToItem(weeksList.indexOf(currentWeek))
     }
 
     LaunchedEffect(navController) {

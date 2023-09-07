@@ -6,14 +6,14 @@ import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+import kotlinx.coroutines.flow.update
 
 @HiltViewModel
 class MineScheduleViewModel @Inject constructor(
-    _useCaseScheduleOnDay: GetScheduleOnDayUseCase,
+    useCaseScheduleOnDay: GetScheduleOnDayUseCase,
     private val _user: User
-) : ScheduleViewModel(_useCaseScheduleOnDay) {
+) : ScheduleViewModel(useCaseScheduleOnDay) {
 
     init {
         updateUserInformation()
@@ -40,9 +40,11 @@ class MineScheduleViewModel @Inject constructor(
             UserStatus.STUDENT -> {
                 getSchedule(ScheduleType.BY_GROUP, _user.userId!!)
             }
+
             UserStatus.TEACHER -> {
                 getSchedule(ScheduleType.BY_TEACHER, _user.userId!!)
             }
+
             else -> {}
         }
     }

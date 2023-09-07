@@ -28,6 +28,7 @@ fun BindingPage(
         )
     } else if (bindingUiState.isShowChooseInstitutePage) {
         ChooseInstitute(
+            isLoading = viewModel.loading.value == true,
             institutesList = instituteList,
             onBackClick = { viewModel.onClickBackToChooseUserState() },
             onChooseInstitute = { viewModel.selectInstitute(it) }

@@ -4,9 +4,15 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -49,34 +55,34 @@ fun ChooseGroup(
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.backgroundSecondary)
+                    .background(AppTheme.colorScheme.backgroundSecondary),
+                verticalArrangement = Arrangement.spacedBy(24.dp)
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(top = 19.dp, start = 15.dp, end = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 2.dp),
-                        text = instituteTitle,
-                        style = AppTheme.typography.title.copy(
-                            fontWeight = FontWeight.SemiBold,
-                            color = AppTheme.colorScheme.primary
-                        )
+                Text(
+                    modifier = Modifier.padding(top = 19.dp, start = 17.dp, end = 17.dp),
+                    text = instituteTitle,
+                    style = AppTheme.typography.title.copy(
+                        fontWeight = FontWeight.SemiBold,
+                        color = AppTheme.colorScheme.primary
                     )
-
-                    LazyColumn(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        courseList.forEach {
-                            item {
-                                CourseAccordionItem(
-                                    course = it,
-                                    onChooseGroup = { group -> onChooseGroup(group) }
-                                )
-                            }
-                        }
+                )
+                LazyColumn(
+                    modifier = Modifier.padding(horizontal = 15.dp),
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    items(courseList) { course ->
+                        CourseAccordionItem(
+                            course = course,
+                            onChooseGroup = { group -> onChooseGroup(group) }
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(64.dp))
+                        Spacer(
+                            modifier = Modifier.windowInsetsBottomHeight(
+                                WindowInsets.navigationBars
+                            )
+                        )
                     }
                 }
             }

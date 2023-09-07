@@ -58,6 +58,7 @@ fun Week(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
+            modifier = Modifier.padding(bottom = 7.dp),
             text = monthNames[week.days[0].month.value - 1],
             fontFamily = interFamily,
             fontSize = 12.sp,
@@ -72,17 +73,19 @@ fun Week(
             for (date in week.days) {
                 Column(
                     modifier = Modifier
-                        .size(width = 43.dp, height = 63.dp)
+                        .size(width = 45.dp, height = 70.dp)
                         .clip(Shape21_5)
                         .background(
                             if (date == selectedDate) Color(0xFF325AD6) else Color.Transparent
                         )
                         .clickable { onSelect(date) },
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(2.dp)
+                    verticalArrangement = Arrangement.spacedBy(
+                        space = 4.dp,
+                        alignment = Alignment.CenterVertically
+                    )
                 ) {
                     Text(
-                        modifier = Modifier.padding(top = 7.dp),
                         text = date.dayOfWeek
                             .getDisplayName(
                                 TextStyle.SHORT,

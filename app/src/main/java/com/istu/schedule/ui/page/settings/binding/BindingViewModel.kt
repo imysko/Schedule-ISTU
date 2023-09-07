@@ -12,18 +12,18 @@ import com.istu.schedule.domain.usecase.schedule.GetInstitutesListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.util.Locale
-import javax.inject.Inject
 
 @HiltViewModel
 class BindingViewModel @Inject constructor(
     private val _useCaseInstitutesList: GetInstitutesListUseCase,
     private val _useCaseTeachersList: GetTeachersListUseCase,
-    private val _user: User,
+    private val _user: User
 ) : BaseViewModel() {
 
     private val _institutesList = MutableLiveData<List<Institute>>()
@@ -58,11 +58,13 @@ class BindingViewModel @Inject constructor(
                         selectedGroupDescription = _user.userDescription
                     )
                 }
+
                 UserStatus.TEACHER -> {
                     it.copy(
                         selectedTeacherDescription = _user.userDescription
                     )
                 }
+
                 else -> {
                     it.copy()
                 }
@@ -88,7 +90,9 @@ class BindingViewModel @Inject constructor(
     }
 
     private fun getCoursesList() {
-        _coursesList.postValue(_institutesList.value!!.find { i -> i == _selectedInstitute.value }?.courses!!)
+        _coursesList.postValue(
+            _institutesList.value!!.find { i -> i == _selectedInstitute.value }?.courses!!
+        )
     }
 
     fun selectUserStatus(status: UserStatus) {
@@ -99,16 +103,20 @@ class BindingViewModel @Inject constructor(
                 UserStatus.STUDENT -> {
                     it.copy(
                         isShowChooseUserStatusPage = false,
-                        isShowChooseInstitutePage = true,
+                        isShowChooseInstitutePage = true
                     )
                 }
+
                 UserStatus.TEACHER -> {
                     it.copy(
                         isShowChooseUserStatusPage = false,
-                        isShowChooseTeacherPage = true,
+                        isShowChooseTeacherPage = true
                     )
                 }
-                UserStatus.UNKNOWN -> { it.copy() }
+
+                UserStatus.UNKNOWN -> {
+                    it.copy()
+                }
             }
         }
     }
@@ -118,7 +126,7 @@ class BindingViewModel @Inject constructor(
             it.copy(
                 isShowChooseUserStatusPage = true,
                 isShowChooseInstitutePage = false,
-                isShowChooseTeacherPage = false,
+                isShowChooseTeacherPage = false
             )
         }
     }
@@ -127,7 +135,7 @@ class BindingViewModel @Inject constructor(
         _bindingUiState.update {
             it.copy(
                 isShowChooseInstitutePage = true,
-                isShowChooseGroupPage = false,
+                isShowChooseGroupPage = false
             )
         }
     }
@@ -140,7 +148,7 @@ class BindingViewModel @Inject constructor(
             it.copy(
                 isShowChooseInstitutePage = false,
                 isShowChooseGroupPage = true,
-                selectedInstituteDescription = institute.instituteTitle,
+                selectedInstituteDescription = institute.instituteTitle
             )
         }
     }
@@ -153,7 +161,7 @@ class BindingViewModel @Inject constructor(
                 isShowChooseGroupPage = false,
                 isShowChooseUserStatusPage = true,
                 selectedGroupDescription = group.name,
-                selectedTeacherDescription = null,
+                selectedTeacherDescription = null
             )
         }
 
@@ -168,7 +176,7 @@ class BindingViewModel @Inject constructor(
                 isShowChooseTeacherPage = false,
                 isShowChooseUserStatusPage = true,
                 selectedTeacherDescription = teacher.fullName,
-                selectedGroupDescription = null,
+                selectedGroupDescription = null
             )
         }
 
@@ -190,11 +198,13 @@ class BindingViewModel @Inject constructor(
                 _user.userId = _selectedGroup.value!!.groupId
                 _user.userDescription = _selectedGroup.value!!.name
             }
+
             UserStatus.TEACHER -> {
                 _user.userId = _selectedTeacher.value!!.teacherId
                 _user.userDescription = _selectedTeacher.value!!.fullName
             }
-            UserStatus.UNKNOWN -> { }
+
+            UserStatus.UNKNOWN -> {}
         }
     }
 }
@@ -206,5 +216,5 @@ data class BindingUiState(
     val isShowChooseTeacherPage: Boolean = false,
     val selectedInstituteDescription: String? = null,
     val selectedGroupDescription: String? = null,
-    val selectedTeacherDescription: String? = null,
+    val selectedTeacherDescription: String? = null
 )

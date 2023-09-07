@@ -16,8 +16,8 @@ android {
         applicationId "com.istu.schedule"
         minSdk 27
         targetSdk 34
-        versionCode 7
-        versionName "0.7"
+        versionCode 9
+        versionName '0.7.1'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -27,8 +27,7 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

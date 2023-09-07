@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
@@ -146,25 +147,27 @@ fun ScheduleListIsLoading(
 }
 
 @Composable
-fun UserNotBindedPlaceholder(
-    onSetupScheduleClick: () -> Unit,
-    spacer: @Composable () -> Unit = { }
-) {
-    Text(
-        modifier = Modifier.padding(horizontal = 15.dp),
-        text = stringResource(R.string.unknown_user),
-        style = AppTheme.typography.subtitle.copy(
-            color = AppTheme.colorScheme.textPrimary
-        )
-    )
-    FilledButton(
+fun UserNotBindedPlaceholder(onSetupScheduleClick: () -> Unit) {
+    Column(
         modifier = Modifier
-            .padding(top = 25.dp, start = 15.dp, end = 15.dp)
-            .fillMaxWidth(),
-        text = stringResource(R.string.setup_schedule),
-        onClick = { onSetupScheduleClick() }
-    )
-    spacer()
+            .fillMaxSize()
+            .clip(ShapeTop15)
+            .background(AppTheme.colorScheme.backgroundSecondary),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            modifier = Modifier.width(300.dp),
+            text = stringResource(R.string.unknown_user),
+            style = AppTheme.typography.title.copy(color = AppTheme.colorScheme.textPrimary),
+            textAlign = TextAlign.Center
+        )
+        FilledButton(
+            modifier = Modifier.padding(top = 25.dp).width(250.dp),
+            text = stringResource(R.string.setup_schedule),
+            onClick = { onSetupScheduleClick() }
+        )
+    }
 }
 
 @Composable

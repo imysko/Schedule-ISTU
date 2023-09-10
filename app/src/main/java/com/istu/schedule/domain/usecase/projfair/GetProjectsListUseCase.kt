@@ -8,7 +8,7 @@ class GetProjectsListUseCase @Inject constructor(
     private val projectsRepository: ProjectsRepository
 ) {
 
-    suspend fun getProjectsList(
+    suspend fun getProjectList(
         token: String = "",
         title: String = "",
         page: Int,

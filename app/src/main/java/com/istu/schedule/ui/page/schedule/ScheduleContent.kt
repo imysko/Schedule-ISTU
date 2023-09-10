@@ -51,12 +51,11 @@ fun ScheduleContent(
             .padding(top = paddingValues.calculateTopPadding())
             .clip(ShapeTop15)
             .background(AppTheme.colorScheme.backgroundSecondary),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center
     ) {
         if (isShowBackButton) {
             Box(
-                modifier = Modifier.padding(top = 13.dp)
+                modifier = Modifier.padding(top = 13.dp, start = 15.dp, end = 15.dp)
             ) {
                 Row(
                     modifier = Modifier

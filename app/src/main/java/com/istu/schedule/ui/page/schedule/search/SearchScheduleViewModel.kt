@@ -9,18 +9,18 @@ import com.istu.schedule.domain.usecase.schedule.GetGroupsListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import java.util.Locale
-import javax.inject.Inject
 
 @HiltViewModel
 class SearchScheduleViewModel @Inject constructor(
     private val _useCaseGroupsList: GetGroupsListUseCase,
     private val _useCaseTeachersList: GetTeachersListUseCase,
-    private val _useCaseClassroomsList: GetClassroomsListUseCase,
+    private val _useCaseClassroomsList: GetClassroomsListUseCase
 ) : BaseViewModel() {
 
     private val _isFoundedListsVisible = MutableStateFlow(false)

@@ -9,6 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.ui.page.schedule.SchedulePage
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
@@ -26,6 +27,8 @@ fun MineSchedulePage(
     val weeksList by viewModel.weeksList.observeAsState(initial = emptyList())
     val currentDateTime by viewModel.currentDateTime.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.observeAsState(initial = LocalDate.now())
+
+    val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
 
     val schedule by viewModel.schedule.observeAsState()
 
@@ -75,6 +78,7 @@ fun MineSchedulePage(
         onSearchButtonClick = { navController.navigate(NavDestinations.SEARCH_SCHEDULE) },
         onDateSelect = { viewModel.selectDate(it) },
         onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING) },
-        onBackClick = { }
+        onBackClick = { },
+        networkStatus = networkStatus
     )
 }

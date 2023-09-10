@@ -56,7 +56,8 @@
 	<string name="read_more">Подробнее</string>
     <string name="send_participation">Подать заявку</string>
     <string name="all_projects">Все проекты</string>
-	<string name="filters">Фильтры</string>
+    <string name="list_of_projects">Список проектов</string>
+    <string name="filters">Фильтры</string>
 	<string name="clear">Очистить</string>
     <plurals name="hours">
         <item quantity="one">%1$d час</item>
@@ -184,4 +185,5 @@
     <string name="participations_not_found">Заявки не найдены :(</string>
     <string name="didnt_applied_participations">Вы не подали заявку на участие ни на один проект</string>
     <string name="participation_submitted">Заявка на участие подана</string>
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
 </resources>

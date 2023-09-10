@@ -33,15 +33,21 @@ abstract class RepositoryModule {
     // Projfair
     @Binds
     @Singleton
-    abstract fun bindProjectsRepository(projectsRepositoryImpl: ProjectsRepositoryImpl): ProjectsRepository
+    abstract fun bindProjectsRepository(
+        projectsRepositoryImpl: ProjectsRepositoryImpl
+    ): ProjectsRepository
 
     @Binds
     @Singleton
-    abstract fun bindCandidateRepository(candidateRepositoryImpl: CandidateRepositoryImpl): CandidateRepository
+    abstract fun bindCandidateRepository(
+        candidateRepositoryImpl: CandidateRepositoryImpl
+    ): CandidateRepository
 
     @Binds
     @Singleton
-    abstract fun bindProjectSateRepository(projectStateRepository: ProjectStateRepositoryImpl): ProjectStateRepository
+    abstract fun bindProjectSateRepository(
+        projectStateRepository: ProjectStateRepositoryImpl
+    ): ProjectStateRepository
 
     @Binds
     @Singleton
@@ -51,26 +57,38 @@ abstract class RepositoryModule {
 
     @Binds
     @Singleton
-    abstract fun bindFiltersDataRepository(filtersDataRepository: FiltersDataRepositoryImpl): FiltersDataRepository
+    abstract fun bindFiltersDataRepository(
+        filtersDataRepository: FiltersDataRepositoryImpl
+    ): FiltersDataRepository
 
     // Schedule
     @Binds
     @Singleton
-    abstract fun bindInstitutesRepository(institutesRepositoryImpl: InstitutesRepositoryImpl): InstitutesRepository
+    abstract fun bindInstitutesRepository(
+        institutesRepositoryImpl: InstitutesRepositoryImpl
+    ): InstitutesRepository
 
     @Binds
     @Singleton
-    abstract fun bindGroupsRepository(groupsRepositoryImpl: GroupsRepositoryImpl): GroupsRepository
+    abstract fun bindGroupsRepository(
+        groupsRepositoryImpl: GroupsRepositoryImpl
+    ): GroupsRepository
 
     @Binds
     @Singleton
-    abstract fun bindTeachersRepository(teachersRepositoryImpl: TeachersRepositoryImpl): TeachersRepository
+    abstract fun bindTeachersRepository(
+        teachersRepositoryImpl: TeachersRepositoryImpl
+    ): TeachersRepository
 
     @Binds
     @Singleton
-    abstract fun bindClassroomsRepository(classroomsRepositoryImpl: ClassroomsRepositoryImpl): ClassroomsRepository
+    abstract fun bindClassroomsRepository(
+        classroomsRepositoryImpl: ClassroomsRepositoryImpl
+    ): ClassroomsRepository
 
     @Binds
     @Singleton
-    abstract fun bindScheduleRepository(scheduleRepositoryImpl: ScheduleRepositoryImpl): ScheduleRepository
+    abstract fun bindScheduleRepository(
+        scheduleRepositoryImpl: ScheduleRepositoryImpl
+    ): ScheduleRepository
 }

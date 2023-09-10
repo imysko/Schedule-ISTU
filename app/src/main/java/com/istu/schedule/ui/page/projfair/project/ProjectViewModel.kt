@@ -25,20 +25,24 @@ class ProjectViewModel @Inject constructor(
     val participationsList: LiveData<List<Participation>> = _participationsList
 
     fun fetchProjectById(projectId: Int) {
-        call({
-            _projectUseCase.getProject(projectId)
-        }, onSuccess = {
-            _project.value = it
-        })
+        call(
+            apiCall = { _projectUseCase.getProject(projectId) },
+            onSuccess = { _project.value = it }
+        )
     }
 
     fun fetchParticipationList() {
         _user.projfairToken?.let { token ->
-            call({
-                _participationsUseCase.getParticipationsList(token)
-            }, onSuccess = { participations ->
-                _participationsList.postValue(participations.filter { it.state.id in 1..2 })
-            })
+            call(
+                apiCall = { _participationsUseCase.getParticipationsList(token) },
+                onSuccess = { participations ->
+                    _participationsList.postValue(
+                        participations.filter {
+                            it.state.id in 1..2
+                        }
+                    )
+                }
+            )
         }
     }
 }

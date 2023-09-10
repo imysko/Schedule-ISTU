@@ -16,12 +16,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Scaffold
@@ -46,6 +46,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
@@ -55,8 +56,9 @@ import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.InfoBlock
 import com.istu.schedule.ui.components.base.LoadingPanel
+import com.istu.schedule.ui.components.base.NoInternetPanel
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIDialog
-import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
 import com.istu.schedule.ui.components.base.button.FilledButton
@@ -82,10 +84,10 @@ fun AuthorizedPage(
     val isProjectsLoaded by viewModel.isProjectsLoaded.observeAsState(initial = false)
     val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
     val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
+    val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
 
     LaunchedEffect(Unit) {
-        viewModel.fetchCandidateInfo()
-        viewModel.fetchParticipationsList()
+        viewModel.fetchUserInfo()
     }
 
     AuthorizedPage(
@@ -94,6 +96,7 @@ fun AuthorizedPage(
         isProjectsLoaded = isProjectsLoaded,
         participationsList = participationsList.distinctBy { participation -> participation.id },
         projectsList = projectsList.toMutableList(),
+        networkStatus = networkStatus,
         onProjectPressed = {
             navController.navigate(
                 "${NavDestinations.PROJECT}/$it/false"
@@ -121,14 +124,14 @@ fun AuthorizedPage(
     isProjectsLoaded: Boolean,
     participationsList: List<Participation>,
     projectsList: MutableList<Project>,
+    networkStatus: NetworkStatus,
     onProjectPressed: (Int) -> Unit = {},
     onParticipationPressed: (Int) -> Unit = {},
     onDeletePressed: (Int) -> Unit = {},
     onLogoutPressed: () -> Unit = {}
 ) {
-    var logoutDialogVisible by remember { mutableStateOf(false) }
+    LogoutDialog(onLogoutPressed)
 
-    val coroutineScope = rememberCoroutineScope()
     val pages = listOf(
         stringResource(R.string.my_profile),
         stringResource(R.string.my_participations),
@@ -140,111 +143,49 @@ fun AuthorizedPage(
         initialPageOffsetFraction = 0f
     ) { pages.count() }
 
-    val indicator = @Composable { tabPositions: List<SITabPosition> ->
-        CustomIndicator(tabPositions, pagerState)
-    }
-
-    SIDialog(
-        modifier = Modifier.clip(Shape20),
-        visible = logoutDialogVisible,
-        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
-        title = {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.logout_text),
-                style = AppTheme.typography.title.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-                color = AppTheme.colorScheme.textPrimary,
-                textAlign = TextAlign.Center
-            )
-        },
-        onDismissRequest = { logoutDialogVisible = false },
-        dismissButton = {
-            TextButton(
-                text = stringResource(R.string.cancel),
-                contentColor = AppTheme.colorScheme.primary,
-                onClick = { logoutDialogVisible = false }
-            )
-        },
-        confirmButton = {
-            TextButton(
-                text = stringResource(R.string.logout),
-                contentColor = AppTheme.colorScheme.error,
-                onClick = {
-                    onLogoutPressed()
-                    logoutDialogVisible = false
-                }
-            )
-        }
-    )
-
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
-            Column(modifier = Modifier.statusBarsPadding()) {
-                TopBar(title = stringResource(id = R.string.my_account))
-                SIScrollableTabRow(
-                    modifier = Modifier.padding(bottom = 10.dp),
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = indicator,
-                    edgePadding = 15.dp
-                ) {
-                    pages.forEachIndexed { index, title ->
-                        Column(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
-                                .clickable(
-                                    interactionSource = MutableInteractionSource(),
-                                    indication = null
-                                ) {
-                                    coroutineScope.launch {
-                                        pagerState.scrollToPage(index)
-                                    }
-                                },
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                style = AppTheme.typography.title.copy(
-                                    color = AppTheme.colorScheme.textSecondary
-                                ),
-                                text = title
-                            )
-                        }
-                    }
-                }
-            }
+            TopBar(
+                pages = pages,
+                pagerState = pagerState
+            )
         }
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
-            HorizontalPager(state = pagerState) { page ->
-                when (page) {
-                    0 -> {
-                        ProfilePage(candidate = candidate)
-                    }
+            SIAnimatedVisibilityFadeOnly(networkStatus == NetworkStatus.Unavailable) {
+                NoInternetPanel()
+            }
 
-                    1 -> {
-                        ParticipationsPage(
-                            participationsList = participationsList,
-                            isCanEdit = candidate?.canSendParticipations == 1,
-                            isParticipationsLoaded = isParticipationsLoaded,
-                            onParticipationPressed = onParticipationPressed,
-                            onDeletePressed = onDeletePressed
-                        )
-                    }
+            SIAnimatedVisibilityFadeOnly(networkStatus == NetworkStatus.Available) {
+                HorizontalPager(state = pagerState) { page ->
+                    when (page) {
+                        0 -> {
+                            ProfilePage(candidate = candidate)
+                        }
 
-                    2 -> {
-                        ProjectsPage(
-                            projectsList = projectsList,
-                            isProjectsLoaded = isProjectsLoaded,
-                            onProjectPressed = onProjectPressed
-                        )
+                        1 -> {
+                            ParticipationsPage(
+                                participationsList = participationsList,
+                                isCanEdit = candidate?.canSendParticipations == 1,
+                                isParticipationsLoaded = isParticipationsLoaded,
+                                onParticipationPressed = onParticipationPressed,
+                                onDeletePressed = onDeletePressed
+                            )
+                        }
+
+                        2 -> {
+                            ProjectsPage(
+                                projectsList = projectsList,
+                                isProjectsLoaded = isProjectsLoaded,
+                                onProjectPressed = onProjectPressed
+                            )
+                        }
                     }
                 }
             }
@@ -309,7 +250,7 @@ fun ParticipationsPage(
 
     LoadingPanel(!isParticipationsLoaded)
 
-    SIExtensibleVisibilityFadeOnly(
+    SIAnimatedVisibilityFadeOnly(
         visible = participationsList.isEmpty() && isParticipationsLoaded
     ) {
         Column(
@@ -456,7 +397,7 @@ fun ProfilePage(candidate: Candidate?) {
         item {
             InfoBlock(
                 title = stringResource(R.string.course),
-                description = candidate?.course.toString()
+                description = candidate?.course?.toString() ?: ""
             )
         }
         item {
@@ -478,7 +419,7 @@ fun ProjectsPage(
 ) {
     val isProjectsListEmpty = projectsList?.isEmpty()
     Box {
-        SIExtensibleVisibilityFadeOnly(visible = isProjectsListEmpty == true && isProjectsLoaded) {
+        SIAnimatedVisibilityFadeOnly(visible = isProjectsListEmpty == true && isProjectsLoaded) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -508,7 +449,7 @@ fun ProjectsPage(
                 )
             }
         }
-        SIExtensibleVisibilityFadeOnly(visible = isProjectsListEmpty != true && isProjectsLoaded) {
+        SIAnimatedVisibilityFadeOnly(visible = isProjectsListEmpty != true && isProjectsLoaded) {
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(
@@ -540,6 +481,93 @@ fun ProjectsPage(
     }
 }
 
+@Composable
+private fun LogoutDialog(onLogoutPressed: () -> Unit = {}) {
+    var logoutDialogVisible by remember { mutableStateOf(false) }
+
+    SIDialog(
+        modifier = Modifier.clip(Shape20),
+        visible = logoutDialogVisible,
+        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
+        title = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.logout_text),
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = AppTheme.colorScheme.textPrimary,
+                textAlign = TextAlign.Center
+            )
+        },
+        onDismissRequest = { logoutDialogVisible = false },
+        dismissButton = {
+            TextButton(
+                text = stringResource(R.string.cancel),
+                contentColor = AppTheme.colorScheme.primary,
+                onClick = { logoutDialogVisible = false }
+            )
+        },
+        confirmButton = {
+            TextButton(
+                text = stringResource(R.string.logout),
+                contentColor = AppTheme.colorScheme.error,
+                onClick = {
+                    onLogoutPressed()
+                    logoutDialogVisible = false
+                }
+            )
+        }
+    )
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun TopBar(
+    pages: List<String>,
+    pagerState: PagerState
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val indicator = @Composable { tabPositions: List<SITabPosition> ->
+        CustomIndicator(tabPositions, pagerState)
+    }
+
+    Column(modifier = Modifier.statusBarsPadding()) {
+        TopBar(title = stringResource(id = R.string.my_account))
+        SIScrollableTabRow(
+            modifier = Modifier.padding(bottom = 10.dp),
+            selectedTabIndex = pagerState.currentPage,
+            indicator = indicator,
+            edgePadding = 15.dp
+        ) {
+            pages.forEachIndexed { index, title ->
+                Column(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = null
+                        ) {
+                            coroutineScope.launch {
+                                pagerState.scrollToPage(index)
+                            }
+                        },
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        style = AppTheme.typography.title.copy(
+                            color = AppTheme.colorScheme.textSecondary
+                        ),
+                        text = title
+                    )
+                }
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun PreviewParticipationsPage(
@@ -563,7 +591,25 @@ fun PreviewAuthorizedPage(@PreviewParameter(SampleCandidateProvider::class) cand
             isParticipationsLoaded = true,
             isProjectsLoaded = true,
             participationsList = listOf(),
-            projectsList = mutableListOf()
+            projectsList = mutableListOf(),
+            networkStatus = NetworkStatus.Available
+        )
+    }
+}
+
+@Preview
+@Composable
+fun PreviewAuthorizedPageNoNetwork(
+    @PreviewParameter(SampleCandidateProvider::class) candidate: Candidate
+) {
+    AppTheme {
+        AuthorizedPage(
+            candidate = candidate,
+            isParticipationsLoaded = true,
+            isProjectsLoaded = true,
+            participationsList = listOf(),
+            projectsList = mutableListOf(),
+            networkStatus = NetworkStatus.Unavailable
         )
     }
 }

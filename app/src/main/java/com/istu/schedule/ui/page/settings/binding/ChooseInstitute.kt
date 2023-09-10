@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Institute
 import com.istu.schedule.ui.components.base.LoadingPanel
-import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.icons.Forward
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
@@ -70,10 +70,10 @@ fun ChooseInstitute(
                     .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 Box {
-                    SIExtensibleVisibilityFadeOnly(isLoading) {
+                    SIAnimatedVisibilityFadeOnly(isLoading) {
                         LoadingPanel(isLoading)
                     }
-                    SIExtensibleVisibilityFadeOnly(!isLoading) {
+                    SIAnimatedVisibilityFadeOnly(!isLoading) {
                         Column(
                             modifier = Modifier
                                 .padding(top = 19.dp, start = 15.dp, end = 15.dp),

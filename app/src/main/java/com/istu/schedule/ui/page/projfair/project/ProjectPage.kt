@@ -29,6 +29,7 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -57,11 +58,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.domain.model.projfair.Project
 import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.LoadingPanel
+import com.istu.schedule.ui.components.base.NoInternetPanel
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SIScrollableTabRow
 import com.istu.schedule.ui.components.base.SITabPosition
@@ -88,6 +92,7 @@ fun ProjectPage(
 ) {
     val project by viewModel.project.observeAsState(initial = null)
     val participationList by viewModel.participationsList.observeAsState(initial = emptyList())
+    val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
 
     var participationExists by remember { mutableStateOf(false) }
 
@@ -102,6 +107,7 @@ fun ProjectPage(
     ProjectPage(
         project = project,
         canCreateParticipation = canCreateParticipation && !participationExists,
+        networkStatus = networkStatus,
         onBackPressed = { navController.popBackStack() },
         onCreateParticipationPressed = {
             navController.navigate(
@@ -116,6 +122,7 @@ fun ProjectPage(
 fun ProjectPage(
     project: Project?,
     canCreateParticipation: Boolean,
+    networkStatus: NetworkStatus,
     onBackPressed: () -> Unit = {},
     onCreateParticipationPressed: () -> Unit = {}
 ) {
@@ -124,87 +131,58 @@ fun ProjectPage(
         stringResource(R.string.list_of_particpations)
     )
 
-    val coroutineScope = rememberCoroutineScope()
     val pagerState = rememberPagerState(
         initialPage = 0,
         initialPageOffsetFraction = 0f
     ) { pages.count() }
 
-    val indicator = @Composable { tabPositions: List<SITabPosition> ->
-        CustomIndicator(tabPositions, pagerState)
-    }
-
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
-            Column(modifier = Modifier.statusBarsPadding()) {
-                TopBar(
-                    title = stringResource(id = R.string.projfair),
-                    isShowBackButton = true,
-                    onBackPressed = onBackPressed
-                )
-                SIScrollableTabRow(
-                    modifier = Modifier.padding(bottom = 10.dp),
-                    selectedTabIndex = pagerState.currentPage,
-                    indicator = indicator,
-                    edgePadding = 15.dp
-                ) {
-                    pages.forEachIndexed { index, title ->
-                        Column(
-                            modifier = Modifier
-                                .height(50.dp)
-                                .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
-                                .clickable(
-                                    interactionSource = MutableInteractionSource(),
-                                    indication = null
-                                ) {
-                                    coroutineScope.launch {
-                                        pagerState.scrollToPage(index)
-                                    }
-                                },
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                style = AppTheme.typography.title.copy(
-                                    fontWeight = FontWeight.SemiBold
-                                ),
-                                color = AppTheme.colorScheme.textSecondary,
-                                text = title
-                            )
-                        }
-                    }
-                }
-            }
+            TopBar(
+                pages = pages,
+                pagerState = pagerState,
+                onBackPressed = onBackPressed
+            )
         }
     ) {
-        Column(
+        Box(
             modifier = Modifier
                 .padding(top = it.calculateTopPadding())
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
                 .fillMaxHeight()
         ) {
-            project?.let { project ->
+            SIAnimatedVisibilityFadeOnly(
+                networkStatus == NetworkStatus.Unavailable && project == null
+            ) {
+                NoInternetPanel()
+            }
+
+            LoadingPanel(
+                networkStatus == NetworkStatus.Available && project == null
+            )
+
+            SIAnimatedVisibilityFadeOnly(project != null) {
                 HorizontalPager(state = pagerState) { page ->
                     when (page) {
                         0 -> ProjectInfo(
-                            project = project,
+                            project = project!!,
                             canCreateParticipation = canCreateParticipation,
                             onCreateParticipationClick = { onCreateParticipationPressed() }
                         )
 
-                        1 -> ProjectParticipations(project)
+                        1 -> ProjectParticipations(project!!)
                     }
                 }
             }
-            LoadingPanel(project == null)
         }
     }
 }
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun ProjectInfo(
+private fun ProjectInfo(
     project: Project,
     canCreateParticipation: Boolean,
     onCreateParticipationClick: () -> Unit
@@ -444,7 +422,7 @@ fun ProjectInfo(
 }
 
 @Composable
-fun ProjectParticipations(project: Project) {
+private fun ProjectParticipations(project: Project) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
@@ -513,7 +491,7 @@ fun ProjectParticipations(project: Project) {
 
 @SuppressLint("SimpleDateFormat")
 @Composable
-fun ParticipationInProject(index: Int, participation: Participation) {
+private fun ParticipationInProject(index: Int, participation: Participation) {
     val simpleDateFormat = SimpleDateFormat("dd.MM.yyyy HH:mm")
     Row(modifier = Modifier.padding(vertical = 10.dp)) {
         Box(
@@ -572,23 +550,90 @@ fun ParticipationInProject(index: Int, participation: Participation) {
     }
 }
 
-@Preview(group = "Loading")
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+private fun TopBar(
+    pages: List<String>,
+    pagerState: PagerState,
+    onBackPressed: () -> Unit
+) {
+    val coroutineScope = rememberCoroutineScope()
+
+    val indicator = @Composable { tabPositions: List<SITabPosition> ->
+        CustomIndicator(tabPositions, pagerState)
+    }
+
+    Column(modifier = Modifier.statusBarsPadding()) {
+        TopBar(
+            title = stringResource(id = R.string.projfair),
+            isShowBackButton = true,
+            onBackPressed = onBackPressed
+        )
+        SIScrollableTabRow(
+            modifier = Modifier.padding(bottom = 10.dp),
+            selectedTabIndex = pagerState.currentPage,
+            indicator = indicator,
+            edgePadding = 15.dp
+        ) {
+            pages.forEachIndexed { index, title ->
+                Column(
+                    modifier = Modifier
+                        .height(50.dp)
+                        .padding(end = if (index != pages.size - 1) 20.dp else 0.dp)
+                        .clickable(
+                            interactionSource = MutableInteractionSource(),
+                            indication = null
+                        ) {
+                            coroutineScope.launch {
+                                pagerState.scrollToPage(index)
+                            }
+                        },
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        style = AppTheme.typography.title.copy(
+                            fontWeight = FontWeight.SemiBold
+                        ),
+                        color = AppTheme.colorScheme.textSecondary,
+                        text = title
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Preview
 @Composable
 fun PreviewProjectPageLoading() {
     AppTheme {
         ProjectPage(
             project = null,
+            networkStatus = NetworkStatus.Available,
             canCreateParticipation = true
         )
     }
 }
 
-@Preview(group = "Loaded")
+@Preview
+@Composable
+fun PreviewProjectPageNoNetwork() {
+    AppTheme {
+        ProjectPage(
+            project = null,
+            networkStatus = NetworkStatus.Unavailable,
+            canCreateParticipation = true
+        )
+    }
+}
+
+@Preview
 @Composable
 fun PreviewProjectAboutPage(@PreviewParameter(SampleProjectProvider::class) project: Project) {
     AppTheme {
         ProjectPage(
             project = project,
+            networkStatus = NetworkStatus.Available,
             canCreateParticipation = true
         )
     }

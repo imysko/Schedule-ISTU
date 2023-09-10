@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,19 +32,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Candidate
 import com.istu.schedule.domain.model.projfair.Participation
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIDialog
-import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
-import com.istu.schedule.ui.components.base.SITextField
 import com.istu.schedule.ui.components.base.StringResourceItem
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
-import com.istu.schedule.ui.icons.Check
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.ui.theme.Green
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
 
@@ -73,7 +67,6 @@ fun CreateParticipationPage(
         onBackPressed = { navController.popBackStack() },
         onCreatePressed = { viewModel.createParticipation() },
         onSelect = { viewModel.setPriorityId(it) },
-        candidate = viewModel.candidate,
         projectTitle = project?.title
     )
 }
@@ -86,7 +79,6 @@ fun CreateParticipationPage(
     onBackPressed: () -> Unit,
     onCreatePressed: () -> Unit,
     onSelect: (Int) -> Unit,
-    candidate: Candidate?,
     projectTitle: String? = null
 ) {
     var confirmDialogVisible by remember { mutableStateOf(false) }
@@ -159,97 +151,7 @@ fun CreateParticipationPage(
                 )
             }
             item {
-                Text(
-                    text = stringResource(R.string.fullname),
-                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-                )
-                SITextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    value = candidate?.fio ?: "",
-                    onValueChange = {},
-                    enabled = false,
-                    placeholder = stringResource(R.string.fullname),
-                    tailingIcon = {
-                        Icon(
-                            imageVector = Icons.Check,
-                            tint = Green,
-                            contentDescription = "check"
-                        )
-                    }
-                )
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.training_group),
-                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-                )
-                SITextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    value = candidate?.trainingGroup ?: "",
-                    onValueChange = {},
-                    enabled = false,
-                    placeholder = stringResource(R.string.training_group),
-                    tailingIcon = {
-                        Icon(
-                            imageVector = Icons.Check,
-                            tint = Green,
-                            contentDescription = "check"
-                        )
-                    }
-                )
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.email),
-                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-                )
-                SITextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    value = candidate?.email ?: "",
-                    onValueChange = {},
-                    enabled = false,
-                    placeholder = stringResource(R.string.email),
-                    tailingIcon = {
-                        Icon(
-                            imageVector = Icons.Check,
-                            tint = Green,
-                            contentDescription = "check"
-                        )
-                    }
-                )
-            }
-            item {
-                Text(
-                    text = stringResource(R.string.phone_number),
-                    style = AppTheme.typography.subtitle.copy(fontWeight = FontWeight.Bold)
-                )
-                SITextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    value = candidate?.phone?.ifBlank {
-                        stringResource(R.string.not_specified)
-                    } ?: "",
-                    onValueChange = {},
-                    enabled = false,
-                    placeholder = stringResource(R.string.phone_number),
-                    tailingIcon = {
-                        Icon(
-                            imageVector = Icons.Check,
-                            tint = Green,
-                            contentDescription = "check"
-                        )
-                    }
-                )
-            }
-            item {
-                SIExtensibleVisibilityFadeOnly(isLoaded) {
+                SIAnimatedVisibilityFadeOnly(isLoaded) {
                     Column {
                         Text(
                             modifier = Modifier.padding(bottom = 10.dp),
@@ -271,7 +173,7 @@ fun CreateParticipationPage(
                 }
             }
             item {
-                SIExtensibleVisibilityFadeOnly(
+                SIAnimatedVisibilityFadeOnly(
                     isLoaded && prioritiesList.any {
                         it.id == selectedPriority
                     }
@@ -310,8 +212,7 @@ fun PreviewSendParticipationPage() {
             selectedPriority = 1,
             onBackPressed = {},
             onCreatePressed = {},
-            onSelect = {},
-            candidate = null
+            onSelect = {}
         )
     }
 }
@@ -326,8 +227,7 @@ fun PreviewSendParticipationPageLoading() {
             selectedPriority = 1,
             onBackPressed = {},
             onCreatePressed = {},
-            onSelect = {},
-            candidate = null
+            onSelect = {}
         )
     }
 }

@@ -59,6 +59,7 @@
     <string name="read_more">Read more</string>
     <string name="send_participation">Send application</string>
     <string name="all_projects">All projects</string>
+    <string name="list_of_projects">Project list</string>
     <string name="filters">Filters</string>
     <string name="clear">Clear</string>
     <plurals name="hours">
@@ -184,4 +185,5 @@
     <string name="didnt_participate_in_any_projects">You didn\'t participate in any projects</string>
     <string name="didnt_applied_participations">You have not applied for participation in any project</string>
     <string name="participation_submitted">Application for participation submitted</string>
+    <string name="no_internet_connection">No internet connection</string>
 </resources>

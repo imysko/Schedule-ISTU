@@ -84,7 +84,7 @@ class RetrofitTest {
             ProjectsRepositoryImpl(projfairRetrofit.create(ProjectsService::class.java))
         val getProjectsListUseCase = GetProjectsListUseCase(repository)
 
-        val response = getProjectsListUseCase.getProjectsList(title = "Ярмарка проектов", page = 1)
+        val response = getProjectsListUseCase.getProjectList(title = "Ярмарка проектов", page = 1)
 
         assert(response.getOrNull() != null)
         assert(

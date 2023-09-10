@@ -29,17 +29,6 @@ class SampleCandidateProvider : PreviewParameterProvider<Candidate> {
             course = 3,
             trainingGroup = "ИСТб-20-3",
             canSendParticipations = 1
-        ),
-        Candidate(
-            id = 1,
-            fio = "Иванов Иван Иванович",
-            about = "",
-            email = "ivanov@yandex.ru",
-            courseBookNumber = "1",
-            phone = "",
-            course = 3,
-            trainingGroup = "ИСТб-20-3",
-            canSendParticipations = 0
         )
     )
 }

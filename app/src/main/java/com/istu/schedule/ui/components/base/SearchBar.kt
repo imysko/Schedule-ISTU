@@ -2,7 +2,9 @@ package com.istu.schedule.ui.components.base
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -83,14 +85,19 @@ fun SearchBar(
                 ),
                 cursorBrush = SolidColor(AppTheme.colorScheme.primary),
                 decorationBox = { innerTextField ->
-                    if (value.isEmpty()) {
-                        Text(
-                            modifier = Modifier.alpha(0.7f),
-                            text = placeholder,
-                            style = AppTheme.typography.bodyMedium
-                        )
+                    Box(
+                        modifier = Modifier.defaultMinSize(minHeight = 25.dp),
+                        contentAlignment = Alignment.CenterStart
+                    ) {
+                        if (value.isEmpty()) {
+                            Text(
+                                modifier = Modifier.alpha(0.7f),
+                                text = placeholder,
+                                style = AppTheme.typography.bodyMedium
+                            )
+                        }
+                        innerTextField()
                     }
-                    innerTextField()
                 }
             )
         }

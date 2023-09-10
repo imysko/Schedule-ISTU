@@ -1,5 +1,6 @@
 package com.istu.schedule.di
 
+import android.content.Context
 import android.content.SharedPreferences
 import com.istu.schedule.data.service.projfair.CandidateService
 import com.istu.schedule.data.service.projfair.FiltersDataService
@@ -11,9 +12,11 @@ import com.istu.schedule.data.service.schedule.GroupsService
 import com.istu.schedule.data.service.schedule.InstitutesService
 import com.istu.schedule.data.service.schedule.ScheduleService
 import com.istu.schedule.data.service.schedule.TeachersService
+import com.istu.schedule.util.NetworkConnectionInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
@@ -61,11 +64,15 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient(prefs: SharedPreferences): OkHttpClient {
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context,
+        prefs: SharedPreferences
+    ): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(NetworkConnectionInterceptor(context))
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
+                    level = HttpLoggingInterceptor.Level.HEADERS
                 }
             )
             .addInterceptor {

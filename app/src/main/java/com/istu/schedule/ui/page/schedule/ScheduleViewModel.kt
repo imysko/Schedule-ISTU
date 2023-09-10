@@ -86,8 +86,6 @@ open class ScheduleViewModel @Inject constructor(
     }
 
     fun getSchedule(scheduleType: ScheduleType, id: Int) {
-        _schedule
-
         call({
             _useCaseScheduleOnDay.getScheduleOnDay(
                 scheduleType = scheduleType,

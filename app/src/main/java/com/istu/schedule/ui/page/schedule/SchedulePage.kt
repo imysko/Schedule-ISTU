@@ -12,10 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
 import com.istu.schedule.domain.model.schedule.StudyDay
-import com.istu.schedule.ui.components.base.SIExtensibleVisibilityFadeOnly
+import com.istu.schedule.ui.components.base.NoInternetPanel
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.theme.AppTheme
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,10 +30,11 @@ fun SchedulePage(
     weeksList: List<Week>,
     currentDateTime: LocalDateTime,
     selectedDate: LocalDate,
-    onSearchButtonClick: () -> Unit,
-    onDateSelect: (LocalDate) -> Unit,
-    onSetupScheduleClick: () -> Unit,
+    networkStatus: NetworkStatus,
     isShowBackButton: Boolean = false,
+    onSearchButtonClick: () -> Unit,
+    onSetupScheduleClick: () -> Unit,
+    onDateSelect: (LocalDate) -> Unit,
     onBackClick: () -> Unit
 ) {
     Scaffold(
@@ -50,12 +53,20 @@ fun SchedulePage(
             ScheduleContent(
                 paddingValues = it,
                 content = {
-                    SIExtensibleVisibilityFadeOnly(visible = !scheduleUiState.isShowSchedule) {
-                        UserNotBindedPlaceholder(onSetupScheduleClick = { onSetupScheduleClick() })
+                    SIAnimatedVisibilityFadeOnly(!scheduleUiState.isShowSchedule) {
+                        UserNotBindedPlaceholder { onSetupScheduleClick() }
                     }
-                    SIExtensibleVisibilityFadeOnly(visible = scheduleUiState.isShowSchedule) {
+                    SIAnimatedVisibilityFadeOnly(scheduleUiState.isShowSchedule) {
                         Box {
-                            SIExtensibleVisibilityFadeOnly(visible = isLoading) {
+                            SIAnimatedVisibilityFadeOnly(
+                                networkStatus == NetworkStatus.Unavailable && !isLoading
+                            ) {
+                                NoInternetPanel()
+                            }
+
+                            SIAnimatedVisibilityFadeOnly(
+                                networkStatus == NetworkStatus.Available && isLoading
+                            ) {
                                 ScheduleListIsLoading(spacer = {
                                     Spacer(modifier = Modifier.height(64.dp))
                                     Spacer(
@@ -65,7 +76,10 @@ fun SchedulePage(
                                     )
                                 })
                             }
-                            SIExtensibleVisibilityFadeOnly(visible = !isLoading) {
+
+                            SIAnimatedVisibilityFadeOnly(
+                                networkStatus == NetworkStatus.Available && !isLoading
+                            ) {
                                 studyDay?.let { studyDay ->
                                     if (studyDay.lessons.isEmpty()) {
                                         WeekendPlaceholder(spacer = {
@@ -121,7 +135,8 @@ fun SchedulePageLoadingPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { }
+            onBackClick = { },
+            networkStatus = NetworkStatus.Available
         )
     }
 }
@@ -140,7 +155,28 @@ fun SchedulePageUnknownUserPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { }
+            onBackClick = { },
+            networkStatus = NetworkStatus.Available
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+fun SchedulePageNoNetworkPreview() {
+    AppTheme {
+        SchedulePage(
+            scheduleUiState = ScheduleUiState(),
+            isLoading = false,
+            studyDay = null,
+            weeksList = listOf(Week(LocalDate.of(2023, 5, 29))),
+            currentDateTime = LocalDateTime.of(2023, 6, 1, 12, 30),
+            selectedDate = LocalDate.of(2023, 6, 3),
+            onSearchButtonClick = { },
+            onDateSelect = { },
+            onSetupScheduleClick = { },
+            onBackClick = { },
+            networkStatus = NetworkStatus.Unavailable
         )
     }
 }
@@ -167,7 +203,8 @@ fun SchedulePageWeekendPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { }
+            onBackClick = { },
+            networkStatus = NetworkStatus.Available
         )
     }
 }
@@ -193,7 +230,8 @@ fun SchedulePageScheduleList(
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { }
+            onBackClick = { },
+            networkStatus = NetworkStatus.Available
         )
     }
 }

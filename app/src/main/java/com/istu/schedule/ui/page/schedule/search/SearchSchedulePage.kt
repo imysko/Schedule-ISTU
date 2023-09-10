@@ -3,7 +3,6 @@ package com.istu.schedule.ui.page.schedule.search
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,6 +29,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -44,12 +44,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.domain.model.schedule.Classroom
 import com.istu.schedule.domain.model.schedule.Group
 import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.ui.components.base.NoInternetPanel
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.theme.AppTheme
+import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.util.NavDestinations
@@ -63,9 +67,12 @@ fun SearchSchedulePage(
     val searchedListsHints = viewModel.searchedListsHints.collectAsStateValue()
     val isFoundedListsVisible = viewModel.isFoundedListsVisible.collectAsStateValue(initial = false)
 
+    val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
+
     SearchSchedulePage(
         searchedListsHints = searchedListsHints,
         isFoundedListsVisible = isFoundedListsVisible,
+        networkStatus = networkStatus,
         onValueInputDone = { viewModel.onValueInput(it) },
         onHintClick = { scheduleType, id ->
             navController.navigate("${NavDestinations.FOUND_SCHEDULE}/${scheduleType.name}/$id")
@@ -78,6 +85,7 @@ fun SearchSchedulePage(
 fun SearchSchedulePage(
     searchedListsHints: SearchedLists,
     isFoundedListsVisible: Boolean,
+    networkStatus: NetworkStatus,
     onValueInputDone: (String) -> Unit,
     onHintClick: (ScheduleType, Int) -> Unit,
     onBackClick: () -> Unit
@@ -122,6 +130,7 @@ fun SearchSchedulePage(
                 paddingValues = it,
                 isFoundedListsVisible = isFoundedListsVisible,
                 searchedListsHints = searchedListsHints,
+                networkStatus = networkStatus,
                 onHintClick = { scheduleType, id -> onHintClick(scheduleType, id) },
                 onBackClick = { onBackClick() }
             )
@@ -134,6 +143,7 @@ fun SearchContent(
     paddingValues: PaddingValues = PaddingValues(),
     isFoundedListsVisible: Boolean,
     searchedListsHints: SearchedLists,
+    networkStatus: NetworkStatus,
     onHintClick: (ScheduleType, Int) -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -148,65 +158,68 @@ fun SearchContent(
             .clip(ShapeTop15)
             .background(AppTheme.colorScheme.backgroundSecondary)
     ) {
-        LazyColumn(
-            modifier = Modifier
-                .padding(horizontal = 15.dp)
-                .fillMaxSize(),
-            contentPadding = PaddingValues(top = 23.dp),
-            verticalArrangement = Arrangement.spacedBy(15.dp)
-        ) {
-            item {
-                Box(
-                    modifier = Modifier.clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null,
-                        onClick = { onBackClick() }
+        Box(modifier = Modifier.padding(vertical = 15.dp, horizontal = 15.dp)) {
+            Row(
+                modifier = Modifier
+                    .clip(Shape10)
+                    .clickable(onClick = { onBackClick() })
+                    .padding(5.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(9.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(18.dp),
+                    imageVector = Icons.Rounded.ArrowBackIosNew,
+                    contentDescription = stringResource(R.string.back_to_your_schedule),
+                    tint = AppTheme.colorScheme.secondary
+                )
+                Text(
+                    text = stringResource(R.string.back_to_your_schedule),
+                    style = AppTheme.typography.bodyMedium.copy(
+                        color = AppTheme.colorScheme.secondary,
+                        fontWeight = FontWeight.SemiBold
                     )
+                )
+            }
+        }
+        Box {
+            SIAnimatedVisibilityFadeOnly(networkStatus == NetworkStatus.Unavailable) {
+                NoInternetPanel()
+            }
+            SIAnimatedVisibilityFadeOnly(networkStatus == NetworkStatus.Available) {
+                LazyColumn(
+                    modifier = Modifier
+                        .padding(horizontal = 15.dp)
+                        .fillMaxSize(),
+                    contentPadding = PaddingValues(top = 15.dp),
+                    verticalArrangement = Arrangement.spacedBy(15.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(9.dp)
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(18.dp),
-                            imageVector = Icons.Rounded.ArrowBackIosNew,
-                            contentDescription = stringResource(R.string.back_to_your_schedule),
-                            tint = AppTheme.colorScheme.secondary
+                    if (isFoundedListsVisible) {
+                        foundedList(
+                            title = titleGroups,
+                            list = searchedListsHints.groupsList,
+                            onHintClick = { onHintClick(ScheduleType.BY_GROUP, it) }
                         )
-                        Text(
-                            text = stringResource(R.string.back_to_your_schedule),
-                            style = AppTheme.typography.bodyMedium.copy(
-                                color = AppTheme.colorScheme.secondary,
-                                fontWeight = FontWeight.SemiBold
+                        foundedList(
+                            title = titleTeachers,
+                            list = searchedListsHints.teachersList,
+                            onHintClick = { onHintClick(ScheduleType.BY_TEACHER, it) }
+                        )
+                        foundedList(
+                            title = titleClassrooms,
+                            list = searchedListsHints.classroomsList,
+                            onHintClick = { onHintClick(ScheduleType.BY_CLASSROOM, it) }
+                        )
+                    }
+                    item {
+                        Spacer(modifier = Modifier.height(64.dp))
+                        Spacer(
+                            modifier = Modifier.windowInsetsBottomHeight(
+                                WindowInsets.navigationBars
                             )
                         )
                     }
                 }
-            }
-            if (isFoundedListsVisible) {
-                foundedList(
-                    title = titleGroups,
-                    list = searchedListsHints.groupsList,
-                    onHintClick = { onHintClick(ScheduleType.BY_GROUP, it) }
-                )
-                foundedList(
-                    title = titleTeachers,
-                    list = searchedListsHints.teachersList,
-                    onHintClick = { onHintClick(ScheduleType.BY_TEACHER, it) }
-                )
-                foundedList(
-                    title = titleClassrooms,
-                    list = searchedListsHints.classroomsList,
-                    onHintClick = { onHintClick(ScheduleType.BY_CLASSROOM, it) }
-                )
-            }
-            item {
-                Spacer(modifier = Modifier.height(64.dp))
-                Spacer(
-                    modifier = Modifier.windowInsetsBottomHeight(
-                        WindowInsets.navigationBars
-                    )
-                )
             }
         }
     }
@@ -238,16 +251,17 @@ internal fun LazyListScope.foundedList(
         items(it) { item ->
             Row(
                 modifier = Modifier
-                    .padding(vertical = 8.dp, horizontal = 20.dp)
+                    .fillMaxWidth()
                     .clip(Shape5)
                     .clickable {
                         when (item) {
                             is Group -> onHintClick(item.groupId)
                             is Teacher -> onHintClick(item.teacherId)
                             is Classroom -> onHintClick(item.classroomId)
-                            else -> { }
+                            else -> {}
                         }
-                    },
+                    }
+                    .padding(vertical = 8.dp, horizontal = 20.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
@@ -280,6 +294,7 @@ fun SearchSchedulePageNotVisibleFoundedListsPreview() {
         SearchSchedulePage(
             searchedListsHints = SearchedLists(),
             isFoundedListsVisible = false,
+            networkStatus = NetworkStatus.Available,
             onValueInputDone = { },
             onHintClick = { _, _ -> },
             onBackClick = { }
@@ -294,6 +309,22 @@ fun SearchSchedulePageNotFoundPreview() {
         SearchSchedulePage(
             searchedListsHints = SearchedLists(),
             isFoundedListsVisible = true,
+            networkStatus = NetworkStatus.Available,
+            onValueInputDone = { },
+            onHintClick = { _, _ -> },
+            onBackClick = { }
+        )
+    }
+}
+
+@Composable
+@Preview(name = "No network connection")
+fun SearchSchedulePageNoNetworkPreview() {
+    AppTheme {
+        SearchSchedulePage(
+            searchedListsHints = SearchedLists(),
+            isFoundedListsVisible = true,
+            networkStatus = NetworkStatus.Unavailable,
             onValueInputDone = { },
             onHintClick = { _, _ -> },
             onBackClick = { }
@@ -338,6 +369,7 @@ fun SearchSchedulePagePreview() {
                 )
             ),
             isFoundedListsVisible = true,
+            networkStatus = NetworkStatus.Available,
             onValueInputDone = { },
             onHintClick = { _, _ -> },
             onBackClick = { }

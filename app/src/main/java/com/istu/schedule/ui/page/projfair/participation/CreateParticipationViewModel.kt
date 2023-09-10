@@ -34,8 +34,6 @@ class CreateParticipationViewModel @Inject constructor(
     private val _isLoaded = MutableLiveData(false)
     val isLoaded: LiveData<Boolean> = _isLoaded
 
-    val candidate = _user.candidate.value!!
-
     fun fetchProject(projectId: Int) {
         call(
             handleLoading = false,

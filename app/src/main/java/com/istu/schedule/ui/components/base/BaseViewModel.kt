@@ -6,6 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
+import com.istu.schedule.data.enums.NetworkStatus
+import com.istu.schedule.data.exception.NoConnectivityException
 import com.istu.schedule.data.model.RequestException
 import java.net.HttpURLConnection
 import kotlinx.coroutines.launch
@@ -23,10 +25,16 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
     private val _error: LiveEvent<String> = LiveEvent()
     val error: LiveEvent<String> get() = _error
 
+    private val _networkStatus: MutableLiveData<NetworkStatus> = MutableLiveData(
+        NetworkStatus.Available
+    )
+    val networkStatus: LiveData<NetworkStatus> get() = _networkStatus
+
     protected fun <T> call(
         apiCall: suspend () -> Result<T>,
         onSuccess: ((T) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
+        onNetworkUnavailable: (suspend () -> Unit)? = null,
         handleLoading: Boolean = true,
         handleError: Boolean = true
     ) = viewModelScope.launch {
@@ -34,21 +42,28 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
             _loading.postValue(true)
         }
 
-        val result = apiCall.invoke()
+        try {
+            val result = apiCall.invoke()
+
+            result.getOrNull()?.let { value ->
+                onSuccess?.invoke(value)
+                _networkStatus.postValue(NetworkStatus.Available)
+            }
+
+            result.exceptionOrNull()?.let { error ->
+                onError?.invoke(error)
+
+                if (handleError) {
+                    onCallError(error)
+                }
+            }
+        } catch (ex: NoConnectivityException) {
+            _networkStatus.postValue(NetworkStatus.Unavailable)
+            onNetworkUnavailable?.invoke()
+        }
 
         if (handleLoading) {
             _loading.postValue(false)
-        }
-
-        result.getOrNull()?.let { value ->
-            onSuccess?.invoke(value)
-        }
-
-        result.exceptionOrNull()?.let { error ->
-            onError?.invoke(error)
-            if (handleError) {
-                onCallError(error)
-            }
         }
     }
 

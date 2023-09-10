@@ -5,29 +5,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.ProjfairAuthStatus
 import com.istu.schedule.data.enums.UserStatus
-import com.istu.schedule.domain.model.projfair.Candidate
-import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
 import com.istu.schedule.util.toUserStatusEnum
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 @Singleton
-class User @Inject constructor(
-    private val _sharedPreference: SharedPreferences,
-    private val _candidateUseCase: GetCandidateUseCase
-) {
+class User @Inject constructor(private val _sharedPreference: SharedPreferences) {
 
     private val _projfairFiltersState = MutableStateFlow(ProjfairFiltersState())
     val projfairFiltersState: StateFlow<ProjfairFiltersState> = _projfairFiltersState.asStateFlow()
-
-    private val _candidate = MutableLiveData<Candidate?>(null)
-    val candidate: LiveData<Candidate?> = _candidate
 
     private val _authStatus = MutableLiveData(ProjfairAuthStatus.UNDEFINED)
     val authStatus: LiveData<ProjfairAuthStatus> = _authStatus
@@ -47,22 +36,8 @@ class User @Inject constructor(
     private fun setAuth() {
         if (projfairToken != null) {
             _authStatus.postValue(ProjfairAuthStatus.SUCCESS)
-            fetchCandidate()
         } else {
             _authStatus.postValue(ProjfairAuthStatus.AUTH)
-        }
-    }
-
-    private fun fetchCandidate() {
-        CoroutineScope(Dispatchers.IO).launch {
-            _candidateUseCase.getCandidate(projfairToken!!)
-                .onSuccess {
-                    _candidate.postValue(it)
-                }
-                .onFailure {
-                    _authStatus.postValue(ProjfairAuthStatus.AUTH)
-                    projfairToken = null
-                }
         }
     }
 
@@ -72,7 +47,6 @@ class User @Inject constructor(
 
     fun logoutProjfair() {
         projfairToken = null
-        _candidate.value = null
     }
 
     var projfairToken: String?

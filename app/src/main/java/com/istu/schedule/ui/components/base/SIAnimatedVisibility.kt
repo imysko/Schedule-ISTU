@@ -10,7 +10,7 @@ import androidx.compose.animation.shrinkVertically
 import androidx.compose.runtime.Composable
 
 @Composable
-fun SIExtensibleVisibility(
+fun SIAnimatedVisibility(
     visible: Boolean,
     content: @Composable AnimatedVisibilityScope.() -> Unit
 ) {
@@ -23,7 +23,7 @@ fun SIExtensibleVisibility(
 }
 
 @Composable
-fun SIExtensibleVisibilityFadeOnly(
+fun SIAnimatedVisibilityFadeOnly(
     visible: Boolean,
     delayMillis: Int = 0,
     content: @Composable AnimatedVisibilityScope.() -> Unit

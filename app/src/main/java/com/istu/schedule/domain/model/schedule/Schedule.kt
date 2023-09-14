@@ -22,7 +22,7 @@ data class Schedule(
     val lessonId: Int,
     val lessonTime: LessonTime,
     val subgroup: Int,
-    val lessonType: LessonType,
+    val lessonType: LessonType?,
     val scheduleType: String,
     val date: String
 )

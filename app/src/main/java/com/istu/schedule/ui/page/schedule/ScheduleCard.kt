@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Text
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -137,16 +137,18 @@ fun ScheduleCard(
                     }
                 }
 
-                Text(
-                    text = when (lesson.schedules.first().lessonType) {
-                        LessonType.LECTURE -> stringResource(id = R.string.lecture)
-                        LessonType.PRACTICAL -> stringResource(id = R.string.practical)
-                        LessonType.LABORATORY_WORK -> stringResource(id = R.string.laboratory_work)
-                        LessonType.PROJECT -> stringResource(id = R.string.project)
-                        else -> ""
-                    },
-                    style = AppTheme.typography.bodySmall
-                )
+                lesson.schedules.first().lessonType?.let {
+                    Text(
+                        text = when (lesson.schedules.first().lessonType) {
+                            LessonType.LECTURE -> stringResource(id = R.string.lecture)
+                            LessonType.PRACTICAL -> stringResource(id = R.string.practical)
+                            LessonType.LABORATORY_WORK -> stringResource(id = R.string.laboratory_work)
+                            LessonType.PROJECT -> stringResource(id = R.string.project)
+                            else -> ""
+                        },
+                        style = AppTheme.typography.bodySmall
+                    )
+                }
             }
 
             Column(
@@ -250,7 +252,7 @@ fun ScheduleCard(
                     }
 
                     if (schedulesIterator.hasNext()) {
-                        Divider(modifier = Modifier.padding(horizontal = 1.dp))
+                        HorizontalDivider(modifier = Modifier.padding(horizontal = 1.dp))
                     }
                 }
             }
@@ -262,7 +264,7 @@ fun ScheduleCard(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Divider(modifier = Modifier.padding(horizontal = 1.dp))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 1.dp))
 
                     val duration = Duration.between(currentTime, endTime).toMinutes().toInt()
                     Text(
@@ -297,7 +299,7 @@ fun BreakTime(stringBreakTime: String) {
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            androidx.compose.material3.Text(
+            Text(
                 text = stringResource(id = R.string.break_time),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Normal,
@@ -309,7 +311,7 @@ fun BreakTime(stringBreakTime: String) {
                 horizontalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 if (LocalTime.parse(stringBreakTime).hour > 0) {
-                    androidx.compose.material3.Text(
+                    Text(
                         text = pluralStringResource(
                             id = R.plurals.hours,
                             count = LocalTime.parse(stringBreakTime).hour,
@@ -322,7 +324,7 @@ fun BreakTime(stringBreakTime: String) {
                     )
                 }
                 if (LocalTime.parse(stringBreakTime).minute > 0) {
-                    androidx.compose.material3.Text(
+                    Text(
                         text = pluralStringResource(
                             id = R.plurals.minutes,
                             count = LocalTime.parse(stringBreakTime).minute,

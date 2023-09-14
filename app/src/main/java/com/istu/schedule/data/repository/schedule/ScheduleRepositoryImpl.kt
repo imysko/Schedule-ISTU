@@ -84,7 +84,7 @@ class ScheduleRepositoryImpl @Inject constructor(
         classroomId: Int,
         dateString: String
     ): Result<List<StudyDay>> {
-        val apiResponse = scheduleService.getGroupScheduleOnDay(classroomId, dateString).body()
+        val apiResponse = scheduleService.getClassroomScheduleOnDay(classroomId, dateString).body()
 
         if (apiResponse != null) {
             cachedList.clear()

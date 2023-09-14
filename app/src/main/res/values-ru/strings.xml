@@ -186,4 +186,6 @@
     <string name="didnt_applied_participations">Вы не подали заявку на участие ни на один проект</string>
     <string name="participation_submitted">Заявка на участие подана</string>
     <string name="no_internet_connection">Нет соединения с интернетом</string>
+    <string name="weekend_today">Сегодня занятий нет</string>
+    <string name="weekend_tomorrow">Завтра занятий нет</string>
 </resources>

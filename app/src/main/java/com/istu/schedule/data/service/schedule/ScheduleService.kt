@@ -42,4 +42,22 @@ interface ScheduleService {
         @Query("teacherId") teacherId: Int,
         @Query("month") month: Int,
     ): Response<List<StudyDay>>
+
+    @GET("schedule-api/schedules/classroom-schedule/day")
+    suspend fun getClassroomScheduleOnDay(
+        @Query("classroomId") classroomId: Int,
+        @Query("dateString") dateString: String,
+    ): Response<List<StudyDay>>
+
+    @GET("schedule-api/schedules/classroom-schedule/weekly")
+    suspend fun getClassroomScheduleOnWeek(
+        @Query("classroomId") classroomId: Int,
+        @Query("startDateWeekString") startDateWeekString: String,
+    ): Response<List<StudyDay>>
+
+    @GET("schedule-api/schedules/classroom-schedule/month")
+    suspend fun getClassroomScheduleOnMonth(
+        @Query("classroomId") classroomId: Int,
+        @Query("month") month: Int,
+    ): Response<List<StudyDay>>
 }

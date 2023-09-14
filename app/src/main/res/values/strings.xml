@@ -186,4 +186,6 @@
     <string name="didnt_applied_participations">You have not applied for participation in any project</string>
     <string name="participation_submitted">Application for participation submitted</string>
     <string name="no_internet_connection">No internet connection</string>
+    <string name="weekend_today">There are no classes today</string>
+    <string name="weekend_tomorrow">There are no classes tomorrow</string>
 </resources>

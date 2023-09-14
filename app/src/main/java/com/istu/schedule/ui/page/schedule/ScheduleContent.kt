@@ -36,6 +36,7 @@ import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Composable
@@ -171,6 +172,8 @@ fun UserNotBindedPlaceholder(onSetupScheduleClick: () -> Unit) {
 
 @Composable
 fun WeekendPlaceholder(
+    currentDate: LocalDate,
+    selectedDate: LocalDate,
     spacer: @Composable () -> Unit = { }
 ) {
     Column(
@@ -190,7 +193,11 @@ fun WeekendPlaceholder(
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
-            text = stringResource(R.string.weekend),
+            text = when (selectedDate) {
+                currentDate -> stringResource(R.string.weekend_today)
+                currentDate.plusDays(1) -> stringResource(R.string.weekend_tomorrow)
+                else -> stringResource(R.string.weekend)
+            },
             style = AppTheme.typography.subtitle,
             color = AppTheme.colorScheme.secondary,
             textAlign = TextAlign.Center
@@ -249,12 +256,15 @@ fun ScheduleContentUserNotBindedPlaceholderPreview() {
 }
 
 @Composable
-@Preview
+@Preview(locale = "ru")
 fun ScheduleContentWeekendPlaceholderPreview() {
     AppTheme {
         ScheduleContent(
             content = {
-                WeekendPlaceholder()
+                WeekendPlaceholder(
+                    currentDate = LocalDate.now(),
+                    selectedDate = LocalDate.now().plusDays(0)
+                )
             },
             onBackClick = { }
         )

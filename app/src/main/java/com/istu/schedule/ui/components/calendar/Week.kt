@@ -36,21 +36,6 @@ fun Week(
     selectedDate: LocalDate = LocalDate.now(),
     onSelect: (selectedDate: LocalDate) -> Unit
 ) {
-    val monthNames = arrayOf(
-        "Январь",
-        "Февраль",
-        "Март",
-        "Апрель",
-        "Май",
-        "Июнь",
-        "Июль",
-        "Август",
-        "Сентябрь",
-        "Октябрь",
-        "Ноябрь",
-        "Декабрь"
-    )
-
     Column(
         modifier = Modifier
             .padding(horizontal = 15.dp)
@@ -59,7 +44,18 @@ fun Week(
     ) {
         Text(
             modifier = Modifier.padding(bottom = 7.dp),
-            text = monthNames[week.days[0].month.value - 1],
+            text = week.days.first().month
+                .getDisplayName(
+                    TextStyle.FULL_STANDALONE,
+                    LocalContext.current.resources.configuration.locales.get(0)
+                )
+                .replaceFirstChar {
+                    if (it.isLowerCase()) {
+                        it.titlecase(Locale.getDefault())
+                    } else {
+                        it.toString()
+                    }
+                },
             fontFamily = interFamily,
             fontSize = 12.sp,
             color = AppTheme.colorScheme.backgroundSecondary
@@ -73,7 +69,7 @@ fun Week(
             for (date in week.days) {
                 Column(
                     modifier = Modifier
-                        .size(width = 45.dp, height = 70.dp)
+                        .size(width = 43.dp, height = 65.dp)
                         .clip(Shape21_5)
                         .background(
                             if (date == selectedDate) Color(0xFF325AD6) else Color.Transparent
@@ -159,6 +155,19 @@ fun WeekPreview() {
         ),
         currentDate = LocalDate.of(2023, 4, 4),
         selectedDate = LocalDate.of(2023, 4, 5),
+        onSelect = { }
+    )
+}
+
+@Composable
+@Preview(showBackground = false)
+fun WeekTodayPreview() {
+    Week(
+        week = Week(
+            startDayOfWeek = LocalDate.of(2023, 4, 3)
+        ),
+        currentDate = LocalDate.of(2023, 4, 4),
+        selectedDate = LocalDate.of(2023, 4, 4),
         onSelect = { }
     )
 }

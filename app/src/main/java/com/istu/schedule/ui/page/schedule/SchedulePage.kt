@@ -82,14 +82,18 @@ fun SchedulePage(
                             ) {
                                 studyDay?.let { studyDay ->
                                     if (studyDay.lessons.isEmpty()) {
-                                        WeekendPlaceholder(spacer = {
-                                            Spacer(modifier = Modifier.height(64.dp))
-                                            Spacer(
-                                                modifier = Modifier.windowInsetsBottomHeight(
-                                                    WindowInsets.navigationBars
+                                        WeekendPlaceholder(
+                                            currentDate = currentDateTime.toLocalDate(),
+                                            selectedDate = selectedDate,
+                                            spacer = {
+                                                Spacer(modifier = Modifier.height(64.dp))
+                                                Spacer(
+                                                    modifier = Modifier.windowInsetsBottomHeight(
+                                                        WindowInsets.navigationBars
+                                                    )
                                                 )
-                                            )
-                                        })
+                                            }
+                                        )
                                     } else {
                                         ScheduleList(
                                             currentDateTime = currentDateTime,

@@ -35,7 +35,7 @@ object NetworkModule {
 
     @Provides
     @Named("ScheduleBaseUrl")
-    fun provideScheduleBaseUrl() = "https://schedule-api.imysko.ru/"
+    fun provideScheduleBaseUrl() = "http://schedule-api.ovz2.j08801197.m397m.vps.myjino.ru/"
 
     @Provides
     @Named("ProjfairRetrofit")

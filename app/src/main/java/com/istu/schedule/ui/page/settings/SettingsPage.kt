@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.SettingsItem
 import com.istu.schedule.ui.icons.Account
+import com.istu.schedule.ui.icons.Calendar
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
@@ -47,8 +48,8 @@ fun SettingsPage(
             ) {
                 item {
                     SettingsItem(
-                        title = stringResource(id = R.string.account),
-                        icon = Icons.Account,
+                        title = stringResource(id = R.string.schedule),
+                        icon = Icons.Calendar,
                         onClick = {
                             onBindingClick()
                         }

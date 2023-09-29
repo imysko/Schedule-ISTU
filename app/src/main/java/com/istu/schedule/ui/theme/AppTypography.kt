@@ -34,7 +34,8 @@ data class AppTypography(
     val bodyLarge: TextStyle = TextStyle(
         fontFamily = montFamily,
         fontWeight = FontWeight.Normal,
-        fontSize = 20.sp
+        fontSize = 16.sp,
+        lineHeight = 18.sp
     ),
     val bodyMedium: TextStyle = TextStyle(
         fontFamily = montFamily,

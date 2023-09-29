@@ -22,6 +22,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalView
+import androidx.compose.ui.text.PlatformTextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.ui.icons.Account
@@ -65,13 +66,15 @@ fun SettingsItem(
                         contentDescription = title,
                         modifier = Modifier
                             .padding(end = 10.dp)
-                            .size(20.dp),
+                            .size(22.dp),
                         tint = AppTheme.colorScheme.textPrimary
                     )
                     Text(
                         text = title,
                         maxLines = 1,
-                        style = AppTheme.typography.subtitle,
+                        style = AppTheme.typography.subtitle.copy(
+                            platformStyle = PlatformTextStyle(true)
+                        ),
                         color = AppTheme.colorScheme.textPrimary
                     )
                 }

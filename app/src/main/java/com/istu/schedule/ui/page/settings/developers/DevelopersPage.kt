@@ -73,7 +73,7 @@ fun DevelopersPage(navController: NavController) {
                 item {
                     Text(
                         text = stringResource(R.string.address),
-                        style = AppTheme.typography.bodySmall.copy(
+                        style = AppTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.SemiBold,
                             color = AppTheme.colorScheme.primary
                         )
@@ -82,7 +82,7 @@ fun DevelopersPage(navController: NavController) {
                 item {
                     Text(
                         text = stringResource(R.string.address_detail),
-                        style = AppTheme.typography.bodyMedium,
+                        style = AppTheme.typography.bodyLarge,
                         color = AppTheme.colorScheme.textPrimary
                     )
                 }
@@ -90,14 +90,14 @@ fun DevelopersPage(navController: NavController) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.work_schedule),
-                            style = AppTheme.typography.bodyMedium.copy(
+                            style = AppTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.Bold
                             ),
                             color = AppTheme.colorScheme.textPrimary
                         )
                         Text(
                             text = stringResource(R.string.work_schedule_detail),
-                            style = AppTheme.typography.bodyMedium,
+                            style = AppTheme.typography.bodyLarge,
                             color = AppTheme.colorScheme.textPrimary
                         )
                     }
@@ -113,7 +113,7 @@ fun DevelopersPage(navController: NavController) {
                 item {
                     Text(
                         text = stringResource(R.string.contact),
-                        style = AppTheme.typography.bodySmall.copy(
+                        style = AppTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.SemiBold,
                             color = AppTheme.colorScheme.primary
                         )
@@ -123,7 +123,7 @@ fun DevelopersPage(navController: NavController) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.project_learning_center),
-                            style = AppTheme.typography.bodyMedium.copy(
+                            style = AppTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.Bold
                             ),
                             color = AppTheme.colorScheme.textPrimary
@@ -141,7 +141,7 @@ fun DevelopersPage(navController: NavController) {
                                     .clip(Shape5)
                                     .clickable { context.dial(phone = plcPhone) },
                                 text = stringResource(R.string.project_learning_center_phone),
-                                style = AppTheme.typography.bodyMedium,
+                                style = AppTheme.typography.bodyLarge,
                                 color = AppTheme.colorScheme.primary
                             )
                         }
@@ -163,7 +163,7 @@ fun DevelopersPage(navController: NavController) {
                                         )
                                     },
                                 text = stringResource(R.string.project_learning_center_email),
-                                style = AppTheme.typography.bodyMedium,
+                                style = AppTheme.typography.bodyLarge,
                                 color = AppTheme.colorScheme.primary
                             )
                         }
@@ -173,7 +173,7 @@ fun DevelopersPage(navController: NavController) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.developers_contacts),
-                            style = AppTheme.typography.bodyMedium.copy(
+                            style = AppTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.Bold
                             ),
                             color = AppTheme.colorScheme.textPrimary
@@ -191,7 +191,7 @@ fun DevelopersPage(navController: NavController) {
                                     .clip(Shape5)
                                     .clickable { uriHandler.openUri("https://t.me/progneo") },
                                 text = stringResource(R.string.telegram_progneo),
-                                style = AppTheme.typography.bodyMedium,
+                                style = AppTheme.typography.bodyLarge,
                                 color = AppTheme.colorScheme.primary
                             )
                         }
@@ -208,7 +208,7 @@ fun DevelopersPage(navController: NavController) {
                                     .clip(Shape5)
                                     .clickable { uriHandler.openUri("https://t.me/ilmysko") },
                                 text = stringResource(R.string.telegram_ilmysko),
-                                style = AppTheme.typography.bodyMedium,
+                                style = AppTheme.typography.bodyLarge,
                                 color = AppTheme.colorScheme.primary
                             )
                         }
@@ -225,7 +225,7 @@ fun DevelopersPage(navController: NavController) {
                 item {
                     Text(
                         text = stringResource(R.string.personalities),
-                        style = AppTheme.typography.bodySmall.copy(
+                        style = AppTheme.typography.bodyLarge.copy(
                             fontWeight = FontWeight.SemiBold,
                             color = AppTheme.colorScheme.primary
                         )
@@ -236,14 +236,14 @@ fun DevelopersPage(navController: NavController) {
                         Text(
                             text = stringResource(R.string.head_of_plc),
 
-                            style = AppTheme.typography.bodyMedium.copy(
+                            style = AppTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.Bold
                             ),
                             color = AppTheme.colorScheme.textPrimary
                         )
                         Text(
                             text = stringResource(R.string.head_of_plc_fio),
-                            style = AppTheme.typography.bodyMedium,
+                            style = AppTheme.typography.bodyLarge,
                             color = AppTheme.colorScheme.textPrimary,
                             textDecoration = TextDecoration.Underline
                         )
@@ -253,14 +253,14 @@ fun DevelopersPage(navController: NavController) {
                     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         Text(
                             text = stringResource(R.string.admin_of_projfair),
-                            style = AppTheme.typography.bodyMedium.copy(
+                            style = AppTheme.typography.bodyLarge.copy(
                                 fontWeight = FontWeight.Bold
                             ),
                             color = AppTheme.colorScheme.textPrimary
                         )
                         Text(
                             text = stringResource(R.string.admin_of_projfair_fio),
-                            style = AppTheme.typography.bodyMedium,
+                            style = AppTheme.typography.bodyLarge,
                             color = AppTheme.colorScheme.textPrimary,
                             textDecoration = TextDecoration.Underline
                         )
@@ -271,7 +271,7 @@ fun DevelopersPage(navController: NavController) {
     )
 }
 
-@Preview
+@Preview(locale = "ru")
 @Composable
 fun PreviewDevelopersPage() {
     AppTheme {

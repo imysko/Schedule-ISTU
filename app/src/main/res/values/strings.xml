@@ -188,4 +188,5 @@
     <string name="no_internet_connection">No internet connection</string>
     <string name="weekend_today">There are no classes today</string>
     <string name="weekend_tomorrow">There are no classes tomorrow</string>
+    <string name="cant_create_participation_description">You can\'t submit applications right now</string>
 </resources>

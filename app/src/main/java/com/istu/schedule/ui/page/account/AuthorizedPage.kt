@@ -201,57 +201,15 @@ fun ParticipationsPage(
     onParticipationPressed: (Int) -> Unit = {},
     onDeletePressed: (Int) -> Unit = {}
 ) {
-    var deleteDialogVisible by remember { mutableStateOf(false) }
     var isEditMode by remember { mutableStateOf(false) }
     var selectedParticipation by remember { mutableIntStateOf(0) }
 
-    SIDialog(
-        modifier = Modifier.clip(Shape20),
-        visible = deleteDialogVisible,
-        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
-        title = {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(R.string.delete_participation),
-                style = AppTheme.typography.title.copy(
-                    fontWeight = FontWeight.SemiBold
-                ),
-                color = AppTheme.colorScheme.textPrimary,
-                textAlign = TextAlign.Center
-            )
-        },
-        text = {
-            Text(
-                text = stringResource(R.string.delete_participation_text),
-                style = AppTheme.typography.bodyMedium,
-                color = AppTheme.colorScheme.secondary,
-                textAlign = TextAlign.Center
-            )
-        },
-        onDismissRequest = { deleteDialogVisible = false },
-        dismissButton = {
-            TextButton(
-                text = stringResource(R.string.cancel),
-                contentColor = AppTheme.colorScheme.primary,
-                onClick = { deleteDialogVisible = false }
-            )
-        },
-        confirmButton = {
-            TextButton(
-                text = stringResource(R.string.confirm),
-                contentColor = AppTheme.colorScheme.error,
-                onClick = {
-                    onDeletePressed(selectedParticipation)
-                    deleteDialogVisible = false
-                }
-            )
-        }
-    )
+    RemoveParticipationDialog(onDeletePressed, selectedParticipation)
 
     LoadingPanel(!isParticipationsLoaded)
 
     SIAnimatedVisibilityFadeOnly(
-        visible = participationsList.isEmpty() && isParticipationsLoaded
+        visible = participationsList.isEmpty() && isParticipationsLoaded && isCanEdit
     ) {
         Column(
             modifier = Modifier
@@ -283,6 +241,30 @@ fun ParticipationsPage(
         }
     }
 
+    SIAnimatedVisibilityFadeOnly(
+        visible = participationsList.isEmpty() && isParticipationsLoaded && !isCanEdit
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(15.dp),
+            verticalArrangement = Arrangement.spacedBy(
+                space = 15.dp,
+                alignment = Alignment.CenterVertically
+            )
+        ) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 15.dp),
+                text = stringResource(R.string.cant_create_participation_description),
+                style = AppTheme.typography.subtitle,
+                color = AppTheme.colorScheme.secondary,
+                textAlign = TextAlign.Center
+            )
+        }
+    }
+
     if (participationsList.isNotEmpty() && isParticipationsLoaded) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
@@ -297,10 +279,7 @@ fun ParticipationsPage(
                 ParticipationItem(
                     participation = participation,
                     onClick = { onParticipationPressed(participation.projectId) },
-                    onDeleteClick = {
-                        selectedParticipation = participation.id
-                        deleteDialogVisible = true
-                    },
+                    onDeleteClick = { selectedParticipation = participation.id },
                     isEditMode = isEditMode
                 )
             }
@@ -481,6 +460,7 @@ fun ProjectsPage(
     }
 }
 
+// TODO: Add ability to show dialogs
 @Composable
 private fun LogoutDialog(onLogoutPressed: () -> Unit = {}) {
     var logoutDialogVisible by remember { mutableStateOf(false) }
@@ -515,6 +495,54 @@ private fun LogoutDialog(onLogoutPressed: () -> Unit = {}) {
                 onClick = {
                     onLogoutPressed()
                     logoutDialogVisible = false
+                }
+            )
+        }
+    )
+}
+
+@Composable
+private fun RemoveParticipationDialog(onDeletePressed: (Int) -> Unit, selectedParticipation: Int) {
+    var deleteDialogVisible by remember { mutableStateOf(false) }
+
+    SIDialog(
+        modifier = Modifier.clip(Shape20),
+        visible = deleteDialogVisible,
+        backgroundColor = AppTheme.colorScheme.backgroundSecondary,
+        title = {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = stringResource(R.string.delete_participation),
+                style = AppTheme.typography.title.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = AppTheme.colorScheme.textPrimary,
+                textAlign = TextAlign.Center
+            )
+        },
+        text = {
+            Text(
+                text = stringResource(R.string.delete_participation_text),
+                style = AppTheme.typography.bodyMedium,
+                color = AppTheme.colorScheme.secondary,
+                textAlign = TextAlign.Center
+            )
+        },
+        onDismissRequest = { deleteDialogVisible = false },
+        dismissButton = {
+            TextButton(
+                text = stringResource(R.string.cancel),
+                contentColor = AppTheme.colorScheme.primary,
+                onClick = { deleteDialogVisible = false }
+            )
+        },
+        confirmButton = {
+            TextButton(
+                text = stringResource(R.string.confirm),
+                contentColor = AppTheme.colorScheme.error,
+                onClick = {
+                    onDeletePressed(selectedParticipation)
+                    deleteDialogVisible = false
                 }
             )
         }
@@ -577,6 +605,30 @@ fun PreviewParticipationsPage(
         ParticipationsPage(
             participationsList = listOf(participation, participation, participation),
             isCanEdit = true,
+            isParticipationsLoaded = true
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewParticipationsPageEmpty() {
+    AppTheme {
+        ParticipationsPage(
+            participationsList = listOf(),
+            isCanEdit = true,
+            isParticipationsLoaded = true
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewParticipationsPageEmptyCanEdit() {
+    AppTheme {
+        ParticipationsPage(
+            participationsList = listOf(),
+            isCanEdit = false,
             isParticipationsLoaded = true
         )
     }

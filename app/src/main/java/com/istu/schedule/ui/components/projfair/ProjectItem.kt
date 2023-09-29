@@ -142,7 +142,8 @@ fun ProjectItem(
                 ) {
                     Text(
                         text = project.state.state.uppercase(),
-                        style = AppTheme.typography.bodySmall.copy(
+                        style = AppTheme.typography.labelMedium.copy(
+                            fontSize = 10.sp,
                             color = when (project.state.id) {
                                 1 -> com.istu.schedule.ui.theme.Blue
                                 2 -> com.istu.schedule.ui.theme.Green

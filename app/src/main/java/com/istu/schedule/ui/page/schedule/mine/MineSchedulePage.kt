@@ -77,7 +77,7 @@ fun MineSchedulePage(
         selectedDate = selectedDate,
         onSearchButtonClick = { navController.navigate(NavDestinations.SEARCH_SCHEDULE) },
         onDateSelect = { viewModel.selectDate(it) },
-        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING) },
+        onSetupScheduleClick = { navController.navigate(NavDestinations.SETTING_SCHEDULE) },
         onBackClick = { },
         networkStatus = networkStatus
     )

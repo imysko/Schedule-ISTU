@@ -76,7 +76,7 @@ fun FoundSchedulePage(
         selectedDate = selectedDate,
         onSearchButtonClick = { navController.navigate(NavDestinations.SEARCH_SCHEDULE) },
         onDateSelect = { viewModel.selectDate(it) },
-        onSetupScheduleClick = { navController.navigate(NavDestinations.BINDING) },
+        onSetupScheduleClick = { navController.navigate(NavDestinations.SETTING_SCHEDULE) },
         isShowBackButton = true,
         onBackClick = { navController.popBackStack() },
         networkStatus = networkStatus

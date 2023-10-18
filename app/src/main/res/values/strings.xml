@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Projfair</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
@@ -25,8 +25,8 @@
     <string name="dark">Dark</string>
     <string name="is_student">I am a student</string>
     <string name="is_teacher">I am a teacher</string>
-    <string name="on">On</string>
-    <string name="off">Off</string>
+    <string name="on" tools:ignore="PrivateResource">On</string>
+    <string name="off" tools:ignore="PrivateResource">Off</string>
     <string name="use_device_theme">Use device theme</string>
     <string name="back">Back</string>
     <string name="other">Other</string>
@@ -189,4 +189,5 @@
     <string name="weekend_today">There are no classes today</string>
     <string name="weekend_tomorrow">There are no classes tomorrow</string>
     <string name="cant_create_participation_description">You can\'t submit applications right now</string>
+    <string name="setting_schedule">Setting schedule</string>
 </resources>

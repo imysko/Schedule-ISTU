@@ -41,7 +41,7 @@ sealed class BottomNavItem(
         titleResId = R.string.settings,
         icon = Icons.Settings,
         subroutes = listOf(
-            NavDestinations.BINDING,
+            NavDestinations.SETTING_SCHEDULE,
             NavDestinations.LANGUAGE,
             NavDestinations.DEVELOPERS
         )

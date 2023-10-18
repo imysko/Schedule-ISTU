@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.settings.binding
+package com.istu.schedule.ui.page.settings.schedule
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -46,7 +46,7 @@ fun ChooseInstitute(
     isLoading: Boolean,
     institutesList: List<Institute> = emptyList(),
     onBackClick: () -> Unit,
-    onChooseInstitute: (chosenInstitute: Institute) -> Unit
+    onChooseInstitute: (chosenInstitute: Institute) -> Unit,
 ) {
     BackHandler {
         onBackClick()
@@ -56,9 +56,9 @@ fun ChooseInstitute(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
-                title = stringResource(id = R.string.account),
+                title = stringResource(id = R.string.setting_schedule),
                 isShowBackButton = true,
-                onBackPressed = { onBackClick() }
+                onBackPressed = { onBackClick() },
             )
         },
         content = {
@@ -67,7 +67,7 @@ fun ChooseInstitute(
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.backgroundSecondary)
+                    .background(AppTheme.colorScheme.backgroundSecondary),
             ) {
                 Box {
                     SIAnimatedVisibilityFadeOnly(isLoading) {
@@ -77,19 +77,19 @@ fun ChooseInstitute(
                         Column(
                             modifier = Modifier
                                 .padding(top = 19.dp, start = 15.dp, end = 15.dp),
-                            verticalArrangement = Arrangement.spacedBy(22.dp)
+                            verticalArrangement = Arrangement.spacedBy(22.dp),
                         ) {
                             Text(
                                 text = stringResource(id = R.string.choose_institute),
                                 style = AppTheme.typography.bodyMedium.copy(
                                     fontWeight = FontWeight.SemiBold,
-                                    color = AppTheme.colorScheme.secondary
-                                )
+                                    color = AppTheme.colorScheme.secondary,
+                                ),
                             )
 
                             LazyColumn(
                                 modifier = Modifier.padding(),
-                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                                verticalArrangement = Arrangement.spacedBy(10.dp),
                             ) {
                                 institutesList.forEach {
                                     item {
@@ -97,7 +97,7 @@ fun ChooseInstitute(
                                             modifier = Modifier
                                                 .fillMaxWidth()
                                                 .clip(Shape10)
-                                                .clickable { onChooseInstitute(it) }
+                                                .clickable { onChooseInstitute(it) },
                                         ) {
                                             Row(
                                                 modifier = Modifier
@@ -105,25 +105,25 @@ fun ChooseInstitute(
                                                     .padding(
                                                         start = 10.dp,
                                                         top = 10.dp,
-                                                        bottom = 10.dp
+                                                        bottom = 10.dp,
                                                     ),
                                                 horizontalArrangement = Arrangement.SpaceBetween,
-                                                verticalAlignment = Alignment.CenterVertically
+                                                verticalAlignment = Alignment.CenterVertically,
                                             ) {
                                                 Text(
                                                     modifier = Modifier.weight(0.7f),
                                                     text = it.instituteTitle!!,
                                                     style = AppTheme.typography.bodyMedium.copy(
-                                                        fontWeight = FontWeight.SemiBold
-                                                    )
+                                                        fontWeight = FontWeight.SemiBold,
+                                                    ),
                                                 )
 
                                                 Icon(
                                                     modifier = Modifier.size(17.dp),
                                                     imageVector = Icons.Forward,
                                                     contentDescription = stringResource(
-                                                        id = R.string.forward
-                                                    )
+                                                        id = R.string.forward,
+                                                    ),
                                                 )
                                             }
                                         }
@@ -133,7 +133,7 @@ fun ChooseInstitute(
                                                 .fillMaxWidth()
                                                 .padding(top = 10.dp)
                                                 .height(2.dp),
-                                            color = HalfGray
+                                            color = HalfGray,
                                         )
                                     }
                                 }
@@ -142,7 +142,7 @@ fun ChooseInstitute(
                                     Spacer(
                                         modifier = Modifier.windowInsetsBottomHeight(
                                             WindowInsets.navigationBars
-                                        )
+                                        ),
                                     )
                                 }
                             }
@@ -150,12 +150,12 @@ fun ChooseInstitute(
                     }
                 }
             }
-        }
+        },
     )
 }
 
 @Composable
-@Preview(showBackground = true, locale = "ru")
+@Preview(showBackground = true, name = "Displayed institute list", group = "Choose institute", locale = "ru")
 fun ChooseInstitutePreview() {
     AppTheme {
         ChooseInstitute(
@@ -164,16 +164,29 @@ fun ChooseInstitutePreview() {
                 Institute(
                     instituteId = 0,
                     instituteTitle = "Институт архитектуры, строительства и дизайна",
-                    courses = emptyList()
+                    courses = emptyList(),
                 ),
                 Institute(
                     instituteId = 0,
                     instituteTitle = "Институт Информационных Технологий и Анализа Данных",
-                    courses = emptyList()
+                    courses = emptyList(),
                 )
             ),
             onBackClick = { },
-            onChooseInstitute = { }
+            onChooseInstitute = { },
+        )
+    }
+}
+
+@Composable
+@Preview(showBackground = true, name = "Is loading", group = "Choose institute", locale = "ru")
+fun ChooseInstituteIsLoadingPreview() {
+    AppTheme {
+        ChooseInstitute(
+            isLoading = true,
+            institutesList = emptyList(),
+            onBackClick = { },
+            onChooseInstitute = { },
         )
     }
 }

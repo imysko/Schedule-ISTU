@@ -194,4 +194,6 @@
     <string name="first_subgroup">Первая подругппа</string>
     <string name="second_subgroup">Вторая подругппа</string>
     <string name="choose_subgroup">Выберете подгруппу</string>
+    <string name="even">" чётная"</string>
+    <string name="odd">нечётная</string>
 </resources>

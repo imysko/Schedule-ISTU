@@ -26,9 +26,9 @@ import androidx.compose.ui.unit.sp
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.TextStyle
-import kotlinx.coroutines.launch
 
 @Composable
 fun HorizontalCalendar(
@@ -131,5 +131,10 @@ fun HorizontalCalendar(
 @Composable
 @Preview(showBackground = false)
 fun HorizontalCalendarPreview() {
-    HorizontalCalendar(calendarState = rememberLazyListState(), onSelect = { })
+    HorizontalCalendar(
+        calendarState = rememberLazyListState(),
+        weeksList = listOf(Week(LocalDate.of(2023, 10, 16))),
+        selectedDate = LocalDate.of(2023, 10, 16),
+        onSelect = { },
+    )
 }

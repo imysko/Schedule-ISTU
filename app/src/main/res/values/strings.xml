@@ -194,4 +194,6 @@
     <string name="first_subgroup">First subgroup</string>
     <string name="second_subgroup">Second subgroup</string>
     <string name="choose_subgroup">Choose a subgroup</string>
+    <string name="even">even</string>
+    <string name="odd">odd</string>
 </resources>

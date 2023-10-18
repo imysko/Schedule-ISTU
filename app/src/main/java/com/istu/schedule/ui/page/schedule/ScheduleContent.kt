@@ -106,19 +106,26 @@ fun ScheduleList(
         contentPadding = PaddingValues(vertical = 20.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        studyDay.lessons.forEach { lesson ->
-            item {
-                ScheduleCard(
-                    currentDateTime = currentDateTime,
-                    lesson = lesson,
-                    lessonDate = studyDay.date
-                )
-            }
-            lesson.breakTimeAfter?.let {
+        for (i in studyDay.lessons.indices) {
+            studyDay.lessons[i].also { lesson ->
                 item {
-                    BreakTime(stringBreakTime = it)
+                    ScheduleCard(
+                        currentDateTime = currentDateTime,
+                        lesson = lesson,
+                        lessonDate = studyDay.date
+                    )
+                }
+                lesson.breakTimeAfter?.let {
+                    if (i < studyDay.lessons.lastIndex) {
+                        item {
+                            BreakTime(stringBreakTime = it)
+                        }
+                    }
                 }
             }
+        }
+
+        studyDay.lessons.forEach { lesson ->
         }
         item {
             spacer()
@@ -163,7 +170,9 @@ fun UserNotBindedPlaceholder(onSetupScheduleClick: () -> Unit) {
             textAlign = TextAlign.Center
         )
         FilledButton(
-            modifier = Modifier.padding(top = 25.dp).width(250.dp),
+            modifier = Modifier
+                .padding(top = 25.dp)
+                .width(250.dp),
             text = stringResource(R.string.setup_schedule),
             onClick = { onSetupScheduleClick() }
         )

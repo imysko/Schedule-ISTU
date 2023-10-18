@@ -190,4 +190,8 @@
     <string name="weekend_tomorrow">Завтра занятий нет</string>
     <string name="cant_create_participation_description">Сейчас вы не можете подавать заявки</string>
     <string name="setting_schedule">Настройка расписания</string>
+    <string name="all_subgroup">Все подргуппы</string>
+    <string name="first_subgroup">Первая подругппа</string>
+    <string name="second_subgroup">Вторая подругппа</string>
+    <string name="choose_subgroup">Выберете подгруппу</string>
 </resources>

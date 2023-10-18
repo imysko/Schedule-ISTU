@@ -16,5 +16,9 @@ sealed class SettingScheduleUiState {
         val instituteTitle: String,
     ): SettingScheduleUiState()
 
+    data class ChooseSubgroupState(
+        val selectedSubgroup: Subgroup,
+    ): SettingScheduleUiState()
+
     data object ChooseTeacherState: SettingScheduleUiState()
 }

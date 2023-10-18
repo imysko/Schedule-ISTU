@@ -2,6 +2,7 @@ package com.istu.schedule.ui.page.settings.schedule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.istu.schedule.data.enums.Subgroup
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.model.User
 import com.istu.schedule.domain.model.schedule.Course
@@ -100,10 +101,13 @@ class SettingScheduleViewModel @Inject constructor(
         when (event) {
             is SettingScheduleListEvent.SelectUserStatus -> selectUserStatus(event.status)
             is SettingScheduleListEvent.SelectInstitute -> selectInstitute(event.institute)
+            SettingScheduleListEvent.NavigateToSubgroupSelection ->
+                _uiState.tryEmit(SettingScheduleUiState.ChooseSubgroupState(_user.userSubgroup))
             is SettingScheduleListEvent.SelectGroup -> selectGroup(event.group)
+            is SettingScheduleListEvent.SelectSubgroup -> selectSubgroup(event.subgroup)
             is SettingScheduleListEvent.SelectTeacher -> selectTeacher(event.teacher)
             is SettingScheduleListEvent.FilterTeacherList -> filterTeacherList(event.value)
-            SettingScheduleListEvent.OnBackClickToChooseUserStatus ->
+            SettingScheduleListEvent.OnBackClickToScheduleSettings ->
                 updateMainScheduleSettingsState()
             SettingScheduleListEvent.OnBackClickToChooseInstitute ->
                 _uiState.tryEmit(SettingScheduleUiState.ChooseInstituteState)
@@ -137,6 +141,12 @@ class SettingScheduleViewModel @Inject constructor(
         _selectedGroup.value = group
 
         bindUser()
+        updateMainScheduleSettingsState()
+    }
+
+    private fun selectSubgroup(subgroup: Subgroup) {
+        _user.userSubgroup = subgroup
+
         updateMainScheduleSettingsState()
     }
 

@@ -190,4 +190,8 @@
     <string name="weekend_tomorrow">There are no classes tomorrow</string>
     <string name="cant_create_participation_description">You can\'t submit applications right now</string>
     <string name="setting_schedule">Setting schedule</string>
+    <string name="all_subgroup">All subgroup</string>
+    <string name="first_subgroup">First subgroup</string>
+    <string name="second_subgroup">Second subgroup</string>
+    <string name="choose_subgroup">Choose a subgroup</string>
 </resources>

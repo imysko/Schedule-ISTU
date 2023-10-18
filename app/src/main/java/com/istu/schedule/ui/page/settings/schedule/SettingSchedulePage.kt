@@ -64,15 +64,20 @@ private fun SettingScheduleContent(
                 MainScheduleSettings(
                     selectedGroupDescription = uiState.selectedGroupDescription,
                     selectedTeacherDescription = uiState.selectedTeacherDescription,
+                    isSubgroupSettingAvailable = uiState.isSubgroupSettingAvailable,
+                    subgroup = uiState.subgroup,
                     onBackClick = { onBackClick() },
                     selectUserStatus = { onEvent(SettingScheduleListEvent.SelectUserStatus(it)) },
+                    onSubgroupSettingClick = {
+                        onEvent(SettingScheduleListEvent.NavigateToSubgroupSelection)
+                    },
                 )
             }
             SettingScheduleUiState.ChooseInstituteState -> {
                 ChooseInstitute(
                     isLoading = isLoading,
                     institutesList = instituteList,
-                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToChooseUserStatus) },
+                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings) },
                     onChooseInstitute = { onEvent(SettingScheduleListEvent.SelectInstitute(it)) },
                 )
             }
@@ -84,11 +89,18 @@ private fun SettingScheduleContent(
                     onChooseGroup = { onEvent(SettingScheduleListEvent.SelectGroup(it)) },
                 )
             }
+            is SettingScheduleUiState.ChooseSubgroupState -> {
+                ChooseSubgroup(
+                    selectedSubgroup = uiState.selectedSubgroup,
+                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings) },
+                    onChooseSubgroup = { onEvent(SettingScheduleListEvent.SelectSubgroup(it)) },
+                )
+            }
             SettingScheduleUiState.ChooseTeacherState -> {
                 ChooseTeacher(
                     isLoading = isLoading,
                     teachersList = teachersTips,
-                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToChooseUserStatus) },
+                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings) },
                     onChooseTeacher = { onEvent(SettingScheduleListEvent.SelectTeacher(it)) },
                     onValueChange = { onEvent(SettingScheduleListEvent.FilterTeacherList(it)) },
                 )

@@ -12,10 +12,6 @@ import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.LocalDate
-import java.time.LocalDateTime
-import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -23,16 +19,20 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
+import java.time.LocalDate
+import java.time.LocalDateTime
+import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 open class ScheduleViewModel @Inject constructor(
-    private val _useCaseScheduleOnDay: GetScheduleOnDayUseCase
+    protected val _useCaseScheduleOnDay: GetScheduleOnDayUseCase
 ) : BaseViewModel() {
 
     protected val _scheduleUiState = MutableStateFlow(ScheduleUiState())
     val scheduleUiState: StateFlow<ScheduleUiState> = _scheduleUiState.asStateFlow()
 
-    private val _schedule = MutableLiveData<StudyDay>()
+    protected val _schedule = MutableLiveData<StudyDay>()
     val schedule: LiveData<StudyDay> = _schedule
 
     val currentDateTime = flow {
@@ -59,7 +59,7 @@ open class ScheduleViewModel @Inject constructor(
     }
     val weeksList: LiveData<MutableList<Week>> = _weeksList
 
-    private val _selectedDate = MutableLiveData<LocalDate>().apply {
+    protected val _selectedDate = MutableLiveData<LocalDate>().apply {
         value = currentDateTime.value.toLocalDate()
     }
     val selectedDate: LiveData<LocalDate> = _selectedDate
@@ -85,7 +85,7 @@ open class ScheduleViewModel @Inject constructor(
         _selectedDate.value = selectedDate
     }
 
-    fun getSchedule(scheduleType: ScheduleType, id: Int) {
+    open fun getSchedule(scheduleType: ScheduleType, id: Int) {
         call({
             _useCaseScheduleOnDay.getScheduleOnDay(
                 scheduleType = scheduleType,

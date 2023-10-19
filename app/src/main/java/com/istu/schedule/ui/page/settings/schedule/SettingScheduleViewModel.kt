@@ -175,6 +175,7 @@ class SettingScheduleViewModel @Inject constructor(
             UserStatus.TEACHER -> {
                 _user.userId = _selectedTeacher.value!!.teacherId
                 _user.userDescription = _selectedTeacher.value!!.fullName
+                _user.userSubgroup = Subgroup.ALL
             }
             UserStatus.UNKNOWN -> Unit
         }

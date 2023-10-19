@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Surface
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -56,7 +56,7 @@ fun OnBoardingPage(
                     .padding(horizontal = 15.dp),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Row() {
+                Row {
                     when (onBoardingUiState.pageNumber) {
                         1 -> {
                             OnBoardingContent(
@@ -159,7 +159,7 @@ fun OnBoardingPage(
                                     text = stringResource(id = R.string.setup_schedule),
                                     onClick = {
                                         viewModel.onSetupScheduleButtonClick()
-                                        navController.navigate(NavDestinations.BINDING)
+                                        navController.navigate(NavDestinations.SETTING_SCHEDULE)
                                     }
                                 )
                             }

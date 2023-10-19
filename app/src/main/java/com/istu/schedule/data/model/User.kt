@@ -4,13 +4,15 @@ import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.ProjfairAuthStatus
+import com.istu.schedule.data.enums.Subgroup
 import com.istu.schedule.data.enums.UserStatus
+import com.istu.schedule.util.toSubgroupEnum
 import com.istu.schedule.util.toUserStatusEnum
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class User @Inject constructor(private val _sharedPreference: SharedPreferences) {
@@ -80,6 +82,17 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
             }
         }
 
+    var userSubgroup: Subgroup
+        get() {
+            return _sharedPreference.getString(USER_SUBGROUP, null).toSubgroupEnum() ?: Subgroup.ALL
+        }
+        set(value) {
+            with(_sharedPreference.edit()) {
+                putString(USER_SUBGROUP, value.toString())
+                apply()
+            }
+        }
+
     var userId: Int?
         get() {
             return _sharedPreference.getInt(USER_ID, 0)
@@ -113,6 +126,7 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
     companion object {
         const val PROJFAIR_TOKEN = "projfairToken"
         const val USER_TYPE = "userType"
+        const val USER_SUBGROUP = "userSubgroup"
         const val USER_ID = "userId"
         const val USER_DESCRIPTION = "userDescription"
     }

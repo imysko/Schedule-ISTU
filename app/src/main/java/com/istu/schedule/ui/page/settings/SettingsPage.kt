@@ -24,7 +24,7 @@ import com.istu.schedule.util.NavDestinations
 @Composable
 fun SettingsPage(navController: NavHostController) {
     SettingsPage(
-        onBindingClick = { navController.navigate(NavDestinations.BINDING) },
+        onBindingClick = { navController.navigate(NavDestinations.SETTING_SCHEDULE) },
         onLanguageClick = { navController.navigate(NavDestinations.LANGUAGE) }
     ) { navController.navigate(NavDestinations.DEVELOPERS) }
 }

@@ -12,7 +12,7 @@ import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.login.LoginProjfairPage
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.onboarding.OnBoardingPage
-import com.istu.schedule.ui.page.settings.binding.BindingPage
+import com.istu.schedule.ui.page.settings.schedule.SettingSchedulePage
 import com.istu.schedule.util.NavDestinations
 import com.istu.schedule.util.isFirstLaunch
 
@@ -46,9 +46,9 @@ fun NavGraph(
         }
 
         animatedComposable(
-            route = NavDestinations.BINDING
+            route = NavDestinations.SETTING_SCHEDULE
         ) {
-            BindingPage(navController)
+            SettingSchedulePage(navController)
             SetStatusBarIconColor(systemUiController)
         }
 

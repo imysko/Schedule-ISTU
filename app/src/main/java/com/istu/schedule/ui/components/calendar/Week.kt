@@ -17,10 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.istu.schedule.R
+import com.istu.schedule.data.enums.Parity
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
@@ -40,26 +43,44 @@ fun Week(
         modifier = Modifier
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(7.dp),
     ) {
-        Text(
-            modifier = Modifier.padding(bottom = 7.dp),
-            text = week.days.first().month
-                .getDisplayName(
-                    TextStyle.FULL_STANDALONE,
-                    LocalContext.current.resources.configuration.locales.get(0)
-                )
-                .replaceFirstChar {
-                    if (it.isLowerCase()) {
-                        it.titlecase(Locale.getDefault())
-                    } else {
-                        it.toString()
-                    }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = week.days.first().month
+                    .getDisplayName(
+                        TextStyle.FULL_STANDALONE,
+                        LocalContext.current.resources.configuration.locales.get(0)
+                    )
+                    .replaceFirstChar {
+                        if (it.isLowerCase()) {
+                            it.titlecase(Locale.getDefault())
+                        } else {
+                            it.toString()
+                        }
+                    },
+                fontFamily = interFamily,
+                fontSize = 12.sp,
+                color = AppTheme.colorScheme.backgroundSecondary,
+            )
+
+            Text(
+                text = when (week.parity) {
+                    Parity.EVEN -> stringResource(id = R.string.even)
+                    Parity.ODD -> stringResource(id = R.string.odd)
                 },
-            fontFamily = interFamily,
-            fontSize = 12.sp,
-            color = AppTheme.colorScheme.backgroundSecondary
-        )
+                fontFamily = interFamily,
+                fontSize = 12.sp,
+                color = AppTheme.colorScheme.backgroundSecondary,
+            )
+        }
+
         Row(
             modifier = Modifier
                 .padding(horizontal = 2.dp)

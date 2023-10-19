@@ -6,7 +6,7 @@ import androidx.compose.ui.test.onNodeWithText
 import com.istu.schedule.data.preference.SettingsProvider
 import com.istu.schedule.domain.model.schedule.Course
 import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.ui.page.settings.binding.CourseAccordionItem
+import com.istu.schedule.ui.page.settings.schedule.CourseAccordionItem
 import com.istu.schedule.ui.theme.AppTheme
 import org.junit.Rule
 import org.junit.Test

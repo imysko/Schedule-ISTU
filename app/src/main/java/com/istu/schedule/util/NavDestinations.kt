@@ -17,7 +17,7 @@ object NavDestinations {
     const val CREATE_PARTICIPATION = "CreateParticipation"
 
     const val SETTINGS = "Settings"
-    const val BINDING = "Binding"
+    const val SETTING_SCHEDULE = "SettingSchedule"
     const val LANGUAGE = "Language"
     const val DEVELOPERS = "Developers"
 }

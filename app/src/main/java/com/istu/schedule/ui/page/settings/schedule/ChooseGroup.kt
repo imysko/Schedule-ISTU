@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.settings.binding
+package com.istu.schedule.ui.page.settings.schedule
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
@@ -34,7 +34,7 @@ fun ChooseGroup(
     instituteTitle: String,
     courseList: List<Course> = emptyList(),
     onBackClick: () -> Unit,
-    onChooseGroup: (chosenGroup: Group) -> Unit
+    onChooseGroup: (chosenGroup: Group) -> Unit,
 ) {
     BackHandler {
         onBackClick()
@@ -44,9 +44,9 @@ fun ChooseGroup(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
-                title = stringResource(id = R.string.account),
+                title = stringResource(id = R.string.setting_schedule),
                 isShowBackButton = true,
-                onBackPressed = { onBackClick() }
+                onBackPressed = { onBackClick() },
             )
         },
         content = {
@@ -56,37 +56,37 @@ fun ChooseGroup(
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary),
-                verticalArrangement = Arrangement.spacedBy(24.dp)
+                verticalArrangement = Arrangement.spacedBy(24.dp),
             ) {
                 Text(
                     modifier = Modifier.padding(top = 19.dp, start = 17.dp, end = 17.dp),
                     text = instituteTitle,
                     style = AppTheme.typography.title.copy(
                         fontWeight = FontWeight.SemiBold,
-                        color = AppTheme.colorScheme.primary
-                    )
+                        color = AppTheme.colorScheme.primary,
+                    ),
                 )
                 LazyColumn(
                     modifier = Modifier.padding(horizontal = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                    verticalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     items(courseList) { course ->
                         CourseAccordionItem(
                             course = course,
-                            onChooseGroup = { group -> onChooseGroup(group) }
+                            onChooseGroup = { group -> onChooseGroup(group) },
                         )
                     }
                     item {
                         Spacer(modifier = Modifier.height(64.dp))
                         Spacer(
                             modifier = Modifier.windowInsetsBottomHeight(
-                                WindowInsets.navigationBars
+                                WindowInsets.navigationBars,
                             )
                         )
                     }
                 }
             }
-        }
+        },
     )
 }
 
@@ -99,23 +99,23 @@ fun ChooseGroupPreview() {
             courseList = mutableListOf(
                 Course(
                     courseNumber = 1,
-                    groups = emptyList()
+                    groups = emptyList(),
                 ),
                 Course(
                     courseNumber = 2,
-                    groups = emptyList()
+                    groups = emptyList(),
                 ),
                 Course(
                     courseNumber = 3,
-                    groups = emptyList()
+                    groups = emptyList(),
                 ),
                 Course(
                     courseNumber = 4,
-                    groups = emptyList()
+                    groups = emptyList(),
                 )
             ),
             onBackClick = { },
-            onChooseGroup = { }
+            onChooseGroup = { },
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.istu.schedule.ui.page.settings.binding
+package com.istu.schedule.ui.page.settings.schedule
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,12 +9,13 @@ import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,34 +38,42 @@ fun CourseAccordionItem(
     expanded: Boolean = false,
     onChooseGroup: (chosenGroup: Group) -> Unit
 ) {
-    var isExpanded by remember { mutableStateOf(expanded) }
+    var isExpanded by rememberSaveable { mutableStateOf(expanded) }
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = Shape10
+        shape = Shape10,
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp,
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = AppTheme.colorScheme.surface,
+        ),
     ) {
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp)
+            verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(Shape10)
-                    .clickable { isExpanded = !isExpanded }
+                    .clickable { isExpanded = !isExpanded },
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(20.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         text = "${course.courseNumber} ${
                             stringResource(id = R.string.course).lowercase(Locale.getDefault())
                         }",
                         style = AppTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
                         ),
-                        color = AppTheme.colorScheme.textPrimary
+                        color = AppTheme.colorScheme.textPrimary,
                     )
 
                     TrailingIcon(isExpanded)
@@ -74,7 +83,7 @@ fun CourseAccordionItem(
             if (isExpanded) {
                 FlowGroups(
                     groups = course.groups!!,
-                    onChooseGroup = { onChooseGroup(it) }
+                    onChooseGroup = { onChooseGroup(it) },
                 )
             }
         }
@@ -92,7 +101,7 @@ fun FlowGroups(
             .fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalArrangement = Arrangement.spacedBy(10.dp)
+        verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
         groups.forEach {
             Row(
@@ -101,13 +110,13 @@ fun FlowGroups(
                     .clip(Shape10)
                     .background(AppTheme.colorScheme.primaryContainer)
                     .clickable { onChooseGroup(it) },
-                horizontalArrangement = Arrangement.Center
+                horizontalArrangement = Arrangement.Center,
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 10.dp),
                     text = it.name!!,
                     style = AppTheme.typography.title,
-                    color = AppTheme.colorScheme.primary
+                    color = AppTheme.colorScheme.primary,
                 )
             }
         }
@@ -125,24 +134,24 @@ fun FlowGroupsPreview() {
                     name = "ИСТб-20-1",
                     course = 3,
                     instituteId = 0,
-                    institute = null
+                    institute = null,
                 ),
                 Group(
                     groupId = 0,
                     name = "ИСТб-20-2",
                     course = 3,
                     instituteId = 0,
-                    institute = null
+                    institute = null,
                 ),
                 Group(
                     groupId = 0,
                     name = "ИСТб-20-3",
                     course = 3,
                     instituteId = 0,
-                    institute = null
+                    institute = null,
                 )
             ),
-            onChooseGroup = { }
+            onChooseGroup = { },
         )
     }
 }
@@ -154,10 +163,10 @@ fun CourseAccordionItemPreview() {
         CourseAccordionItem(
             course = Course(
                 courseNumber = 3,
-                groups = emptyList()
+                groups = emptyList(),
             ),
             expanded = false,
-            onChooseGroup = { }
+            onChooseGroup = { },
         )
     }
 }
@@ -175,26 +184,26 @@ fun CourseAccordionItemExpandedPreview() {
                         name = "ИСТб-20-1",
                         course = 3,
                         instituteId = 0,
-                        institute = null
+                        institute = null,
                     ),
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-2",
                         course = 3,
                         instituteId = 0,
-                        institute = null
+                        institute = null,
                     ),
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-3",
                         course = 3,
                         instituteId = 0,
-                        institute = null
+                        institute = null,
                     )
                 )
             ),
             expanded = true,
-            onChooseGroup = { }
+            onChooseGroup = { },
         )
     }
 }

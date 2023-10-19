@@ -18,7 +18,7 @@ import com.istu.schedule.ui.page.schedule.found.FoundSchedulePage
 import com.istu.schedule.ui.page.schedule.mine.MineSchedulePage
 import com.istu.schedule.ui.page.schedule.search.SearchSchedulePage
 import com.istu.schedule.ui.page.settings.SettingsPage
-import com.istu.schedule.ui.page.settings.binding.BindingPage
+import com.istu.schedule.ui.page.settings.schedule.SettingSchedulePage
 import com.istu.schedule.ui.page.settings.developers.DevelopersPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
 import com.istu.schedule.util.NavDestinations
@@ -82,9 +82,9 @@ fun BottomNavGraph(
         }
 
         animatedComposable(
-            route = NavDestinations.BINDING
+            route = NavDestinations.SETTING_SCHEDULE
         ) {
-            BindingPage(bottomNavController)
+            SettingSchedulePage(bottomNavController)
             SetStatusBarIconColor(systemUiController)
         }
 

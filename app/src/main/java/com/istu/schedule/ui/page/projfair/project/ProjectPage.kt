@@ -77,7 +77,7 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
 import java.text.SimpleDateFormat

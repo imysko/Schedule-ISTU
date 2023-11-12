@@ -29,7 +29,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,9 +41,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.domain.model.schedule.Classroom
 import com.istu.schedule.domain.model.schedule.Group
@@ -56,7 +55,7 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 
 @Composable
@@ -64,18 +63,18 @@ fun SearchSchedulePage(
     navController: NavHostController,
     viewModel: SearchScheduleViewModel = hiltViewModel()
 ) {
-    val searchedListsHints = viewModel.searchedListsHints.collectAsStateValue()
-    val isFoundedListsVisible = viewModel.isFoundedListsVisible.collectAsStateValue(initial = false)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
+    val searchedListsHints = viewModel.searchedListsHints.collectAsStateValue()
 
     SearchSchedulePage(
+        uiState = uiState,
         searchedListsHints = searchedListsHints,
-        isFoundedListsVisible = isFoundedListsVisible,
-        networkStatus = networkStatus,
         onValueInputDone = { viewModel.onValueInput(it) },
-        onHintClick = { scheduleType, id ->
-            navController.navigate("${NavDestinations.FOUND_SCHEDULE}/${scheduleType.name}/$id")
+        onHintClick = { scheduleType, id, title ->
+            navController.navigate(
+                "${NavDestinations.FOUND_SCHEDULE}/${scheduleType}/${id}/${title}"
+            )
         },
         onBackClick = { navController.popBackStack() }
     )
@@ -83,11 +82,10 @@ fun SearchSchedulePage(
 
 @Composable
 fun SearchSchedulePage(
+    uiState: SearchScheduleUiState,
     searchedListsHints: SearchedLists,
-    isFoundedListsVisible: Boolean,
-    networkStatus: NetworkStatus,
     onValueInputDone: (String) -> Unit,
-    onHintClick: (ScheduleType, Int) -> Unit,
+    onHintClick: (ScheduleType, Int, String?) -> Unit,
     onBackClick: () -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
@@ -128,10 +126,9 @@ fun SearchSchedulePage(
         content = {
             SearchContent(
                 paddingValues = it,
-                isFoundedListsVisible = isFoundedListsVisible,
+                uiState = uiState,
                 searchedListsHints = searchedListsHints,
-                networkStatus = networkStatus,
-                onHintClick = { scheduleType, id -> onHintClick(scheduleType, id) },
+                onHintClick = { scheduleType, id, title -> onHintClick(scheduleType, id, title) },
                 onBackClick = { onBackClick() }
             )
         }
@@ -141,16 +138,11 @@ fun SearchSchedulePage(
 @Composable
 fun SearchContent(
     paddingValues: PaddingValues = PaddingValues(),
-    isFoundedListsVisible: Boolean,
+    uiState: SearchScheduleUiState,
     searchedListsHints: SearchedLists,
-    networkStatus: NetworkStatus,
-    onHintClick: (ScheduleType, Int) -> Unit,
+    onHintClick: (ScheduleType, Int, String) -> Unit,
     onBackClick: () -> Unit
 ) {
-    val titleGroups = stringResource(id = R.string.groups)
-    val titleTeachers = stringResource(id = R.string.teachers)
-    val titleClassrooms = stringResource(id = R.string.classrooms)
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -183,43 +175,58 @@ fun SearchContent(
             }
         }
         Box {
-            SIAnimatedVisibilityFadeOnly(networkStatus == NetworkStatus.Unavailable) {
-                NoInternetPanel()
-            }
-            SIAnimatedVisibilityFadeOnly(networkStatus == NetworkStatus.Available) {
-                LazyColumn(
-                    modifier = Modifier
-                        .padding(horizontal = 15.dp)
-                        .fillMaxSize(),
-                    contentPadding = PaddingValues(top = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(15.dp)
-                ) {
-                    if (isFoundedListsVisible) {
-                        foundedList(
-                            title = titleGroups,
-                            list = searchedListsHints.groupsList,
-                            onHintClick = { onHintClick(ScheduleType.BY_GROUP, it) }
-                        )
-                        foundedList(
-                            title = titleTeachers,
-                            list = searchedListsHints.teachersList,
-                            onHintClick = { onHintClick(ScheduleType.BY_TEACHER, it) }
-                        )
-                        foundedList(
-                            title = titleClassrooms,
-                            list = searchedListsHints.classroomsList,
-                            onHintClick = { onHintClick(ScheduleType.BY_CLASSROOM, it) }
-                        )
-                    }
-                    item {
-                        Spacer(modifier = Modifier.height(64.dp))
-                        Spacer(
-                            modifier = Modifier.windowInsetsBottomHeight(
-                                WindowInsets.navigationBars
-                            )
-                        )
+            when (uiState) {
+                SearchScheduleUiState.NoInternetConnection -> {
+                    SIAnimatedVisibilityFadeOnly(true) {
+                        NoInternetPanel()
                     }
                 }
+                SearchScheduleUiState.SearchResult -> {
+                    SIAnimatedVisibilityFadeOnly(true) {
+                        val titleGroups = stringResource(id = R.string.groups)
+                        val titleTeachers = stringResource(id = R.string.teachers)
+                        val titleClassrooms = stringResource(id = R.string.classrooms)
+
+                        LazyColumn(
+                            modifier = Modifier
+                                .padding(horizontal = 15.dp)
+                                .fillMaxSize(),
+                            contentPadding = PaddingValues(top = 15.dp),
+                            verticalArrangement = Arrangement.spacedBy(15.dp)
+                        ) {
+                            foundedList(
+                                title = titleGroups,
+                                list = searchedListsHints.groupsList,
+                                onHintClick = { id, title ->
+                                    onHintClick(ScheduleType.BY_GROUP, id, title)
+                                },
+                            )
+                            foundedList(
+                                title = titleTeachers,
+                                list = searchedListsHints.teachersList,
+                                onHintClick = { id, title ->
+                                    onHintClick(ScheduleType.BY_TEACHER, id, title)
+                                },
+                            )
+                            foundedList(
+                                title = titleClassrooms,
+                                list = searchedListsHints.classroomsList,
+                                onHintClick = { id, title ->
+                                    onHintClick(ScheduleType.BY_CLASSROOM, id, title)
+                                },
+                            )
+                            item {
+                                Spacer(modifier = Modifier.height(64.dp))
+                                Spacer(
+                                    modifier = Modifier.windowInsetsBottomHeight(
+                                        WindowInsets.navigationBars
+                                    )
+                                )
+                            }
+                        }
+                    }
+                }
+                SearchScheduleUiState.EmptyBlank -> Unit
             }
         }
     }
@@ -229,58 +236,59 @@ fun SearchContent(
 internal fun LazyListScope.foundedList(
     title: String,
     list: List<Any> = emptyList(),
-    onHintClick: (Int) -> Unit
+    onHintClick: (Int, String) -> Unit,
 ) {
-    list.also {
-        stickyHeader {
+    stickyHeader {
+        Column(
+            verticalArrangement = Arrangement.spacedBy(15.dp),
+        ) {
             Text(
                 modifier = Modifier
                     .background(AppTheme.colorScheme.backgroundSecondary)
                     .fillMaxWidth(),
                 text = title,
-                style = AppTheme.typography.title
+                style = AppTheme.typography.title,
             )
-        }
-        item {
             HorizontalDivider(
                 modifier = Modifier
                     .height(2.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             )
         }
-        items(it) { item ->
+    }
+    if (list.isEmpty()) {
+        item {
+            Text(
+                modifier = Modifier.padding(vertical = 8.dp, horizontal = 20.dp),
+                text = stringResource(id = R.string.not_found),
+                style = AppTheme.typography.title,
+            )
+        }
+    } else {
+        items(list) { item ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(Shape5)
                     .clickable {
                         when (item) {
-                            is Group -> onHintClick(item.groupId)
-                            is Teacher -> onHintClick(item.teacherId)
-                            is Classroom -> onHintClick(item.classroomId)
-                            else -> {}
+                            is Group -> onHintClick(item.groupId, item.name ?: "")
+                            is Teacher -> onHintClick(item.teacherId, item.fullName)
+                            is Classroom -> onHintClick(item.classroomId, item.name)
+                            else -> Unit
                         }
                     }
                     .padding(vertical = 8.dp, horizontal = 20.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = when (item) {
-                        is Group -> item.name!!
+                        is Group -> item.name ?: ""
                         is Teacher -> item.fullName
                         is Classroom -> item.name
                         else -> ""
                     },
-                    style = AppTheme.typography.title
-                )
-            }
-        }
-        if (list.isEmpty()) {
-            item {
-                Text(
-                    modifier = Modifier.padding(vertical = 8.dp, horizontal = 20.dp),
-                    text = stringResource(id = R.string.not_found),
-                    style = AppTheme.typography.title
+                    style = AppTheme.typography.title,
                 )
             }
         }
@@ -292,11 +300,10 @@ internal fun LazyListScope.foundedList(
 fun SearchSchedulePageNotVisibleFoundedListsPreview() {
     AppTheme {
         SearchSchedulePage(
+            uiState = SearchScheduleUiState.EmptyBlank,
             searchedListsHints = SearchedLists(),
-            isFoundedListsVisible = false,
-            networkStatus = NetworkStatus.Available,
             onValueInputDone = { },
-            onHintClick = { _, _ -> },
+            onHintClick = { _, _, _ -> },
             onBackClick = { }
         )
     }
@@ -307,26 +314,10 @@ fun SearchSchedulePageNotVisibleFoundedListsPreview() {
 fun SearchSchedulePageNotFoundPreview() {
     AppTheme {
         SearchSchedulePage(
+            uiState = SearchScheduleUiState.SearchResult,
             searchedListsHints = SearchedLists(),
-            isFoundedListsVisible = true,
-            networkStatus = NetworkStatus.Available,
             onValueInputDone = { },
-            onHintClick = { _, _ -> },
-            onBackClick = { }
-        )
-    }
-}
-
-@Composable
-@Preview(name = "No network connection")
-fun SearchSchedulePageNoNetworkPreview() {
-    AppTheme {
-        SearchSchedulePage(
-            searchedListsHints = SearchedLists(),
-            isFoundedListsVisible = true,
-            networkStatus = NetworkStatus.Unavailable,
-            onValueInputDone = { },
-            onHintClick = { _, _ -> },
+            onHintClick = { _, _, _ -> },
             onBackClick = { }
         )
     }
@@ -337,6 +328,7 @@ fun SearchSchedulePageNoNetworkPreview() {
 fun SearchSchedulePagePreview() {
     AppTheme {
         SearchSchedulePage(
+            uiState = SearchScheduleUiState.SearchResult,
             searchedListsHints = SearchedLists(
                 groupsList = listOf(
                     Group(
@@ -368,10 +360,22 @@ fun SearchSchedulePagePreview() {
                     )
                 )
             ),
-            isFoundedListsVisible = true,
-            networkStatus = NetworkStatus.Available,
             onValueInputDone = { },
-            onHintClick = { _, _ -> },
+            onHintClick = { _, _, _ -> },
+            onBackClick = { }
+        )
+    }
+}
+
+@Composable
+@Preview(name = "No network connection")
+fun SearchSchedulePageNoNetworkPreview() {
+    AppTheme {
+        SearchSchedulePage(
+            uiState = SearchScheduleUiState.NoInternetConnection,
+            searchedListsHints = SearchedLists(),
+            onValueInputDone = { },
+            onHintClick = { _, _, _ -> },
             onBackClick = { }
         )
     }

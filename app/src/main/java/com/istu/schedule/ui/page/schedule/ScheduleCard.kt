@@ -8,7 +8,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Card
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,11 +47,13 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleCard(
     currentDateTime: LocalDateTime,
     lesson: Lesson,
-    lessonDate: String
+    lessonDate: String,
+    onCardClick: () -> Unit,
 ) {
     val currentDate = currentDateTime.toLocalDate()
     val currentTime = currentDateTime.toLocalTime()
@@ -72,7 +76,14 @@ fun ScheduleCard(
     Card(
         modifier = Modifier
             .fillMaxWidth(),
-        shape = Shape10
+        shape = Shape10,
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 2.dp,
+        ),
+        colors = CardDefaults.cardColors(
+            containerColor = AppTheme.colorScheme.surface,
+        ),
+        onClick = { onCardClick() },
     ) {
         Column(
             modifier = Modifier
@@ -359,7 +370,7 @@ fun ScheduleCardPlaceHolder() {
 }
 
 @Composable
-@Preview(showBackground = false, locale = "ru")
+@Preview(name = "Break time", group = "Break time", showBackground = false, locale = "ru")
 fun BreakTimePreview() {
     AppTheme {
         BreakTime(stringBreakTime = "01:30:00")
@@ -367,7 +378,7 @@ fun BreakTimePreview() {
 }
 
 @Composable
-@Preview(name = "Lesson", showBackground = false)
+@Preview(name = "Lesson", group = "Card lesson", showBackground = false)
 fun ScheduleCardPreview(
     @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
 ) {
@@ -383,12 +394,17 @@ fun ScheduleCardPreview(
 
     val currentDateTime = LocalDateTime.of(2023, 3, 31, 0, 0)
     AppTheme {
-        ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+        ScheduleCard(
+            currentDateTime = currentDateTime,
+            lesson = lesson,
+            lessonDate = lesson.schedules.first().date,
+            onCardClick = { },
+        )
     }
 }
 
 @Composable
-@Preview(name = "Current lesson", showBackground = false, locale = "ru")
+@Preview(name = "Current lesson", group = "Card lesson", showBackground = false, locale = "ru")
 fun ScheduleCardCurrentLessonPreview(
     @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
 ) {
@@ -404,12 +420,17 @@ fun ScheduleCardCurrentLessonPreview(
 
     val currentDateTime = LocalDateTime.of(2023, 3, 31, 14, 4)
     AppTheme {
-        ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+        ScheduleCard(
+            currentDateTime = currentDateTime,
+            lesson = lesson,
+            lessonDate = lesson.schedules.first().date,
+            onCardClick = { },
+        )
     }
 }
 
 @Composable
-@Preview(name = "Expanded lesson", showBackground = false, locale = "ru")
+@Preview(name = "Expanded lesson", group = "Card lesson", showBackground = false, locale = "ru")
 fun ScheduleCardExpandedPreview(
     @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
 ) {
@@ -425,6 +446,11 @@ fun ScheduleCardExpandedPreview(
 
     val currentDateTime = LocalDateTime.of(2023, 3, 31, 0, 0)
     AppTheme {
-        ScheduleCard(currentDateTime, lesson, lesson.schedules.first().date)
+        ScheduleCard(
+            currentDateTime = currentDateTime,
+            lesson = lesson,
+            lessonDate = lesson.schedules.first().date,
+            onCardClick = { },
+        )
     }
 }

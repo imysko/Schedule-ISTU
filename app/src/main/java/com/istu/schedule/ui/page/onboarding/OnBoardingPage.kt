@@ -31,7 +31,7 @@ import com.istu.schedule.ui.components.base.button.OutlineButton
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.GrayDisabled
 import com.istu.schedule.util.DataStoreKeys
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.collectAsStateValue
 import com.istu.schedule.util.dataStore
 import com.istu.schedule.util.put

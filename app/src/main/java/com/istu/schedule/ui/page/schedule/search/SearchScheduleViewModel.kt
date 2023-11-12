@@ -9,12 +9,12 @@ import com.istu.schedule.domain.usecase.schedule.GetGroupsListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.Locale
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import java.util.Locale
+import javax.inject.Inject
 
 @HiltViewModel
 class SearchScheduleViewModel @Inject constructor(
@@ -23,8 +23,9 @@ class SearchScheduleViewModel @Inject constructor(
     private val _useCaseClassroomsList: GetClassroomsListUseCase
 ) : BaseViewModel() {
 
-    private val _isFoundedListsVisible = MutableStateFlow(false)
-    val isFoundedListsVisible: StateFlow<Boolean> = _isFoundedListsVisible.asStateFlow()
+    private val _uiState = MutableStateFlow<SearchScheduleUiState>(SearchScheduleUiState.SearchResult)
+    val uiState: StateFlow<SearchScheduleUiState>
+        get() = _uiState.asStateFlow()
 
     private val _searchedLists = MutableStateFlow(SearchedLists()).apply {
         getGroups()
@@ -44,6 +45,8 @@ class SearchScheduleViewModel @Inject constructor(
             }
         }, onError = {
             it as RequestException
+        }, onNetworkUnavailable = {
+            _uiState.tryEmit(SearchScheduleUiState.NoInternetConnection)
         })
     }
 
@@ -56,6 +59,8 @@ class SearchScheduleViewModel @Inject constructor(
             }
         }, onError = {
             it as RequestException
+        }, onNetworkUnavailable = {
+            _uiState.tryEmit(SearchScheduleUiState.NoInternetConnection)
         })
     }
 
@@ -68,11 +73,17 @@ class SearchScheduleViewModel @Inject constructor(
             }
         }, onError = {
             it as RequestException
+        }, onNetworkUnavailable = {
+            _uiState.tryEmit(SearchScheduleUiState.NoInternetConnection)
         })
     }
 
     fun onValueInput(value: String) {
-        _isFoundedListsVisible.value = value.isNotEmpty()
+        if (value.isNotEmpty()) {
+            _uiState.tryEmit(SearchScheduleUiState.SearchResult)
+        } else {
+            _uiState.tryEmit(SearchScheduleUiState.EmptyBlank)
+        }
 
         _searchedListsHints.update {
             it.copy(

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -27,7 +28,8 @@ import java.time.LocalDate
 
 @Composable
 fun ScheduleTopBar(
-    scheduleUiState: ScheduleUiState,
+    subtitle: String?,
+    calendarState: LazyListState,
     weeksList: List<Week>,
     currentDate: LocalDate,
     selectedDate: LocalDate,
@@ -43,13 +45,26 @@ fun ScheduleTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 15.dp),
-            horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text(
-                text = stringResource(id = R.string.title_schedule),
-                style = AppTheme.typography.pageTitle,
-                color = AppTheme.colorScheme.textSecondary
-            )
+            Column(
+                modifier = Modifier.weight(0.7f),
+                verticalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                Text(
+                    text = stringResource(id = R.string.title_schedule),
+                    style = AppTheme.typography.pageTitle,
+                    color = AppTheme.colorScheme.textSecondary
+                )
+
+                subtitle?.let {
+                    Text(
+                        text = it,
+                        style = AppTheme.typography.title,
+                        color = AppTheme.colorScheme.textSecondary
+                    )
+                }
+            }
 
             IconButton(
                 modifier = Modifier.size(32.dp),
@@ -64,20 +79,11 @@ fun ScheduleTopBar(
             )
         }
 
-        if (scheduleUiState.isShowDescription) {
-            Text(
-                modifier = Modifier.padding(horizontal = 15.dp),
-                text = scheduleUiState.description ?: "",
-                style = AppTheme.typography.title,
-                color = AppTheme.colorScheme.textSecondary
-            )
-        }
-
         HorizontalCalendar(
             weeksList = weeksList,
             currentDate = currentDate,
             selectedDate = selectedDate,
-            calendarState = scheduleUiState.calendarState,
+            calendarState = calendarState,
             onSelect = { onDateSelect(it) }
         )
     }
@@ -89,7 +95,8 @@ fun ScheduleTopBarPreview() {
     AppTheme {
         Box(modifier = Modifier.background(AppTheme.colorScheme.primary)) {
             ScheduleTopBar(
-                scheduleUiState = ScheduleUiState(),
+                subtitle = null,
+                calendarState = LazyListState(),
                 weeksList = listOf(
                     Week(LocalDate.of(2023, 6, 12))
                 ),
@@ -108,10 +115,8 @@ fun ScheduleTopBarWithUserDescriptionPreview() {
     AppTheme {
         Box(modifier = Modifier.background(AppTheme.colorScheme.primary)) {
             ScheduleTopBar(
-                scheduleUiState = ScheduleUiState(
-                    isShowDescription = true,
-                    description = "ИСТб-20-3"
-                ),
+                subtitle = "ИСТб-20-3",
+                calendarState = LazyListState(),
                 weeksList = listOf(
                     Week(LocalDate.of(2023, 6, 12))
                 ),

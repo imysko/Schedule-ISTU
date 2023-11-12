@@ -1,47 +1,24 @@
 package com.istu.schedule.ui.page.schedule
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
-import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.data.model.Week
-import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
-import com.istu.schedule.domain.model.schedule.StudyDay
-import com.istu.schedule.ui.components.base.NoInternetPanel
-import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
-import com.istu.schedule.ui.theme.AppTheme
-import java.time.LocalDate
-import java.time.LocalDateTime
-
+/*
+@Deprecated("will be removed")
 @Composable
 fun SchedulePage(
-    scheduleUiState: ScheduleUiState,
-    isLoading: Boolean,
     studyDay: StudyDay?,
     weeksList: List<Week>,
     currentDateTime: LocalDateTime,
     selectedDate: LocalDate,
-    networkStatus: NetworkStatus,
-    isShowBackButton: Boolean = false,
     onSearchButtonClick: () -> Unit,
     onSetupScheduleClick: () -> Unit,
     onDateSelect: (LocalDate) -> Unit,
-    onBackClick: () -> Unit
+    backNavigation: (@Composable () -> Unit)? = null,
 ) {
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             ScheduleTopBar(
-                scheduleUiState = scheduleUiState,
+                subtitle = scheduleUiState.description,
+                calendarState = ,
                 weeksList = weeksList,
                 currentDate = currentDateTime.toLocalDate(),
                 selectedDate = selectedDate,
@@ -52,6 +29,7 @@ fun SchedulePage(
         content = {
             ScheduleContent(
                 paddingValues = it,
+                backNavigation = backNavigation,
                 content = {
                     SIAnimatedVisibilityFadeOnly(!scheduleUiState.isShowSchedule) {
                         UserNotBindedPlaceholder { onSetupScheduleClick() }
@@ -113,8 +91,6 @@ fun SchedulePage(
                         }
                     }
                 },
-                isShowBackButton = isShowBackButton,
-                onBackClick = { onBackClick() }
             )
         }
     )
@@ -125,7 +101,7 @@ fun SchedulePage(
 fun SchedulePageLoadingPreview() {
     AppTheme {
         SchedulePage(
-            scheduleUiState = ScheduleUiState(
+            scheduleUiState = ScheduleOldUiState(
                 isShowDescription = true,
                 description = "ИСТб-20-3"
             ),
@@ -139,7 +115,6 @@ fun SchedulePageLoadingPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { },
             networkStatus = NetworkStatus.Available
         )
     }
@@ -150,7 +125,7 @@ fun SchedulePageLoadingPreview() {
 fun SchedulePageUnknownUserPreview() {
     AppTheme {
         SchedulePage(
-            scheduleUiState = ScheduleUiState(),
+            scheduleUiState = ScheduleOldUiState(),
             isLoading = false,
             studyDay = null,
             weeksList = listOf(Week(LocalDate.of(2023, 5, 29))),
@@ -159,7 +134,6 @@ fun SchedulePageUnknownUserPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { },
             networkStatus = NetworkStatus.Available
         )
     }
@@ -170,7 +144,7 @@ fun SchedulePageUnknownUserPreview() {
 fun SchedulePageNoNetworkPreview() {
     AppTheme {
         SchedulePage(
-            scheduleUiState = ScheduleUiState(),
+            scheduleUiState = ScheduleOldUiState(),
             isLoading = false,
             studyDay = null,
             weeksList = listOf(Week(LocalDate.of(2023, 5, 29))),
@@ -179,7 +153,6 @@ fun SchedulePageNoNetworkPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { },
             networkStatus = NetworkStatus.Unavailable
         )
     }
@@ -190,7 +163,7 @@ fun SchedulePageNoNetworkPreview() {
 fun SchedulePageWeekendPreview() {
     AppTheme {
         SchedulePage(
-            scheduleUiState = ScheduleUiState(
+            scheduleUiState = ScheduleOldUiState(
                 isShowDescription = true,
                 description = "ИСТб-20-3"
             ),
@@ -207,7 +180,6 @@ fun SchedulePageWeekendPreview() {
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { },
             networkStatus = NetworkStatus.Available
         )
     }
@@ -220,7 +192,7 @@ fun SchedulePageScheduleList(
 ) {
     AppTheme {
         SchedulePage(
-            scheduleUiState = ScheduleUiState(
+            scheduleUiState = ScheduleOldUiState(
                 isShowDescription = true,
                 description = "ИСТб-20-3"
             ),
@@ -234,8 +206,9 @@ fun SchedulePageScheduleList(
             onSearchButtonClick = { },
             onDateSelect = { },
             onSetupScheduleClick = { },
-            onBackClick = { },
             networkStatus = NetworkStatus.Available
         )
     }
 }
+
+ */

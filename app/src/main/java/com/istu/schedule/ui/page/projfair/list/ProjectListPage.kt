@@ -62,7 +62,7 @@ import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.OnBottomReached
 import com.istu.schedule.util.collectAsStateValue
 

@@ -4,32 +4,26 @@ import com.istu.schedule.data.model.RequestException
 import com.istu.schedule.data.service.schedule.ScheduleService
 import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
-import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class ScheduleRepositoryImpl @Inject constructor(
     private val scheduleService: ScheduleService
 ) : ScheduleRepository {
 
-    private val cachedList: MutableList<StudyDay> = mutableListOf()
-
     override suspend fun getGroupScheduleOnDay(
         groupId: Int,
         dateString: String
-    ): Result<List<StudyDay>> {
-        val apiResponse = scheduleService.getGroupScheduleOnDay(groupId, dateString).body()
+    ): Result<StudyDay> {
+        val apiResponse = scheduleService.getGroupScheduleOnDay(groupId, dateString)
 
-        if (apiResponse != null) {
-            cachedList.clear()
-
-            cachedList.addAll(apiResponse)
-            return Result.success(cachedList)
+        apiResponse.body()?.let { result ->
+            return Result.success(result.first { it.date == dateString })
         }
 
         return Result.failure(
             RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
+                code = apiResponse.code(),
+                message = apiResponse.message(),
             )
         )
     }
@@ -48,20 +42,17 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getTeacherScheduleOnDay(
         teacherId: Int,
         dateString: String
-    ): Result<List<StudyDay>> {
-        val apiResponse = scheduleService.getTeacherScheduleOnDay(teacherId, dateString).body()
+    ): Result<StudyDay> {
+        val apiResponse = scheduleService.getTeacherScheduleOnDay(teacherId, dateString)
 
-        if (apiResponse != null) {
-            cachedList.clear()
-
-            cachedList.addAll(apiResponse)
-            return Result.success(cachedList)
+        apiResponse.body()?.let { result ->
+            return Result.success(result.first { it.date == dateString })
         }
 
         return Result.failure(
             RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
+                code = apiResponse.code(),
+                message = apiResponse.message(),
             )
         )
     }
@@ -83,20 +74,17 @@ class ScheduleRepositoryImpl @Inject constructor(
     override suspend fun getClassroomScheduleOnDay(
         classroomId: Int,
         dateString: String
-    ): Result<List<StudyDay>> {
-        val apiResponse = scheduleService.getClassroomScheduleOnDay(classroomId, dateString).body()
+    ): Result<StudyDay> {
+        val apiResponse = scheduleService.getClassroomScheduleOnDay(classroomId, dateString)
 
-        if (apiResponse != null) {
-            cachedList.clear()
-
-            cachedList.addAll(apiResponse)
-            return Result.success(cachedList)
+        apiResponse.body()?.let { result ->
+            return Result.success(result.first { it.date == dateString })
         }
 
         return Result.failure(
             RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
+                code = apiResponse.code(),
+                message = apiResponse.message(),
             )
         )
     }

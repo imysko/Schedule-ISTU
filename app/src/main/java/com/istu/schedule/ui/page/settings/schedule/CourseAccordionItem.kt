@@ -1,5 +1,6 @@
 package com.istu.schedule.ui.page.settings.schedule
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
 import com.istu.schedule.domain.model.schedule.Course
 import com.istu.schedule.domain.model.schedule.Group
+import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.TrailingIcon
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
@@ -51,6 +53,7 @@ fun CourseAccordionItem(
         ),
     ) {
         Column(
+            modifier = Modifier.animateContentSize(),
             verticalArrangement = Arrangement.spacedBy(15.dp),
         ) {
             Row(
@@ -80,7 +83,7 @@ fun CourseAccordionItem(
                 }
             }
 
-            if (isExpanded) {
+            SIAnimatedVisibilityFadeOnly(visible = isExpanded) {
                 FlowGroups(
                     groups = course.groups!!,
                     onChooseGroup = { onChooseGroup(it) },

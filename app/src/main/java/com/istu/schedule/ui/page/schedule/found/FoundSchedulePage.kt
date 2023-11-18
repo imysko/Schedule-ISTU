@@ -5,18 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBackIosNew
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
@@ -26,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
+import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.data.model.Week
 import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
 import com.istu.schedule.domain.model.schedule.StudyDay
@@ -46,6 +44,7 @@ import com.istu.schedule.ui.page.schedule.WeekendPlaceholder
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.util.NavDestinations
+import com.istu.schedule.ui.util.VibrationManager
 import com.istu.schedule.util.collectAsStateValue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -66,6 +65,8 @@ fun FoundSchedulePage(
     val currentDate by viewModel.currentDate.collectAsStateWithLifecycle()
     val currentDateTime by viewModel.currentDateTime.collectAsStateWithLifecycle()
     val selectedDate by viewModel.selectedDate.observeAsState(initial = LocalDate.now())
+
+    val localContext = LocalContext.current
 
     val startOfListReached by remember {
         derivedStateOf {
@@ -107,11 +108,14 @@ fun FoundSchedulePage(
         onDateSelect = { viewModel.selectDate(it) },
         onSearchButtonClick = { navController.navigate(NavDestinations.SEARCH_SCHEDULE) },
         onBackClick = { navController.popBackStack() },
-        spacer = {
-            Spacer(
-                modifier = Modifier.windowInsetsBottomHeight(
-                    WindowInsets.navigationBars
-                )
+        onDropdownItemClick = { scheduleType, id, description ->
+            navController.navigate(
+                "${NavDestinations.FOUND_SCHEDULE}/${scheduleType}/${id}/${description}"
+            )
+        },
+        onLongPressVibrate = { viewModel.vibrationManager.vibrate(
+                context = localContext,
+                effect = VibrationManager.LongPress
             )
         },
     )
@@ -130,7 +134,8 @@ fun FoundSchedulePage(
     onDateSelect: (LocalDate) -> Unit,
     onSearchButtonClick: () -> Unit,
     onBackClick: () -> Unit,
-    spacer: (@Composable () -> Unit)? = null,
+    onDropdownItemClick: (ScheduleType, Int, String) -> Unit,
+    onLongPressVibrate: (() -> Unit)? = null,
 ) {
     ScheduleContent(
         subtitle = title,
@@ -174,16 +179,19 @@ fun FoundSchedulePage(
                 label = "",
             ) { targetState ->
                 when (targetState) {
-                    FoundScheduleUiState.NoInternetConnection -> NoInternetPanel(spacer = spacer)
+                    FoundScheduleUiState.NoInternetConnection -> NoInternetPanel()
                     FoundScheduleUiState.OnLoading -> {
-                        ScheduleListIsLoading(spacer = spacer)
+                        ScheduleListIsLoading()
                     }
                     FoundScheduleUiState.Schedule -> {
                         studyDay?.let {
                             ScheduleList(
                                 currentDateTime = currentDateTime,
                                 studyDay = studyDay,
-                                spacer = spacer,
+                                onDropdownItemClick = { scheduleType, id, title ->
+                                    onDropdownItemClick(scheduleType, id, title)
+                                },
+                                onLongPressVibrate = onLongPressVibrate,
                             )
                         }
                     }
@@ -191,7 +199,6 @@ fun FoundSchedulePage(
                         WeekendPlaceholder(
                             currentDate = currentDate,
                             selectedDate = selectedDate,
-                            spacer = spacer,
                         )
                     }
                     is FoundScheduleUiState.Error -> Unit // TODO: processing error state
@@ -220,6 +227,7 @@ fun IsLoadingFoundSchedulePreview() {
             onDateSelect = { },
             onSearchButtonClick = { },
             onBackClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }
@@ -247,6 +255,7 @@ fun ScheduleListFoundSchedulePreview(
             onDateSelect = { },
             onSearchButtonClick = { },
             onBackClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }
@@ -270,6 +279,7 @@ fun NoInternetConnectionFoundSchedulePreview() {
             onDateSelect = { },
             onSearchButtonClick = { },
             onBackClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }
@@ -295,6 +305,7 @@ fun WeekendFoundSchedulePreview(
             onDateSelect = { },
             onSearchButtonClick = { },
             onBackClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }

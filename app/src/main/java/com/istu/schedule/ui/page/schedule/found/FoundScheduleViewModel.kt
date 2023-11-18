@@ -7,6 +7,7 @@ import com.istu.schedule.data.model.RequestException
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
 import com.istu.schedule.ui.util.NavArguments
+import com.istu.schedule.ui.util.VibrationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,6 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FoundScheduleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
+    val vibrationManager: VibrationManager,
     private val useCaseScheduleOnDay: GetScheduleOnDayUseCase,
 ) : ScheduleViewModel() {
 

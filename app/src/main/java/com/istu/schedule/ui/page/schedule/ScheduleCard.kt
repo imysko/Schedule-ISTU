@@ -1,26 +1,41 @@
 package com.istu.schedule.ui.page.schedule
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
@@ -29,6 +44,7 @@ import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.LessonStatus
 import com.istu.schedule.data.enums.LessonType
+import com.istu.schedule.data.enums.ScheduleType
 import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.LessonTime
 import com.istu.schedule.domain.model.schedule.SampleScheduleProvider
@@ -47,13 +63,15 @@ import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ScheduleCard(
     currentDateTime: LocalDateTime,
     lesson: Lesson,
     lessonDate: String,
-    onCardClick: () -> Unit,
+    pressOffset: DpOffset = DpOffset.Zero,
+    onDropdownItemClick: (ScheduleType, Int, String) -> Unit,
+    onLongPress: ((DpOffset) -> Unit)? = null,
 ) {
     val currentDate = currentDateTime.toLocalDate()
     val currentTime = currentDateTime.toLocalTime()
@@ -73,9 +91,18 @@ fun ScheduleCard(
         else -> LessonStatus.UNKNOWN
     }
 
+    var itemHeight by remember { mutableStateOf(0.dp) }
+    var isDropdownMenuExpanded by rememberSaveable { mutableStateOf(false) }
+
+    val density = LocalDensity.current
+    val configuration = LocalConfiguration.current
+
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .onSizeChanged {
+                itemHeight = with(density) { it.height.toDp() }
+            },
         shape = Shape10,
         elevation = CardDefaults.cardElevation(
             defaultElevation = 2.dp,
@@ -83,10 +110,19 @@ fun ScheduleCard(
         colors = CardDefaults.cardColors(
             containerColor = AppTheme.colorScheme.surface,
         ),
-        onClick = { onCardClick() },
     ) {
         Column(
             modifier = Modifier
+                .fillMaxWidth()
+                .clip(Shape10)
+                .pointerInput(true) {
+                    detectTapGestures(
+                        onLongPress = {
+                            isDropdownMenuExpanded = true
+                            onLongPress?.invoke(DpOffset(it.x.toDp(), it.y.toDp()))
+                        },
+                    )
+                }
                 .padding(vertical = 15.dp, horizontal = 10.dp),
             verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
@@ -292,6 +328,59 @@ fun ScheduleCard(
                 }
             }
         }
+
+        DropdownMenu(
+            modifier = Modifier
+                .heightIn(max = configuration.screenHeightDp.dp / 2)
+                .background(AppTheme.colorScheme.surface),
+            expanded = isDropdownMenuExpanded,
+            onDismissRequest = { isDropdownMenuExpanded = false },
+            offset = pressOffset.copy(
+                y = pressOffset.y - itemHeight
+            ),
+        ) {
+            lesson.schedules
+                .flatMap { it.groups ?: emptyList() }
+                .sortedBy { it.name }
+                .forEach { group ->
+                    DropdownMenuItem(
+                        text = { Text(text = group.name ?: "") },
+                        onClick = {
+                            onDropdownItemClick(ScheduleType.BY_GROUP, group.groupId, group.name ?: "")
+                        },
+                    )
+                }
+
+            HorizontalDivider(modifier = Modifier.fillMaxWidth())
+
+            lesson.schedules
+                .flatMap { it.teachers ?: emptyList() }
+                .sortedBy { it.shortname }
+                .forEach { teacher ->
+                    DropdownMenuItem(
+                        text = { Text(text = teacher.shortname) },
+                        onClick = {
+                            onDropdownItemClick(ScheduleType.BY_TEACHER, teacher.teacherId, teacher.fullName)
+                        },
+                    )
+                }
+
+            HorizontalDivider(modifier = Modifier.fillMaxWidth())
+
+            lesson.schedules
+                .map { it.classroom }
+                .sortedBy { it?.name }
+                .forEach { classroom ->
+                    classroom?.let {
+                        DropdownMenuItem(
+                            text = { Text(text = classroom.name) },
+                            onClick = {
+                                onDropdownItemClick(ScheduleType.BY_CLASSROOM, classroom.classroomId, classroom.name)
+                            },
+                        )
+                    }
+                }
+        }
     }
 }
 
@@ -398,7 +487,7 @@ fun ScheduleCardPreview(
             currentDateTime = currentDateTime,
             lesson = lesson,
             lessonDate = lesson.schedules.first().date,
-            onCardClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }
@@ -424,7 +513,7 @@ fun ScheduleCardCurrentLessonPreview(
             currentDateTime = currentDateTime,
             lesson = lesson,
             lessonDate = lesson.schedules.first().date,
-            onCardClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }
@@ -450,7 +539,7 @@ fun ScheduleCardExpandedPreview(
             currentDateTime = currentDateTime,
             lesson = lesson,
             lessonDate = lesson.schedules.first().date,
-            onCardClick = { },
+            onDropdownItemClick = { _, _, _ -> },
         )
     }
 }

@@ -76,7 +76,7 @@ fun SearchSchedulePage(
                 "${NavDestinations.FOUND_SCHEDULE}/${scheduleType}/${id}/${title}"
             )
         },
-        onBackClick = { navController.popBackStack() }
+        onBackClick = { navController.popBackStack() },
     )
 }
 
@@ -86,7 +86,7 @@ fun SearchSchedulePage(
     searchedListsHints: SearchedLists,
     onValueInputDone: (String) -> Unit,
     onHintClick: (ScheduleType, Int, String?) -> Unit,
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
 ) {
     val focusRequester = remember { FocusRequester() }
     var value by remember { mutableStateOf("") }

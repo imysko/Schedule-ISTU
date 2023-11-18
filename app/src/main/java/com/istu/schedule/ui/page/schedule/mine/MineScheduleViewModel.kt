@@ -10,6 +10,7 @@ import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
+import com.istu.schedule.ui.util.VibrationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,8 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MineScheduleViewModel @Inject constructor(
+    val vibrationManager: VibrationManager,
     private val useCaseScheduleOnDay: GetScheduleOnDayUseCase,
-    private val _user: User
+    private val _user: User,
 ) : ScheduleViewModel() {
 
     private val _uiState = MutableStateFlow<MineScheduleUiState>(MineScheduleUiState.UnknownUser)
@@ -35,7 +37,7 @@ class MineScheduleViewModel @Inject constructor(
 
     fun updateUserInformation() {
         if (_user.userType != UserStatus.UNKNOWN) {
-            _uiState.tryEmit(MineScheduleUiState.OnLoading(description = _user.userDescription))
+            _uiState.tryEmit(MineScheduleUiState.Schedule(description = _user.userDescription))
         } else {
             _uiState.tryEmit(MineScheduleUiState.UnknownUser)
         }

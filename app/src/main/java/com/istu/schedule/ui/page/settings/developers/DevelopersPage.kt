@@ -64,7 +64,7 @@ fun DevelopersPage(navController: NavController) {
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = it.calculateTopPadding())
+                    .padding(it)
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary),
                 verticalArrangement = Arrangement.spacedBy(17.dp),

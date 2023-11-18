@@ -42,7 +42,7 @@ fun SettingsPage(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = it.calculateTopPadding())
+                    .padding(it)
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary)
             ) {

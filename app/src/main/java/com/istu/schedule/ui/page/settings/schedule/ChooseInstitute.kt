@@ -66,7 +66,7 @@ fun ChooseInstitute(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it)
+                    .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary),
             ) {

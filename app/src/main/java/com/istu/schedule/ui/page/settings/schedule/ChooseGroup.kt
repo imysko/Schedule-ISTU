@@ -5,9 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Scaffold
@@ -50,7 +53,7 @@ fun ChooseGroup(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it)
+                    .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary)
                     .padding(horizontal = 15.dp),
@@ -75,6 +78,11 @@ fun ChooseGroup(
                 }
                 item {
                     Spacer(modifier = Modifier.height(64.dp))
+                    Spacer(
+                        modifier = Modifier.windowInsetsBottomHeight(
+                            WindowInsets.navigationBars
+                        )
+                    )
                 }
             }
         },

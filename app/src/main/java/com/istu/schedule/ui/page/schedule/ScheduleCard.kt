@@ -117,7 +117,7 @@ fun ScheduleCard(
                 .clip(Shape10)
                 .pointerInput(true) {
                     detectTapGestures(
-                        onLongPress = {
+                        onLongPress = {// TODO: make interaction by long press
                             isDropdownMenuExpanded = true
                             onLongPress?.invoke(DpOffset(it.x.toDp(), it.y.toDp()))
                         },

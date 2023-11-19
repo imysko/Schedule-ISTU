@@ -9,8 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.data.exception.NoConnectivityException
 import com.istu.schedule.data.model.RequestException
-import java.net.HttpURLConnection
 import kotlinx.coroutines.launch
+import java.net.HttpURLConnection
+import java.net.SocketTimeoutException
 
 open class BaseViewModel : LifecycleObserver, ViewModel() {
 
@@ -35,6 +36,7 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
         onSuccess: ((T) -> Unit)? = null,
         onError: ((Throwable) -> Unit)? = null,
         onNetworkUnavailable: (suspend () -> Unit)? = null,
+        onTimeout: (() -> Unit)? = null,
         handleLoading: Boolean = true,
         handleError: Boolean = true
     ) = viewModelScope.launch {
@@ -60,6 +62,8 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
         } catch (ex: NoConnectivityException) {
             _networkStatus.postValue(NetworkStatus.Unavailable)
             onNetworkUnavailable?.invoke()
+        } catch (ex: SocketTimeoutException) {
+            onTimeout?.invoke()
         }
 
         if (handleLoading) {

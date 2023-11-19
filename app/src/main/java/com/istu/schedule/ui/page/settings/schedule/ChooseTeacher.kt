@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -79,7 +80,7 @@ fun ChooseTeacher(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(it)
+                    .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary),
             ) {
@@ -179,59 +180,58 @@ fun TeachersList(
 ) {
     val groupedTeachersList = teachersList.groupBy { it.fullName[0].toString() }
 
-    AppTheme {
-        if (teachersList.any()) {
-            LazyColumn(
-                modifier = Modifier.padding(start = 25.dp, end = 15.dp),
-            ) {
-                groupedTeachersList.forEach { (letter, teachers) ->
-                    stickyHeader {
+    if (teachersList.any()) {
+        LazyColumn(
+            modifier = Modifier.padding(start = 25.dp, end = 15.dp),
+            contentPadding = PaddingValues(bottom = 30.dp),
+        ) {
+            groupedTeachersList.forEach { (letter, teachers) ->
+                stickyHeader {
+                    Text(
+                        modifier = Modifier.padding(bottom = 7.dp),
+                        text = letter,
+                        style = AppTheme.typography.title.copy(
+                            fontWeight = FontWeight.SemiBold,
+                        ),
+                    )
+                }
+
+                items(teachers) { teacher ->
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(Shape5)
+                            .clickable { onChooseTeacher(teacher) }
+                            .padding(vertical = 16.dp, horizontal = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
                         Text(
-                            modifier = Modifier.padding(bottom = 7.dp),
-                            text = letter,
-                            style = AppTheme.typography.title.copy(
+                            text = teacher.fullName,
+                            style = AppTheme.typography.subtitle.copy(
                                 fontWeight = FontWeight.SemiBold,
                             ),
                         )
                     }
-
-                    items(teachers) { teacher ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clip(Shape5)
-                                .clickable { onChooseTeacher(teacher) }
-                                .padding(vertical = 16.dp, horizontal = 20.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            Text(
-                                text = teacher.fullName,
-                                style = AppTheme.typography.subtitle.copy(
-                                    fontWeight = FontWeight.SemiBold,
-                                ),
-                            )
-                        }
-                    }
-                }
-
-                item {
-                    Spacer(modifier = Modifier.height(64.dp))
-                    Spacer(
-                        modifier = Modifier.windowInsetsBottomHeight(
-                            WindowInsets.navigationBars
-                        ),
-                    )
                 }
             }
-        } else {
-            Text(
-                modifier = Modifier.padding(start = 25.dp, end = 15.dp),
-                text = stringResource(id = R.string.not_found),
-                style = AppTheme.typography.subtitle.copy(
-                    fontWeight = FontWeight.SemiBold,
-                ),
-            )
+
+            item {
+                Spacer(modifier = Modifier.height(64.dp))
+                Spacer(
+                    modifier = Modifier.windowInsetsBottomHeight(
+                        WindowInsets.navigationBars
+                    ),
+                )
+            }
         }
+    } else {
+        Text(
+            modifier = Modifier.padding(start = 25.dp, end = 15.dp),
+            text = stringResource(id = R.string.not_found),
+            style = AppTheme.typography.subtitle.copy(
+                fontWeight = FontWeight.SemiBold,
+            ),
+        )
     }
 }
 

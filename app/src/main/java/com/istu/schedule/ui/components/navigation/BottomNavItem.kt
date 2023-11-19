@@ -7,7 +7,7 @@ import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.Book
 import com.istu.schedule.ui.icons.Calendar
 import com.istu.schedule.ui.icons.Settings
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 
 sealed class BottomNavItem(
     val route: String,

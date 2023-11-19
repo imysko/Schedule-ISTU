@@ -11,7 +11,7 @@ data class StudyDay(
 class SampleStudyDayProvider : PreviewParameterProvider<StudyDay> {
     override val values = sequenceOf(
         StudyDay(
-            date = "2023-06-03",
+            date = "2023-11-08",
             lessons = listOf(
                 Lesson(
                     time = LessonTime(
@@ -79,7 +79,7 @@ class SampleStudyDayProvider : PreviewParameterProvider<StudyDay> {
                             subgroup = 0,
                             lessonType = LessonType.LECTURE,
                             scheduleType = "",
-                            date = "2023-06-03"
+                            date = "2023-11-08",
                         )
                     )
                 ),
@@ -149,7 +149,7 @@ class SampleStudyDayProvider : PreviewParameterProvider<StudyDay> {
                             subgroup = 0,
                             lessonType = LessonType.LECTURE,
                             scheduleType = "",
-                            date = "2023-06-03"
+                            date = "2023-11-08",
                         )
                     )
                 ),
@@ -219,7 +219,7 @@ class SampleStudyDayProvider : PreviewParameterProvider<StudyDay> {
                             subgroup = 0,
                             lessonType = LessonType.LECTURE,
                             scheduleType = "",
-                            date = "2023-06-03"
+                            date = "2023-11-08",
                         )
                     )
                 )

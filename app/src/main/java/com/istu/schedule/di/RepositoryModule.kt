@@ -30,7 +30,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    // Projfair
+    /** Repositories for "Projfair" */
     @Binds
     @Singleton
     abstract fun bindProjectsRepository(
@@ -61,7 +61,7 @@ abstract class RepositoryModule {
         filtersDataRepository: FiltersDataRepositoryImpl
     ): FiltersDataRepository
 
-    // Schedule
+    /** Repositories for schedule */
     @Binds
     @Singleton
     abstract fun bindInstitutesRepository(

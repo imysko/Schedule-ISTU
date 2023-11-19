@@ -71,7 +71,7 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import kotlinx.coroutines.launch
 
 @Composable
@@ -154,7 +154,7 @@ fun AuthorizedPage(
     ) {
         Box(
             modifier = Modifier
-                .padding(top = it.calculateTopPadding())
+                .padding(it)
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
         ) {

@@ -3,11 +3,13 @@ package com.istu.schedule.ui.components.base
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +24,7 @@ import com.istu.schedule.R
 import com.istu.schedule.ui.icons.NoConnection
 import com.istu.schedule.ui.theme.AppTheme
 
+// TODO: make reload button
 @Composable
 fun NoInternetPanel() {
     Column(
@@ -46,6 +49,7 @@ fun NoInternetPanel() {
             color = AppTheme.colorScheme.secondary,
             textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.height(64.dp))
     }
 }
 

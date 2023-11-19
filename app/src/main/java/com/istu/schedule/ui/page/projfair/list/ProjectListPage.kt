@@ -62,7 +62,7 @@ import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.OnBottomReached
 import com.istu.schedule.util.collectAsStateValue
 
@@ -135,7 +135,7 @@ fun ProjectsListPage(
         Column(
             modifier = Modifier
                 .fillMaxHeight()
-                .padding(top = it.calculateTopPadding())
+                .padding(it)
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
         ) {
@@ -215,6 +215,7 @@ private fun ProjectList(
     }
 
     LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.spacedBy(15.dp),
         state = listState,
         contentPadding = PaddingValues(start = 15.dp, end = 15.dp, bottom = 15.dp)

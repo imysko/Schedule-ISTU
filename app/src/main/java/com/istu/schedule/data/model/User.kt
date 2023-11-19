@@ -67,17 +67,13 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
             }
         }
 
-    var userType: UserStatus?
+    var userType: UserStatus
         get() {
-            return _sharedPreference.getString(USER_TYPE, null).toUserStatusEnum()
+            return _sharedPreference.getString(USER_TYPE, null).toUserStatusEnum() ?: UserStatus.UNKNOWN
         }
         set(value) {
             with(_sharedPreference.edit()) {
-                if (value == null) {
-                    remove(USER_TYPE)
-                } else {
-                    putString(USER_TYPE, value.toString())
-                }
+                putString(USER_TYPE, value.toString())
                 apply()
             }
         }
@@ -108,17 +104,13 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
             }
         }
 
-    var userDescription: String?
+    var userDescription: String
         get() {
-            return _sharedPreference.getString(USER_DESCRIPTION, "")
+            return _sharedPreference.getString(USER_DESCRIPTION, null) ?: ""
         }
         set(value) {
             with(_sharedPreference.edit()) {
-                if (value == null) {
-                    remove(USER_DESCRIPTION)
-                } else {
-                    putString(USER_DESCRIPTION, value)
-                }
+                putString(USER_DESCRIPTION, value)
                 apply()
             }
         }

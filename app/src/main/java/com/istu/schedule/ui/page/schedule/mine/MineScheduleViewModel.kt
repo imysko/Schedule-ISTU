@@ -10,76 +10,102 @@ import com.istu.schedule.domain.model.schedule.Lesson
 import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
+import com.istu.schedule.ui.util.VibrationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import okhttp3.internal.http.HTTP_NOT_FOUND
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
 class MineScheduleViewModel @Inject constructor(
-    useCaseScheduleOnDay: GetScheduleOnDayUseCase,
-    private val _user: User
-) : ScheduleViewModel(useCaseScheduleOnDay) {
+    val vibrationManager: VibrationManager,
+    private val useCaseScheduleOnDay: GetScheduleOnDayUseCase,
+    private val _user: User,
+) : ScheduleViewModel() {
+
+    private val _uiState = MutableStateFlow<MineScheduleUiState>(MineScheduleUiState.UnknownUser)
+    val uiState: StateFlow<MineScheduleUiState>
+        get() = _uiState.asStateFlow()
 
     init {
         updateUserInformation()
+        getMineSchedule()
     }
 
     fun updateUserInformation() {
         if (_user.userType != UserStatus.UNKNOWN) {
-            _scheduleUiState.update {
-                it.copy(
-                    isShowSchedule = true,
-                    isShowDescription = true,
-                    description = _user.userDescription
-                )
-            }
+            _uiState.tryEmit(MineScheduleUiState.Schedule(description = _user.userDescription))
         } else {
-            _scheduleUiState.update {
-                it.copy(isShowSchedule = false)
-            }
+            _uiState.tryEmit(MineScheduleUiState.UnknownUser)
         }
     }
 
-    fun getMineSchedule() {
-        when (_user.userType) {
-            UserStatus.STUDENT -> {
-                getSchedule(ScheduleType.BY_GROUP, _user.userId!!)
+    override fun selectDate(selectedDate: LocalDate) {
+        super.selectDate(selectedDate)
+        getMineSchedule()
+    }
+
+    private fun getMineSchedule() {
+        _user.userId?.let { userId ->
+            when (_user.userType) {
+                UserStatus.STUDENT -> {
+                    getSchedule(ScheduleType.BY_GROUP, userId)
+                }
+                UserStatus.TEACHER -> {
+                    getSchedule(ScheduleType.BY_TEACHER, userId)
+                }
+                else -> Unit
             }
-            UserStatus.TEACHER -> {
-                getSchedule(ScheduleType.BY_TEACHER, _user.userId!!)
-            }
-            else -> Unit
         }
     }
 
     override fun getSchedule(scheduleType: ScheduleType, id: Int) {
+        _uiState.tryEmit(MineScheduleUiState.OnLoading(_user.userDescription))
+
         call({
-            _useCaseScheduleOnDay.getScheduleOnDay(
+            useCaseScheduleOnDay(
                 scheduleType = scheduleType,
                 id = id,
-                dateString = _selectedDate.value.toString()
+                dateString = selectedDate.value.toString()
             )
-        }, onSuccess = { list ->
+        }, onSuccess = { studyDay ->
             try {
-                val received = list.first { it.date == _selectedDate.value.toString() }
-
-                when (_user.userSubgroup) {
-                    Subgroup.FIRST, Subgroup.SECOND -> {
-                        _schedule.postValue(filterSchedule(received, _user.userSubgroup))
-                    }
-                    Subgroup.ALL -> _schedule.postValue(received)
+                val received = when (_user.userSubgroup) {
+                    Subgroup.FIRST, Subgroup.SECOND -> filterSchedule(studyDay, _user.userSubgroup)
+                    Subgroup.ALL -> studyDay
                 }
+
+                if (received.lessons.isEmpty()) {
+                    _uiState.tryEmit(MineScheduleUiState.Weekend(_user.userDescription))
+                } else {
+                    _uiState.tryEmit(MineScheduleUiState.Schedule(_user.userDescription))
+                }
+
+                schedule = received
             } catch (ex: Exception) {
                 Log.e("getSchedule", ex.toString())
-            }
-        }, onError = {
-            it as RequestException
-            _schedule.postValue(
-                StudyDay(
-                    date = _selectedDate.value.toString(),
-                    lessons = emptyList()
+
+                _uiState.tryEmit(MineScheduleUiState.Error(
+                        description = _user.userDescription,
+                        message = ex.message ?: "",
+                    )
                 )
-            )
+            }
+        }, onError = { it as RequestException
+            if (it.code == HTTP_NOT_FOUND) {
+                _uiState.tryEmit(MineScheduleUiState.Weekend(_user.userDescription))
+            } else {
+                _uiState.tryEmit(MineScheduleUiState.Error(
+                    description = _user.userDescription,
+                    message = it.message ?: "",
+                    )
+                )
+            }
+        }, onNetworkUnavailable = {
+            _uiState.tryEmit(MineScheduleUiState.NoInternetConnection(_user.userDescription))
         })
     }
 

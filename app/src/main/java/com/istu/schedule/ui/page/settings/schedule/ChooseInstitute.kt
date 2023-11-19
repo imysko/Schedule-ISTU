@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -65,7 +66,7 @@ fun ChooseInstitute(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = it.calculateTopPadding())
+                    .padding(it)
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary),
             ) {
@@ -74,77 +75,74 @@ fun ChooseInstitute(
                         LoadingPanel(isLoading)
                     }
                     SIAnimatedVisibilityFadeOnly(!isLoading) {
-                        Column(
-                            modifier = Modifier
-                                .padding(top = 19.dp, start = 15.dp, end = 15.dp),
-                            verticalArrangement = Arrangement.spacedBy(22.dp),
+                        LazyColumn(
+                            modifier = Modifier.padding(horizontal = 15.dp),
+                            verticalArrangement = Arrangement.spacedBy(10.dp),
+                            contentPadding = PaddingValues(top = 20.dp, bottom = 30.dp)
                         ) {
-                            Text(
-                                text = stringResource(id = R.string.choose_institute),
-                                style = AppTheme.typography.bodyMedium.copy(
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = AppTheme.colorScheme.secondary,
-                                ),
-                            )
-
-                            LazyColumn(
-                                modifier = Modifier.padding(),
-                                verticalArrangement = Arrangement.spacedBy(10.dp),
-                            ) {
-                                institutesList.forEach {
-                                    item {
+                            item {
+                                Text(
+                                    modifier = Modifier.padding(bottom = 10.dp),
+                                    text = stringResource(id = R.string.choose_institute),
+                                    style = AppTheme.typography.bodyMedium.copy(
+                                        fontWeight = FontWeight.SemiBold,
+                                        color = AppTheme.colorScheme.secondary,
+                                    ),
+                                )
+                            }
+                            institutesList.forEach {
+                                item {
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .clip(Shape10)
+                                            .clickable { onChooseInstitute(it) },
+                                    ) {
                                         Row(
                                             modifier = Modifier
                                                 .fillMaxWidth()
-                                                .clip(Shape10)
-                                                .clickable { onChooseInstitute(it) },
+                                                .padding(
+                                                    start = 10.dp,
+                                                    top = 10.dp,
+                                                    bottom = 10.dp,
+                                                ),
+                                            horizontalArrangement = Arrangement.SpaceBetween,
+                                            verticalAlignment = Alignment.CenterVertically,
                                         ) {
-                                            Row(
-                                                modifier = Modifier
-                                                    .fillMaxWidth()
-                                                    .padding(
-                                                        start = 10.dp,
-                                                        top = 10.dp,
-                                                        bottom = 10.dp,
-                                                    ),
-                                                horizontalArrangement = Arrangement.SpaceBetween,
-                                                verticalAlignment = Alignment.CenterVertically,
-                                            ) {
-                                                Text(
-                                                    modifier = Modifier.weight(0.7f),
-                                                    text = it.instituteTitle!!,
-                                                    style = AppTheme.typography.bodyMedium.copy(
-                                                        fontWeight = FontWeight.SemiBold,
-                                                    ),
-                                                )
+                                            Text(
+                                                modifier = Modifier.weight(0.7f),
+                                                text = it.instituteTitle!!,
+                                                style = AppTheme.typography.bodyMedium.copy(
+                                                    fontWeight = FontWeight.SemiBold,
+                                                ),
+                                            )
 
-                                                Icon(
-                                                    modifier = Modifier.size(17.dp),
-                                                    imageVector = Icons.Forward,
-                                                    contentDescription = stringResource(
-                                                        id = R.string.forward,
-                                                    ),
-                                                )
-                                            }
+                                            Icon(
+                                                modifier = Modifier.size(17.dp),
+                                                imageVector = Icons.Forward,
+                                                contentDescription = stringResource(
+                                                    id = R.string.forward,
+                                                ),
+                                            )
                                         }
-
-                                        HorizontalDivider(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(top = 10.dp)
-                                                .height(2.dp),
-                                            color = HalfGray,
-                                        )
                                     }
-                                }
-                                item {
-                                    Spacer(modifier = Modifier.height(64.dp))
-                                    Spacer(
-                                        modifier = Modifier.windowInsetsBottomHeight(
-                                            WindowInsets.navigationBars
-                                        ),
+
+                                    HorizontalDivider(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 10.dp)
+                                            .height(2.dp),
+                                        color = HalfGray,
                                     )
                                 }
+                            }
+                            item {
+                                Spacer(modifier = Modifier.height(64.dp))
+                                Spacer(
+                                    modifier = Modifier.windowInsetsBottomHeight(
+                                        WindowInsets.navigationBars
+                                    ),
+                                )
                             }
                         }
                     }

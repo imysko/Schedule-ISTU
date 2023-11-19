@@ -2,121 +2,121 @@ package com.istu.schedule.ui.page.schedule
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBackIosNew
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
+import com.istu.schedule.data.enums.ScheduleType
+import com.istu.schedule.data.model.Week
 import com.istu.schedule.domain.model.schedule.StudyDay
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.theme.AppTheme
-import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
 import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Composable
 fun ScheduleContent(
-    paddingValues: PaddingValues = PaddingValues(),
-    content: @Composable () -> Unit = { },
-    isShowBackButton: Boolean = false,
-    onBackClick: () -> Unit
+    subtitle: String?,
+    calendarState: LazyListState,
+    weeksList: List<Week>,
+    currentDate: LocalDate,
+    selectedDate: LocalDate,
+    onSearchButtonClick: () -> Unit,
+    onDateSelect: (LocalDate) -> Unit,
+    backNavigationButton: (@Composable () -> Unit)? = null,
+    content: @Composable () -> Unit,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(top = paddingValues.calculateTopPadding())
-            .clip(ShapeTop15)
-            .background(AppTheme.colorScheme.backgroundSecondary),
-        verticalArrangement = Arrangement.Center
-    ) {
-        if (isShowBackButton) {
-            Box(
-                modifier = Modifier.padding(top = 13.dp, start = 15.dp, end = 15.dp)
+    Scaffold(
+        containerColor = AppTheme.colorScheme.backgroundPrimary,
+        topBar = {
+            ScheduleTopBar(
+                subtitle = subtitle,
+                calendarState = calendarState,
+                weeksList = weeksList,
+                currentDate = currentDate,
+                selectedDate = selectedDate,
+                onSearchButtonClick = onSearchButtonClick,
+                onDateSelect = onDateSelect,
+            )
+        },
+        content = {
+            Column(
+                modifier = Modifier
+                    .padding(it)
+                    .fillMaxSize()
+                    .clip(ShapeTop15)
+                    .background(AppTheme.colorScheme.backgroundSecondary),
             ) {
-                Row(
-                    modifier = Modifier
-                        .clip(Shape10)
-                        .clickable(onClick = { onBackClick() })
-                        .padding(5.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(9.dp)
-                ) {
-                    Icon(
-                        modifier = Modifier.size(18.dp),
-                        imageVector = Icons.Rounded.ArrowBackIosNew,
-                        contentDescription = stringResource(R.string.back_to_schedule_search),
-                        tint = AppTheme.colorScheme.secondary
-                    )
-                    Text(
-                        text = stringResource(R.string.back_to_schedule_search),
-                        style = AppTheme.typography.bodyMedium.copy(
-                            color = AppTheme.colorScheme.secondary,
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    )
-                }
+                backNavigationButton?.invoke()
+                content()
             }
         }
-
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            content()
-        }
-    }
+    )
 }
 
 @Composable
 fun ScheduleList(
     currentDateTime: LocalDateTime,
     studyDay: StudyDay,
-    spacer: @Composable () -> Unit = { }
+    onDropdownItemClick: (ScheduleType, Int, String) -> Unit,
+    onLongPressVibrate: (() -> Unit)? = null,
 ) {
+    val listState = rememberLazyListState()
+    var pressOffset by remember { mutableStateOf(DpOffset.Zero) }
+
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 15.dp),
-        contentPadding = PaddingValues(vertical = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+        state = listState,
+        contentPadding = PaddingValues(top = 15.dp, bottom = 30.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
     ) {
-        for (i in studyDay.lessons.indices) {
-            studyDay.lessons[i].also { lesson ->
+        studyDay.lessons.indices.forEach { index ->
+            studyDay.lessons[index].also { lesson ->
                 item {
                     ScheduleCard(
                         currentDateTime = currentDateTime,
                         lesson = lesson,
-                        lessonDate = studyDay.date
+                        lessonDate = studyDay.date,
+                        pressOffset = pressOffset,
+                        onDropdownItemClick = { scheduleType, id, title ->
+                            onDropdownItemClick(scheduleType, id, title)
+                        },
+                        onLongPress = {
+                            pressOffset = it
+                            onLongPressVibrate?.invoke()
+                        },
                     )
                 }
                 lesson.breakTimeAfter?.let {
-                    if (i < studyDay.lessons.lastIndex) {
+                    if (index < studyDay.lessons.lastIndex) {
                         item {
                             BreakTime(stringBreakTime = it)
                         }
@@ -124,58 +124,56 @@ fun ScheduleList(
                 }
             }
         }
-
-        studyDay.lessons.forEach { lesson ->
-        }
         item {
-            spacer()
+            Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }
 
 @Composable
-fun ScheduleListIsLoading(
-    spacer: @Composable () -> Unit = { }
-) {
+fun ScheduleListIsLoading() {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(horizontal = 15.dp),
-        contentPadding = PaddingValues(top = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp)
+        contentPadding = PaddingValues(top = 15.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
     ) {
         items(3) {
             ScheduleCardPlaceHolder()
         }
         item {
-            spacer()
+            Spacer(modifier = Modifier.height(64.dp))
         }
     }
 }
 
 @Composable
-fun UserNotBindedPlaceholder(onSetupScheduleClick: () -> Unit) {
+fun UserNotBindPlaceholder(
+    onSetupScheduleClick: () -> Unit,
+) {
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .clip(ShapeTop15)
-            .background(AppTheme.colorScheme.backgroundSecondary),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+            .fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(
+            space = 25.dp,
+            alignment = Alignment.CenterVertically,
+        ),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
             modifier = Modifier.width(300.dp),
             text = stringResource(R.string.unknown_user),
             style = AppTheme.typography.title.copy(color = AppTheme.colorScheme.textPrimary),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
         FilledButton(
             modifier = Modifier
-                .padding(top = 25.dp)
                 .width(250.dp),
             text = stringResource(R.string.setup_schedule),
-            onClick = { onSetupScheduleClick() }
+            onClick = onSetupScheduleClick,
         )
+        Spacer(modifier = Modifier.height(64.dp))
     }
 }
 
@@ -183,7 +181,6 @@ fun UserNotBindedPlaceholder(onSetupScheduleClick: () -> Unit) {
 fun WeekendPlaceholder(
     currentDate: LocalDate,
     selectedDate: LocalDate,
-    spacer: @Composable () -> Unit = { }
 ) {
     Column(
         modifier = Modifier
@@ -191,14 +188,14 @@ fun WeekendPlaceholder(
             .padding(horizontal = 50.dp),
         verticalArrangement = Arrangement.spacedBy(
             space = 15.dp,
-            alignment = Alignment.CenterVertically
+            alignment = Alignment.CenterVertically,
         ),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
             modifier = Modifier.size(180.dp),
             painter = painterResource(R.drawable.login_to_personal_account),
-            contentDescription = null
+            contentDescription = null,
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -209,73 +206,8 @@ fun WeekendPlaceholder(
             },
             style = AppTheme.typography.subtitle,
             color = AppTheme.colorScheme.secondary,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
-        spacer()
-    }
-}
-
-@Composable
-@Preview
-fun ScheduleListPreview(
-    @PreviewParameter(SampleStudyDayProvider::class) studyDay: StudyDay
-) {
-    val currentDateTime = LocalDateTime.of(2023, 6, 3, 13, 58)
-
-    AppTheme {
-        ScheduleContent(
-            content = {
-                ScheduleList(
-                    currentDateTime = currentDateTime,
-                    studyDay = studyDay
-                )
-            },
-            isShowBackButton = true,
-            onBackClick = { }
-        )
-    }
-}
-
-@Composable
-@Preview
-fun ScheduleListIsLoadingPreview() {
-    AppTheme {
-        ScheduleContent(
-            content = {
-                ScheduleListIsLoading()
-            },
-            onBackClick = { }
-        )
-    }
-}
-
-@Composable
-@Preview
-fun ScheduleContentUserNotBindedPlaceholderPreview() {
-    AppTheme {
-        ScheduleContent(
-            content = {
-                UserNotBindedPlaceholder(
-                    onSetupScheduleClick = { }
-                )
-            },
-            onBackClick = { }
-        )
-    }
-}
-
-@Composable
-@Preview(locale = "ru")
-fun ScheduleContentWeekendPlaceholderPreview() {
-    AppTheme {
-        ScheduleContent(
-            content = {
-                WeekendPlaceholder(
-                    currentDate = LocalDate.now(),
-                    selectedDate = LocalDate.now().plusDays(0)
-                )
-            },
-            onBackClick = { }
-        )
+        Spacer(modifier = Modifier.height(64.dp))
     }
 }

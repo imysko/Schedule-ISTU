@@ -1,4 +1,4 @@
-package com.istu.schedule.util
+package com.istu.schedule.ui.util
 
 object NavDestinations {
     const val ONBOARDING = "Onboarding"

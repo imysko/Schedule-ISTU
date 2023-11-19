@@ -70,7 +70,9 @@ class SettingScheduleViewModel @Inject constructor(
                     isSubgroupSettingAvailable = false,
                 ))
             }
-            else -> Unit
+            UserStatus.UNKNOWN -> {
+                _uiState.tryEmit(SettingScheduleUiState.MainScheduleSettings())
+            }
         }
     }
 
@@ -169,12 +171,12 @@ class SettingScheduleViewModel @Inject constructor(
 
         when (_userState.value) {
             UserStatus.STUDENT -> {
-                _user.userId = _selectedGroup.value!!.groupId
-                _user.userDescription = _selectedGroup.value!!.name
+                _user.userId = _selectedGroup.value?.groupId
+                _user.userDescription = _selectedGroup.value?.name ?: ""
             }
             UserStatus.TEACHER -> {
-                _user.userId = _selectedTeacher.value!!.teacherId
-                _user.userDescription = _selectedTeacher.value!!.fullName
+                _user.userId = _selectedTeacher.value?.teacherId
+                _user.userDescription = _selectedTeacher.value?.fullName ?: ""
                 _user.userSubgroup = Subgroup.ALL
             }
             UserStatus.UNKNOWN -> Unit

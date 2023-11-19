@@ -19,7 +19,7 @@ import com.istu.schedule.ui.icons.Calendar
 import com.istu.schedule.ui.icons.People
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 
 @Composable
 fun SettingsPage(navController: NavHostController) {
@@ -42,7 +42,7 @@ fun SettingsPage(
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = it.calculateTopPadding())
+                    .padding(it)
                     .clip(ShapeTop15)
                     .background(AppTheme.colorScheme.backgroundSecondary)
             ) {

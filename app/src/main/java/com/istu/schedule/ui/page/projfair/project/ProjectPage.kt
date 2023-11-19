@@ -77,11 +77,11 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
-import com.istu.schedule.util.NavDestinations
+import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.toProjectDifficulty
+import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import kotlinx.coroutines.launch
 
 @Composable
 fun ProjectPage(
@@ -148,7 +148,7 @@ fun ProjectPage(
     ) {
         Box(
             modifier = Modifier
-                .padding(top = it.calculateTopPadding())
+                .padding(it)
                 .clip(ShapeTop15)
                 .background(AppTheme.colorScheme.backgroundSecondary)
                 .fillMaxHeight()

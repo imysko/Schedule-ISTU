@@ -7,7 +7,7 @@ interface ScheduleRepository {
     suspend fun getGroupScheduleOnDay(
         groupId: Int,
         dateString: String
-    ): Result<List<StudyDay>>
+    ): Result<StudyDay>
 
     suspend fun getGroupScheduleOnWeek(
         groupId: Int,
@@ -22,7 +22,7 @@ interface ScheduleRepository {
     suspend fun getTeacherScheduleOnDay(
         teacherId: Int,
         dateString: String
-    ): Result<List<StudyDay>>
+    ): Result<StudyDay>
 
     suspend fun getTeacherScheduleOnWeek(
         teacherId: Int,
@@ -37,7 +37,7 @@ interface ScheduleRepository {
     suspend fun getClassroomScheduleOnDay(
         classroomId: Int,
         dateString: String
-    ): Result<List<StudyDay>>
+    ): Result<StudyDay>
 
     suspend fun getClassroomScheduleOnWeek(
         classroomId: Int,

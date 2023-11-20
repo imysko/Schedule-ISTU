@@ -1,7 +1,7 @@
 package com.istu.schedule.domain.repository.projfair
 
-import com.istu.schedule.data.model.request.PriorityRequest
-import com.istu.schedule.domain.model.projfair.Participation
+import com.istu.schedule.data.api.entities.projfair.request.PriorityRequest
+import com.istu.schedule.domain.entities.projfair.Participation
 
 interface ParticipationsRepository {
     suspend fun getParticipationsList(

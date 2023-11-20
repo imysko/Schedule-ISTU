@@ -1,6 +1,6 @@
 package com.istu.schedule.domain.usecase.projfair
 
-import com.istu.schedule.domain.model.projfair.Speciality
+import com.istu.schedule.domain.entities.projfair.Speciality
 import com.istu.schedule.domain.repository.projfair.FiltersDataRepository
 import javax.inject.Inject
 

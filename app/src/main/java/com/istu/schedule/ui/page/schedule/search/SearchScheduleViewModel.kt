@@ -1,9 +1,9 @@
 package com.istu.schedule.ui.page.schedule.search
 
-import com.istu.schedule.data.model.RequestException
-import com.istu.schedule.domain.model.schedule.Classroom
-import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.data.api.entities.RequestException
+import com.istu.schedule.domain.entities.schedule.Classroom
+import com.istu.schedule.domain.entities.schedule.Group
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.domain.usecase.schedule.GetClassroomsListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetGroupsListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
@@ -38,7 +38,7 @@ class SearchScheduleViewModel @Inject constructor(
 
     private fun getGroups() {
         call({
-            _useCaseGroupsList.getGroupsList()
+            _useCaseGroupsList()
         }, onSuccess = { list ->
             _searchedLists.update {
                 it.copy(groupsList = list)
@@ -52,7 +52,7 @@ class SearchScheduleViewModel @Inject constructor(
 
     private fun getTeachers() {
         call({
-            _useCaseTeachersList.getTeachersList()
+            _useCaseTeachersList()
         }, onSuccess = { list ->
             _searchedLists.update {
                 it.copy(teachersList = list)
@@ -66,7 +66,7 @@ class SearchScheduleViewModel @Inject constructor(
 
     private fun getClassrooms() {
         call({
-            _useCaseClassroomsList.getClassroomsList()
+            _useCaseClassroomsList()
         }, onSuccess = { list ->
             _searchedLists.update {
                 it.copy(classroomsList = list)

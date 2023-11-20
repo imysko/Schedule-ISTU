@@ -7,9 +7,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.model.Week
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.Week
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.ui.components.base.BaseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow

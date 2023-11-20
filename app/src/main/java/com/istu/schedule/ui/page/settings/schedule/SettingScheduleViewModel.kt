@@ -2,13 +2,13 @@ package com.istu.schedule.ui.page.settings.schedule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.enums.Subgroup
-import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.schedule.Course
-import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.domain.model.schedule.Institute
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.domain.entities.Subgroup
+import com.istu.schedule.domain.entities.UserStatus
+import com.istu.schedule.domain.entities.schedule.Course
+import com.istu.schedule.domain.entities.schedule.Group
+import com.istu.schedule.domain.entities.schedule.Institute
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.domain.usecase.schedule.GetInstitutesListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
@@ -78,7 +78,7 @@ class SettingScheduleViewModel @Inject constructor(
 
     private fun getInstitutesList() {
         call({
-            _useCaseInstitutesList.getInstitutesList()
+            _useCaseInstitutesList()
         }, onSuccess = {
             _institutesList.postValue(it)
         })
@@ -86,7 +86,7 @@ class SettingScheduleViewModel @Inject constructor(
 
     private fun getTeachersList() {
         call({
-            _useCaseTeachersList.getTeachersList()
+            _useCaseTeachersList()
         }, onSuccess = {
             _teachersList.postValue(it)
             _teachersTips.postValue(it)

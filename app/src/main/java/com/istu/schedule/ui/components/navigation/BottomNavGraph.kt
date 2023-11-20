@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.istu.schedule.data.enums.ScheduleType
+import com.istu.schedule.domain.entities.schedule.ScheduleType
 import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.AccountPage
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage

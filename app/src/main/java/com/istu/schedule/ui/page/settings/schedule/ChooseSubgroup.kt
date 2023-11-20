@@ -16,7 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.Subgroup
+import com.istu.schedule.domain.entities.Subgroup
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme

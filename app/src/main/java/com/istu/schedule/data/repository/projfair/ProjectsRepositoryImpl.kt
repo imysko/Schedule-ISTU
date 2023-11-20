@@ -1,8 +1,8 @@
 package com.istu.schedule.data.repository.projfair
 
-import com.istu.schedule.data.model.RequestException
-import com.istu.schedule.data.service.projfair.ProjectsService
-import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.data.api.entities.RequestException
+import com.istu.schedule.data.api.service.projfair.ProjectsService
+import com.istu.schedule.domain.entities.projfair.Project
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import java.net.HttpURLConnection
 import javax.inject.Inject

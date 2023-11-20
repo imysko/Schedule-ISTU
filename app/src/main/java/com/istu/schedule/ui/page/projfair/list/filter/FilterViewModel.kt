@@ -2,10 +2,10 @@ package com.istu.schedule.ui.page.projfair.list.filter
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.model.ProjfairFiltersState
+import com.istu.schedule.data.api.entities.projfair.ProjfairFiltersState
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.projfair.Skill
-import com.istu.schedule.domain.model.projfair.Speciality
+import com.istu.schedule.domain.entities.projfair.Skill
+import com.istu.schedule.domain.entities.projfair.Speciality
 import com.istu.schedule.domain.usecase.projfair.GetSkillsListUseCase
 import com.istu.schedule.domain.usecase.projfair.GetSpecialitiesListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel

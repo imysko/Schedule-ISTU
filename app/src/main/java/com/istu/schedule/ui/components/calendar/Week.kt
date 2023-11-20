@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.Parity
-import com.istu.schedule.data.model.Week
+import com.istu.schedule.domain.entities.Parity
+import com.istu.schedule.domain.entities.Week
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape21_5

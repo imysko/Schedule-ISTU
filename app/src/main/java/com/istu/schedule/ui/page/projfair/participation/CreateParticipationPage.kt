@@ -32,7 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Participation
+import com.istu.schedule.domain.entities.projfair.Participation
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIDialog
 import com.istu.schedule.ui.components.base.StringResourceItem

@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.schedule.Institute
+import com.istu.schedule.domain.entities.schedule.Institute
 import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.icons.Forward

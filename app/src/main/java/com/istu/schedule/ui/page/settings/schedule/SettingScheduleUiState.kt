@@ -1,6 +1,6 @@
 package com.istu.schedule.ui.page.settings.schedule
 
-import com.istu.schedule.data.enums.Subgroup
+import com.istu.schedule.domain.entities.Subgroup
 
 sealed class SettingScheduleUiState {
     data class MainScheduleSettings(

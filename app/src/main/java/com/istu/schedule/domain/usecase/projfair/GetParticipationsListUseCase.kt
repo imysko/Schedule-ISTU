@@ -1,6 +1,6 @@
 package com.istu.schedule.domain.usecase.projfair
 
-import com.istu.schedule.domain.model.projfair.Participation
+import com.istu.schedule.domain.entities.projfair.Participation
 import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
 import javax.inject.Inject
 

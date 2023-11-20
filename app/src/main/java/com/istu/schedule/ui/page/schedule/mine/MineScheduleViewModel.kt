@@ -1,13 +1,13 @@
 package com.istu.schedule.ui.page.schedule.mine
 
 import android.util.Log
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.enums.Subgroup
-import com.istu.schedule.data.enums.UserStatus
-import com.istu.schedule.data.model.RequestException
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.Subgroup
+import com.istu.schedule.domain.entities.UserStatus
+import com.istu.schedule.data.api.entities.RequestException
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.schedule.Lesson
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.schedule.Lesson
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
 import com.istu.schedule.ui.util.VibrationManager

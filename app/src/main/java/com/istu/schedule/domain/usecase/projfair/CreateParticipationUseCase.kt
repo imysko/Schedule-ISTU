@@ -1,6 +1,6 @@
 package com.istu.schedule.domain.usecase.projfair
 
-import com.istu.schedule.data.model.request.PriorityRequest
+import com.istu.schedule.data.api.entities.projfair.request.PriorityRequest
 import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
 import javax.inject.Inject
 

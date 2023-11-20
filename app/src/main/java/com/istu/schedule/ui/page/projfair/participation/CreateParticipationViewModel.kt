@@ -3,9 +3,9 @@ package com.istu.schedule.ui.page.projfair.participation
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.model.User
-import com.istu.schedule.data.model.request.PriorityRequest
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.data.api.entities.projfair.request.PriorityRequest
+import com.istu.schedule.domain.entities.projfair.Participation
+import com.istu.schedule.domain.entities.projfair.Project
 import com.istu.schedule.domain.usecase.projfair.CreateParticipationUseCase
 import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
 import com.istu.schedule.domain.usecase.projfair.GetProjectUseCase

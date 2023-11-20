@@ -1,7 +1,7 @@
 package com.istu.schedule.util
 
-import com.istu.schedule.data.enums.Subgroup
-import com.istu.schedule.data.enums.UserStatus
+import com.istu.schedule.domain.entities.Subgroup
+import com.istu.schedule.domain.entities.UserStatus
 
 fun String?.toUserStatusEnum(): UserStatus? {
     return try {

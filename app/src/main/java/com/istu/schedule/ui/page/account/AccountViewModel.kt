@@ -3,11 +3,11 @@ package com.istu.schedule.ui.page.account
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.istu.schedule.data.enums.ProjfairAuthStatus
+import com.istu.schedule.data.api.entities.projfair.enums.ProjfairAuthStatus
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.projfair.Candidate
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.Project
+import com.istu.schedule.domain.entities.projfair.Candidate
+import com.istu.schedule.domain.entities.projfair.Participation
+import com.istu.schedule.domain.entities.projfair.Project
 import com.istu.schedule.domain.usecase.projfair.DeleteParticipationUseCase
 import com.istu.schedule.domain.usecase.projfair.GetActiveProjectUseCase
 import com.istu.schedule.domain.usecase.projfair.GetArchiveProjectsListUseCase

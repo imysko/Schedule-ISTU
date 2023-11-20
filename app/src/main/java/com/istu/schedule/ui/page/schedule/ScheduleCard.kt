@@ -1,6 +1,5 @@
 package com.istu.schedule.ui.page.schedule
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -42,13 +41,12 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.LessonStatus
-import com.istu.schedule.data.enums.LessonType
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.domain.model.schedule.Lesson
-import com.istu.schedule.domain.model.schedule.LessonTime
-import com.istu.schedule.domain.model.schedule.SampleScheduleProvider
-import com.istu.schedule.domain.model.schedule.Schedule
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.schedule.Lesson
+import com.istu.schedule.domain.entities.schedule.LessonStatus
+import com.istu.schedule.domain.entities.schedule.LessonTime
+import com.istu.schedule.domain.entities.schedule.LessonType
+import com.istu.schedule.domain.entities.schedule.Schedule
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Green
@@ -57,13 +55,13 @@ import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.Shape60
+import com.istu.schedule.ui.util.previewParameterProviders.SampleSchedulePreviewParameterProvider
 import java.time.Duration
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ScheduleCard(
     currentDateTime: LocalDateTime,
@@ -346,6 +344,7 @@ fun ScheduleCard(
                     DropdownMenuItem(
                         text = { Text(text = group.name ?: "") },
                         onClick = {
+                            isDropdownMenuExpanded = false
                             onDropdownItemClick(ScheduleType.BY_GROUP, group.groupId, group.name ?: "")
                         },
                     )
@@ -360,6 +359,7 @@ fun ScheduleCard(
                     DropdownMenuItem(
                         text = { Text(text = teacher.shortname) },
                         onClick = {
+                            isDropdownMenuExpanded = false
                             onDropdownItemClick(ScheduleType.BY_TEACHER, teacher.teacherId, teacher.fullName)
                         },
                     )
@@ -375,6 +375,7 @@ fun ScheduleCard(
                         DropdownMenuItem(
                             text = { Text(text = classroom.name) },
                             onClick = {
+                                isDropdownMenuExpanded = false
                                 onDropdownItemClick(ScheduleType.BY_CLASSROOM, classroom.classroomId, classroom.name)
                             },
                         )
@@ -469,7 +470,7 @@ fun BreakTimePreview() {
 @Composable
 @Preview(name = "Lesson", group = "Card lesson", showBackground = false)
 fun ScheduleCardPreview(
-    @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
+    @PreviewParameter(SampleSchedulePreviewParameterProvider::class) schedule: Schedule
 ) {
     val lesson = Lesson(
         time = LessonTime(
@@ -495,7 +496,7 @@ fun ScheduleCardPreview(
 @Composable
 @Preview(name = "Current lesson", group = "Card lesson", showBackground = false, locale = "ru")
 fun ScheduleCardCurrentLessonPreview(
-    @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
+    @PreviewParameter(SampleSchedulePreviewParameterProvider::class) schedule: Schedule
 ) {
     val lesson = Lesson(
         time = LessonTime(
@@ -521,7 +522,7 @@ fun ScheduleCardCurrentLessonPreview(
 @Composable
 @Preview(name = "Expanded lesson", group = "Card lesson", showBackground = false, locale = "ru")
 fun ScheduleCardExpandedPreview(
-    @PreviewParameter(SampleScheduleProvider::class) schedule: Schedule
+    @PreviewParameter(SampleSchedulePreviewParameterProvider::class) schedule: Schedule
 ) {
     val lesson = Lesson(
         time = LessonTime(

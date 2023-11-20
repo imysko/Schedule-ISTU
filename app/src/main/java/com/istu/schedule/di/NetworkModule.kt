@@ -2,66 +2,32 @@ package com.istu.schedule.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.istu.schedule.data.service.projfair.CandidateService
-import com.istu.schedule.data.service.projfair.FiltersDataService
-import com.istu.schedule.data.service.projfair.ParticipationsService
-import com.istu.schedule.data.service.projfair.ProjectStateService
-import com.istu.schedule.data.service.projfair.ProjectsService
-import com.istu.schedule.data.service.schedule.ClassroomsService
-import com.istu.schedule.data.service.schedule.GroupsService
-import com.istu.schedule.data.service.schedule.InstitutesService
-import com.istu.schedule.data.service.schedule.ScheduleService
-import com.istu.schedule.data.service.schedule.TeachersService
+import com.istu.schedule.data.api.service.projfair.CandidateService
+import com.istu.schedule.data.api.service.projfair.FiltersDataService
+import com.istu.schedule.data.api.service.projfair.ParticipationsService
+import com.istu.schedule.data.api.service.projfair.ProjectStateService
+import com.istu.schedule.data.api.service.projfair.ProjectsService
+import com.istu.schedule.data.api.service.schedule.ClassroomsService
+import com.istu.schedule.data.api.service.schedule.GroupsService
+import com.istu.schedule.data.api.service.schedule.InstitutesService
+import com.istu.schedule.data.api.service.schedule.ScheduleService
+import com.istu.schedule.data.api.service.schedule.TeachersService
 import com.istu.schedule.util.NetworkConnectionInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import java.util.concurrent.TimeUnit
-import javax.inject.Named
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
-
-    @Provides
-    @Named("ProjfairBaseUrl")
-    fun provideProjfairBaseUrl() = "https://projfair.istu.edu/"
-
-    @Provides
-    @Named("ScheduleBaseUrl")
-    fun provideScheduleBaseUrl() = "http://schedule-api.ovz2.j08801197.m397m.vps.myjino.ru/"
-
-    @Provides
-    @Named("ProjfairRetrofit")
-    fun provideProjfairRetrofit(
-        @Named("ProjfairBaseUrl") baseUrl: String,
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .baseUrl(baseUrl)
-            .build()
-    }
-
-    @Provides
-    @Named("ScheduleRetrofit")
-    fun provideScheduleRetrofit(
-        @Named("ScheduleBaseUrl") baseUrl: String,
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .baseUrl(baseUrl)
-            .build()
-    }
 
     @Provides
     fun provideOkHttpClient(
@@ -100,7 +66,24 @@ object NetworkModule {
             .build()
     }
 
-    // Projfair
+    /** "Projfair" API */
+    @Provides
+    @Named("ProjfairBaseUrl")
+    fun provideProjfairBaseUrl() = "https://projfair.istu.edu/"
+
+    @Provides
+    @Named("ProjfairRetrofit")
+    fun provideProjfairRetrofit(
+        @Named("ProjfairBaseUrl") baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl(baseUrl)
+            .build()
+    }
+
     @Provides
     fun providerProjectsService(
         @Named("ProjfairRetrofit") retrofit: Retrofit
@@ -121,12 +104,29 @@ object NetworkModule {
         @Named("ProjfairRetrofit") retrofit: Retrofit
     ): ParticipationsService = retrofit.create(ParticipationsService::class.java)
 
+    /** Schedule API */
+    @Provides
+    @Named("ScheduleBaseUrl")
+    fun provideScheduleBaseUrl() = "http://schedule-api.ovz2.j08801197.m397m.vps.myjino.ru/"
+
+    @Provides
+    @Named("ScheduleRetrofit")
+    fun provideScheduleRetrofit(
+        @Named("ScheduleBaseUrl") baseUrl: String,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
+        return Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .baseUrl(baseUrl)
+            .build()
+    }
+
     @Provides
     fun providerFiltersDataService(
         @Named("ProjfairRetrofit") retrofit: Retrofit
     ): FiltersDataService = retrofit.create(FiltersDataService::class.java)
 
-    // Schedule
     @Provides
     fun providerInstitutesService(
         @Named("ScheduleRetrofit") retrofit: Retrofit

@@ -1,14 +1,19 @@
 package com.istu.schedule.domain.usecase.schedule
 
-import com.istu.schedule.domain.model.schedule.Institute
+import com.istu.schedule.domain.entities.schedule.Institute
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
 import javax.inject.Inject
 
-class GetInstitutesListUseCase @Inject constructor(
-    private val institutesRepository: InstitutesRepository,
-) {
+interface GetInstitutesListUseCase {
 
-    suspend fun getInstitutesList(): Result<List<Institute>> {
+    suspend operator fun invoke(): Result<List<Institute>>
+}
+
+class GetInstitutesListUseCaseImpl @Inject constructor(
+    private val institutesRepository: InstitutesRepository,
+) : GetInstitutesListUseCase {
+
+    override suspend fun invoke(): Result<List<Institute>> {
         return institutesRepository.getInstitutes()
     }
 }

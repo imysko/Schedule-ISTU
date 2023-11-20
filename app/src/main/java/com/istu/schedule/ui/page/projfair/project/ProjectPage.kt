@@ -58,10 +58,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
+import com.istu.schedule.util.NetworkStatus
+import com.istu.schedule.domain.entities.projfair.Participation
+import com.istu.schedule.domain.entities.projfair.Project
+import com.istu.schedule.domain.entities.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.NoInternetPanel

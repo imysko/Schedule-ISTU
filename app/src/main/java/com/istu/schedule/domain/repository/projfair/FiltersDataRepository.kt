@@ -1,8 +1,8 @@
 package com.istu.schedule.domain.repository.projfair
 
-import com.istu.schedule.domain.model.projfair.Skill
-import com.istu.schedule.domain.model.projfair.SkillCategory
-import com.istu.schedule.domain.model.projfair.Speciality
+import com.istu.schedule.domain.entities.projfair.Skill
+import com.istu.schedule.domain.entities.projfair.SkillCategory
+import com.istu.schedule.domain.entities.projfair.Speciality
 
 interface FiltersDataRepository {
     suspend fun getSkills(token: String?): Result<List<Skill>>

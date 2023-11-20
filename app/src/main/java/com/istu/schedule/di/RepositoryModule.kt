@@ -6,6 +6,9 @@ import com.istu.schedule.data.repository.projfair.ParticipationsRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ProjectStateRepositoryImpl
 import com.istu.schedule.data.repository.projfair.ProjectsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ClassroomsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.FavoriteClassroomsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.FavoriteGroupsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.FavoriteTeachersRepositoryImpl
 import com.istu.schedule.data.repository.schedule.GroupsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
@@ -16,6 +19,9 @@ import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
 import com.istu.schedule.domain.repository.projfair.ProjectStateRepository
 import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import com.istu.schedule.domain.repository.schedule.ClassroomsRepository
+import com.istu.schedule.domain.repository.schedule.FavoriteClassroomsRepository
+import com.istu.schedule.domain.repository.schedule.FavoriteGroupsRepository
+import com.istu.schedule.domain.repository.schedule.FavoriteTeachersRepository
 import com.istu.schedule.domain.repository.schedule.GroupsRepository
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
@@ -34,61 +40,61 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindProjectsRepository(
-        projectsRepositoryImpl: ProjectsRepositoryImpl
+        projectsRepository: ProjectsRepositoryImpl,
     ): ProjectsRepository
 
     @Binds
     @Singleton
     abstract fun bindCandidateRepository(
-        candidateRepositoryImpl: CandidateRepositoryImpl
+        candidateRepository: CandidateRepositoryImpl,
     ): CandidateRepository
 
     @Binds
     @Singleton
     abstract fun bindProjectSateRepository(
-        projectStateRepository: ProjectStateRepositoryImpl
+        projectStateRepository: ProjectStateRepositoryImpl,
     ): ProjectStateRepository
 
     @Binds
     @Singleton
     abstract fun bindParticipationsRepository(
-        participationsRepository: ParticipationsRepositoryImpl
+        participationsRepository: ParticipationsRepositoryImpl,
     ): ParticipationsRepository
 
     @Binds
     @Singleton
     abstract fun bindFiltersDataRepository(
-        filtersDataRepository: FiltersDataRepositoryImpl
+        filtersDataRepository: FiltersDataRepositoryImpl,
     ): FiltersDataRepository
 
     /** Repositories for schedule */
     @Binds
     @Singleton
     abstract fun bindInstitutesRepository(
-        institutesRepositoryImpl: InstitutesRepositoryImpl
+        institutesRepository: InstitutesRepositoryImpl,
     ): InstitutesRepository
 
     @Binds
     @Singleton
     abstract fun bindGroupsRepository(
-        groupsRepositoryImpl: GroupsRepositoryImpl
+        groupsRepository: GroupsRepositoryImpl,
     ): GroupsRepository
 
     @Binds
     @Singleton
     abstract fun bindTeachersRepository(
-        teachersRepositoryImpl: TeachersRepositoryImpl
+        teachersRepository: TeachersRepositoryImpl,
     ): TeachersRepository
 
     @Binds
     @Singleton
     abstract fun bindClassroomsRepository(
-        classroomsRepositoryImpl: ClassroomsRepositoryImpl
+        classroomsRepository: ClassroomsRepositoryImpl,
     ): ClassroomsRepository
 
     @Binds
     @Singleton
     abstract fun bindScheduleRepository(
-        scheduleRepositoryImpl: ScheduleRepositoryImpl
+        scheduleRepository: ScheduleRepositoryImpl,
     ): ScheduleRepository
 }

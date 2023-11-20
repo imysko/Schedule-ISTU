@@ -47,9 +47,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.ListStatus
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
+import com.istu.schedule.data.api.entities.projfair.enums.ListStatus
+import com.istu.schedule.domain.entities.projfair.Project
+import com.istu.schedule.domain.entities.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibility
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly

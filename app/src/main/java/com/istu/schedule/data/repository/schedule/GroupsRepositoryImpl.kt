@@ -1,10 +1,10 @@
 package com.istu.schedule.data.repository.schedule
 
-import com.istu.schedule.data.model.RequestException
-import com.istu.schedule.data.service.schedule.GroupsService
-import com.istu.schedule.domain.model.schedule.Group
+import com.istu.schedule.data.api.service.schedule.GroupsService
+import com.istu.schedule.data.mappers.api.schedule.mapToDomain
+import com.istu.schedule.data.api.entities.RequestException
+import com.istu.schedule.domain.entities.schedule.Group
 import com.istu.schedule.domain.repository.schedule.GroupsRepository
-import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class GroupsRepositoryImpl @Inject constructor(
@@ -14,18 +14,21 @@ class GroupsRepositoryImpl @Inject constructor(
     private val cachedList: MutableList<Group> = mutableListOf()
 
     override suspend fun getGroups(): Result<List<Group>> {
-        val apiResponse = groupsService.getGroups().body()
+        val apiResponse = groupsService.getGroups()
 
-        if (apiResponse != null) {
-            cachedList.addAll(apiResponse)
-            return Result.success(apiResponse)
-        }
-
-        return Result.failure(
-            RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
+        apiResponse.body()?.let { groupListApi ->
+            return Result.success(
+                groupListApi
+                    .map { it.mapToDomain() }
+                    .also { cachedList.addAll(it)}
             )
-        )
+        } ?: kotlin.run {
+            return Result.failure(
+                RequestException(
+                    code = apiResponse.code(),
+                    message = apiResponse.message(),
+                )
+            )
+        }
     }
 }

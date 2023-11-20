@@ -32,10 +32,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.model.Week
-import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.Week
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.page.schedule.ScheduleContent
 import com.istu.schedule.ui.page.schedule.ScheduleList
@@ -45,6 +44,7 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.ui.util.VibrationManager
+import com.istu.schedule.ui.util.previewParameterProviders.SampleStudyDayPreviewParameterProvider
 import com.istu.schedule.util.collectAsStateValue
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -235,7 +235,7 @@ fun IsLoadingFoundSchedulePreview() {
 @Composable
 @Preview(showBackground = true, name = "Schedule list", group = "Found schedule")
 fun ScheduleListFoundSchedulePreview(
-    @PreviewParameter(SampleStudyDayProvider::class) studyDay: StudyDay,
+    @PreviewParameter(SampleStudyDayPreviewParameterProvider::class) studyDay: StudyDay,
 ) {
     AppTheme {
         FoundSchedulePage(
@@ -287,7 +287,7 @@ fun NoInternetConnectionFoundSchedulePreview() {
 @Composable
 @Preview(showBackground = true, name = "Weekend not binded", group = "Blanks")
 fun WeekendFoundSchedulePreview(
-    @PreviewParameter(SampleStudyDayProvider::class) studyDay: StudyDay,
+    @PreviewParameter(SampleStudyDayPreviewParameterProvider::class) studyDay: StudyDay,
 ) {
     AppTheme {
         FoundSchedulePage(

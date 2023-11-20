@@ -24,14 +24,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.schedule.Course
-import com.istu.schedule.domain.model.schedule.Group
+import com.istu.schedule.domain.entities.schedule.Course
+import com.istu.schedule.domain.entities.schedule.Group
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.TrailingIcon
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.util.previewParameterProviders.SampleGroupListPreviewParameterProvider
 import java.util.Locale
 
 @Composable
@@ -128,32 +130,12 @@ fun FlowGroups(
 
 @Composable
 @Preview
-fun FlowGroupsPreview() {
+fun FlowGroupsPreview(
+    @PreviewParameter(SampleGroupListPreviewParameterProvider::class) groups: List<Group>,
+) {
     AppTheme {
         FlowGroups(
-            groups = mutableListOf(
-                Group(
-                    groupId = 0,
-                    name = "ИСТб-20-1",
-                    course = 3,
-                    instituteId = 0,
-                    institute = null,
-                ),
-                Group(
-                    groupId = 0,
-                    name = "ИСТб-20-2",
-                    course = 3,
-                    instituteId = 0,
-                    institute = null,
-                ),
-                Group(
-                    groupId = 0,
-                    name = "ИСТб-20-3",
-                    course = 3,
-                    instituteId = 0,
-                    institute = null,
-                )
-            ),
+            groups = groups,
             onChooseGroup = { },
         )
     }
@@ -176,34 +158,14 @@ fun CourseAccordionItemPreview() {
 
 @Composable
 @Preview(name = "Accordion item expanded")
-fun CourseAccordionItemExpandedPreview() {
+fun CourseAccordionItemExpandedPreview(
+    @PreviewParameter(SampleGroupListPreviewParameterProvider::class) groups: List<Group>,
+) {
     AppTheme {
         CourseAccordionItem(
             course = Course(
                 courseNumber = 3,
-                groups = mutableListOf(
-                    Group(
-                        groupId = 0,
-                        name = "ИСТб-20-1",
-                        course = 3,
-                        instituteId = 0,
-                        institute = null,
-                    ),
-                    Group(
-                        groupId = 0,
-                        name = "ИСТб-20-2",
-                        course = 3,
-                        instituteId = 0,
-                        institute = null,
-                    ),
-                    Group(
-                        groupId = 0,
-                        name = "ИСТб-20-3",
-                        course = 3,
-                        instituteId = 0,
-                        institute = null,
-                    )
-                )
+                groups = groups,
             ),
             expanded = true,
             onChooseGroup = { },

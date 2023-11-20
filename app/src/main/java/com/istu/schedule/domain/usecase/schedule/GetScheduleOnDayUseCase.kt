@@ -1,7 +1,7 @@
 package com.istu.schedule.domain.usecase.schedule
 
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import javax.inject.Inject
 

@@ -1,10 +1,10 @@
 package com.istu.schedule.data.repository.schedule
 
-import com.istu.schedule.data.model.RequestException
-import com.istu.schedule.data.service.schedule.InstitutesService
-import com.istu.schedule.domain.model.schedule.Institute
+import com.istu.schedule.data.api.service.schedule.InstitutesService
+import com.istu.schedule.data.mappers.api.schedule.mapToDomain
+import com.istu.schedule.data.api.entities.RequestException
+import com.istu.schedule.domain.entities.schedule.Institute
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
-import java.net.HttpURLConnection
 import javax.inject.Inject
 
 class InstitutesRepositoryImpl @Inject constructor(
@@ -14,18 +14,21 @@ class InstitutesRepositoryImpl @Inject constructor(
     private val cachedList: MutableList<Institute> = mutableListOf()
 
     override suspend fun getInstitutes(): Result<List<Institute>> {
-        val apiResponse = institutesService.getInstitutes().body()
+        val apiResponse = institutesService.getInstitutes()
 
-        if (apiResponse != null) {
-            cachedList.addAll(apiResponse)
-            return Result.success(apiResponse)
+        apiResponse.body()?.let { instituteListApi ->
+            return Result.success(
+                instituteListApi
+                    .map { it.mapToDomain() }
+                    .also { cachedList.addAll(it)}
+            )
+        } ?: kotlin.run {
+            return Result.failure(
+                RequestException(
+                    code = apiResponse.code(),
+                    message = apiResponse.message(),
+                )
+            )
         }
-
-        return Result.failure(
-            RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!",
-            ),
-        )
     }
 }

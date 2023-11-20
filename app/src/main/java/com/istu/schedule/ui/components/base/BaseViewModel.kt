@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
-import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.data.exception.NoConnectivityException
-import com.istu.schedule.data.model.RequestException
+import com.istu.schedule.util.NetworkStatus
+import com.istu.schedule.util.exception.NoConnectivityException
+import com.istu.schedule.data.api.entities.RequestException
 import kotlinx.coroutines.launch
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException

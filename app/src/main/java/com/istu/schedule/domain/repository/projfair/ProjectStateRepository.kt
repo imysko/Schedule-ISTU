@@ -1,6 +1,6 @@
 package com.istu.schedule.domain.repository.projfair
 
-import com.istu.schedule.domain.model.projfair.ProjectState
+import com.istu.schedule.domain.entities.projfair.ProjectState
 
 interface ProjectStateRepository {
     suspend fun getProjectStatesList(): Result<List<ProjectState>>

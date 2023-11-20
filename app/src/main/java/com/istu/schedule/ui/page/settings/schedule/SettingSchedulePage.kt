@@ -8,10 +8,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.domain.model.schedule.Course
-import com.istu.schedule.domain.model.schedule.Institute
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.util.NetworkStatus
+import com.istu.schedule.domain.entities.schedule.Course
+import com.istu.schedule.domain.entities.schedule.Institute
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.ui.page.ext.NoInternetPage
 
 @Composable

@@ -37,8 +37,8 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
+import com.istu.schedule.domain.entities.projfair.Project
+import com.istu.schedule.domain.entities.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.ChipVerticalGrid
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SITextChip
@@ -57,6 +57,7 @@ fun ProjectItem(
     project: Project,
     onClick: () -> Unit = {}
 ) {
+    // TODO: change card from material 3
     Card(
         modifier = modifier
             .clip(Shape10)

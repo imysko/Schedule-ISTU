@@ -31,9 +31,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.model.Week
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.Week
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15

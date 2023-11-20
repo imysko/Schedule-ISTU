@@ -32,10 +32,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.model.ProjfairFiltersState
-import com.istu.schedule.domain.model.projfair.Skill
-import com.istu.schedule.domain.model.projfair.SkillCategory
-import com.istu.schedule.domain.model.projfair.Speciality
+import com.istu.schedule.data.api.entities.projfair.ProjfairFiltersState
+import com.istu.schedule.domain.entities.projfair.Skill
+import com.istu.schedule.domain.entities.projfair.SkillCategory
+import com.istu.schedule.domain.entities.projfair.Speciality
 import com.istu.schedule.ui.components.base.CheckboxGroup
 import com.istu.schedule.ui.components.base.SIDropdownMenu
 import com.istu.schedule.ui.components.base.StringResourceItem

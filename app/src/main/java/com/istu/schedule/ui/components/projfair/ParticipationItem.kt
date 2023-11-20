@@ -29,8 +29,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.SampleParticipationProvider
+import com.istu.schedule.domain.entities.projfair.Participation
+import com.istu.schedule.domain.entities.projfair.SampleParticipationProvider
 import com.istu.schedule.ui.icons.Delete
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Red
@@ -47,6 +47,7 @@ fun ParticipationItem(
     onClick: () -> Unit = {},
     isEditMode: Boolean
 ) {
+    // TODO: change card from material 3
     Card(
         modifier = modifier
             .clip(Shape10)

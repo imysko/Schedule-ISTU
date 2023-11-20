@@ -2,8 +2,8 @@ package com.istu.schedule.ui.page.schedule.found
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.model.RequestException
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.data.api.entities.RequestException
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
 import com.istu.schedule.ui.util.NavArguments

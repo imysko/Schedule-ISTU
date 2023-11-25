@@ -97,4 +97,22 @@ abstract class RepositoryModule {
     abstract fun bindScheduleRepository(
         scheduleRepository: ScheduleRepositoryImpl,
     ): ScheduleRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteGroupsRepository(
+        favoriteGroupsRepository: FavoriteGroupsRepositoryImpl,
+    ): FavoriteGroupsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteTeachersRepository(
+        favoriteTeachersRepository: FavoriteTeachersRepositoryImpl,
+    ): FavoriteTeachersRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteClassroomsRepository(
+        favoriteClassroomsRepository: FavoriteClassroomsRepositoryImpl,
+    ): FavoriteClassroomsRepository
 }

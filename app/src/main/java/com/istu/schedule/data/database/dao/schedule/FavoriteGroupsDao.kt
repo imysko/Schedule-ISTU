@@ -6,15 +6,16 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.istu.schedule.data.database.entities.schedule.FavoriteGroupDto
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteGroupsDao {
 
     @Query("SELECT * FROM favorite_group")
-    suspend fun getAll(): List<FavoriteGroupDto>
+    fun getAll(): Flow<List<FavoriteGroupDto>>
 
     @Query("SELECT * FROM favorite_group WHERE is_active = $TRUE ORDER BY name")
-    suspend fun getActive(): List<FavoriteGroupDto>
+    fun getAllActive(): Flow<List<FavoriteGroupDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(favoriteGroup: FavoriteGroupDto)

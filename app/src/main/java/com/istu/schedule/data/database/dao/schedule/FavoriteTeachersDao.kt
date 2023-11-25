@@ -6,12 +6,13 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.istu.schedule.data.database.entities.schedule.FavoriteTeacherDto
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoriteTeachersDao {
 
     @Query("SELECT * FROM favorite_teacher")
-    suspend fun getAll(): List<FavoriteTeacherDto>
+    fun getAll(): Flow<List<FavoriteTeacherDto>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(favoriteTeacher: FavoriteTeacherDto)

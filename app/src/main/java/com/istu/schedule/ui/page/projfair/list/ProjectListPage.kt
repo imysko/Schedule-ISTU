@@ -48,8 +48,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.ListStatus
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibility
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
@@ -63,8 +61,10 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.ui.util.NavDestinations
+import com.istu.schedule.ui.util.provider.SampleProjectProvider
 import com.istu.schedule.util.OnBottomReached
 import com.istu.schedule.util.collectAsStateValue
+import me.progneo.projfair.domain.model.Project
 
 @Composable
 fun ProjectsListPage(
@@ -84,12 +84,12 @@ fun ProjectsListPage(
     }
 
     LaunchedEffect(Unit) {
-        viewModel.fetchParticipationsList()
+        viewModel.fetchParticipationList()
         viewModel.fetchProjectList()
     }
 
     ProjectsListPage(
-        projectsListUiState = projectsListUiState,
+        projectListUiState = projectsListUiState,
         listStatus = pageStatus,
         projectList = projectsList,
         onSearchTextEdit = {
@@ -113,7 +113,7 @@ fun ProjectsListPage(
 
 @Composable
 fun ProjectsListPage(
-    projectsListUiState: ProjectsListUiState,
+    projectListUiState: ProjectListUiState,
     projectList: List<Project>,
     listStatus: ListStatus,
     onSearchTextEdit: (String) -> Unit,
@@ -126,7 +126,7 @@ fun ProjectsListPage(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
-                searchText = projectsListUiState.searchText,
+                searchText = projectListUiState.searchText,
                 onSearchPress = onSearchPress,
                 onSearchTextEdit = onSearchTextEdit
             )
@@ -350,7 +350,7 @@ private fun TopBar(
 fun PreviewProjectsListPageLoading() {
     AppTheme {
         ProjectsListPage(
-            projectsListUiState = ProjectsListUiState(),
+            projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.FirstLoading,
             projectList = listOf(),
             onSearchTextEdit = {},
@@ -366,7 +366,7 @@ fun PreviewProjectsListPageLoading() {
 fun PreviewProjectsListPageEmpty() {
     AppTheme {
         ProjectsListPage(
-            projectsListUiState = ProjectsListUiState(),
+            projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.Complete,
             projectList = listOf(),
             onSearchTextEdit = {},
@@ -379,12 +379,12 @@ fun PreviewProjectsListPageEmpty() {
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewProjectsListPageWithLoading(
+fun PreviewProjectListPageWithLoading(
     @PreviewParameter(SampleProjectProvider::class) project: Project
 ) {
     AppTheme {
         ProjectsListPage(
-            projectsListUiState = ProjectsListUiState(),
+            projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.Loading,
             projectList = listOf(project),
             onSearchTextEdit = {},
@@ -400,7 +400,7 @@ fun PreviewProjectsListPageWithLoading(
 fun PreviewProjectsListPageNoNetworkConnection() {
     AppTheme {
         ProjectsListPage(
-            projectsListUiState = ProjectsListUiState(),
+            projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.NoNetwork,
             projectList = listOf(),
             onSearchTextEdit = {},

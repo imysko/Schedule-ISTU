@@ -26,11 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.SampleParticipationProvider
 import com.istu.schedule.ui.icons.Delete
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Red
@@ -38,6 +35,7 @@ import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.Shape100
 import com.istu.schedule.util.toParticipationPriorityText
 import com.istu.schedule.util.toParticipationRomanNumerals
+import me.progneo.projfair.domain.model.Participation
 
 @Composable
 fun ParticipationItem(
@@ -144,26 +142,6 @@ fun ParticipationPriorityItem(priority: Int, modifier: Modifier = Modifier) {
                 textAlign = TextAlign.Center
             )
         }
-    }
-}
-
-@Preview
-@Composable
-fun PreviewParticipation(
-    @PreviewParameter(SampleParticipationProvider::class) participation: Participation
-) {
-    AppTheme {
-        ParticipationItem(participation = participation, isEditMode = false)
-    }
-}
-
-@Preview
-@Composable
-fun PreviewParticipationEditMode(
-    @PreviewParameter(SampleParticipationProvider::class) participation: Participation
-) {
-    AppTheme {
-        ParticipationItem(participation = participation, isEditMode = true)
     }
 }
 

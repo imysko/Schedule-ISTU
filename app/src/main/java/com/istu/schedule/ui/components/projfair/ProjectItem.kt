@@ -29,16 +29,12 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.fade
 import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.ChipVerticalGrid
 import com.istu.schedule.ui.components.base.SIChip
 import com.istu.schedule.ui.components.base.SITextChip
@@ -50,6 +46,7 @@ import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
+import me.progneo.projfair.domain.model.Project
 
 @Composable
 fun ProjectItem(
@@ -270,12 +267,4 @@ fun ProjectItemPlaceHolder() {
                 )
             )
     )
-}
-
-@Preview
-@Composable
-fun PreviewProjectItem(@PreviewParameter(SampleProjectProvider::class) project: Project) {
-    AppTheme {
-        ProjectItem(project = project)
-    }
 }

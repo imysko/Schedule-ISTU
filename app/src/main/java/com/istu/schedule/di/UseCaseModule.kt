@@ -8,17 +8,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class UseCaseModule {
 
-    /** Repositories for "Projfair" */
-
-    /** UseCases for schedule */
     @Binds
     @Singleton
     internal abstract fun bindGetScheduleOnDayUseCase(
-        getScheduleOnDayUseCase: GetScheduleOnDayUseCaseImpl,
+        getScheduleOnDayUseCase: GetScheduleOnDayUseCaseImpl
     ): GetScheduleOnDayUseCase
 }

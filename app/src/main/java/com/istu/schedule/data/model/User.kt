@@ -8,17 +8,18 @@ import com.istu.schedule.data.enums.Subgroup
 import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.util.toSubgroupEnum
 import com.istu.schedule.util.toUserStatusEnum
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import javax.inject.Inject
-import javax.inject.Singleton
+import me.progneo.projfair.domain.model.FiltersState
 
 @Singleton
 class User @Inject constructor(private val _sharedPreference: SharedPreferences) {
 
-    private val _projfairFiltersState = MutableStateFlow(ProjfairFiltersState())
-    val projfairFiltersState: StateFlow<ProjfairFiltersState> = _projfairFiltersState.asStateFlow()
+    private val _projfairFiltersState = MutableStateFlow(FiltersState())
+    val projfairFiltersState: StateFlow<FiltersState> = _projfairFiltersState.asStateFlow()
 
     private val _authStatus = MutableLiveData(ProjfairAuthStatus.UNDEFINED)
     val authStatus: LiveData<ProjfairAuthStatus> = _authStatus
@@ -27,7 +28,7 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
         setAuth()
     }
 
-    fun setProjfairFilters(projfairFiltersState: ProjfairFiltersState) {
+    fun setProjfairFilters(projfairFiltersState: FiltersState) {
         _projfairFiltersState.value = projfairFiltersState
     }
 
@@ -69,7 +70,8 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
 
     var userType: UserStatus
         get() {
-            return _sharedPreference.getString(USER_TYPE, null).toUserStatusEnum() ?: UserStatus.UNKNOWN
+            return _sharedPreference.getString(USER_TYPE, null).toUserStatusEnum()
+                ?: UserStatus.UNKNOWN
         }
         set(value) {
             with(_sharedPreference.edit()) {

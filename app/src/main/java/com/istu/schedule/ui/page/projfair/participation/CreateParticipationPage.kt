@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.projfair.Participation
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SIDialog
 import com.istu.schedule.ui.components.base.StringResourceItem
@@ -43,6 +42,7 @@ import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
+import me.progneo.projfair.domain.model.Participation
 
 @Composable
 fun CreateParticipationPage(
@@ -53,16 +53,16 @@ fun CreateParticipationPage(
     val isLoaded by viewModel.isLoaded.observeAsState(initial = false)
     val selectedPriorityId by viewModel.selectedPriorityId.observeAsState(initial = 0)
     val project by viewModel.project.observeAsState(initial = null)
-    val existsParticipations by viewModel.participationsList.observeAsState(initial = emptyList())
+    val existsParticipationList by viewModel.participationList.observeAsState(initial = emptyList())
 
     LaunchedEffect(Unit) {
-        viewModel.fetchParticipationsList()
+        viewModel.fetchParticipationList()
         viewModel.fetchProject(projectId)
     }
 
     CreateParticipationPage(
         isLoaded = isLoaded,
-        existsParticipations = existsParticipations,
+        existsParticipationList = existsParticipationList,
         selectedPriority = selectedPriorityId,
         onBackPressed = { navController.popBackStack() },
         onCreatePressed = { viewModel.createParticipation() },
@@ -74,7 +74,7 @@ fun CreateParticipationPage(
 @Composable
 fun CreateParticipationPage(
     isLoaded: Boolean,
-    existsParticipations: List<Participation>,
+    existsParticipationList: List<Participation>,
     selectedPriority: Int,
     onBackPressed: () -> Unit,
     onCreatePressed: () -> Unit,
@@ -88,7 +88,7 @@ fun CreateParticipationPage(
         StringResourceItem(2, R.string.medium_priority),
         StringResourceItem(3, R.string.low_priority)
     )
-    existsParticipations.forEach { participation ->
+    existsParticipationList.forEach { participation ->
         val item = prioritiesList.firstOrNull {
             it.id == participation.priority
         }
@@ -208,7 +208,7 @@ fun PreviewSendParticipationPage() {
     AppTheme {
         CreateParticipationPage(
             isLoaded = true,
-            existsParticipations = listOf(),
+            existsParticipationList = listOf(),
             selectedPriority = 1,
             onBackPressed = {},
             onCreatePressed = {},
@@ -223,7 +223,7 @@ fun PreviewSendParticipationPageLoading() {
     AppTheme {
         CreateParticipationPage(
             isLoaded = false,
-            existsParticipations = listOf(),
+            existsParticipationList = listOf(),
             selectedPriority = 1,
             onBackPressed = {},
             onCreatePressed = {},

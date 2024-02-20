@@ -3,13 +3,7 @@ package com.istu.schedule.ui.page.projfair.list
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.istu.schedule.data.enums.ListStatus
-import com.istu.schedule.data.model.ProjfairFiltersState
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.projfair.Candidate
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.usecase.projfair.GetCandidateUseCase
-import com.istu.schedule.domain.usecase.projfair.GetParticipationsListUseCase
-import com.istu.schedule.domain.usecase.projfair.GetProjectsListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,21 +12,27 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import me.progneo.projfair.domain.model.Candidate
+import me.progneo.projfair.domain.model.FiltersState
+import me.progneo.projfair.domain.model.Project
+import me.progneo.projfair.domain.usecase.GetCandidateUseCase
+import me.progneo.projfair.domain.usecase.GetParticipationListUseCase
+import me.progneo.projfair.domain.usecase.GetProjectListUseCase
 
 @HiltViewModel
 class ProjectsListViewModel @Inject constructor(
-    private val _candidateUseCase: GetCandidateUseCase,
-    private val _projectsUseCase: GetProjectsListUseCase,
-    private val _participationsListUseCase: GetParticipationsListUseCase,
+    private val _getCandidateUseCase: GetCandidateUseCase,
+    private val _getProjectUseCase: GetProjectListUseCase,
+    private val _getParticipationListUseCase: GetParticipationListUseCase,
     private val _user: User
 ) : BaseViewModel() {
 
     private val _candidate = MutableLiveData<Candidate>()
 
-    val projfairFiltersState: StateFlow<ProjfairFiltersState> = _user.projfairFiltersState
+    val projfairFiltersState: StateFlow<FiltersState> = _user.projfairFiltersState
 
-    private val _projectListUiState = MutableStateFlow(ProjectsListUiState())
-    val projectListUiState: StateFlow<ProjectsListUiState> = _projectListUiState.asStateFlow()
+    private val _projectListUiState = MutableStateFlow(ProjectListUiState())
+    val projectListUiState: StateFlow<ProjectListUiState> = _projectListUiState.asStateFlow()
 
     private val _projectList = MutableLiveData<List<Project>>()
     val projectList: LiveData<List<Project>> = _projectList
@@ -53,46 +53,55 @@ class ProjectsListViewModel @Inject constructor(
                 _listStatus.postValue(ListStatus.Loading)
             }
 
-            call({
-                _projectsUseCase.getProjectList(
-                    token = _user.projfairToken ?: "",
-                    title = _projectListUiState.value.searchText,
-                    page = _currentPage,
-                    difficulties = _user.projfairFiltersState.value.difficultiesList,
-                    states = _user.projfairFiltersState.value.statusesList,
-                    specialties = _user.projfairFiltersState.value.specialitiesList.map {
-                        it.first
-                    },
-                    skills = _user.projfairFiltersState.value.skillsList.map { it.first }
-                )
-            }, onSuccess = {
-                for (item in it) {
-                    _projectList.addNewItem(item)
-                }
-                _currentPage += 1
-                _user.setFiltersChanged(false)
-                _listStatus.postValue(ListStatus.Complete)
-            }, onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) })
+            call(
+                apiCall = {
+                    _getProjectUseCase(
+                        token = _user.projfairToken ?: "",
+                        title = _projectListUiState.value.searchText,
+                        page = _currentPage,
+                        difficulties = _user.projfairFiltersState.value.difficultiesList,
+                        states = _user.projfairFiltersState.value.statusesList,
+                        specialties = _user.projfairFiltersState.value.specialitiesList.map {
+                            it.first
+                        },
+                        skills = _user.projfairFiltersState.value.skillsList.map { it.first }
+                    )
+                },
+                onSuccess = {
+                    for (item in it) {
+                        _projectList.addNewItem(item)
+                    }
+                    _currentPage += 1
+                    _user.setFiltersChanged(false)
+                    _listStatus.postValue(ListStatus.Complete)
+                },
+                onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) }
+            )
         }
     }
 
-    fun fetchParticipationsList() {
+    fun fetchParticipationList() {
         _user.projfairToken?.let { token ->
-            call({
-                _candidateUseCase.getCandidate(token)
-            }, onSuccess = { candidate ->
-                _candidate.postValue(candidate)
-            }, onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) })
+            call(
+                apiCall = { _getCandidateUseCase(token) },
+                onSuccess = { candidate ->
+                    _candidate.postValue(candidate)
+                },
+                onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) }
+            )
 
-            call({
-                _participationsListUseCase.getParticipationsList(token)
-            }, onSuccess = { participations ->
-                _canCreateParticipation.value =
-                    participations.count { it.state.id in 1..2 } < 3 &&
-                    _candidate.value?.canSendParticipations == 1
-            }, onNetworkUnavailable = {
-                _listStatus.postValue(ListStatus.NoNetwork)
-            }, handleLoading = false)
+            call(
+                apiCall = { _getParticipationListUseCase(token) },
+                onSuccess = { participationList ->
+                    _canCreateParticipation.value =
+                        participationList.count { it.state.id in 1..2 } < 3 &&
+                        _candidate.value?.canSendParticipations == 1
+                },
+                onNetworkUnavailable = {
+                    _listStatus.postValue(ListStatus.NoNetwork)
+                },
+                handleLoading = false
+            )
         }
     }
 
@@ -106,4 +115,4 @@ class ProjectsListViewModel @Inject constructor(
     }
 }
 
-data class ProjectsListUiState(val searchText: String = "")
+data class ProjectListUiState(val searchText: String = "")

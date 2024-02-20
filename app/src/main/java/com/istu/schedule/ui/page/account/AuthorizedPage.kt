@@ -47,12 +47,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.domain.model.projfair.Candidate
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleCandidateProvider
-import com.istu.schedule.domain.model.projfair.SampleParticipationProvider
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.InfoBlock
 import com.istu.schedule.ui.components.base.LoadingPanel
@@ -72,7 +66,13 @@ import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.ui.util.NavDestinations
+import com.istu.schedule.ui.util.provider.SampleCandidateProvider
+import com.istu.schedule.ui.util.provider.SampleParticipationProvider
+import com.istu.schedule.ui.util.provider.SampleProjectProvider
 import kotlinx.coroutines.launch
+import me.progneo.projfair.domain.model.Candidate
+import me.progneo.projfair.domain.model.Participation
+import me.progneo.projfair.domain.model.Project
 
 @Composable
 fun AuthorizedPage(
@@ -80,10 +80,10 @@ fun AuthorizedPage(
     candidate: Candidate?,
     viewModel: AccountViewModel
 ) {
-    val isParticipationsLoaded by viewModel.isParticipationsLoaded.observeAsState(initial = false)
-    val isProjectsLoaded by viewModel.isProjectsLoaded.observeAsState(initial = false)
-    val participationsList by viewModel.participationsList.observeAsState(initial = emptyList())
-    val projectsList by viewModel.projectsList.observeAsState(initial = emptyList())
+    val isParticipationListLoaded by viewModel.isParticipationLoaded.observeAsState(initial = false)
+    val isProjectListLoaded by viewModel.isProjectsLoaded.observeAsState(initial = false)
+    val participationList by viewModel.participationList.observeAsState(initial = emptyList())
+    val projectList by viewModel.projectsList.observeAsState(initial = emptyList())
     val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
 
     LaunchedEffect(Unit) {
@@ -92,10 +92,10 @@ fun AuthorizedPage(
 
     AuthorizedPage(
         candidate = candidate,
-        isParticipationsLoaded = isParticipationsLoaded,
-        isProjectsLoaded = isProjectsLoaded,
-        participationsList = participationsList.distinctBy { participation -> participation.id },
-        projectsList = projectsList.toMutableList(),
+        isParticipationListLoaded = isParticipationListLoaded,
+        isProjectListLoaded = isProjectListLoaded,
+        participationList = participationList.distinctBy { participation -> participation.id },
+        projectList = projectList.toMutableList(),
         networkStatus = networkStatus,
         onProjectPressed = {
             navController.navigate(
@@ -120,10 +120,10 @@ fun AuthorizedPage(
 @Composable
 fun AuthorizedPage(
     candidate: Candidate?,
-    isParticipationsLoaded: Boolean,
-    isProjectsLoaded: Boolean,
-    participationsList: List<Participation>,
-    projectsList: MutableList<Project>,
+    isParticipationListLoaded: Boolean,
+    isProjectListLoaded: Boolean,
+    participationList: List<Participation>,
+    projectList: MutableList<Project>,
     networkStatus: NetworkStatus,
     onProjectPressed: (Int) -> Unit = {},
     onParticipationPressed: (Int) -> Unit = {},
@@ -170,10 +170,10 @@ fun AuthorizedPage(
                         }
 
                         1 -> {
-                            ParticipationsPage(
-                                participationsList = participationsList,
+                            ParticipationListPage(
+                                participationList = participationList,
                                 isCanEdit = candidate?.canSendParticipations == 1,
-                                isParticipationsLoaded = isParticipationsLoaded,
+                                isParticipationListLoaded = isParticipationListLoaded,
                                 onParticipationPressed = onParticipationPressed,
                                 onDeletePressed = onDeletePressed
                             )
@@ -181,8 +181,8 @@ fun AuthorizedPage(
 
                         2 -> {
                             ProjectsPage(
-                                projectsList = projectsList,
-                                isProjectsLoaded = isProjectsLoaded,
+                                projectsList = projectList,
+                                isProjectsLoaded = isProjectListLoaded,
                                 onProjectPressed = onProjectPressed
                             )
                         }
@@ -194,10 +194,10 @@ fun AuthorizedPage(
 }
 
 @Composable
-fun ParticipationsPage(
-    participationsList: List<Participation>,
+fun ParticipationListPage(
+    participationList: List<Participation>,
     isCanEdit: Boolean,
-    isParticipationsLoaded: Boolean,
+    isParticipationListLoaded: Boolean,
     onParticipationPressed: (Int) -> Unit = {},
     onDeletePressed: (Int) -> Unit = {}
 ) {
@@ -206,10 +206,10 @@ fun ParticipationsPage(
 
     RemoveParticipationDialog(onDeletePressed, selectedParticipation)
 
-    LoadingPanel(!isParticipationsLoaded)
+    LoadingPanel(!isParticipationListLoaded)
 
     SIAnimatedVisibilityFadeOnly(
-        visible = participationsList.isEmpty() && isParticipationsLoaded && isCanEdit
+        visible = participationList.isEmpty() && isParticipationListLoaded && isCanEdit
     ) {
         Column(
             modifier = Modifier
@@ -242,7 +242,7 @@ fun ParticipationsPage(
     }
 
     SIAnimatedVisibilityFadeOnly(
-        visible = participationsList.isEmpty() && isParticipationsLoaded && !isCanEdit
+        visible = participationList.isEmpty() && isParticipationListLoaded && !isCanEdit
     ) {
         Column(
             modifier = Modifier
@@ -265,7 +265,7 @@ fun ParticipationsPage(
         }
     }
 
-    if (participationsList.isNotEmpty() && isParticipationsLoaded) {
+    if (participationList.isNotEmpty() && isParticipationListLoaded) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(9.dp),
@@ -275,7 +275,7 @@ fun ParticipationsPage(
                 top = 25.dp
             )
         ) {
-            items(participationsList) { participation ->
+            items(participationList) { participation ->
                 ParticipationItem(
                     participation = participation,
                     onClick = { onParticipationPressed(participation.projectId) },
@@ -598,38 +598,38 @@ private fun TopBar(
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewParticipationsPage(
+fun PreviewParticipationListPage(
     @PreviewParameter(SampleParticipationProvider::class) participation: Participation
 ) {
     AppTheme {
-        ParticipationsPage(
-            participationsList = listOf(participation, participation, participation),
+        ParticipationListPage(
+            participationList = listOf(participation, participation, participation),
             isCanEdit = true,
-            isParticipationsLoaded = true
+            isParticipationListLoaded = true
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewParticipationsPageEmpty() {
+fun PreviewParticipationListPageEmpty() {
     AppTheme {
-        ParticipationsPage(
-            participationsList = listOf(),
+        ParticipationListPage(
+            participationList = listOf(),
             isCanEdit = true,
-            isParticipationsLoaded = true
+            isParticipationListLoaded = true
         )
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-fun PreviewParticipationsPageEmptyCanEdit() {
+fun PreviewParticipationListPageEmptyCanEdit() {
     AppTheme {
-        ParticipationsPage(
-            participationsList = listOf(),
+        ParticipationListPage(
+            participationList = listOf(),
             isCanEdit = false,
-            isParticipationsLoaded = true
+            isParticipationListLoaded = true
         )
     }
 }
@@ -640,10 +640,10 @@ fun PreviewAuthorizedPage(@PreviewParameter(SampleCandidateProvider::class) cand
     AppTheme {
         AuthorizedPage(
             candidate = candidate,
-            isParticipationsLoaded = true,
-            isProjectsLoaded = true,
-            participationsList = listOf(),
-            projectsList = mutableListOf(),
+            isParticipationListLoaded = true,
+            isProjectListLoaded = true,
+            participationList = listOf(),
+            projectList = mutableListOf(),
             networkStatus = NetworkStatus.Available
         )
     }
@@ -657,10 +657,10 @@ fun PreviewAuthorizedPageNoNetwork(
     AppTheme {
         AuthorizedPage(
             candidate = candidate,
-            isParticipationsLoaded = true,
-            isProjectsLoaded = true,
-            participationsList = listOf(),
-            projectsList = mutableListOf(),
+            isParticipationListLoaded = true,
+            isProjectListLoaded = true,
+            participationList = listOf(),
+            projectList = mutableListOf(),
             networkStatus = NetworkStatus.Unavailable
         )
     }

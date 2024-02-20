@@ -2,11 +2,6 @@ package com.istu.schedule.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.istu.schedule.data.service.projfair.CandidateService
-import com.istu.schedule.data.service.projfair.FiltersDataService
-import com.istu.schedule.data.service.projfair.ParticipationsService
-import com.istu.schedule.data.service.projfair.ProjectStateService
-import com.istu.schedule.data.service.projfair.ProjectsService
 import com.istu.schedule.data.service.schedule.ClassroomsService
 import com.istu.schedule.data.service.schedule.GroupsService
 import com.istu.schedule.data.service.schedule.InstitutesService
@@ -30,25 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkModule {
 
     @Provides
-    @Named("ProjfairBaseUrl")
-    fun provideProjfairBaseUrl() = "https://projfair.istu.edu/"
-
-    @Provides
     @Named("ScheduleBaseUrl")
     fun provideScheduleBaseUrl() = "http://schedule-api.ovz2.j08801197.m397m.vps.myjino.ru/"
-
-    @Provides
-    @Named("ProjfairRetrofit")
-    fun provideProjfairRetrofit(
-        @Named("ProjfairBaseUrl") baseUrl: String,
-        okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .baseUrl(baseUrl)
-            .build()
-    }
 
     @Provides
     @Named("ScheduleRetrofit")
@@ -100,33 +78,6 @@ object NetworkModule {
             .build()
     }
 
-    // Projfair
-    @Provides
-    fun providerProjectsService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ): ProjectsService = retrofit.create(ProjectsService::class.java)
-
-    @Provides
-    fun providerCandidateService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ): CandidateService = retrofit.create(CandidateService::class.java)
-
-    @Provides
-    fun providerProjectStatesService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ): ProjectStateService = retrofit.create(ProjectStateService::class.java)
-
-    @Provides
-    fun providerParticipationsService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ): ParticipationsService = retrofit.create(ParticipationsService::class.java)
-
-    @Provides
-    fun providerFiltersDataService(
-        @Named("ProjfairRetrofit") retrofit: Retrofit
-    ): FiltersDataService = retrofit.create(FiltersDataService::class.java)
-
-    // Schedule
     @Provides
     fun providerInstitutesService(
         @Named("ScheduleRetrofit") retrofit: Retrofit

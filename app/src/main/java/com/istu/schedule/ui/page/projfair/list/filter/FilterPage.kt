@@ -32,10 +32,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.model.ProjfairFiltersState
-import com.istu.schedule.domain.model.projfair.Skill
-import com.istu.schedule.domain.model.projfair.SkillCategory
-import com.istu.schedule.domain.model.projfair.Speciality
 import com.istu.schedule.ui.components.base.CheckboxGroup
 import com.istu.schedule.ui.components.base.SIDropdownMenu
 import com.istu.schedule.ui.components.base.StringResourceItem
@@ -44,6 +40,10 @@ import com.istu.schedule.ui.components.base.button.TextButton
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
+import me.progneo.projfair.domain.model.FiltersState
+import me.progneo.projfair.domain.model.Skill
+import me.progneo.projfair.domain.model.SkillCategory
+import me.progneo.projfair.domain.model.Speciality
 
 @Composable
 fun FiltersPage(
@@ -72,10 +72,10 @@ fun FiltersPage(
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun FiltersPage(
-    filters: ProjfairFiltersState,
+    filters: FiltersState,
     skillsList: List<Skill>,
     specialitiesList: List<Speciality>,
-    onFindPressed: (ProjfairFiltersState) -> Unit = {},
+    onFindPressed: (FiltersState) -> Unit = {},
     onBackPressed: () -> Unit = {}
 ) {
     var selectedStatusesList by remember { mutableStateOf(filters.statusesList) }
@@ -179,7 +179,7 @@ fun FiltersPage(
                         .height(42.dp),
                     text = stringResource(R.string.find),
                     onClick = {
-                        val projfairFiltersState = ProjfairFiltersState(
+                        val projfairFiltersState = FiltersState(
                             isChanged = true,
                             statusesList = selectedStatusesList,
                             difficultiesList = selectedDifficultiesList,
@@ -219,7 +219,7 @@ fun FiltersPage(
 fun PreviewComposablePage() {
     AppTheme {
         FiltersPage(
-            filters = ProjfairFiltersState(),
+            filters = FiltersState(),
             skillsList = listOf(Skill(1, "Skill", SkillCategory(1, "Category"))),
             specialitiesList = listOf()
         )

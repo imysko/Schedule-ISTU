@@ -59,9 +59,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.domain.model.projfair.Participation
-import com.istu.schedule.domain.model.projfair.Project
-import com.istu.schedule.domain.model.projfair.SampleProjectProvider
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.NoInternetPanel
@@ -78,10 +75,13 @@ import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.ui.util.NavDestinations
+import com.istu.schedule.ui.util.provider.SampleProjectProvider
 import com.istu.schedule.util.toProjectDifficulty
-import kotlinx.coroutines.launch
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import kotlinx.coroutines.launch
+import me.progneo.projfair.domain.model.Participation
+import me.progneo.projfair.domain.model.Project
 
 @Composable
 fun ProjectPage(
@@ -91,7 +91,7 @@ fun ProjectPage(
     viewModel: ProjectViewModel = hiltViewModel()
 ) {
     val project by viewModel.project.observeAsState(initial = null)
-    val participationList by viewModel.participationsList.observeAsState(initial = emptyList())
+    val participationList by viewModel.participationList.observeAsState(initial = emptyList())
     val networkStatus by viewModel.networkStatus.observeAsState(initial = NetworkStatus.Available)
 
     var participationExists by remember { mutableStateOf(false) }
@@ -641,7 +641,7 @@ fun PreviewProjectAboutPage(@PreviewParameter(SampleProjectProvider::class) proj
 
 @Preview(group = "Loaded", showBackground = true)
 @Composable
-fun PreviewProjectListOfParticipationsPage(
+fun PreviewProjectListOfParticipationPage(
     @PreviewParameter(SampleProjectProvider::class) project: Project
 ) {
     AppTheme {

@@ -1,20 +1,10 @@
 package com.istu.schedule.di
 
-import com.istu.schedule.data.repository.projfair.CandidateRepositoryImpl
-import com.istu.schedule.data.repository.projfair.FiltersDataRepositoryImpl
-import com.istu.schedule.data.repository.projfair.ParticipationsRepositoryImpl
-import com.istu.schedule.data.repository.projfair.ProjectStateRepositoryImpl
-import com.istu.schedule.data.repository.projfair.ProjectsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ClassroomsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.GroupsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
 import com.istu.schedule.data.repository.schedule.TeachersRepositoryImpl
-import com.istu.schedule.domain.repository.projfair.CandidateRepository
-import com.istu.schedule.domain.repository.projfair.FiltersDataRepository
-import com.istu.schedule.domain.repository.projfair.ParticipationsRepository
-import com.istu.schedule.domain.repository.projfair.ProjectStateRepository
-import com.istu.schedule.domain.repository.projfair.ProjectsRepository
 import com.istu.schedule.domain.repository.schedule.ClassroomsRepository
 import com.istu.schedule.domain.repository.schedule.GroupsRepository
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
@@ -30,38 +20,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    /** Repositories for "Projfair" */
-    @Binds
-    @Singleton
-    abstract fun bindProjectsRepository(
-        projectsRepositoryImpl: ProjectsRepositoryImpl
-    ): ProjectsRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindCandidateRepository(
-        candidateRepositoryImpl: CandidateRepositoryImpl
-    ): CandidateRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindProjectSateRepository(
-        projectStateRepository: ProjectStateRepositoryImpl
-    ): ProjectStateRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindParticipationsRepository(
-        participationsRepository: ParticipationsRepositoryImpl
-    ): ParticipationsRepository
-
-    @Binds
-    @Singleton
-    abstract fun bindFiltersDataRepository(
-        filtersDataRepository: FiltersDataRepositoryImpl
-    ): FiltersDataRepository
-
-    /** Repositories for schedule */
     @Binds
     @Singleton
     abstract fun bindInstitutesRepository(

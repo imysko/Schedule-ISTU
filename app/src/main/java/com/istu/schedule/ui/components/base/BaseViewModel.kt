@@ -6,12 +6,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.distinctUntilChanged
 import androidx.lifecycle.viewModelScope
-import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.data.exception.NoConnectivityException
-import com.istu.schedule.data.model.RequestException
-import kotlinx.coroutines.launch
+import com.istu.schedule.data.api.entities.RequestException
+import com.istu.schedule.util.NetworkStatus
+import com.istu.schedule.util.exception.NoConnectivityException
 import java.net.HttpURLConnection
 import java.net.SocketTimeoutException
+import kotlinx.coroutines.launch
 
 open class BaseViewModel : LifecycleObserver, ViewModel() {
 

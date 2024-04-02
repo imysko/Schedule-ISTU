@@ -31,9 +31,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.model.Week
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.Week
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.ui.components.base.button.FilledButton
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.ShapeTop15
@@ -50,7 +50,7 @@ fun ScheduleContent(
     onSearchButtonClick: () -> Unit,
     onDateSelect: (LocalDate) -> Unit,
     backNavigationButton: (@Composable () -> Unit)? = null,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
@@ -62,7 +62,7 @@ fun ScheduleContent(
                 currentDate = currentDate,
                 selectedDate = selectedDate,
                 onSearchButtonClick = onSearchButtonClick,
-                onDateSelect = onDateSelect,
+                onDateSelect = onDateSelect
             )
         },
         content = {
@@ -71,7 +71,7 @@ fun ScheduleContent(
                     .padding(it)
                     .fillMaxSize()
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.backgroundSecondary),
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 backNavigationButton?.invoke()
                 content()
@@ -85,7 +85,7 @@ fun ScheduleList(
     currentDateTime: LocalDateTime,
     studyDay: StudyDay,
     onDropdownItemClick: (ScheduleType, Int, String) -> Unit,
-    onLongPressVibrate: (() -> Unit)? = null,
+    onLongPressVibrate: (() -> Unit)? = null
 ) {
     val listState = rememberLazyListState()
     var pressOffset by remember { mutableStateOf(DpOffset.Zero) }
@@ -96,7 +96,7 @@ fun ScheduleList(
             .padding(horizontal = 15.dp),
         state = listState,
         contentPadding = PaddingValues(top = 15.dp, bottom = 30.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         studyDay.lessons.indices.forEach { index ->
             studyDay.lessons[index].also { lesson ->
@@ -112,7 +112,7 @@ fun ScheduleList(
                         onLongPress = {
                             pressOffset = it
                             onLongPressVibrate?.invoke()
-                        },
+                        }
                     )
                 }
                 lesson.breakTimeAfter?.let {
@@ -137,7 +137,7 @@ fun ScheduleListIsLoading() {
             .fillMaxSize()
             .padding(horizontal = 15.dp),
         contentPadding = PaddingValues(top = 15.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
         items(3) {
             ScheduleCardPlaceHolder()
@@ -150,28 +150,28 @@ fun ScheduleListIsLoading() {
 
 @Composable
 fun UserNotBindPlaceholder(
-    onSetupScheduleClick: () -> Unit,
+    onSetupScheduleClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(
             space = 25.dp,
-            alignment = Alignment.CenterVertically,
+            alignment = Alignment.CenterVertically
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             modifier = Modifier.width(300.dp),
             text = stringResource(R.string.unknown_user),
             style = AppTheme.typography.title.copy(color = AppTheme.colorScheme.textPrimary),
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         FilledButton(
             modifier = Modifier
                 .width(250.dp),
             text = stringResource(R.string.setup_schedule),
-            onClick = onSetupScheduleClick,
+            onClick = onSetupScheduleClick
         )
         Spacer(modifier = Modifier.height(64.dp))
     }
@@ -180,7 +180,7 @@ fun UserNotBindPlaceholder(
 @Composable
 fun WeekendPlaceholder(
     currentDate: LocalDate,
-    selectedDate: LocalDate,
+    selectedDate: LocalDate
 ) {
     Column(
         modifier = Modifier
@@ -188,14 +188,14 @@ fun WeekendPlaceholder(
             .padding(horizontal = 50.dp),
         verticalArrangement = Arrangement.spacedBy(
             space = 15.dp,
-            alignment = Alignment.CenterVertically,
+            alignment = Alignment.CenterVertically
         ),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Image(
             modifier = Modifier.size(180.dp),
             painter = painterResource(R.drawable.login_to_personal_account),
-            contentDescription = null,
+            contentDescription = null
         )
         Text(
             modifier = Modifier.fillMaxWidth(),
@@ -206,7 +206,7 @@ fun WeekendPlaceholder(
             },
             style = AppTheme.typography.subtitle,
             color = AppTheme.colorScheme.secondary,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(64.dp))
     }

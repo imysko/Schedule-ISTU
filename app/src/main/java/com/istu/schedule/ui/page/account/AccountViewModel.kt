@@ -3,7 +3,7 @@ package com.istu.schedule.ui.page.account
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.istu.schedule.data.enums.ProjfairAuthStatus
+import com.istu.schedule.data.api.entities.projfair.enums.ProjfairAuthStatus
 import com.istu.schedule.data.model.User
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem

@@ -1,11 +1,17 @@
 package com.istu.schedule.di
 
 import com.istu.schedule.data.repository.schedule.ClassroomsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.FavoriteClassroomsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.FavoriteGroupsRepositoryImpl
+import com.istu.schedule.data.repository.schedule.FavoriteTeachersRepositoryImpl
 import com.istu.schedule.data.repository.schedule.GroupsRepositoryImpl
 import com.istu.schedule.data.repository.schedule.InstitutesRepositoryImpl
 import com.istu.schedule.data.repository.schedule.ScheduleRepositoryImpl
 import com.istu.schedule.data.repository.schedule.TeachersRepositoryImpl
 import com.istu.schedule.domain.repository.schedule.ClassroomsRepository
+import com.istu.schedule.domain.repository.schedule.FavoriteClassroomsRepository
+import com.istu.schedule.domain.repository.schedule.FavoriteGroupsRepository
+import com.istu.schedule.domain.repository.schedule.FavoriteTeachersRepository
 import com.istu.schedule.domain.repository.schedule.GroupsRepository
 import com.istu.schedule.domain.repository.schedule.InstitutesRepository
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
@@ -23,30 +29,48 @@ abstract class RepositoryModule {
     @Binds
     @Singleton
     abstract fun bindInstitutesRepository(
-        institutesRepositoryImpl: InstitutesRepositoryImpl
+        institutesRepository: InstitutesRepositoryImpl
     ): InstitutesRepository
 
     @Binds
     @Singleton
     abstract fun bindGroupsRepository(
-        groupsRepositoryImpl: GroupsRepositoryImpl
+        groupsRepository: GroupsRepositoryImpl
     ): GroupsRepository
 
     @Binds
     @Singleton
     abstract fun bindTeachersRepository(
-        teachersRepositoryImpl: TeachersRepositoryImpl
+        teachersRepository: TeachersRepositoryImpl
     ): TeachersRepository
 
     @Binds
     @Singleton
     abstract fun bindClassroomsRepository(
-        classroomsRepositoryImpl: ClassroomsRepositoryImpl
+        classroomsRepository: ClassroomsRepositoryImpl
     ): ClassroomsRepository
 
     @Binds
     @Singleton
     abstract fun bindScheduleRepository(
-        scheduleRepositoryImpl: ScheduleRepositoryImpl
+        scheduleRepository: ScheduleRepositoryImpl
     ): ScheduleRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteGroupsRepository(
+        favoriteGroupsRepository: FavoriteGroupsRepositoryImpl
+    ): FavoriteGroupsRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteTeachersRepository(
+        favoriteTeachersRepository: FavoriteTeachersRepositoryImpl
+    ): FavoriteTeachersRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindFavoriteClassroomsRepository(
+        favoriteClassroomsRepository: FavoriteClassroomsRepositoryImpl
+    ): FavoriteClassroomsRepository
 }

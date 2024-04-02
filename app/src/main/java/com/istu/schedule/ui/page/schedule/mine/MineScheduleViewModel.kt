@@ -1,29 +1,29 @@
 package com.istu.schedule.ui.page.schedule.mine
 
 import android.util.Log
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.enums.Subgroup
-import com.istu.schedule.data.enums.UserStatus
-import com.istu.schedule.data.model.RequestException
+import com.istu.schedule.data.api.entities.RequestException
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.schedule.Lesson
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.Subgroup
+import com.istu.schedule.domain.entities.UserStatus
+import com.istu.schedule.domain.entities.schedule.Lesson
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.domain.usecase.schedule.GetScheduleOnDayUseCase
 import com.istu.schedule.ui.page.schedule.ScheduleViewModel
 import com.istu.schedule.ui.util.VibrationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.LocalDate
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import okhttp3.internal.http.HTTP_NOT_FOUND
-import java.time.LocalDate
-import javax.inject.Inject
 
 @HiltViewModel
 class MineScheduleViewModel @Inject constructor(
     val vibrationManager: VibrationManager,
     private val useCaseScheduleOnDay: GetScheduleOnDayUseCase,
-    private val _user: User,
+    private val _user: User
 ) : ScheduleViewModel() {
 
     private val _uiState = MutableStateFlow<MineScheduleUiState>(MineScheduleUiState.UnknownUser)
@@ -88,19 +88,22 @@ class MineScheduleViewModel @Inject constructor(
             } catch (ex: Exception) {
                 Log.e("getSchedule", ex.toString())
 
-                _uiState.tryEmit(MineScheduleUiState.Error(
+                _uiState.tryEmit(
+                    MineScheduleUiState.Error(
                         description = _user.userDescription,
-                        message = ex.message ?: "",
+                        message = ex.message ?: ""
                     )
                 )
             }
-        }, onError = { it as RequestException
+        }, onError = {
+            it as RequestException
             if (it.code == HTTP_NOT_FOUND) {
                 _uiState.tryEmit(MineScheduleUiState.Weekend(_user.userDescription))
             } else {
-                _uiState.tryEmit(MineScheduleUiState.Error(
-                    description = _user.userDescription,
-                    message = it.message ?: "",
+                _uiState.tryEmit(
+                    MineScheduleUiState.Error(
+                        description = _user.userDescription,
+                        message = it.message ?: ""
                     )
                 )
             }
@@ -118,11 +121,11 @@ class MineScheduleViewModel @Inject constructor(
                     breakTimeAfter = lesson.breakTimeAfter,
                     schedules = lesson.schedules.filter {
                         it.subgroup == subgroup.subgroupId || it.subgroup == Subgroup.ALL.subgroupId
-                    },
+                    }
                 )
             }.filter {
                 it.schedules.any()
-            },
+            }
         )
     }
 }

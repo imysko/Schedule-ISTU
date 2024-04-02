@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.data.model.Week
+import com.istu.schedule.domain.entities.Week
 import com.istu.schedule.ui.components.calendar.HorizontalCalendar
 import com.istu.schedule.ui.icons.Search
 import com.istu.schedule.ui.theme.AppTheme
@@ -34,7 +34,7 @@ fun ScheduleTopBar(
     currentDate: LocalDate,
     selectedDate: LocalDate,
     onSearchButtonClick: () -> Unit,
-    onDateSelect: (LocalDate) -> Unit,
+    onDateSelect: (LocalDate) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -45,11 +45,11 @@ fun ScheduleTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 15.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Column(
                 modifier = Modifier.weight(0.7f),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
                     text = stringResource(id = R.string.title_schedule),
@@ -102,7 +102,7 @@ fun ScheduleTopBarPreview() {
                 ),
                 currentDate = LocalDate.of(2023, 6, 13),
                 selectedDate = LocalDate.of(2023, 6, 15),
-                onSearchButtonClick = {  },
+                onSearchButtonClick = { },
                 onDateSelect = { }
             )
         }

@@ -58,7 +58,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.NoInternetPanel
@@ -75,7 +74,8 @@ import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape10
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.ui.util.NavDestinations
-import com.istu.schedule.ui.util.provider.SampleProjectProvider
+import com.istu.schedule.ui.util.previewParameterProviders.SampleProjectPreviewParameterProvider
+import com.istu.schedule.util.NetworkStatus
 import com.istu.schedule.util.toProjectDifficulty
 import java.text.DateFormat
 import java.text.SimpleDateFormat
@@ -629,7 +629,9 @@ fun PreviewProjectPageNoNetwork() {
 
 @Preview
 @Composable
-fun PreviewProjectAboutPage(@PreviewParameter(SampleProjectProvider::class) project: Project) {
+fun PreviewProjectAboutPage(
+    @PreviewParameter(SampleProjectPreviewParameterProvider::class) project: Project
+) {
     AppTheme {
         ProjectPage(
             project = project,
@@ -642,7 +644,7 @@ fun PreviewProjectAboutPage(@PreviewParameter(SampleProjectProvider::class) proj
 @Preview(group = "Loaded", showBackground = true)
 @Composable
 fun PreviewProjectListOfParticipationPage(
-    @PreviewParameter(SampleProjectProvider::class) project: Project
+    @PreviewParameter(SampleProjectPreviewParameterProvider::class) project: Project
 ) {
     AppTheme {
         ProjectParticipations(project)

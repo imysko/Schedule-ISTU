@@ -23,8 +23,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.Parity
-import com.istu.schedule.data.model.Week
+import com.istu.schedule.domain.entities.Parity
+import com.istu.schedule.domain.entities.Week
 import com.istu.schedule.ui.fonts.interFamily
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape21_5
@@ -44,13 +44,13 @@ fun Week(
             .padding(horizontal = 15.dp)
             .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(7.dp),
+        verticalArrangement = Arrangement.spacedBy(7.dp)
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 12.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
                 text = week.days.first().month
@@ -67,7 +67,7 @@ fun Week(
                     },
                 fontFamily = interFamily,
                 fontSize = 12.sp,
-                color = AppTheme.colorScheme.backgroundSecondary,
+                color = AppTheme.colorScheme.backgroundSecondary
             )
 
             Text(
@@ -77,7 +77,7 @@ fun Week(
                 },
                 fontFamily = interFamily,
                 fontSize = 12.sp,
-                color = AppTheme.colorScheme.backgroundSecondary,
+                color = AppTheme.colorScheme.backgroundSecondary
             )
         }
 

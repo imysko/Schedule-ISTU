@@ -47,7 +47,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.ListStatus
+import com.istu.schedule.data.api.entities.projfair.enums.ListStatus
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibility
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
@@ -61,7 +61,7 @@ import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape5
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.ui.util.NavDestinations
-import com.istu.schedule.ui.util.provider.SampleProjectProvider
+import com.istu.schedule.ui.util.previewParameterProviders.SampleProjectPreviewParameterProvider
 import com.istu.schedule.util.OnBottomReached
 import com.istu.schedule.util.collectAsStateValue
 import me.progneo.projfair.domain.model.Project
@@ -380,7 +380,7 @@ fun PreviewProjectsListPageEmpty() {
 @Preview(showBackground = true)
 @Composable
 fun PreviewProjectListPageWithLoading(
-    @PreviewParameter(SampleProjectProvider::class) project: Project
+    @PreviewParameter(SampleProjectPreviewParameterProvider::class) project: Project
 ) {
     AppTheme {
         ProjectsListPage(

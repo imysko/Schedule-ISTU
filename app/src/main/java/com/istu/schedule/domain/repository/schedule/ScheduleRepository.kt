@@ -1,6 +1,6 @@
 package com.istu.schedule.domain.repository.schedule
 
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.schedule.StudyDay
 
 interface ScheduleRepository {
 

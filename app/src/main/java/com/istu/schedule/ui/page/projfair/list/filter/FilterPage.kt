@@ -220,7 +220,9 @@ fun PreviewComposablePage() {
     AppTheme {
         FiltersPage(
             filters = FiltersState(),
-            skillsList = listOf(Skill(1, "Skill", SkillCategory(1, "Category"))),
+            skillsList = listOf(
+                Skill(1, "me.progneo.projfair.domain.model.Skill", SkillCategory(1, "Category"))
+            ),
             specialitiesList = listOf()
         )
     }

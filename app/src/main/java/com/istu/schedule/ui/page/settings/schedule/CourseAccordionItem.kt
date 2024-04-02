@@ -24,14 +24,16 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.schedule.Course
-import com.istu.schedule.domain.model.schedule.Group
+import com.istu.schedule.domain.entities.schedule.Course
+import com.istu.schedule.domain.entities.schedule.Group
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.TrailingIcon
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.theme.Shape10
+import com.istu.schedule.ui.util.previewParameterProviders.SampleGroupListPreviewParameterProvider
 import java.util.Locale
 
 @Composable
@@ -46,37 +48,37 @@ fun CourseAccordionItem(
         modifier = Modifier.fillMaxWidth(),
         shape = Shape10,
         elevation = CardDefaults.cardElevation(
-            defaultElevation = 2.dp,
+            defaultElevation = 2.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = AppTheme.colorScheme.surface,
-        ),
+            containerColor = AppTheme.colorScheme.surface
+        )
     ) {
         Column(
             modifier = Modifier.animateContentSize(),
-            verticalArrangement = Arrangement.spacedBy(15.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(Shape10)
-                    .clickable { isExpanded = !isExpanded },
+                    .clickable { isExpanded = !isExpanded }
             ) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(20.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
                         text = "${course.courseNumber} ${
                             stringResource(id = R.string.course).lowercase(Locale.getDefault())
                         }",
                         style = AppTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.SemiBold,
+                            fontWeight = FontWeight.SemiBold
                         ),
-                        color = AppTheme.colorScheme.textPrimary,
+                        color = AppTheme.colorScheme.textPrimary
                     )
 
                     TrailingIcon(isExpanded)
@@ -86,7 +88,7 @@ fun CourseAccordionItem(
             SIAnimatedVisibilityFadeOnly(visible = isExpanded) {
                 FlowGroups(
                     groups = course.groups!!,
-                    onChooseGroup = { onChooseGroup(it) },
+                    onChooseGroup = { onChooseGroup(it) }
                 )
             }
         }
@@ -104,7 +106,7 @@ fun FlowGroups(
             .fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalArrangement = Arrangement.spacedBy(10.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         groups.forEach {
             Row(
@@ -113,13 +115,13 @@ fun FlowGroups(
                     .clip(Shape10)
                     .background(AppTheme.colorScheme.primaryContainer)
                     .clickable { onChooseGroup(it) },
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
             ) {
                 Text(
                     modifier = Modifier.padding(vertical = 10.dp),
                     text = it.name!!,
                     style = AppTheme.typography.title,
-                    color = AppTheme.colorScheme.primary,
+                    color = AppTheme.colorScheme.primary
                 )
             }
         }
@@ -128,33 +130,13 @@ fun FlowGroups(
 
 @Composable
 @Preview
-fun FlowGroupsPreview() {
+fun FlowGroupsPreview(
+    @PreviewParameter(SampleGroupListPreviewParameterProvider::class) groups: List<Group>
+) {
     AppTheme {
         FlowGroups(
-            groups = mutableListOf(
-                Group(
-                    groupId = 0,
-                    name = "ИСТб-20-1",
-                    course = 3,
-                    instituteId = 0,
-                    institute = null,
-                ),
-                Group(
-                    groupId = 0,
-                    name = "ИСТб-20-2",
-                    course = 3,
-                    instituteId = 0,
-                    institute = null,
-                ),
-                Group(
-                    groupId = 0,
-                    name = "ИСТб-20-3",
-                    course = 3,
-                    instituteId = 0,
-                    institute = null,
-                )
-            ),
-            onChooseGroup = { },
+            groups = groups,
+            onChooseGroup = { }
         )
     }
 }
@@ -166,47 +148,27 @@ fun CourseAccordionItemPreview() {
         CourseAccordionItem(
             course = Course(
                 courseNumber = 3,
-                groups = emptyList(),
+                groups = emptyList()
             ),
             expanded = false,
-            onChooseGroup = { },
+            onChooseGroup = { }
         )
     }
 }
 
 @Composable
 @Preview(name = "Accordion item expanded")
-fun CourseAccordionItemExpandedPreview() {
+fun CourseAccordionItemExpandedPreview(
+    @PreviewParameter(SampleGroupListPreviewParameterProvider::class) groups: List<Group>
+) {
     AppTheme {
         CourseAccordionItem(
             course = Course(
                 courseNumber = 3,
-                groups = mutableListOf(
-                    Group(
-                        groupId = 0,
-                        name = "ИСТб-20-1",
-                        course = 3,
-                        instituteId = 0,
-                        institute = null,
-                    ),
-                    Group(
-                        groupId = 0,
-                        name = "ИСТб-20-2",
-                        course = 3,
-                        instituteId = 0,
-                        institute = null,
-                    ),
-                    Group(
-                        groupId = 0,
-                        name = "ИСТб-20-3",
-                        course = 3,
-                        instituteId = 0,
-                        institute = null,
-                    )
-                )
+                groups = groups
             ),
             expanded = true,
-            onChooseGroup = { },
+            onChooseGroup = { }
         )
     }
 }

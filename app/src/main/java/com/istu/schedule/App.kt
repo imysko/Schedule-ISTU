@@ -1,8 +1,8 @@
 package com.istu.schedule
 
 import android.app.Application
-import com.istu.schedule.data.model.NetworkManager
 import com.istu.schedule.data.model.User
+import com.istu.schedule.ui.util.NetworkManager
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 

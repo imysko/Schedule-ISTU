@@ -15,10 +15,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.data.model.Week
-import com.istu.schedule.domain.model.schedule.SampleStudyDayProvider
-import com.istu.schedule.domain.model.schedule.StudyDay
+import com.istu.schedule.domain.entities.Week
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.page.schedule.ScheduleContent
 import com.istu.schedule.ui.page.schedule.ScheduleList
@@ -28,6 +27,7 @@ import com.istu.schedule.ui.page.schedule.WeekendPlaceholder
 import com.istu.schedule.ui.theme.AppTheme
 import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.ui.util.VibrationManager
+import com.istu.schedule.ui.util.previewParameterProviders.SampleStudyDayPreviewParameterProvider
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -35,7 +35,7 @@ import java.time.LocalTime
 @Composable
 fun MineSchedulePage(
     navController: NavHostController,
-    viewModel: MineScheduleViewModel = hiltViewModel(),
+    viewModel: MineScheduleViewModel = hiltViewModel()
 ) {
     val schedule = viewModel.schedule
 
@@ -74,7 +74,7 @@ fun MineSchedulePage(
     LaunchedEffect(startOfListReached) {
         viewModel.addWeekForward()
         calendarState.scrollToItem(
-            index = calendarState.firstVisibleItemIndex + 1,
+            index = calendarState.firstVisibleItemIndex + 1
         )
     }
 
@@ -95,7 +95,7 @@ fun MineSchedulePage(
         onSetupScheduleClick = { navController.navigate(NavDestinations.SETTING_SCHEDULE) },
         onDropdownItemClick = { scheduleType, id, title ->
             navController.navigate(
-                "${NavDestinations.FOUND_SCHEDULE}/${scheduleType}/${id}/${title}"
+                "${NavDestinations.FOUND_SCHEDULE}/$scheduleType/$id/$title"
             )
         },
         onLongPressVibrate = {
@@ -103,7 +103,7 @@ fun MineSchedulePage(
                 context = localContext,
                 effect = VibrationManager.LongPress
             )
-        },
+        }
     )
 }
 
@@ -120,7 +120,7 @@ fun MineSchedulePage(
     onSearchButtonClick: () -> Unit,
     onSetupScheduleClick: () -> Unit,
     onDropdownItemClick: (ScheduleType, Int, String) -> Unit,
-    onLongPressVibrate: (() -> Unit)? = null,
+    onLongPressVibrate: (() -> Unit)? = null
 ) {
     ScheduleContent(
         subtitle = uiState.description,
@@ -133,7 +133,7 @@ fun MineSchedulePage(
         content = {
             Crossfade(
                 targetState = uiState,
-                label = "",
+                label = ""
             ) { targetState ->
                 when (targetState) {
                     is MineScheduleUiState.NoInternetConnection -> NoInternetPanel()
@@ -151,20 +151,20 @@ fun MineSchedulePage(
                                 onDropdownItemClick = { scheduleType, id, title ->
                                     onDropdownItemClick(scheduleType, id, title)
                                 },
-                                onLongPressVibrate = onLongPressVibrate,
+                                onLongPressVibrate = onLongPressVibrate
                             )
                         }
                     }
                     is MineScheduleUiState.Weekend -> {
                         WeekendPlaceholder(
                             currentDate = currentDate,
-                            selectedDate = selectedDate,
+                            selectedDate = selectedDate
                         )
                     }
                     is MineScheduleUiState.Error -> Unit // TODO: processing error state
                 }
             }
-        },
+        }
     )
 }
 
@@ -176,17 +176,17 @@ fun IsLoadingMineSchedulePreview() {
             uiState = MineScheduleUiState.OnLoading("ИСТб-20-3"),
             calendarState = rememberLazyListState(),
             weeksList = listOf(
-                Week(startDayOfWeek = LocalDate.of(2023, 11, 6)),
+                Week(startDayOfWeek = LocalDate.of(2023, 11, 6))
             ),
             currentDateTime = LocalDateTime.of(
                 LocalDate.of(2023, 11, 10),
-                LocalTime.now(),
+                LocalTime.now()
             ),
             selectedDate = LocalDate.of(2023, 11, 8),
             onDateSelect = { },
             onSearchButtonClick = { },
             onSetupScheduleClick = { },
-            onDropdownItemClick = { _, _, _ -> },
+            onDropdownItemClick = { _, _, _ -> }
         )
     }
 }
@@ -194,25 +194,25 @@ fun IsLoadingMineSchedulePreview() {
 @Composable
 @Preview(showBackground = true, name = "Schedule list", group = "Mine schedule")
 fun ScheduleListMineSchedulePreview(
-    @PreviewParameter(SampleStudyDayProvider::class) studyDay: StudyDay,
+    @PreviewParameter(SampleStudyDayPreviewParameterProvider::class) studyDay: StudyDay
 ) {
     AppTheme {
         MineSchedulePage(
             uiState = MineScheduleUiState.Schedule("ИСТб-20-3"),
             calendarState = rememberLazyListState(),
             weeksList = listOf(
-                Week(startDayOfWeek = LocalDate.of(2023, 11, 6)),
+                Week(startDayOfWeek = LocalDate.of(2023, 11, 6))
             ),
             currentDateTime = LocalDateTime.of(
                 LocalDate.of(2023, 11, 8),
-                LocalTime.of(13, 58),
+                LocalTime.of(13, 58)
             ),
             selectedDate = LocalDate.of(2023, 11, 8),
             studyDay = studyDay,
             onDateSelect = { },
             onSearchButtonClick = { },
             onSetupScheduleClick = { },
-            onDropdownItemClick = { _, _, _ -> },
+            onDropdownItemClick = { _, _, _ -> }
         )
     }
 }
@@ -225,17 +225,17 @@ fun NoInternetConnectionMineSchedulePreview() {
             uiState = MineScheduleUiState.NoInternetConnection("ИСТб-20-3"),
             calendarState = rememberLazyListState(),
             weeksList = listOf(
-                Week(startDayOfWeek = LocalDate.of(2023, 11, 6)),
+                Week(startDayOfWeek = LocalDate.of(2023, 11, 6))
             ),
             currentDateTime = LocalDateTime.of(
                 LocalDate.of(2023, 11, 10),
-                LocalTime.now(),
+                LocalTime.now()
             ),
             selectedDate = LocalDate.of(2023, 11, 8),
             onDateSelect = { },
             onSearchButtonClick = { },
             onSetupScheduleClick = { },
-            onDropdownItemClick = { _, _, _ -> },
+            onDropdownItemClick = { _, _, _ -> }
         )
     }
 }
@@ -248,17 +248,17 @@ fun UserNotBindMineSchedulePreview() {
             uiState = MineScheduleUiState.UnknownUser,
             calendarState = rememberLazyListState(),
             weeksList = listOf(
-                Week(startDayOfWeek = LocalDate.of(2023, 11, 6)),
+                Week(startDayOfWeek = LocalDate.of(2023, 11, 6))
             ),
             currentDateTime = LocalDateTime.of(
                 LocalDate.of(2023, 11, 10),
-                LocalTime.now(),
+                LocalTime.now()
             ),
             selectedDate = LocalDate.of(2023, 11, 8),
             onDateSelect = { },
             onSearchButtonClick = { },
             onSetupScheduleClick = { },
-            onDropdownItemClick = { _, _, _ -> },
+            onDropdownItemClick = { _, _, _ -> }
         )
     }
 }
@@ -266,24 +266,24 @@ fun UserNotBindMineSchedulePreview() {
 @Composable
 @Preview(showBackground = true, name = "Weekend not binded", group = "Blanks")
 fun WeekendMineSchedulePreview(
-    @PreviewParameter(SampleStudyDayProvider::class) studyDay: StudyDay,
+    @PreviewParameter(SampleStudyDayPreviewParameterProvider::class) studyDay: StudyDay
 ) {
     AppTheme {
         MineSchedulePage(
             uiState = MineScheduleUiState.Weekend("ИСТб-20-3"),
             calendarState = rememberLazyListState(),
             weeksList = listOf(
-                Week(startDayOfWeek = LocalDate.of(2023, 11, 6)),
+                Week(startDayOfWeek = LocalDate.of(2023, 11, 6))
             ),
             currentDateTime = LocalDateTime.of(
                 LocalDate.of(2023, 11, 10),
-                LocalTime.now(),
+                LocalTime.now()
             ),
             selectedDate = LocalDate.of(2023, 11, 11),
             onDateSelect = { },
             onSearchButtonClick = { },
             onSetupScheduleClick = { },
-            onDropdownItemClick = { _, _, _ -> },
+            onDropdownItemClick = { _, _, _ -> }
         )
     }
 }

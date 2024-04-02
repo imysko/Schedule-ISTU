@@ -3,9 +3,9 @@ package com.istu.schedule.data.model
 import android.content.SharedPreferences
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.enums.ProjfairAuthStatus
-import com.istu.schedule.data.enums.Subgroup
-import com.istu.schedule.data.enums.UserStatus
+import com.istu.schedule.data.api.entities.projfair.enums.ProjfairAuthStatus
+import com.istu.schedule.domain.entities.Subgroup
+import com.istu.schedule.domain.entities.UserStatus
 import com.istu.schedule.util.toSubgroupEnum
 import com.istu.schedule.util.toUserStatusEnum
 import javax.inject.Inject

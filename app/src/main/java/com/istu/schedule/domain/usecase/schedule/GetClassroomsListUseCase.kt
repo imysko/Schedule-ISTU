@@ -1,14 +1,19 @@
 package com.istu.schedule.domain.usecase.schedule
 
-import com.istu.schedule.domain.model.schedule.Classroom
+import com.istu.schedule.domain.entities.schedule.Classroom
 import com.istu.schedule.domain.repository.schedule.ClassroomsRepository
 import javax.inject.Inject
 
-class GetClassroomsListUseCase @Inject constructor(
-    private val classroomsRepository: ClassroomsRepository
-) {
+interface GetClassroomsListUseCase {
 
-    suspend fun getClassroomsList(): Result<List<Classroom>> {
+    suspend operator fun invoke(): Result<List<Classroom>>
+}
+
+class GetClassroomsListUseCaseImpl @Inject constructor(
+    private val classroomsRepository: ClassroomsRepository
+) : GetClassroomsListUseCase {
+
+    override suspend fun invoke(): Result<List<Classroom>> {
         return classroomsRepository.getClassrooms()
     }
 }

@@ -2,31 +2,33 @@ package com.istu.schedule.ui.page.settings.schedule
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.enums.Subgroup
-import com.istu.schedule.data.enums.UserStatus
 import com.istu.schedule.data.model.User
-import com.istu.schedule.domain.model.schedule.Course
-import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.domain.model.schedule.Institute
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.domain.entities.Subgroup
+import com.istu.schedule.domain.entities.UserStatus
+import com.istu.schedule.domain.entities.schedule.Course
+import com.istu.schedule.domain.entities.schedule.Group
+import com.istu.schedule.domain.entities.schedule.Institute
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.domain.usecase.schedule.GetInstitutesListUseCase
 import com.istu.schedule.domain.usecase.schedule.GetTeachersListUseCase
 import com.istu.schedule.ui.components.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.util.Locale
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import java.util.Locale
-import javax.inject.Inject
 
 @HiltViewModel
 class SettingScheduleViewModel @Inject constructor(
     private val _useCaseInstitutesList: GetInstitutesListUseCase,
     private val _useCaseTeachersList: GetTeachersListUseCase,
-    private val _user: User,
+    private val _user: User
 ) : BaseViewModel() {
 
-    private val _uiState = MutableStateFlow<SettingScheduleUiState>(SettingScheduleUiState.MainScheduleSettings())
+    private val _uiState = MutableStateFlow<SettingScheduleUiState>(
+        SettingScheduleUiState.MainScheduleSettings()
+    )
     val uiState: StateFlow<SettingScheduleUiState>
         get() = _uiState.asStateFlow()
 
@@ -58,17 +60,21 @@ class SettingScheduleViewModel @Inject constructor(
     private fun updateMainScheduleSettingsState() {
         when (_user.userType) {
             UserStatus.STUDENT -> {
-                _uiState.tryEmit(SettingScheduleUiState.MainScheduleSettings(
-                    selectedGroupDescription = _user.userDescription,
-                    isSubgroupSettingAvailable = true,
-                    subgroup = _user.userSubgroup,
-                ))
+                _uiState.tryEmit(
+                    SettingScheduleUiState.MainScheduleSettings(
+                        selectedGroupDescription = _user.userDescription,
+                        isSubgroupSettingAvailable = true,
+                        subgroup = _user.userSubgroup
+                    )
+                )
             }
             UserStatus.TEACHER -> {
-                _uiState.tryEmit(SettingScheduleUiState.MainScheduleSettings(
-                    selectedTeacherDescription = _user.userDescription,
-                    isSubgroupSettingAvailable = false,
-                ))
+                _uiState.tryEmit(
+                    SettingScheduleUiState.MainScheduleSettings(
+                        selectedTeacherDescription = _user.userDescription,
+                        isSubgroupSettingAvailable = false
+                    )
+                )
             }
             UserStatus.UNKNOWN -> {
                 _uiState.tryEmit(SettingScheduleUiState.MainScheduleSettings())
@@ -78,7 +84,7 @@ class SettingScheduleViewModel @Inject constructor(
 
     private fun getInstitutesList() {
         call({
-            _useCaseInstitutesList.getInstitutesList()
+            _useCaseInstitutesList()
         }, onSuccess = {
             _institutesList.postValue(it)
         })
@@ -86,7 +92,7 @@ class SettingScheduleViewModel @Inject constructor(
 
     private fun getTeachersList() {
         call({
-            _useCaseTeachersList.getTeachersList()
+            _useCaseTeachersList()
         }, onSuccess = {
             _teachersList.postValue(it)
             _teachersTips.postValue(it)
@@ -134,9 +140,11 @@ class SettingScheduleViewModel @Inject constructor(
         _selectedInstitute.value = institute
         getCoursesList()
 
-        _uiState.tryEmit(SettingScheduleUiState.ChooseGroupState(
-            instituteTitle = institute.instituteTitle ?: "",
-        ))
+        _uiState.tryEmit(
+            SettingScheduleUiState.ChooseGroupState(
+                instituteTitle = institute.instituteTitle ?: ""
+            )
+        )
     }
 
     private fun selectGroup(group: Group) {

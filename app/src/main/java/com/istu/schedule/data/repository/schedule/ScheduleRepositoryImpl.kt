@@ -1,8 +1,10 @@
 package com.istu.schedule.data.repository.schedule
 
-import com.istu.schedule.data.model.RequestException
-import com.istu.schedule.data.service.schedule.ScheduleService
-import com.istu.schedule.domain.model.schedule.StudyDay
+import android.util.Log
+import com.istu.schedule.data.api.entities.RequestException
+import com.istu.schedule.data.api.service.schedule.ScheduleService
+import com.istu.schedule.data.mappers.api.schedule.mapToDomain
+import com.istu.schedule.domain.entities.schedule.StudyDay
 import com.istu.schedule.domain.repository.schedule.ScheduleRepository
 import javax.inject.Inject
 
@@ -16,16 +18,20 @@ class ScheduleRepositoryImpl @Inject constructor(
     ): Result<StudyDay> {
         val apiResponse = scheduleService.getGroupScheduleOnDay(groupId, dateString)
 
-        apiResponse.body()?.let { result ->
-            return Result.success(result.first { it.date == dateString })
-        }
+        apiResponse.body()?.let { scheduleListApi ->
+            Log.i("schedule", scheduleListApi.toString())
 
-        return Result.failure(
-            RequestException(
-                code = apiResponse.code(),
-                message = apiResponse.message(),
+            return Result.success(
+                scheduleListApi.first { it.date == dateString }.mapToDomain()
             )
-        )
+        } ?: kotlin.run {
+            return Result.failure(
+                RequestException(
+                    code = apiResponse.code(),
+                    message = apiResponse.message()
+                )
+            )
+        }
     }
 
     override suspend fun getGroupScheduleOnWeek(
@@ -45,16 +51,18 @@ class ScheduleRepositoryImpl @Inject constructor(
     ): Result<StudyDay> {
         val apiResponse = scheduleService.getTeacherScheduleOnDay(teacherId, dateString)
 
-        apiResponse.body()?.let { result ->
-            return Result.success(result.first { it.date == dateString })
-        }
-
-        return Result.failure(
-            RequestException(
-                code = apiResponse.code(),
-                message = apiResponse.message(),
+        apiResponse.body()?.let { scheduleListApi ->
+            return Result.success(
+                scheduleListApi.first { it.date == dateString }.mapToDomain()
             )
-        )
+        } ?: kotlin.run {
+            return Result.failure(
+                RequestException(
+                    code = apiResponse.code(),
+                    message = apiResponse.message()
+                )
+            )
+        }
     }
 
     override suspend fun getTeacherScheduleOnWeek(
@@ -77,16 +85,18 @@ class ScheduleRepositoryImpl @Inject constructor(
     ): Result<StudyDay> {
         val apiResponse = scheduleService.getClassroomScheduleOnDay(classroomId, dateString)
 
-        apiResponse.body()?.let { result ->
-            return Result.success(result.first { it.date == dateString })
-        }
-
-        return Result.failure(
-            RequestException(
-                code = apiResponse.code(),
-                message = apiResponse.message(),
+        apiResponse.body()?.let { scheduleListApi ->
+            return Result.success(
+                scheduleListApi.first { it.date == dateString }.mapToDomain()
             )
-        )
+        } ?: kotlin.run {
+            return Result.failure(
+                RequestException(
+                    code = apiResponse.code(),
+                    message = apiResponse.message()
+                )
+            )
+        }
     }
 
     override suspend fun getClassroomScheduleOnWeek(

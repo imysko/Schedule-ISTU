@@ -2,7 +2,7 @@ package com.istu.schedule.ui.page.projfair.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.enums.ListStatus
+import com.istu.schedule.data.api.entities.projfair.enums.ListStatus
 import com.istu.schedule.data.model.User
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem

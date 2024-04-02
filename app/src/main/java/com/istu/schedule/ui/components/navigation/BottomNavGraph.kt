@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.navArgument
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import com.istu.schedule.data.enums.ScheduleType
+import com.istu.schedule.domain.entities.schedule.ScheduleType
 import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.AccountPage
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage
@@ -20,9 +20,9 @@ import com.istu.schedule.ui.page.schedule.found.FoundSchedulePage
 import com.istu.schedule.ui.page.schedule.mine.MineSchedulePage
 import com.istu.schedule.ui.page.schedule.search.SearchSchedulePage
 import com.istu.schedule.ui.page.settings.SettingsPage
-import com.istu.schedule.ui.page.settings.schedule.SettingSchedulePage
 import com.istu.schedule.ui.page.settings.developers.DevelopersPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
+import com.istu.schedule.ui.page.settings.schedule.SettingSchedulePage
 import com.istu.schedule.ui.util.NavArguments
 import com.istu.schedule.ui.util.NavDestinations
 
@@ -53,7 +53,7 @@ fun BottomNavGraph(
 
         animatedComposable(
             route = "${NavDestinations.FOUND_SCHEDULE}/{${NavArguments.SCHEDULE_TYPE}}/" +
-                    "{${NavArguments.SCHEDULE_OWNER_ID}}/{${NavArguments.SCHEDULE_OWNER_TITLE}}",
+                "{${NavArguments.SCHEDULE_OWNER_ID}}/{${NavArguments.SCHEDULE_OWNER_TITLE}}",
             arguments = listOf(
                 navArgument(NavArguments.SCHEDULE_TYPE) {
                     type = NavType.EnumType(ScheduleType::class.java)
@@ -63,12 +63,12 @@ fun BottomNavGraph(
                 },
                 navArgument(NavArguments.SCHEDULE_OWNER_TITLE) {
                     type = NavType.StringType
-                },
-            ),
+                }
+            )
         ) {
             FoundSchedulePage(
                 navController = bottomNavController,
-                title = it.arguments?.getString(NavArguments.SCHEDULE_OWNER_TITLE),
+                title = it.arguments?.getString(NavArguments.SCHEDULE_OWNER_TITLE)
             )
             SetStatusBarIconColor(systemUiController)
         }
@@ -124,7 +124,7 @@ fun BottomNavGraph(
 
         animatedComposable(
             route = "${NavDestinations.PROJECT}/{${NavArguments.PROJECT_ID}}/" +
-                    "{${NavArguments.CAN_CREATE_PARTICIPATION}}"
+                "{${NavArguments.CAN_CREATE_PARTICIPATION}}"
         ) {
             it.arguments?.getString(NavArguments.PROJECT_ID)?.toInt()?.let { projectId ->
                 it.arguments?.getString(NavArguments.CAN_CREATE_PARTICIPATION)?.toBoolean()

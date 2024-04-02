@@ -6,7 +6,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.istu.schedule.data.enums.ProjfairAuthStatus
+import com.istu.schedule.data.api.entities.projfair.enums.ProjfairAuthStatus
 import com.istu.schedule.ui.util.NavDestinations
 
 @Composable

@@ -45,7 +45,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.ui.components.base.LoadingPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.page.settings.TopBar
@@ -59,7 +59,7 @@ fun ChooseTeacher(
     teachersList: List<Teacher> = emptyList(),
     onBackClick: () -> Unit,
     onValueChange: (value: String) -> Unit,
-    onChooseTeacher: (chosenTeacher: Teacher) -> Unit,
+    onChooseTeacher: (chosenTeacher: Teacher) -> Unit
 ) {
     var value by remember { mutableStateOf("") }
 
@@ -73,7 +73,7 @@ fun ChooseTeacher(
             TopBar(
                 title = stringResource(id = R.string.setting_schedule),
                 isShowBackButton = true,
-                onBackPressed = { onBackClick() },
+                onBackPressed = { onBackClick() }
             )
         },
         content = {
@@ -82,7 +82,7 @@ fun ChooseTeacher(
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.backgroundSecondary),
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 Box {
                     SIAnimatedVisibilityFadeOnly(isLoading) {
@@ -90,27 +90,31 @@ fun ChooseTeacher(
                     }
                     SIAnimatedVisibilityFadeOnly(!isLoading) {
                         Column(
-                            verticalArrangement = Arrangement.spacedBy(18.dp),
+                            verticalArrangement = Arrangement.spacedBy(18.dp)
                         ) {
                             SearchLine(
-                                modifier = Modifier.padding(top = 15.dp, start = 15.dp, end = 15.dp),
+                                modifier = Modifier.padding(
+                                    top = 15.dp,
+                                    start = 15.dp,
+                                    end = 15.dp
+                                ),
                                 value = value,
                                 isError = !teachersList.any() && value.any(),
                                 onValueChange = { input ->
                                     value = input
                                     onValueChange(input)
-                                },
+                                }
                             )
 
                             TeachersList(
                                 teachersList = teachersList,
-                                onChooseTeacher = { teacher -> onChooseTeacher(teacher) },
+                                onChooseTeacher = { teacher -> onChooseTeacher(teacher) }
                             )
                         }
                     }
                 }
             }
-        },
+        }
     )
 }
 
@@ -166,9 +170,9 @@ fun SearchLine(
             errorCursorColor = AppTheme.colorScheme.error,
             focusedTrailingIconColor = AppTheme.colorScheme.primary,
             unfocusedTrailingIconColor = AppTheme.colorScheme.secondary,
-            errorTrailingIconColor = AppTheme.colorScheme.error,
+            errorTrailingIconColor = AppTheme.colorScheme.error
         ),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(10.dp)
     )
 }
 
@@ -183,7 +187,7 @@ fun TeachersList(
     if (teachersList.any()) {
         LazyColumn(
             modifier = Modifier.padding(start = 25.dp, end = 15.dp),
-            contentPadding = PaddingValues(bottom = 30.dp),
+            contentPadding = PaddingValues(bottom = 30.dp)
         ) {
             groupedTeachersList.forEach { (letter, teachers) ->
                 stickyHeader {
@@ -191,8 +195,8 @@ fun TeachersList(
                         modifier = Modifier.padding(bottom = 7.dp),
                         text = letter,
                         style = AppTheme.typography.title.copy(
-                            fontWeight = FontWeight.SemiBold,
-                        ),
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
                 }
 
@@ -203,13 +207,13 @@ fun TeachersList(
                             .clip(Shape5)
                             .clickable { onChooseTeacher(teacher) }
                             .padding(vertical = 16.dp, horizontal = 20.dp),
-                        verticalAlignment = Alignment.CenterVertically,
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
                             text = teacher.fullName,
                             style = AppTheme.typography.subtitle.copy(
-                                fontWeight = FontWeight.SemiBold,
-                            ),
+                                fontWeight = FontWeight.SemiBold
+                            )
                         )
                     }
                 }
@@ -220,7 +224,7 @@ fun TeachersList(
                 Spacer(
                     modifier = Modifier.windowInsetsBottomHeight(
                         WindowInsets.navigationBars
-                    ),
+                    )
                 )
             }
         }
@@ -229,8 +233,8 @@ fun TeachersList(
             modifier = Modifier.padding(start = 25.dp, end = 15.dp),
             text = stringResource(id = R.string.not_found),
             style = AppTheme.typography.subtitle.copy(
-                fontWeight = FontWeight.SemiBold,
-            ),
+                fontWeight = FontWeight.SemiBold
+            )
         )
     }
 }
@@ -243,7 +247,7 @@ fun SearchLinePreview() {
             value = "",
             isError = false,
             onValueChange = { },
-            onDone = { },
+            onDone = { }
         )
     }
 }
@@ -256,7 +260,7 @@ fun SearchLineFocusedPreview() {
             value = "something",
             isError = false,
             onValueChange = { },
-            onDone = { },
+            onDone = { }
         )
     }
 }
@@ -269,13 +273,18 @@ fun SearchLineErrorPreview() {
             value = "",
             isError = true,
             onValueChange = { },
-            onDone = { },
+            onDone = { }
         )
     }
 }
 
 @Composable
-@Preview(showBackground = true, name = "Displayed teacher list", group = "Choose teacher", locale = "ru")
+@Preview(
+    showBackground = true,
+    name = "Displayed teacher list",
+    group = "Choose teacher",
+    locale = "ru"
+)
 fun ChooseTeacherPreview() {
     AppTheme {
         ChooseTeacher(
@@ -284,32 +293,32 @@ fun ChooseTeacherPreview() {
                 Teacher(
                     teacherId = 0,
                     fullName = "Аршинский Вадим Леонидович",
-                    shortname = "",
+                    shortname = ""
                 ),
                 Teacher(
                     teacherId = 0,
                     fullName = "Копайгородский Алексей Николаевич",
-                    shortname = "",
+                    shortname = ""
                 ),
                 Teacher(
                     teacherId = 0,
                     fullName = "Копайгородский Алексей Николаевич",
-                    shortname = "",
+                    shortname = ""
                 ),
                 Teacher(
                     teacherId = 0,
                     fullName = "Копайгородский Алексей Николаевич",
-                    shortname = "",
+                    shortname = ""
                 ),
                 Teacher(
                     teacherId = 0,
                     fullName = "Копайгородский Алексей Николаевич",
-                    shortname = "",
+                    shortname = ""
                 )
             ),
             onBackClick = { },
             onValueChange = { },
-            onChooseTeacher = { },
+            onChooseTeacher = { }
         )
     }
 }
@@ -323,7 +332,7 @@ fun ChooseTeacherIsLoadingPreview() {
             teachersList = emptyList(),
             onBackClick = { },
             onValueChange = { },
-            onChooseTeacher = { },
+            onChooseTeacher = { }
         )
     }
 }

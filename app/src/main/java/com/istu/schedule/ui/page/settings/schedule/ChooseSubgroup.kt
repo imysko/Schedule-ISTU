@@ -20,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.Subgroup
+import com.istu.schedule.domain.entities.Subgroup
 import com.istu.schedule.ui.components.base.button.radio.RadioButtonWithText
 import com.istu.schedule.ui.page.settings.TopBar
 import com.istu.schedule.ui.theme.AppTheme
@@ -30,7 +30,7 @@ import com.istu.schedule.ui.theme.ShapeTop15
 fun ChooseSubgroup(
     selectedSubgroup: Subgroup,
     onBackClick: () -> Unit,
-    onChooseSubgroup: (Subgroup) -> Unit,
+    onChooseSubgroup: (Subgroup) -> Unit
 ) {
     BackHandler {
         onBackClick()
@@ -42,7 +42,7 @@ fun ChooseSubgroup(
             TopBar(
                 title = stringResource(id = R.string.setting_schedule),
                 isShowBackButton = true,
-                onBackPressed = { onBackClick() },
+                onBackPressed = { onBackClick() }
             )
         },
         content = {
@@ -51,22 +51,22 @@ fun ChooseSubgroup(
                     .fillMaxSize()
                     .padding(top = it.calculateTopPadding())
                     .clip(ShapeTop15)
-                    .background(AppTheme.colorScheme.backgroundSecondary),
+                    .background(AppTheme.colorScheme.backgroundSecondary)
             ) {
                 Column(
                     modifier = Modifier.padding(top = 19.dp, start = 15.dp, end = 15.dp),
-                    verticalArrangement = Arrangement.spacedBy(22.dp),
+                    verticalArrangement = Arrangement.spacedBy(22.dp)
                 ) {
                     Text(
                         text = stringResource(id = R.string.choose_subgroup),
                         style = AppTheme.typography.bodyMedium.copy(
                             fontWeight = FontWeight.SemiBold,
-                            color = AppTheme.colorScheme.secondary,
-                        ),
+                            color = AppTheme.colorScheme.secondary
+                        )
                     )
 
                     Column(
-                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
                         Subgroup.values().map { subgroup ->
                             RadioButtonWithText(
@@ -78,7 +78,7 @@ fun ChooseSubgroup(
                                 },
                                 style = AppTheme.typography.subtitle,
                                 selected = subgroup == selectedSubgroup,
-                                onSelect = { onChooseSubgroup(subgroup) },
+                                onSelect = { onChooseSubgroup(subgroup) }
                             )
                         }
                     }
@@ -89,7 +89,7 @@ fun ChooseSubgroup(
                     )
                 )
             }
-        },
+        }
     )
 }
 
@@ -99,6 +99,6 @@ fun ChooseSubgroupPreview() {
     ChooseSubgroup(
         selectedSubgroup = Subgroup.SECOND,
         onBackClick = { },
-        onChooseSubgroup = { },
+        onChooseSubgroup = { }
     )
 }

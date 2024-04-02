@@ -2,11 +2,11 @@ package com.istu.schedule.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.istu.schedule.data.service.schedule.ClassroomsService
-import com.istu.schedule.data.service.schedule.GroupsService
-import com.istu.schedule.data.service.schedule.InstitutesService
-import com.istu.schedule.data.service.schedule.ScheduleService
-import com.istu.schedule.data.service.schedule.TeachersService
+import com.istu.schedule.data.api.service.schedule.ClassroomsService
+import com.istu.schedule.data.api.service.schedule.GroupsService
+import com.istu.schedule.data.api.service.schedule.InstitutesService
+import com.istu.schedule.data.api.service.schedule.ScheduleService
+import com.istu.schedule.data.api.service.schedule.TeachersService
 import com.istu.schedule.util.NetworkConnectionInterceptor
 import dagger.Module
 import dagger.Provides

@@ -8,16 +8,16 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.NetworkStatus
-import com.istu.schedule.domain.model.schedule.Course
-import com.istu.schedule.domain.model.schedule.Institute
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.domain.entities.schedule.Course
+import com.istu.schedule.domain.entities.schedule.Institute
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.ui.page.ext.NoInternetPage
+import com.istu.schedule.util.NetworkStatus
 
 @Composable
 fun SettingSchedulePage(
     navController: NavHostController,
-    viewModel: SettingScheduleViewModel = hiltViewModel(),
+    viewModel: SettingScheduleViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -37,7 +37,7 @@ fun SettingSchedulePage(
         coursesList = coursesList,
         teachersTips = teachersTips,
         onEvent = viewModel::onEvent,
-        onBackClick = { navController.popBackStack() },
+        onBackClick = { navController.popBackStack() }
     )
 }
 
@@ -50,13 +50,13 @@ private fun SettingScheduleContent(
     coursesList: List<Course>,
     teachersTips: List<Teacher>,
     onEvent: (SettingScheduleListEvent) -> Unit,
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     if (networkStatus == NetworkStatus.Unavailable) {
         NoInternetPage(
             title = stringResource(R.string.account),
             isShowBackButton = true,
-            onBackPressed = { onBackClick() },
+            onBackPressed = { onBackClick() }
         )
     } else if (networkStatus == NetworkStatus.Available) {
         when (uiState) {
@@ -70,39 +70,47 @@ private fun SettingScheduleContent(
                     selectUserStatus = { onEvent(SettingScheduleListEvent.SelectUserStatus(it)) },
                     onSubgroupSettingClick = {
                         onEvent(SettingScheduleListEvent.NavigateToSubgroupSelection)
-                    },
+                    }
                 )
             }
             SettingScheduleUiState.ChooseInstituteState -> {
                 ChooseInstitute(
                     isLoading = isLoading,
                     institutesList = instituteList,
-                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings) },
-                    onChooseInstitute = { onEvent(SettingScheduleListEvent.SelectInstitute(it)) },
+                    onBackClick = {
+                        onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings)
+                    },
+                    onChooseInstitute = { onEvent(SettingScheduleListEvent.SelectInstitute(it)) }
                 )
             }
             is SettingScheduleUiState.ChooseGroupState -> {
                 ChooseGroup(
                     instituteTitle = uiState.instituteTitle,
                     courseList = coursesList,
-                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToChooseInstitute) },
-                    onChooseGroup = { onEvent(SettingScheduleListEvent.SelectGroup(it)) },
+                    onBackClick = {
+                        onEvent(SettingScheduleListEvent.OnBackClickToChooseInstitute)
+                    },
+                    onChooseGroup = { onEvent(SettingScheduleListEvent.SelectGroup(it)) }
                 )
             }
             is SettingScheduleUiState.ChooseSubgroupState -> {
                 ChooseSubgroup(
                     selectedSubgroup = uiState.selectedSubgroup,
-                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings) },
-                    onChooseSubgroup = { onEvent(SettingScheduleListEvent.SelectSubgroup(it)) },
+                    onBackClick = {
+                        onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings)
+                    },
+                    onChooseSubgroup = { onEvent(SettingScheduleListEvent.SelectSubgroup(it)) }
                 )
             }
             SettingScheduleUiState.ChooseTeacherState -> {
                 ChooseTeacher(
                     isLoading = isLoading,
                     teachersList = teachersTips,
-                    onBackClick = { onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings) },
+                    onBackClick = {
+                        onEvent(SettingScheduleListEvent.OnBackClickToScheduleSettings)
+                    },
                     onChooseTeacher = { onEvent(SettingScheduleListEvent.SelectTeacher(it)) },
-                    onValueChange = { onEvent(SettingScheduleListEvent.FilterTeacherList(it)) },
+                    onValueChange = { onEvent(SettingScheduleListEvent.FilterTeacherList(it)) }
                 )
             }
         }

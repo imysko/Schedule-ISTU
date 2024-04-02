@@ -46,7 +46,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.NetworkStatus
 import com.istu.schedule.ui.components.base.CustomIndicator
 import com.istu.schedule.ui.components.base.InfoBlock
 import com.istu.schedule.ui.components.base.LoadingPanel
@@ -66,9 +65,10 @@ import com.istu.schedule.ui.theme.HalfGray
 import com.istu.schedule.ui.theme.Shape20
 import com.istu.schedule.ui.theme.ShapeTop15
 import com.istu.schedule.ui.util.NavDestinations
-import com.istu.schedule.ui.util.provider.SampleCandidateProvider
-import com.istu.schedule.ui.util.provider.SampleParticipationProvider
-import com.istu.schedule.ui.util.provider.SampleProjectProvider
+import com.istu.schedule.ui.util.previewParameterProviders.SampleCandidatePreviewParameterProvider
+import com.istu.schedule.ui.util.previewParameterProviders.SampleParticipationPreviewParameterProvider
+import com.istu.schedule.ui.util.previewParameterProviders.SampleProjectPreviewParameterProvider
+import com.istu.schedule.util.NetworkStatus
 import kotlinx.coroutines.launch
 import me.progneo.projfair.domain.model.Candidate
 import me.progneo.projfair.domain.model.Participation
@@ -599,7 +599,7 @@ private fun TopBar(
 @Preview(showBackground = true)
 @Composable
 fun PreviewParticipationListPage(
-    @PreviewParameter(SampleParticipationProvider::class) participation: Participation
+    @PreviewParameter(SampleParticipationPreviewParameterProvider::class) participation: Participation
 ) {
     AppTheme {
         ParticipationListPage(
@@ -636,7 +636,9 @@ fun PreviewParticipationListPageEmptyCanEdit() {
 
 @Preview
 @Composable
-fun PreviewAuthorizedPage(@PreviewParameter(SampleCandidateProvider::class) candidate: Candidate) {
+fun PreviewAuthorizedPage(
+    @PreviewParameter(SampleCandidatePreviewParameterProvider::class) candidate: Candidate
+) {
     AppTheme {
         AuthorizedPage(
             candidate = candidate,
@@ -652,7 +654,7 @@ fun PreviewAuthorizedPage(@PreviewParameter(SampleCandidateProvider::class) cand
 @Preview
 @Composable
 fun PreviewAuthorizedPageNoNetwork(
-    @PreviewParameter(SampleCandidateProvider::class) candidate: Candidate
+    @PreviewParameter(SampleCandidatePreviewParameterProvider::class) candidate: Candidate
 ) {
     AppTheme {
         AuthorizedPage(
@@ -669,7 +671,7 @@ fun PreviewAuthorizedPageNoNetwork(
 @Preview(showBackground = true)
 @Composable
 fun PreviewProjectsPage(
-    @PreviewParameter(SampleProjectProvider::class) project: Project
+    @PreviewParameter(SampleProjectPreviewParameterProvider::class) project: Project
 ) {
     AppTheme {
         ProjectsPage(

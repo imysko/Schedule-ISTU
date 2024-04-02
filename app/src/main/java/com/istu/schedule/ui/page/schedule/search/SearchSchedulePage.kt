@@ -44,10 +44,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.istu.schedule.R
-import com.istu.schedule.data.enums.ScheduleType
-import com.istu.schedule.domain.model.schedule.Classroom
-import com.istu.schedule.domain.model.schedule.Group
-import com.istu.schedule.domain.model.schedule.Teacher
+import com.istu.schedule.domain.entities.schedule.Classroom
+import com.istu.schedule.domain.entities.schedule.Group
+import com.istu.schedule.domain.entities.schedule.ScheduleType
+import com.istu.schedule.domain.entities.schedule.Teacher
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SearchBar
@@ -73,10 +73,10 @@ fun SearchSchedulePage(
         onValueInputDone = { viewModel.onValueInput(it) },
         onHintClick = { scheduleType, id, title ->
             navController.navigate(
-                "${NavDestinations.FOUND_SCHEDULE}/${scheduleType}/${id}/${title}"
+                "${NavDestinations.FOUND_SCHEDULE}/$scheduleType/$id/$title"
             )
         },
-        onBackClick = { navController.popBackStack() },
+        onBackClick = { navController.popBackStack() }
     )
 }
 
@@ -86,7 +86,7 @@ fun SearchSchedulePage(
     searchedListsHints: SearchedLists,
     onValueInputDone: (String) -> Unit,
     onHintClick: (ScheduleType, Int, String?) -> Unit,
-    onBackClick: () -> Unit,
+    onBackClick: () -> Unit
 ) {
     val focusRequester = remember { FocusRequester() }
     var value by remember { mutableStateOf("") }
@@ -199,21 +199,21 @@ fun SearchContent(
                                 list = searchedListsHints.groupsList,
                                 onHintClick = { id, title ->
                                     onHintClick(ScheduleType.BY_GROUP, id, title)
-                                },
+                                }
                             )
                             foundedList(
                                 title = titleTeachers,
                                 list = searchedListsHints.teachersList,
                                 onHintClick = { id, title ->
                                     onHintClick(ScheduleType.BY_TEACHER, id, title)
-                                },
+                                }
                             )
                             foundedList(
                                 title = titleClassrooms,
                                 list = searchedListsHints.classroomsList,
                                 onHintClick = { id, title ->
                                     onHintClick(ScheduleType.BY_CLASSROOM, id, title)
-                                },
+                                }
                             )
                             item {
                                 Spacer(modifier = Modifier.height(64.dp))
@@ -236,23 +236,23 @@ fun SearchContent(
 internal fun LazyListScope.foundedList(
     title: String,
     list: List<Any> = emptyList(),
-    onHintClick: (Int, String) -> Unit,
+    onHintClick: (Int, String) -> Unit
 ) {
     stickyHeader {
         Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
+            verticalArrangement = Arrangement.spacedBy(15.dp)
         ) {
             Text(
                 modifier = Modifier
                     .background(AppTheme.colorScheme.backgroundSecondary)
                     .fillMaxWidth(),
                 text = title,
-                style = AppTheme.typography.title,
+                style = AppTheme.typography.title
             )
             HorizontalDivider(
                 modifier = Modifier
                     .height(2.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
             )
         }
     }
@@ -261,7 +261,7 @@ internal fun LazyListScope.foundedList(
             Text(
                 modifier = Modifier.padding(vertical = 8.dp, horizontal = 20.dp),
                 text = stringResource(id = R.string.not_found),
-                style = AppTheme.typography.title,
+                style = AppTheme.typography.title
             )
         }
     } else {
@@ -279,7 +279,7 @@ internal fun LazyListScope.foundedList(
                         }
                     }
                     .padding(vertical = 8.dp, horizontal = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = when (item) {
@@ -288,7 +288,7 @@ internal fun LazyListScope.foundedList(
                         is Classroom -> item.name
                         else -> ""
                     },
-                    style = AppTheme.typography.title,
+                    style = AppTheme.typography.title
                 )
             }
         }
@@ -336,21 +336,24 @@ fun SearchSchedulePagePreview() {
                         name = "ИСТб-20-1",
                         course = 3,
                         instituteId = null,
-                        institute = null
+                        institute = null,
+                        isActive = true
                     ),
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-2",
                         course = 3,
                         instituteId = null,
-                        institute = null
+                        institute = null,
+                        isActive = true
                     ),
                     Group(
                         groupId = 0,
                         name = "ИСТб-20-3",
                         course = 3,
                         instituteId = null,
-                        institute = null
+                        institute = null,
+                        isActive = true
                     )
                 ),
                 classroomsList = listOf(

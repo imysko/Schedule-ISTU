@@ -10,7 +10,7 @@ interface RefreshTokenUseCase {
     suspend operator fun invoke(refreshToken: String): Result<TokenResponse>
 }
 
-class RefreshTokenUseCaseImpl @Inject constructor(
+internal class RefreshTokenUseCaseImpl @Inject constructor(
     private val authRepository: AuthRepository
 ) : RefreshTokenUseCase {
 

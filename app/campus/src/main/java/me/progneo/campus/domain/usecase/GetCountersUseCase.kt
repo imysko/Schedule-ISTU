@@ -10,7 +10,7 @@ interface GetCountersUseCase {
     suspend operator fun invoke(token: String): Result<BaseDataResponse<CountersResponse>>
 }
 
-class GetCountersUseCaseImpl @Inject constructor(
+internal class GetCountersUseCaseImpl @Inject constructor(
     private val countersRepository: CountersRepository
 ) : GetCountersUseCase {
 

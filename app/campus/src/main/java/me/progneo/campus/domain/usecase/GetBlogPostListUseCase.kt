@@ -10,7 +10,7 @@ interface GetBlogPostListUseCase {
     suspend operator fun invoke(token: String): Result<BaseDataListResponse<BlogPost>>
 }
 
-class GetBlogPostListUseCaseImpl @Inject constructor(
+internal class GetBlogPostListUseCaseImpl @Inject constructor(
     private val blogPostRepository: BlogPostRepository
 ) : GetBlogPostListUseCase {
 

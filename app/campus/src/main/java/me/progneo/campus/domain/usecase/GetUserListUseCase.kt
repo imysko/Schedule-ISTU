@@ -13,7 +13,7 @@ interface GetUserListUseCase {
     ): Result<BaseDataListResponse<User>>
 }
 
-class GetUserListUseCaseImpl @Inject constructor(
+internal class GetUserListUseCaseImpl @Inject constructor(
     private val userRepository: UserRepository
 ) : GetUserListUseCase {
 

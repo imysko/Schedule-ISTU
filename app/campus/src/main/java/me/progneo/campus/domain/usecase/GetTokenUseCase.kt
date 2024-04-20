@@ -10,7 +10,7 @@ interface GetTokenUseCase {
     suspend operator fun invoke(code: String): Result<TokenResponse>
 }
 
-class GetTokenUseCaseImpl @Inject constructor(
+internal class GetTokenUseCaseImpl @Inject constructor(
     private val authRepository: AuthRepository
 ) : GetTokenUseCase {
 

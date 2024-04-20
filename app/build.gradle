@@ -58,6 +58,8 @@ android {
 }
 
 dependencies {
+    implementation project(':app:projfair')
+    implementation project(':app:campus')
 
     implementation "androidx.core:core-ktx:$ktx"
     implementation "androidx.tracing:tracing:$tracing"
@@ -81,7 +83,6 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_base"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_base"
     implementation "androidx.compose.runtime:runtime-livedata:$compose_base"
-    implementation project(':app:projfair')
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_base"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_base"
     androidTestImplementation "androidx.compose.ui:ui-test:$compose_base"

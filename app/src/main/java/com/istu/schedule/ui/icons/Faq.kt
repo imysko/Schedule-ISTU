@@ -13,26 +13,26 @@ import androidx.compose.ui.unit.dp
 
 val Icons.Faq: ImageVector
     get() {
-        if (_faq != null) {
-            return _faq!!
+        if (faq != null) {
+            return faq!!
         }
-        _faq = Builder(
-            name = "Faq",
+        faq = Builder(
+            name = "Property 1=faq",
             defaultWidth = 24.0.dp,
-            defaultHeight = 24.0.dp,
-            viewportWidth =
-            24.0f,
-            viewportHeight = 24.0f,
+            defaultHeight =
+            24.0.dp,
+            viewportWidth = 24.0f,
+            viewportHeight = 24.0f
         ).apply {
             path(
                 fill = SolidColor(Color(0x00000000)),
-                stroke = SolidColor(Color(0xFFffffff)),
+                stroke = SolidColor(Color(0xFF383838)),
                 strokeLineWidth = 2.0f,
                 strokeLineCap = Round,
                 strokeLineJoin =
                 StrokeJoin.Companion.Round,
                 strokeLineMiter = 4.0f,
-                pathFillType = NonZero,
+                pathFillType = NonZero
             ) {
                 moveTo(21.0f, 15.0f)
                 curveTo(21.0f, 15.5304f, 20.7893f, 16.0391f, 20.4142f, 16.4142f)
@@ -50,7 +50,7 @@ val Icons.Faq: ImageVector
             }
         }
             .build()
-        return _faq!!
+        return faq!!
     }
 
-private var _faq: ImageVector? = null
+private var faq: ImageVector? = null

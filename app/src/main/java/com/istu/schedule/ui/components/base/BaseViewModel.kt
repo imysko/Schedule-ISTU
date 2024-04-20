@@ -48,7 +48,11 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
             val result = apiCall.invoke()
 
             result.getOrNull()?.let { value ->
+                if (value is Exception) {
+                    onError?.invoke(value)
+                }
                 onSuccess?.invoke(value)
+
                 _networkStatus.postValue(NetworkStatus.Available)
             }
 

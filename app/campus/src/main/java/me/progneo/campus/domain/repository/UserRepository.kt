@@ -1,6 +1,5 @@
 package me.progneo.campus.domain.repository
 
-import me.progneo.campus.domain.entities.BaseDataListResponse
 import me.progneo.campus.domain.entities.User
 
 interface UserRepository {
@@ -8,5 +7,10 @@ interface UserRepository {
     suspend fun getUserList(
         userIdList: List<Int>,
         token: String
-    ): Result<BaseDataListResponse<User>>
+    ): Result<List<User>>
+
+    suspend fun getUser(
+        userId: Int,
+        token: String
+    ): Result<User>
 }

@@ -10,7 +10,7 @@ data class BlogPost(
     val title: String,
     @SerializedName("DETAIL_TEXT")
     val detailText: String,
-    @SerializedName("DATE_PUBLISHED")
+    @SerializedName("DATE_PUBLISH")
     val datePublished: Date,
     @SerializedName("AUTHOR_ID")
     val authorId: Int

@@ -1,9 +1,8 @@
 package me.progneo.campus.domain.repository
 
-import me.progneo.campus.domain.entities.BaseDataResponse
-import me.progneo.campus.domain.entities.CountersResponse
+import me.progneo.campus.domain.entities.Counters
 
 interface CountersRepository {
 
-    suspend fun getCounters(token: String): Result<BaseDataResponse<CountersResponse>>
+    suspend fun getCounters(token: String): Result<Counters>
 }

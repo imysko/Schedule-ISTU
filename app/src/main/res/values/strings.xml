@@ -152,7 +152,7 @@
     <string name="not_assigned">Not assigned</string>
     <string name="search_teacher">Search by teachers</string>
     <string name="not_found">Not found</string>
-    <string name="unknown_user">You need to select a group or teacher for view the schedule</string>
+    <string name="select_group_or_teacher_hint">You need to select a group or teacher for view the schedule</string>
     <string name="weekend">There are no classes on the selected day</string>
     <string name="back_to_your_schedule">Back to your schedule</string>
     <string name="search_schedule">Search schedule</string>
@@ -196,4 +196,7 @@
     <string name="choose_subgroup">Choose a subgroup</string>
     <string name="even">even</string>
     <string name="odd">odd</string>
+    <string name="newsfeed">Newsfeed</string>
+    <string name="unknown_user">Unknown user</string>
+    <string name="reload">Reload</string>
 </resources>

@@ -11,6 +11,8 @@ import me.progneo.campus.domain.usecase.GetCountersUseCase
 import me.progneo.campus.domain.usecase.GetCountersUseCaseImpl
 import me.progneo.campus.domain.usecase.GetTokenUseCase
 import me.progneo.campus.domain.usecase.GetTokenUseCaseImpl
+import me.progneo.campus.domain.usecase.GetUserByIdUseCase
+import me.progneo.campus.domain.usecase.GetUserByIdUseCaseImpl
 import me.progneo.campus.domain.usecase.GetUserListUseCase
 import me.progneo.campus.domain.usecase.GetUserListUseCaseImpl
 import me.progneo.campus.domain.usecase.RefreshTokenUseCase
@@ -22,31 +24,37 @@ internal abstract class UseCaseModule {
 
     @Binds
     @Singleton
-    internal abstract fun provideGetBlogPostUseCase(
+    internal abstract fun bindGetBlogPostUseCase(
         getBlogPostUseCaseImpl: GetBlogPostListUseCaseImpl
     ): GetBlogPostListUseCase
 
     @Binds
     @Singleton
-    internal abstract fun provideGetCountersUseCase(
+    internal abstract fun bindGetCountersUseCase(
         getCountersUseCaseImpl: GetCountersUseCaseImpl
     ): GetCountersUseCase
 
     @Binds
     @Singleton
-    internal abstract fun provideGetUserListUseCase(
+    internal abstract fun bindGetUserListUseCase(
         getUserListUseCaseImpl: GetUserListUseCaseImpl
     ): GetUserListUseCase
 
     @Binds
     @Singleton
-    internal abstract fun provideGetTokenUseCase(
+    internal abstract fun bindGetUserByIdUseCase(
+        getUserByIdUseCaseImpl: GetUserByIdUseCaseImpl
+    ): GetUserByIdUseCase
+
+    @Binds
+    @Singleton
+    internal abstract fun bindGetTokenUseCase(
         getTokenUseCaseImpl: GetTokenUseCaseImpl
     ): GetTokenUseCase
 
     @Binds
     @Singleton
-    internal abstract fun provideRefreshTokenUseCase(
+    internal abstract fun bindRefreshTokenUseCase(
         refreshTokenUseCaseImpl: RefreshTokenUseCaseImpl
     ): RefreshTokenUseCase
 }

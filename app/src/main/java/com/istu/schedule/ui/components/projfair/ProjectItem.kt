@@ -31,9 +31,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.fade
-import com.google.accompanist.placeholder.placeholder
 import com.istu.schedule.R
 import com.istu.schedule.ui.components.base.ChipVerticalGrid
 import com.istu.schedule.ui.components.base.SIChip
@@ -250,21 +247,4 @@ fun ProjectItem(
             )
         }
     }
-}
-
-@Composable
-fun ProjectItemPlaceHolder() {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(400.dp)
-            .placeholder(
-                visible = true,
-                color = AppTheme.colorScheme.textPrimary.copy(alpha = 0.05f),
-                shape = Shape10,
-                highlight = PlaceholderHighlight.fade(
-                    highlightColor = AppTheme.colorScheme.textPrimary.copy(alpha = 0.08f)
-                )
-            )
-    )
 }

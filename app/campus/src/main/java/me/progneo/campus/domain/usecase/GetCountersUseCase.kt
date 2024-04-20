@@ -1,13 +1,12 @@
 package me.progneo.campus.domain.usecase
 
 import javax.inject.Inject
-import me.progneo.campus.domain.entities.BaseDataResponse
-import me.progneo.campus.domain.entities.CountersResponse
+import me.progneo.campus.domain.entities.Counters
 import me.progneo.campus.domain.repository.CountersRepository
 
 interface GetCountersUseCase {
 
-    suspend operator fun invoke(token: String): Result<BaseDataResponse<CountersResponse>>
+    suspend operator fun invoke(token: String): Result<Counters>
 }
 
 internal class GetCountersUseCaseImpl @Inject constructor(
@@ -16,7 +15,7 @@ internal class GetCountersUseCaseImpl @Inject constructor(
 
     override suspend operator fun invoke(
         token: String
-    ): Result<BaseDataResponse<CountersResponse>> {
+    ): Result<Counters> {
         return countersRepository.getCounters(
             token = token
         )

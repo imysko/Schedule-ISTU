@@ -4,24 +4,24 @@ import javax.inject.Inject
 import me.progneo.campus.domain.entities.User
 import me.progneo.campus.domain.repository.UserRepository
 
-interface GetUserListUseCase {
+interface GetUserByIdUseCase {
 
     suspend operator fun invoke(
-        userIdList: List<Int>,
+        userId: Int,
         token: String
-    ): Result<List<User>>
+    ): Result<User>
 }
 
-internal class GetUserListUseCaseImpl @Inject constructor(
+internal class GetUserByIdUseCaseImpl @Inject constructor(
     private val userRepository: UserRepository
-) : GetUserListUseCase {
+) : GetUserByIdUseCase {
 
     override suspend operator fun invoke(
-        userIdList: List<Int>,
+        userId: Int,
         token: String
-    ): Result<List<User>> {
-        return userRepository.getUserList(
-            userIdList = userIdList,
+    ): Result<User> {
+        return userRepository.getUser(
+            userId = userId,
             token = token
         )
     }

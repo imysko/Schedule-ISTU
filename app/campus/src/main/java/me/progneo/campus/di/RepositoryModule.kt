@@ -6,6 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import me.progneo.campus.data.repository.AuthRepositoryImpl
+import me.progneo.campus.data.repository.BlogPostRepositoryImpl
 import me.progneo.campus.data.repository.CountersRepositoryImpl
 import me.progneo.campus.data.repository.UserRepositoryImpl
 import me.progneo.campus.domain.repository.AuthRepository
@@ -20,7 +21,7 @@ internal abstract class RepositoryModule {
     @Binds
     @Singleton
     internal abstract fun bindBlogPostRepository(
-        blogPostRepositoryImpl: BlogPostRepository
+        blogPostRepositoryImpl: BlogPostRepositoryImpl
     ): BlogPostRepository
 
     @Binds

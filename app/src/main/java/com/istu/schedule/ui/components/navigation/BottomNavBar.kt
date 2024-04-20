@@ -29,8 +29,8 @@ fun BottomNavBar(navController: NavHostController) {
 
     val bottomNavItems = listOf(
         BottomNavItem.SchedulePage,
+        BottomNavItem.NewsfeedPage,
         BottomNavItem.ProjfairPage,
-        BottomNavItem.AccountPage,
         BottomNavItem.SettingsPage
     )
 
@@ -63,7 +63,7 @@ fun RowScope.AddItem(
 ) {
     val selected =
         bottomNavItem.route == navBackStackEntry?.destination?.route ||
-            bottomNavItem.subroutes.any { route ->
+            bottomNavItem.subRouteList.any { route ->
                 navBackStackEntry?.destination?.route?.contains(route) == true
             }
     NavigationBarItem(

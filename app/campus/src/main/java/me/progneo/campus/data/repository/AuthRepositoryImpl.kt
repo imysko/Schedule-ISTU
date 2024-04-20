@@ -6,6 +6,7 @@ import me.progneo.campus.data.exception.RequestException
 import me.progneo.campus.data.service.AuthService
 import me.progneo.campus.domain.entities.TokenResponse
 import me.progneo.campus.domain.repository.AuthRepository
+import okhttp3.internal.http.HTTP_OK
 
 internal class AuthRepositoryImpl @Inject constructor(
     private val authService: AuthService
@@ -20,15 +21,18 @@ internal class AuthRepositoryImpl @Inject constructor(
             clientId = clientId,
             clientSecret = clientSecret,
             code = code
-        ).body()
-        if (apiResponse != null) {
-            return Result.success(apiResponse)
+        )
+
+        if (apiResponse.code() == HttpURLConnection.HTTP_OK) {
+            apiResponse.body()?.let { tokenResponse ->
+                return Result.success(tokenResponse)
+            }
         }
 
         return Result.failure(
             RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
+                code = apiResponse.code(),
+                message = apiResponse.message()
             )
         )
     }
@@ -42,15 +46,18 @@ internal class AuthRepositoryImpl @Inject constructor(
             clientId = clientId,
             clientSecret = clientSecret,
             refreshToken = refreshToken
-        ).body()
-        if (apiResponse != null) {
-            return Result.success(apiResponse)
+        )
+
+        if (apiResponse.code() == HttpURLConnection.HTTP_OK) {
+            apiResponse.body()?.let { tokenResponse ->
+                return Result.success(tokenResponse)
+            }
         }
 
         return Result.failure(
             RequestException(
-                code = HttpURLConnection.HTTP_INTERNAL_ERROR,
-                message = "An error occurred!"
+                code = apiResponse.code(),
+                message = apiResponse.message()
             )
         )
     }

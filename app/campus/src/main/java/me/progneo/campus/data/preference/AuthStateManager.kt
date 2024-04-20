@@ -22,6 +22,7 @@ internal class AuthStateManagerImpl @Inject constructor(
     override suspend fun save(newState: Boolean) {
         with(sharedPreferences.edit()) {
             putBoolean(AUTH_STATE_KEY, newState)
+            apply()
         }
     }
 

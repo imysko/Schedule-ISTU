@@ -48,12 +48,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.istu.schedule.R
 import com.istu.schedule.data.api.entities.projfair.enums.ListStatus
+import com.istu.schedule.ui.components.base.BigPlaceholder
 import com.istu.schedule.ui.components.base.NoInternetPanel
 import com.istu.schedule.ui.components.base.SIAnimatedVisibility
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.components.projfair.ProjectItem
-import com.istu.schedule.ui.components.projfair.ProjectItemPlaceHolder
+import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Logo152
 import com.istu.schedule.ui.icons.Search
@@ -95,7 +96,7 @@ fun ProjectsListPage(
         onSearchTextEdit = {
             viewModel.inputSearchContent(it)
         },
-        onSearchPress = {
+        onSearchClick = {
             viewModel.clearList()
             viewModel.fetchProjectList()
         },
@@ -107,6 +108,9 @@ fun ProjectsListPage(
         },
         onLoadMore = {
             viewModel.fetchProjectList()
+        },
+        onAccountClick = {
+            navController.navigate(NavDestinations.ACCOUNT)
         }
     )
 }
@@ -117,17 +121,19 @@ fun ProjectsListPage(
     projectList: List<Project>,
     listStatus: ListStatus,
     onSearchTextEdit: (String) -> Unit,
-    onSearchPress: () -> Unit,
+    onSearchClick: () -> Unit,
     onProjectPress: (Int) -> Unit,
     onFilterPress: () -> Unit,
-    onLoadMore: () -> Unit
+    onLoadMore: () -> Unit,
+    onAccountClick: () -> Unit
 ) {
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
         topBar = {
             TopBar(
                 searchText = projectListUiState.searchText,
-                onSearchPress = onSearchPress,
+                onSearchClick = onSearchClick,
+                onAccountClick = onAccountClick,
                 onSearchTextEdit = onSearchTextEdit
             )
         }
@@ -258,8 +264,8 @@ private fun ListPlaceHolders() {
         modifier = Modifier.padding(horizontal = 15.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp)
     ) {
-        ProjectItemPlaceHolder()
-        ProjectItemPlaceHolder()
+        BigPlaceholder()
+        BigPlaceholder()
     }
 }
 
@@ -298,7 +304,8 @@ private fun NotFoundPanel() {
 @Composable
 private fun TopBar(
     onSearchTextEdit: (String) -> Unit,
-    onSearchPress: () -> Unit,
+    onSearchClick: () -> Unit,
+    onAccountClick: () -> Unit,
     searchText: String
 ) {
     var isSearchVisible by remember { mutableStateOf(false) }
@@ -319,17 +326,30 @@ private fun TopBar(
                 color = AppTheme.colorScheme.textSecondary,
                 style = AppTheme.typography.pageTitle
             )
-            IconButton(
-                modifier = Modifier.size(32.dp),
-                onClick = { isSearchVisible = !isSearchVisible },
-                content = {
-                    Icon(
-                        imageVector = Icons.Search,
-                        contentDescription = stringResource(id = R.string.search),
-                        tint = AppTheme.colorScheme.textSecondary
-                    )
-                }
-            )
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                IconButton(
+                    modifier = Modifier.size(32.dp),
+                    onClick = onAccountClick,
+                    content = {
+                        Icon(
+                            imageVector = Icons.Account,
+                            contentDescription = stringResource(id = R.string.account),
+                            tint = AppTheme.colorScheme.textSecondary
+                        )
+                    }
+                )
+                IconButton(
+                    modifier = Modifier.size(32.dp),
+                    onClick = { isSearchVisible = !isSearchVisible },
+                    content = {
+                        Icon(
+                            imageVector = Icons.Search,
+                            contentDescription = stringResource(id = R.string.search),
+                            tint = AppTheme.colorScheme.textSecondary
+                        )
+                    }
+                )
+            }
         }
         SIAnimatedVisibility(visible = isSearchVisible) {
             SearchBar(
@@ -340,7 +360,7 @@ private fun TopBar(
                 placeholder = stringResource(R.string.projects_search_tint),
                 focusRequester = focusRequester,
                 onValueChange = { onSearchTextEdit(it) }
-            ) { onSearchPress() }
+            ) { onSearchClick() }
         }
     }
 }
@@ -353,11 +373,13 @@ fun PreviewProjectsListPageLoading() {
             projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.FirstLoading,
             projectList = listOf(),
-            onSearchTextEdit = {},
-            onSearchPress = {},
+            onSearchTextEdit = { },
+            onSearchClick = { },
             onProjectPress = { },
-            onFilterPress = { }
-        ) { }
+            onFilterPress = { },
+            onAccountClick = { },
+            onLoadMore = { }
+        )
     }
 }
 
@@ -369,11 +391,13 @@ fun PreviewProjectsListPageEmpty() {
             projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.Complete,
             projectList = listOf(),
-            onSearchTextEdit = {},
-            onSearchPress = {},
+            onSearchTextEdit = { },
+            onSearchClick = { },
             onProjectPress = { },
-            onFilterPress = { }
-        ) { }
+            onFilterPress = { },
+            onAccountClick = { },
+            onLoadMore = { }
+        )
     }
 }
 
@@ -387,11 +411,13 @@ fun PreviewProjectListPageWithLoading(
             projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.Loading,
             projectList = listOf(project),
-            onSearchTextEdit = {},
-            onSearchPress = {},
+            onSearchTextEdit = { },
+            onSearchClick = { },
             onProjectPress = { },
-            onFilterPress = { }
-        ) { }
+            onFilterPress = { },
+            onAccountClick = { },
+            onLoadMore = { }
+        )
     }
 }
 
@@ -403,10 +429,12 @@ fun PreviewProjectsListPageNoNetworkConnection() {
             projectListUiState = ProjectListUiState(),
             listStatus = ListStatus.NoNetwork,
             projectList = listOf(),
-            onSearchTextEdit = {},
-            onSearchPress = {},
+            onSearchTextEdit = { },
+            onSearchClick = { },
             onProjectPress = { },
-            onFilterPress = { }
-        ) { }
+            onFilterPress = { },
+            onAccountClick = { },
+            onLoadMore = { }
+        )
     }
 }

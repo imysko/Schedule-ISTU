@@ -157,7 +157,7 @@
     <string name="not_assigned">"Не назначено"</string>
     <string name="search_teacher">Поиск по преподавателям</string>
     <string name="not_found">Не найдено</string>
-    <string name="unknown_user">Для просмотра расписания вам необходимо выбрать группу или преподавателя</string>
+    <string name="select_group_or_teacher_hint">Для просмотра расписания вам необходимо выбрать группу или преподавателя</string>
     <string name="weekend">В выбранный день нет пар</string>
     <string name="back_to_your_schedule">Назад к своему расписанию</string>
     <string name="search_schedule">Поиск расписания</string>
@@ -196,4 +196,7 @@
     <string name="choose_subgroup">Выберете подгруппу</string>
     <string name="even">" чётная"</string>
     <string name="odd">нечётная</string>
+    <string name="newsfeed">Объявления</string>
+    <string name="unknown_user">Неизвестный пользователь</string>
+    <string name="reload">Обновить</string>
 </resources>

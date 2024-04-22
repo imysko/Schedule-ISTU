@@ -12,6 +12,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.istu.schedule.domain.entities.schedule.ScheduleType
 import com.istu.schedule.ui.components.ext.animatedComposable
 import com.istu.schedule.ui.page.account.AccountPage
+import com.istu.schedule.ui.page.newsfeed.NewsfeedPage
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage
 import com.istu.schedule.ui.page.projfair.list.filter.FiltersPage
 import com.istu.schedule.ui.page.projfair.participation.CreateParticipationPage
@@ -119,6 +120,13 @@ fun BottomNavGraph(
             route = NavDestinations.FILTERS
         ) {
             FiltersPage(bottomNavController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.NEWSFEED
+        ) {
+            NewsfeedPage(navController)
             SetStatusBarIconColor(systemUiController)
         }
 

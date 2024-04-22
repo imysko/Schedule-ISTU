@@ -163,7 +163,7 @@ fun UserNotBindPlaceholder(
     ) {
         Text(
             modifier = Modifier.width(300.dp),
-            text = stringResource(R.string.unknown_user),
+            text = stringResource(R.string.select_group_or_teacher_hint),
             style = AppTheme.typography.title.copy(color = AppTheme.colorScheme.textPrimary),
             textAlign = TextAlign.Center
         )

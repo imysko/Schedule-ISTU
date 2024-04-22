@@ -6,6 +6,7 @@ import com.istu.schedule.R
 import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.Book
 import com.istu.schedule.ui.icons.Calendar
+import com.istu.schedule.ui.icons.Faq
 import com.istu.schedule.ui.icons.Settings
 import com.istu.schedule.ui.util.NavDestinations
 
@@ -13,23 +14,29 @@ sealed class BottomNavItem(
     val route: String,
     val titleResId: Int,
     val icon: ImageVector,
-    val subroutes: List<String> = listOf()
+    val subRouteList: List<String> = listOf()
 ) {
     data object SchedulePage : BottomNavItem(
         route = NavDestinations.MINE_SCHEDULE,
         titleResId = R.string.schedule,
         icon = Icons.Calendar,
-        subroutes = listOf(
+        subRouteList = listOf(
             NavDestinations.SEARCH_SCHEDULE,
             NavDestinations.FOUND_SCHEDULE
         )
+    )
+
+    data object NewsfeedPage : BottomNavItem(
+        route = NavDestinations.NEWSFEED,
+        titleResId = R.string.newsfeed,
+        icon = Icons.Faq
     )
 
     data object ProjfairPage : BottomNavItem(
         route = NavDestinations.PROJFAIR,
         titleResId = R.string.projects,
         icon = Icons.Book,
-        subroutes = listOf(
+        subRouteList = listOf(
             NavDestinations.FILTERS,
             NavDestinations.PROJECT,
             NavDestinations.CREATE_PARTICIPATION
@@ -40,7 +47,7 @@ sealed class BottomNavItem(
         route = NavDestinations.SETTINGS,
         titleResId = R.string.settings,
         icon = Icons.Settings,
-        subroutes = listOf(
+        subRouteList = listOf(
             NavDestinations.SETTING_SCHEDULE,
             NavDestinations.LANGUAGE,
             NavDestinations.DEVELOPERS

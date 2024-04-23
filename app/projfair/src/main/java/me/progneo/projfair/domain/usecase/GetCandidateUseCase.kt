@@ -8,7 +8,7 @@ class GetCandidateUseCase @Inject constructor(
     private val candidateRepository: CandidateRepository
 ) {
 
-    suspend operator fun invoke(token: String): Result<Candidate> {
-        return candidateRepository.getCandidate(token)
+    suspend operator fun invoke(): Result<Candidate> {
+        return candidateRepository.getCandidate()
     }
 }

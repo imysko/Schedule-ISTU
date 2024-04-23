@@ -42,7 +42,7 @@ fun ChooseSubgroup(
             TopBar(
                 title = stringResource(id = R.string.setting_schedule),
                 isShowBackButton = true,
-                onBackPressed = { onBackClick() }
+                onBackClick = { onBackClick() }
             )
         },
         content = {

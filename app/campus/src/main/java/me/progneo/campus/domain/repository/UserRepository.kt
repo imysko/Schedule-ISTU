@@ -5,12 +5,10 @@ import me.progneo.campus.domain.entities.User
 interface UserRepository {
 
     suspend fun getUserList(
-        userIdList: List<Int>,
-        token: String
+        userIdList: List<Int>
     ): Result<List<User>>
 
     suspend fun getUser(
-        userId: Int,
-        token: String
+        userId: Int
     ): Result<User>
 }

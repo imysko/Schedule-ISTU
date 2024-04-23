@@ -2,6 +2,9 @@ package com.istu.schedule.ui.components.navigation
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.material3.Badge
+import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,14 +27,17 @@ import com.istu.schedule.ui.theme.ShapeTop20
 import com.istu.schedule.ui.util.NavDestinations
 
 @Composable
-fun BottomNavBar(navController: NavHostController) {
+fun BottomNavBar(
+    navController: NavHostController,
+    hasNotifications: Boolean
+) {
     LocalLanguages.current
 
     val bottomNavItems = listOf(
         BottomNavItem.SchedulePage,
         BottomNavItem.NewsfeedPage,
         BottomNavItem.ProjfairPage,
-        BottomNavItem.SettingsPage
+        BottomNavItem.ServicesPage
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -49,17 +55,20 @@ fun BottomNavBar(navController: NavHostController) {
             AddItem(
                 bottomNavItem = item,
                 navBackStackEntry = navBackStackEntry,
-                navController = navController
+                navController = navController,
+                hasNotifications = hasNotifications
             )
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RowScope.AddItem(
     bottomNavItem: BottomNavItem,
     navBackStackEntry: NavBackStackEntry?,
-    navController: NavHostController
+    navController: NavHostController,
+    hasNotifications: Boolean
 ) {
     val selected =
         bottomNavItem.route == navBackStackEntry?.destination?.route ||
@@ -80,10 +89,18 @@ fun RowScope.AddItem(
             )
         },
         icon = {
-            Icon(
-                imageVector = bottomNavItem.icon,
-                contentDescription = "${bottomNavItem.titleResId} Icon"
-            )
+            BadgedBox(
+                badge = {
+                    if (bottomNavItem.hasBadge && hasNotifications) {
+                        Badge(containerColor = AppTheme.colorScheme.primary)
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = bottomNavItem.icon,
+                    contentDescription = "${bottomNavItem.titleResId} Icon"
+                )
+            }
         },
         selected = selected,
         alwaysShowLabel = true,
@@ -108,6 +125,9 @@ fun RowScope.AddItem(
 fun BottomNavBarPreview() {
     val navController = rememberNavController()
     AppTheme {
-        BottomNavBar(navController = navController)
+        BottomNavBar(
+            navController = navController,
+            hasNotifications = true
+        )
     }
 }

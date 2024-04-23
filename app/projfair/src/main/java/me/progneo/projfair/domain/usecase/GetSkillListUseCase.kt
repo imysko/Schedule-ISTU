@@ -8,7 +8,7 @@ class GetSkillListUseCase @Inject constructor(
     private val filterDataRepository: FiltersDataRepository
 ) {
 
-    suspend operator fun invoke(token: String): Result<List<Skill>> {
-        return filterDataRepository.getSkills(token)
+    suspend operator fun invoke(): Result<List<Skill>> {
+        return filterDataRepository.getSkills()
     }
 }

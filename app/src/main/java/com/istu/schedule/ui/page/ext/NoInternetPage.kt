@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
 import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,7 +35,13 @@ fun NoInternetPage(
 ) {
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
-        topBar = { TopBar(title, isShowBackButton, onBackPressed) }
+        topBar = {
+            TopBar(
+                title = title,
+                isShowBackButton = isShowBackButton,
+                onBackClick = onBackPressed
+            )
+        }
     ) {
         Column(
             modifier = Modifier

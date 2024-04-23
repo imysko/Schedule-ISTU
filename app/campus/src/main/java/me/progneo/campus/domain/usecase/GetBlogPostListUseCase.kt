@@ -6,18 +6,14 @@ import me.progneo.campus.domain.repository.BlogPostRepository
 
 interface GetBlogPostListUseCase {
 
-    suspend operator fun invoke(token: String): Result<List<BlogPost>>
+    suspend operator fun invoke(): Result<List<BlogPost>>
 }
 
 internal class GetBlogPostListUseCaseImpl @Inject constructor(
     private val blogPostRepository: BlogPostRepository
 ) : GetBlogPostListUseCase {
 
-    override suspend operator fun invoke(
-        token: String
-    ): Result<List<BlogPost>> {
-        return blogPostRepository.getBlogPostList(
-            token = token
-        )
+    override suspend operator fun invoke(): Result<List<BlogPost>> {
+        return blogPostRepository.getBlogPostList()
     }
 }

@@ -5,7 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -30,14 +30,15 @@ fun FilledButton(
 ) {
     Column(
         modifier = modifier
-            .height(42.dp)
-            .clip(RoundedCornerShape(4.dp))
+            .heightIn(min = 42.dp)
+            .clip(RoundedCornerShape(8.dp))
             .background(containerColor)
             .clickable(onClick = onClick),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
+            modifier = Modifier.padding(16.dp),
             text = text.uppercase(),
             style = AppTheme.typography.button,
             color = contentColor

@@ -8,7 +8,7 @@ class GetArchiveProjectsListUseCase @Inject constructor(
     private val projectsRepository: ProjectRepository
 ) {
 
-    suspend operator fun invoke(token: String): Result<List<Project>> {
-        return projectsRepository.getArchiveProjects(token)
+    suspend operator fun invoke(): Result<List<Project>> {
+        return projectsRepository.getArchiveProjects()
     }
 }

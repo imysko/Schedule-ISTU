@@ -54,7 +54,7 @@ fun NewsfeedPage(
 
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
-        topBar = { TopBar(title = stringResource(id = R.string.newsfeed)) }
+        topBar = { TopBar(title = stringResource(id = R.string.newsfeed_title)) }
     ) { paddingValues ->
         Box(
             modifier = Modifier

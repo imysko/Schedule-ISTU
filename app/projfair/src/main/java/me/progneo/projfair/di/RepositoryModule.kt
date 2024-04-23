@@ -5,11 +5,11 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import me.progneo.projfair.data.repository.CandidateRepositoryImpl
-import me.progneo.projfair.data.repository.FiltersDataRepositoryImpl
-import me.progneo.projfair.data.repository.ParticipationRepositoryImpl
-import me.progneo.projfair.data.repository.ProjectRepositoryImpl
-import me.progneo.projfair.data.repository.ProjectStateRepositoryImpl
+import me.progneo.projfair.data.api.repository.CandidateRepositoryImpl
+import me.progneo.projfair.data.api.repository.FiltersDataRepositoryImpl
+import me.progneo.projfair.data.api.repository.ParticipationRepositoryImpl
+import me.progneo.projfair.data.api.repository.ProjectRepositoryImpl
+import me.progneo.projfair.data.api.repository.ProjectStateRepositoryImpl
 import me.progneo.projfair.domain.repository.CandidateRepository
 import me.progneo.projfair.domain.repository.FiltersDataRepository
 import me.progneo.projfair.domain.repository.ParticipationRepository

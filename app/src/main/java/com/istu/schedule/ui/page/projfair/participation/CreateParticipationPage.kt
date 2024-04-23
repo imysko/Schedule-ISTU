@@ -131,7 +131,7 @@ fun CreateParticipationPage(
             TopBar(
                 title = stringResource(R.string.send_participation_page_title),
                 isShowBackButton = true,
-                onBackPressed = onBackPressed
+                onBackClick = onBackPressed
             )
         }
     ) {

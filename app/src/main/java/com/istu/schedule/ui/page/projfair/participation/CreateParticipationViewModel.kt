@@ -2,11 +2,14 @@ package com.istu.schedule.ui.page.projfair.participation
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.model.User
+import androidx.lifecycle.viewModelScope
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.progneo.projfair.domain.model.Participation
 import me.progneo.projfair.domain.model.PriorityRequest
 import me.progneo.projfair.domain.model.Project
@@ -16,10 +19,9 @@ import me.progneo.projfair.domain.usecase.GetProjectUseCase
 
 @HiltViewModel
 class CreateParticipationViewModel @Inject constructor(
-    private val _getProjectUseCase: GetProjectUseCase,
-    private val _createParticipationUseCase: CreateParticipationUseCase,
-    private val _participationListUseCase: GetParticipationListUseCase,
-    private val _user: User
+    private val getProjectUseCase: GetProjectUseCase,
+    private val createParticipationUseCase: CreateParticipationUseCase,
+    private val participationListUseCase: GetParticipationListUseCase
 ) : BaseViewModel() {
 
     private val _project = MutableLiveData<Project>()
@@ -37,7 +39,7 @@ class CreateParticipationViewModel @Inject constructor(
     fun fetchProject(projectId: Int) {
         call(
             handleLoading = false,
-            apiCall = { _getProjectUseCase(projectId) },
+            apiCall = { getProjectUseCase(projectId) },
             onSuccess = {
                 _project.value = it
             }
@@ -45,19 +47,20 @@ class CreateParticipationViewModel @Inject constructor(
     }
 
     fun fetchParticipationList() {
-        _user.projfairToken?.let { token ->
-            call(
-                apiCall = { _participationListUseCase(token) },
-                onSuccess = {
-                    for (participation in it) {
-                        if (participation.state.id in 1..2) {
-                            _participationList.addNewItem(participation)
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                call(
+                    apiCall = { participationListUseCase() },
+                    onSuccess = {
+                        for (participation in it) {
+                            if (participation.state.id in 1..2) {
+                                _participationList.addNewItem(participation)
+                            }
                         }
+                        _isLoaded.postValue(true)
                     }
-                    _isLoaded.postValue(true)
-                },
-                onError = {}
-            )
+                )
+            }
         }
     }
 
@@ -66,22 +69,19 @@ class CreateParticipationViewModel @Inject constructor(
     }
 
     fun createParticipation() {
-        _user.projfairToken?.let { token ->
-            _project.value?.id.let { projectId ->
-                _selectedPriorityId.value?.let { priority ->
-                    call(
-                        apiCall = {
-                            _createParticipationUseCase(
-                                token,
-                                projectId!!,
-                                PriorityRequest(priority)
-                            )
-                        },
-                        onSuccess = {
-                        },
-                        onError = {
-                        }
-                    )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                _project.value?.id?.let { projectId ->
+                    _selectedPriorityId.value?.let { priority ->
+                        call(
+                            apiCall = {
+                                createParticipationUseCase(
+                                    projectId,
+                                    PriorityRequest(priority)
+                                )
+                            }
+                        )
+                    }
                 }
             }
         }

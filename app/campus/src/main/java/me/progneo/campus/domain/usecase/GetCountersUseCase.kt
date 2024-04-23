@@ -6,18 +6,14 @@ import me.progneo.campus.domain.repository.CountersRepository
 
 interface GetCountersUseCase {
 
-    suspend operator fun invoke(token: String): Result<Counters>
+    suspend operator fun invoke(): Result<Counters>
 }
 
 internal class GetCountersUseCaseImpl @Inject constructor(
     private val countersRepository: CountersRepository
 ) : GetCountersUseCase {
 
-    override suspend operator fun invoke(
-        token: String
-    ): Result<Counters> {
-        return countersRepository.getCounters(
-            token = token
-        )
+    override suspend operator fun invoke(): Result<Counters> {
+        return countersRepository.getCounters()
     }
 }

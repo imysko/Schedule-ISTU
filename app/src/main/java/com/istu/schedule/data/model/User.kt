@@ -1,9 +1,6 @@
 package com.istu.schedule.data.model
 
 import android.content.SharedPreferences
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import com.istu.schedule.data.api.entities.projfair.enums.ProjfairAuthStatus
 import com.istu.schedule.domain.entities.Subgroup
 import com.istu.schedule.domain.entities.UserStatus
 import com.istu.schedule.util.toSubgroupEnum
@@ -21,13 +18,6 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
     private val _projfairFiltersState = MutableStateFlow(FiltersState())
     val projfairFiltersState: StateFlow<FiltersState> = _projfairFiltersState.asStateFlow()
 
-    private val _authStatus = MutableLiveData(ProjfairAuthStatus.UNDEFINED)
-    val authStatus: LiveData<ProjfairAuthStatus> = _authStatus
-
-    init {
-        setAuth()
-    }
-
     fun setProjfairFilters(projfairFiltersState: FiltersState) {
         _projfairFiltersState.value = projfairFiltersState
     }
@@ -35,38 +25,6 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
     fun setFiltersChanged(isUpdated: Boolean) {
         _projfairFiltersState.value = _projfairFiltersState.value.copy(isChanged = isUpdated)
     }
-
-    private fun setAuth() {
-        if (projfairToken != null) {
-            _authStatus.postValue(ProjfairAuthStatus.SUCCESS)
-        } else {
-            _authStatus.postValue(ProjfairAuthStatus.AUTH)
-        }
-    }
-
-    fun loginProjfair(token: String) {
-        projfairToken = token
-    }
-
-    fun logoutProjfair() {
-        projfairToken = null
-    }
-
-    var projfairToken: String?
-        get() {
-            return _sharedPreference.getString(PROJFAIR_TOKEN, null)
-        }
-        set(value) {
-            with(_sharedPreference.edit()) {
-                if (value == null) {
-                    remove(PROJFAIR_TOKEN)
-                } else {
-                    putString(PROJFAIR_TOKEN, value)
-                }
-                apply()
-                setAuth()
-            }
-        }
 
     var userType: UserStatus
         get() {
@@ -118,7 +76,6 @@ class User @Inject constructor(private val _sharedPreference: SharedPreferences)
         }
 
     companion object {
-        const val PROJFAIR_TOKEN = "projfairToken"
         const val USER_TYPE = "userType"
         const val USER_SUBGROUP = "userSubgroup"
         const val USER_ID = "userId"

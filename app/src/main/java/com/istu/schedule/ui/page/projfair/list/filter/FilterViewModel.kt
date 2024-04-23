@@ -14,9 +14,9 @@ import me.progneo.projfair.domain.usecase.GetSpecialityListUseCase
 
 @HiltViewModel
 class FilterViewModel @Inject constructor(
-    private val _getSpecialtyListUseCase: GetSpecialityListUseCase,
-    private val _getSkillListUseCase: GetSkillListUseCase,
-    private val _user: User
+    private val getSpecialtyListUseCase: GetSpecialityListUseCase,
+    private val getSkillListUseCase: GetSkillListUseCase,
+    private val user: User
 ) : BaseViewModel() {
 
     private val _skillsList = MutableLiveData<MutableList<Skill>>()
@@ -25,34 +25,22 @@ class FilterViewModel @Inject constructor(
     private val _specialitiesList = MutableLiveData<MutableList<Speciality>>()
     val specialitiesList: LiveData<MutableList<Speciality>> = _specialitiesList
 
-    fun getFilters(): FiltersState = _user.projfairFiltersState.value
+    fun getFilters(): FiltersState = user.projfairFiltersState.value
 
     fun setFilters(projfairFiltersState: FiltersState) =
-        _user.setProjfairFilters(projfairFiltersState)
+        user.setProjfairFilters(projfairFiltersState)
 
     fun getSkillsList() {
         call(
-            apiCall = {
-                _getSkillListUseCase(
-                    token = _user.projfairToken ?: ""
-                )
-            },
-            onSuccess = {
-                _skillsList.value = it.toMutableList()
-            }
+            apiCall = { getSkillListUseCase() },
+            onSuccess = { _skillsList.value = it.toMutableList() }
         )
     }
 
     fun getSpecialitiesList() {
         call(
-            apiCall = {
-                _getSpecialtyListUseCase(
-                    token = _user.projfairToken ?: ""
-                )
-            },
-            onSuccess = {
-                _specialitiesList.value = it.toMutableList()
-            }
+            apiCall = { getSpecialtyListUseCase() },
+            onSuccess = { _specialitiesList.value = it.toMutableList() }
         )
     }
 }

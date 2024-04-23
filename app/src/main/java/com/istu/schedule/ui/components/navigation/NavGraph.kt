@@ -9,10 +9,10 @@ import androidx.navigation.compose.NavHost
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.istu.schedule.ui.components.ext.animatedComposable
-import com.istu.schedule.ui.page.account.login.LoginProjfairPage
 import com.istu.schedule.ui.page.main.MainPage
 import com.istu.schedule.ui.page.newsfeed.login.LoginCampusPage
 import com.istu.schedule.ui.page.onboarding.OnBoardingPage
+import com.istu.schedule.ui.page.projfair.account.login.LoginProjfairPage
 import com.istu.schedule.ui.page.settings.schedule.SettingSchedulePage
 import com.istu.schedule.ui.util.NavDestinations
 import com.istu.schedule.util.isFirstLaunch

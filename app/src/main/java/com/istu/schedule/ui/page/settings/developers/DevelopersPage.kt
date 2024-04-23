@@ -57,7 +57,7 @@ fun DevelopersPage(navController: NavController) {
             TopBar(
                 title = stringResource(id = R.string.developers),
                 isShowBackButton = true,
-                onBackPressed = { navController.popBackStack() }
+                onBackClick = { navController.popBackStack() }
             )
         },
         content = {

@@ -9,14 +9,13 @@ import me.progneo.campus.domain.usecase.GetBlogPostListUseCase
 import me.progneo.campus.domain.usecase.GetBlogPostListUseCaseImpl
 import me.progneo.campus.domain.usecase.GetCountersUseCase
 import me.progneo.campus.domain.usecase.GetCountersUseCaseImpl
+import me.progneo.campus.domain.usecase.GetLastBlogPostIdUseCase
 import me.progneo.campus.domain.usecase.GetTokenUseCase
 import me.progneo.campus.domain.usecase.GetTokenUseCaseImpl
 import me.progneo.campus.domain.usecase.GetUserByIdUseCase
 import me.progneo.campus.domain.usecase.GetUserByIdUseCaseImpl
 import me.progneo.campus.domain.usecase.GetUserListUseCase
 import me.progneo.campus.domain.usecase.GetUserListUseCaseImpl
-import me.progneo.campus.domain.usecase.RefreshTokenUseCase
-import me.progneo.campus.domain.usecase.RefreshTokenUseCaseImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -54,7 +53,7 @@ internal abstract class UseCaseModule {
 
     @Binds
     @Singleton
-    internal abstract fun bindRefreshTokenUseCase(
-        refreshTokenUseCaseImpl: RefreshTokenUseCaseImpl
-    ): RefreshTokenUseCase
+    internal abstract fun bindGetLastBlogPostIdUseCase(
+        getLastBlogPostIdUseCase: GetLastBlogPostIdUseCase
+    ): GetLastBlogPostIdUseCase
 }

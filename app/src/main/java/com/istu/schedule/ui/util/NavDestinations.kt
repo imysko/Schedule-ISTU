@@ -16,6 +16,8 @@ object NavDestinations {
     const val PROJFAIR_LOGIN = "ProjfairLogin"
     const val CREATE_PARTICIPATION = "CreateParticipation"
 
+    const val SERVICES = "Services"
+
     const val NEWSFEED = "Campus"
     const val CAMPUS_LOGIN = "CampusLogin"
 

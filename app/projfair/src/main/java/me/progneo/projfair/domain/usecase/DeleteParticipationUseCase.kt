@@ -7,12 +7,8 @@ class DeleteParticipationUseCase @Inject constructor(
     private val participationRepository: ParticipationRepository
 ) {
 
-    suspend operator fun invoke(
-        token: String,
-        participationId: Int
-    ): Result<Unit> {
+    suspend operator fun invoke(participationId: Int): Result<Unit> {
         return participationRepository.deleteParticipation(
-            token = token,
             participationId = participationId
         )
     }

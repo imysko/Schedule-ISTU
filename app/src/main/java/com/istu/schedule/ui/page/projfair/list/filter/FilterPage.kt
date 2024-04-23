@@ -104,7 +104,7 @@ fun FiltersPage(
             TopBar(
                 title = stringResource(R.string.filters),
                 isShowBackButton = true,
-                onBackPressed = onBackPressed
+                onBackClick = onBackPressed
             )
         }
     ) {

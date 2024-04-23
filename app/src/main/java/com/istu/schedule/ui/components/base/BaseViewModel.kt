@@ -57,11 +57,11 @@ open class BaseViewModel : LifecycleObserver, ViewModel() {
             }
 
             result.exceptionOrNull()?.let { error ->
-                onError?.invoke(error)
-
                 if (handleError) {
                     onCallError(error)
                 }
+
+                onError?.invoke(error)
             }
         } catch (ex: NoConnectivityException) {
             _networkStatus.postValue(NetworkStatus.Unavailable)

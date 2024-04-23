@@ -7,8 +7,7 @@ import me.progneo.campus.domain.repository.UserRepository
 interface GetUserListUseCase {
 
     suspend operator fun invoke(
-        userIdList: List<Int>,
-        token: String
+        userIdList: List<Int>
     ): Result<List<User>>
 }
 
@@ -17,12 +16,10 @@ internal class GetUserListUseCaseImpl @Inject constructor(
 ) : GetUserListUseCase {
 
     override suspend operator fun invoke(
-        userIdList: List<Int>,
-        token: String
+        userIdList: List<Int>
     ): Result<List<User>> {
         return userRepository.getUserList(
-            userIdList = userIdList,
-            token = token
+            userIdList = userIdList
         )
     }
 }

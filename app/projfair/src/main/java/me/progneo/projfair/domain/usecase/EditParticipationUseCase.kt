@@ -9,12 +9,10 @@ class EditParticipationUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        token: String,
         participationId: Int,
         priority: PriorityRequest
     ): Result<Unit> {
         return participationRepository.editParticipation(
-            token = token,
             participationId = participationId,
             priority = priority
         )

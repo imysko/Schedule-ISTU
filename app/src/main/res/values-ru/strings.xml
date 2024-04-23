@@ -196,7 +196,24 @@
     <string name="choose_subgroup">Выберете подгруппу</string>
     <string name="even">" чётная"</string>
     <string name="odd">нечётная</string>
-    <string name="newsfeed">Объявления</string>
+    <string name="newsfeed">Лента</string>
     <string name="unknown_user">Неизвестный пользователь</string>
     <string name="reload">Обновить</string>
+    <string name="newsfeed_title">Лента объявлений</string>
+    <string name="services">Сервисы</string>
+    <string name="moodle">Электронное обучение</string>
+    <string name="campus">Кампус</string>
+    <plurals name="notifications_count">
+        <item quantity="one">%1$d новое уведомление</item>
+        <item quantity="few">%1$d новых уведомления</item>
+        <item quantity="many">%1$d новых уведомлений</item>
+        <item quantity="other">%1$d новых уведомлений</item>
+    </plurals>
+    <string name="notification_title_projfair">Неподанная заявка</string>
+    <string name="notification_title_campus">Новые объявления</string>
+    <string name="notification_desc_projfair">Подайте заявку на участие в проекте</string>
+    <string name="notification_desc_campus">Прочтите новые объявления</string>
+    <string name="service_message_error">Что-то пошло не так</string>
+    <string name="service_message_loading">Обновление…</string>
+    <string name="newsfeed_screen_login_hint">Для просмотра ленты объявлений необходимо авторизоваться в Кампусе</string>
 </resources>

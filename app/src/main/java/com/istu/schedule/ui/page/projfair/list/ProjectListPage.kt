@@ -54,7 +54,6 @@ import com.istu.schedule.ui.components.base.SIAnimatedVisibility
 import com.istu.schedule.ui.components.base.SIAnimatedVisibilityFadeOnly
 import com.istu.schedule.ui.components.base.SearchBar
 import com.istu.schedule.ui.components.projfair.ProjectItem
-import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.Filter
 import com.istu.schedule.ui.icons.Logo152
 import com.istu.schedule.ui.icons.Search
@@ -108,9 +107,6 @@ fun ProjectsListPage(
         },
         onLoadMore = {
             viewModel.fetchProjectList()
-        },
-        onAccountClick = {
-            navController.navigate(NavDestinations.ACCOUNT)
         }
     )
 }
@@ -124,8 +120,7 @@ fun ProjectsListPage(
     onSearchClick: () -> Unit,
     onProjectPress: (Int) -> Unit,
     onFilterPress: () -> Unit,
-    onLoadMore: () -> Unit,
-    onAccountClick: () -> Unit
+    onLoadMore: () -> Unit
 ) {
     Scaffold(
         containerColor = AppTheme.colorScheme.backgroundPrimary,
@@ -133,7 +128,6 @@ fun ProjectsListPage(
             TopBar(
                 searchText = projectListUiState.searchText,
                 onSearchClick = onSearchClick,
-                onAccountClick = onAccountClick,
                 onSearchTextEdit = onSearchTextEdit
             )
         }
@@ -305,7 +299,6 @@ private fun NotFoundPanel() {
 private fun TopBar(
     onSearchTextEdit: (String) -> Unit,
     onSearchClick: () -> Unit,
-    onAccountClick: () -> Unit,
     searchText: String
 ) {
     var isSearchVisible by remember { mutableStateOf(false) }
@@ -327,17 +320,6 @@ private fun TopBar(
                 style = AppTheme.typography.pageTitle
             )
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                IconButton(
-                    modifier = Modifier.size(32.dp),
-                    onClick = onAccountClick,
-                    content = {
-                        Icon(
-                            imageVector = Icons.Account,
-                            contentDescription = stringResource(id = R.string.account),
-                            tint = AppTheme.colorScheme.textSecondary
-                        )
-                    }
-                )
                 IconButton(
                     modifier = Modifier.size(32.dp),
                     onClick = { isSearchVisible = !isSearchVisible },
@@ -377,7 +359,6 @@ fun PreviewProjectsListPageLoading() {
             onSearchClick = { },
             onProjectPress = { },
             onFilterPress = { },
-            onAccountClick = { },
             onLoadMore = { }
         )
     }
@@ -395,7 +376,6 @@ fun PreviewProjectsListPageEmpty() {
             onSearchClick = { },
             onProjectPress = { },
             onFilterPress = { },
-            onAccountClick = { },
             onLoadMore = { }
         )
     }
@@ -415,7 +395,6 @@ fun PreviewProjectListPageWithLoading(
             onSearchClick = { },
             onProjectPress = { },
             onFilterPress = { },
-            onAccountClick = { },
             onLoadMore = { }
         )
     }
@@ -433,7 +412,6 @@ fun PreviewProjectsListPageNoNetworkConnection() {
             onSearchClick = { },
             onProjectPress = { },
             onFilterPress = { },
-            onAccountClick = { },
             onLoadMore = { }
         )
     }

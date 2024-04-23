@@ -567,7 +567,7 @@ private fun TopBar(
         TopBar(
             title = stringResource(id = R.string.projfair),
             isShowBackButton = true,
-            onBackPressed = onBackPressed
+            onBackClick = onBackPressed
         )
         SIScrollableTabRow(
             modifier = Modifier.padding(bottom = 10.dp),

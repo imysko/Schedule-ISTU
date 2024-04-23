@@ -199,4 +199,19 @@
     <string name="newsfeed">Newsfeed</string>
     <string name="unknown_user">Unknown user</string>
     <string name="reload">Reload</string>
+    <string name="newsfeed_title">Newsfeed</string>
+    <string name="services">Services</string>
+    <string name="moodle">Moodle</string>
+    <string name="campus">Campus</string>
+    <string name="notification_title_projfair">Pending application</string>
+    <string name="notification_title_campus">New announcements</string>
+    <string name="notification_desc_projfair">Apply for participation in the project</string>
+    <string name="notification_desc_campus">Check out the new announcements</string>
+    <string name="service_message_error">Something went wrong</string>
+    <string name="service_message_loading">Updating…</string>
+    <string name="newsfeed_screen_login_hint">You must be logged in to the Campus to view the announcement feed</string>
+    <plurals name="notifications_count">
+        <item quantity="one">%1$d unread notification</item>
+        <item quantity="other">%1$d unread notifications</item>
+    </plurals>
 </resources>

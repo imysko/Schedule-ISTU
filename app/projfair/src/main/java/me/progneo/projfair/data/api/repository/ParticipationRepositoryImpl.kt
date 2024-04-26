@@ -14,7 +14,7 @@ internal class ParticipationRepositoryImpl @Inject constructor(
     private val participationService: ParticipationService
 ) : ParticipationRepository {
 
-    private val _isParticipationSent = MutableStateFlow(false)
+    private val _isParticipationSent = MutableStateFlow(true)
 
     override suspend fun getParticipationList(): Result<List<Participation>> {
         val apiResponse = participationService.getParticipationList()

@@ -3,6 +3,7 @@ package com.istu.schedule.data.service.notification
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
+import android.util.Log
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
@@ -12,9 +13,8 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import me.progneo.campus.data.preference.LastSeenBlogPostIdManager
 import me.progneo.campus.domain.repository.BlogPostRepository
-import me.progneo.campus.domain.usecase.GetBlogPostListUseCase
-import me.progneo.projfair.domain.repository.CandidateRepository
 import me.progneo.projfair.domain.repository.ParticipationRepository
+import me.progneo.projfair.domain.usecase.GetProjectListUseCase
 
 @AndroidEntryPoint
 class NotificationService : Service() {
@@ -29,10 +29,7 @@ class NotificationService : Service() {
     lateinit var blogPostRepository: BlogPostRepository
 
     @Inject
-    lateinit var getBlogPostListUseCase: GetBlogPostListUseCase
-
-    @Inject
-    lateinit var candidateRepository: CandidateRepository
+    lateinit var getProjectListUseCase: GetProjectListUseCase
 
     @Inject
     lateinit var participationRepository: ParticipationRepository
@@ -41,38 +38,56 @@ class NotificationService : Service() {
 
     private fun observeParticipationList() {
         coroutineScope.launch {
-            val canCandidateSendApplicationsFlow =
-                candidateRepository.canCandidateSendApplications()
+            try {
+                participationRepository.getParticipationList()
+                val hasProjectsWithCollectParticipation = findProjectsWithCollectParticipation()
+                val isParticipationSentFlow = participationRepository.isParticipationSent()
 
-            val isParticipationSentFlow =
-                participationRepository.isParticipationSent()
-
-            combine(
-                canCandidateSendApplicationsFlow,
-                isParticipationSentFlow
-            ) { canCandidateSendApplications, isParticipationSent ->
-                if (canCandidateSendApplications && !isParticipationSent) {
-                    notificationManager.addNotification(Notification.Projfair)
-                } else {
-                    notificationManager.removeNotification(Notification.Projfair)
+                isParticipationSentFlow.collect { isParticipationSent ->
+                    if (hasProjectsWithCollectParticipation && !isParticipationSent) {
+                        notificationManager.addNotification(Notification.Projfair)
+                    } else {
+                        notificationManager.removeNotification(Notification.Projfair)
+                    }
                 }
-            }.collect {}
+            } catch (ex: Exception) {
+                Log.e(NotificationService::class.simpleName, ex.stackTraceToString())
+            }
         }
     }
 
     private fun observeBlogPost() {
         coroutineScope.launch {
-            getBlogPostListUseCase()
-            val lastSeenBlogPostIdFlow = lastSeenBlogPostIdManager.getFlow()
-            val lastBlogPostIdFlow = blogPostRepository.getLastBlogPostId()
+            try {
+                blogPostRepository.getBlogPostList()
+                val lastSeenBlogPostIdFlow = lastSeenBlogPostIdManager.getFlow()
+                val lastBlogPostIdFlow = blogPostRepository.getLastBlogPostId()
 
-            combine(lastSeenBlogPostIdFlow, lastBlogPostIdFlow) { lastSeenId, lastBlogId ->
-                if (lastSeenId < lastBlogId) {
-                    notificationManager.addNotification(Notification.Campus)
-                } else {
-                    notificationManager.removeNotification(Notification.Campus)
-                }
-            }.collect {}
+                combine(lastSeenBlogPostIdFlow, lastBlogPostIdFlow) { lastSeenId, lastBlogId ->
+                    if (lastSeenId < lastBlogId) {
+                        notificationManager.addNotification(Notification.Campus)
+                    } else {
+                        notificationManager.removeNotification(Notification.Campus)
+                    }
+                }.collect {}
+            } catch (ex: Exception) {
+                Log.e(NotificationService::class.simpleName, ex.stackTraceToString())
+            }
+        }
+    }
+
+    private suspend fun findProjectsWithCollectParticipation(): Boolean {
+        try {
+            val projectListResult = getProjectListUseCase(page = 0, states = listOf(1))
+
+            projectListResult.onSuccess { projectList ->
+                return projectList.isNotEmpty()
+            }
+
+            return false
+        } catch (ex: Exception) {
+            Log.e(NotificationService::class.simpleName, ex.stackTraceToString())
+            return false
         }
     }
 

@@ -5,11 +5,11 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
-import me.progneo.projfair.data.service.CandidateService
-import me.progneo.projfair.data.service.FiltersDataService
-import me.progneo.projfair.data.service.ParticipationService
-import me.progneo.projfair.data.service.ProjectStateService
-import me.progneo.projfair.data.service.ProjectsService
+import me.progneo.projfair.data.api.service.CandidateService
+import me.progneo.projfair.data.api.service.FiltersDataService
+import me.progneo.projfair.data.api.service.ParticipationService
+import me.progneo.projfair.data.api.service.ProjectStateService
+import me.progneo.projfair.data.api.service.ProjectsService
 import retrofit2.Retrofit
 
 @Module

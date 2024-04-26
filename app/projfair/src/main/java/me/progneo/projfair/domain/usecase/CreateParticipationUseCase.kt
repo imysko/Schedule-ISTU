@@ -9,12 +9,10 @@ class CreateParticipationUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        token: String,
         projectId: Int,
         priority: PriorityRequest
     ): Result<Unit> {
         return participationRepository.createParticipation(
-            token = token,
             projectId = projectId,
             priority = priority
         )

@@ -2,16 +2,20 @@ package com.istu.schedule.ui.page.projfair.list
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.istu.schedule.data.api.entities.projfair.enums.ListStatus
 import com.istu.schedule.data.model.User
 import com.istu.schedule.ui.components.base.BaseViewModel
 import com.istu.schedule.util.addNewItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.progneo.projfair.domain.model.Candidate
 import me.progneo.projfair.domain.model.FiltersState
 import me.progneo.projfair.domain.model.Project
@@ -21,15 +25,15 @@ import me.progneo.projfair.domain.usecase.GetProjectListUseCase
 
 @HiltViewModel
 class ProjectsListViewModel @Inject constructor(
-    private val _getCandidateUseCase: GetCandidateUseCase,
-    private val _getProjectUseCase: GetProjectListUseCase,
-    private val _getParticipationListUseCase: GetParticipationListUseCase,
-    private val _user: User
+    private val getCandidateUseCase: GetCandidateUseCase,
+    private val getProjectUseCase: GetProjectListUseCase,
+    private val getParticipationListUseCase: GetParticipationListUseCase,
+    private val user: User
 ) : BaseViewModel() {
 
     private val _candidate = MutableLiveData<Candidate>()
 
-    val projfairFiltersState: StateFlow<FiltersState> = _user.projfairFiltersState
+    val projfairFiltersState: StateFlow<FiltersState> = user.projfairFiltersState
 
     private val _projectListUiState = MutableStateFlow(ProjectListUiState())
     val projectListUiState: StateFlow<ProjectListUiState> = _projectListUiState.asStateFlow()
@@ -55,16 +59,15 @@ class ProjectsListViewModel @Inject constructor(
 
             call(
                 apiCall = {
-                    _getProjectUseCase(
-                        token = _user.projfairToken ?: "",
+                    getProjectUseCase(
                         title = _projectListUiState.value.searchText,
                         page = _currentPage,
-                        difficulties = _user.projfairFiltersState.value.difficultiesList,
-                        states = _user.projfairFiltersState.value.statusesList,
-                        specialties = _user.projfairFiltersState.value.specialitiesList.map {
+                        difficulties = user.projfairFiltersState.value.difficultiesList,
+                        states = user.projfairFiltersState.value.statusesList,
+                        specialties = user.projfairFiltersState.value.specialitiesList.map {
                             it.first
                         },
-                        skills = _user.projfairFiltersState.value.skillsList.map { it.first }
+                        skills = user.projfairFiltersState.value.skillsList.map { it.first }
                     )
                 },
                 onSuccess = {
@@ -72,7 +75,7 @@ class ProjectsListViewModel @Inject constructor(
                         _projectList.addNewItem(item)
                     }
                     _currentPage += 1
-                    _user.setFiltersChanged(false)
+                    user.setFiltersChanged(false)
                     _listStatus.postValue(ListStatus.Complete)
                 },
                 onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) }
@@ -81,27 +84,29 @@ class ProjectsListViewModel @Inject constructor(
     }
 
     fun fetchParticipationList() {
-        _user.projfairToken?.let { token ->
-            call(
-                apiCall = { _getCandidateUseCase(token) },
-                onSuccess = { candidate ->
-                    _candidate.postValue(candidate)
-                },
-                onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) }
-            )
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                call(
+                    apiCall = { getCandidateUseCase() },
+                    onSuccess = { candidate ->
+                        _candidate.postValue(candidate)
+                    },
+                    onNetworkUnavailable = { _listStatus.postValue(ListStatus.NoNetwork) }
+                )
 
-            call(
-                apiCall = { _getParticipationListUseCase(token) },
-                onSuccess = { participationList ->
-                    _canCreateParticipation.value =
-                        participationList.count { it.state.id in 1..2 } < 3 &&
-                        _candidate.value?.canSendParticipations == 1
-                },
-                onNetworkUnavailable = {
-                    _listStatus.postValue(ListStatus.NoNetwork)
-                },
-                handleLoading = false
-            )
+                call(
+                    apiCall = { getParticipationListUseCase() },
+                    onSuccess = { participationList ->
+                        _canCreateParticipation.value =
+                            participationList.count { it.state.id in 1..2 } < 3 &&
+                            _candidate.value?.canSendParticipations == 1
+                    },
+                    onNetworkUnavailable = {
+                        _listStatus.postValue(ListStatus.NoNetwork)
+                    },
+                    handleLoading = false
+                )
+            }
         }
     }
 

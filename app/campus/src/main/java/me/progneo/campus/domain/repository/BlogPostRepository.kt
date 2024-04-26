@@ -1,8 +1,11 @@
 package me.progneo.campus.domain.repository
 
+import kotlinx.coroutines.flow.Flow
 import me.progneo.campus.domain.entities.BlogPost
 
 interface BlogPostRepository {
 
-    suspend fun getBlogPostList(token: String): Result<List<BlogPost>>
+    suspend fun getBlogPostList(): Result<List<BlogPost>>
+
+    suspend fun getLastBlogPostId(): Flow<Int>
 }

@@ -11,8 +11,8 @@ import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.istu.schedule.domain.entities.schedule.ScheduleType
 import com.istu.schedule.ui.components.ext.animatedComposable
-import com.istu.schedule.ui.page.account.AccountPage
 import com.istu.schedule.ui.page.newsfeed.NewsfeedPage
+import com.istu.schedule.ui.page.projfair.account.AccountPage
 import com.istu.schedule.ui.page.projfair.list.ProjectsListPage
 import com.istu.schedule.ui.page.projfair.list.filter.FiltersPage
 import com.istu.schedule.ui.page.projfair.participation.CreateParticipationPage
@@ -20,6 +20,7 @@ import com.istu.schedule.ui.page.projfair.project.ProjectPage
 import com.istu.schedule.ui.page.schedule.found.FoundSchedulePage
 import com.istu.schedule.ui.page.schedule.mine.MineSchedulePage
 import com.istu.schedule.ui.page.schedule.search.SearchSchedulePage
+import com.istu.schedule.ui.page.services.ServicesPage
 import com.istu.schedule.ui.page.settings.SettingsPage
 import com.istu.schedule.ui.page.settings.developers.DevelopersPage
 import com.istu.schedule.ui.page.settings.language.LanguagePage
@@ -75,23 +76,9 @@ fun BottomNavGraph(
         }
 
         animatedComposable(
-            route = BottomNavItem.ProjfairPage.route
+            route = NavDestinations.PROJFAIR
         ) {
             ProjectsListPage(bottomNavController)
-            SetStatusBarIconColor(systemUiController)
-        }
-
-        animatedComposable(
-            route = BottomNavItem.SettingsPage.route
-        ) {
-            SettingsPage(bottomNavController)
-            SetStatusBarIconColor(systemUiController)
-        }
-
-        animatedComposable(
-            route = BottomNavItem.AccountPage.route
-        ) {
-            AccountPage(bottomNavController, navController)
             SetStatusBarIconColor(systemUiController)
         }
 
@@ -127,6 +114,27 @@ fun BottomNavGraph(
             route = NavDestinations.NEWSFEED
         ) {
             NewsfeedPage(navController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.SERVICES
+        ) {
+            ServicesPage(bottomNavController, navController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.SETTINGS
+        ) {
+            SettingsPage(bottomNavController)
+            SetStatusBarIconColor(systemUiController)
+        }
+
+        animatedComposable(
+            route = NavDestinations.ACCOUNT
+        ) {
+            AccountPage(bottomNavController, navController)
             SetStatusBarIconColor(systemUiController)
         }
 

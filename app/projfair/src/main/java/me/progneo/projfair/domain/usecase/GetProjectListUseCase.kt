@@ -9,7 +9,6 @@ class GetProjectListUseCase @Inject constructor(
 ) {
 
     suspend operator fun invoke(
-        token: String = "",
         title: String = "",
         page: Int,
         difficulties: List<Int> = arrayListOf(),
@@ -18,7 +17,6 @@ class GetProjectListUseCase @Inject constructor(
         skills: List<Int> = arrayListOf()
     ): Result<List<Project>> {
         return projectRepository.getProjects(
-            token = token,
             title = title,
             page = page,
             difficulties = difficulties,

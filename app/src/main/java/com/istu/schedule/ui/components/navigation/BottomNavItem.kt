@@ -3,17 +3,17 @@ package com.istu.schedule.ui.components.navigation
 import androidx.compose.material.icons.Icons
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.istu.schedule.R
-import com.istu.schedule.ui.icons.Account
 import com.istu.schedule.ui.icons.Book
 import com.istu.schedule.ui.icons.Calendar
 import com.istu.schedule.ui.icons.Faq
-import com.istu.schedule.ui.icons.Settings
+import com.istu.schedule.ui.icons.Services
 import com.istu.schedule.ui.util.NavDestinations
 
 sealed class BottomNavItem(
     val route: String,
     val titleResId: Int,
     val icon: ImageVector,
+    var hasBadge: Boolean = false,
     val subRouteList: List<String> = listOf()
 ) {
     data object SchedulePage : BottomNavItem(
@@ -39,24 +39,21 @@ sealed class BottomNavItem(
         subRouteList = listOf(
             NavDestinations.FILTERS,
             NavDestinations.PROJECT,
-            NavDestinations.CREATE_PARTICIPATION
+            NavDestinations.CREATE_PARTICIPATION,
+            NavDestinations.ACCOUNT
         )
     )
 
-    data object SettingsPage : BottomNavItem(
-        route = NavDestinations.SETTINGS,
-        titleResId = R.string.settings,
-        icon = Icons.Settings,
+    data object ServicesPage : BottomNavItem(
+        route = NavDestinations.SERVICES,
+        titleResId = R.string.services,
+        icon = Icons.Services,
+        hasBadge = true,
         subRouteList = listOf(
+            NavDestinations.SETTINGS,
             NavDestinations.SETTING_SCHEDULE,
             NavDestinations.LANGUAGE,
             NavDestinations.DEVELOPERS
         )
-    )
-
-    data object AccountPage : BottomNavItem(
-        route = NavDestinations.ACCOUNT,
-        titleResId = R.string.account,
-        icon = Icons.Account
     )
 }

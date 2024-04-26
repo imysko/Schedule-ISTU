@@ -8,6 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
+import me.progneo.projfair.data.preference.ProjfairAccessTokenManager
+import me.progneo.projfair.util.AuthInterceptor
 import me.progneo.projfair.util.NetworkConnectionInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -37,9 +39,13 @@ internal object NetworkModule {
 
     @Provides
     @Named("ProjfairOkHttpClient")
-    fun provideOkHttpClient(@ApplicationContext context: Context): OkHttpClient {
+    fun provideOkHttpClient(
+        @ApplicationContext context: Context,
+        projfairAccessTokenManager: ProjfairAccessTokenManager
+    ): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(NetworkConnectionInterceptor(context))
+            .addInterceptor(AuthInterceptor(projfairAccessTokenManager))
             .addInterceptor(
                 HttpLoggingInterceptor().apply {
                     level = HttpLoggingInterceptor.Level.HEADERS
@@ -51,18 +57,6 @@ internal object NetworkModule {
                 newRequestBuilder.addHeader("Content-Type", "application/json")
                 newRequestBuilder.addHeader("Accept", "application/json")
                 it.proceed(newRequestBuilder.build())
-            }
-            .addInterceptor {
-                val original = it.request()
-                val newUrl = original.url
-                    .newBuilder()
-                    .build()
-                val newRequest = original
-                    .newBuilder()
-                    .url(newUrl)
-                    .build()
-
-                it.proceed(newRequest)
             }
             .callTimeout(1, TimeUnit.MINUTES)
             .readTimeout(1, TimeUnit.MINUTES)

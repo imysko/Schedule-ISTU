@@ -6,16 +6,14 @@ import javax.inject.Inject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import me.progneo.campus.data.preference.AuthStateManager
-import me.progneo.campus.data.preference.AuthTokenManager
+import me.progneo.campus.data.preference.CampusAuthStateManager
 import me.progneo.campus.data.preference.RefreshTokenManager
 import me.progneo.campus.domain.usecase.GetTokenUseCase
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 
 @HiltViewModel
 class LoginCampusViewModel @Inject constructor(
-    private val authStateManager: AuthStateManager,
-    private val authTokenManager: AuthTokenManager,
+    private val campusAuthStateManager: CampusAuthStateManager,
     private val refreshTokenManager: RefreshTokenManager,
     private val getTokenUseCase: GetTokenUseCase
 ) : ViewModel() {
@@ -28,8 +26,7 @@ class LoginCampusViewModel @Inject constructor(
             if (code != null) {
                 val response = getTokenUseCase(code)
                 response.onSuccess { tokenResponse ->
-                    authStateManager.save(true)
-                    authTokenManager.save(tokenResponse.accessToken)
+                    campusAuthStateManager.save(true)
                     refreshTokenManager.save(tokenResponse.refreshToken)
                 }
             }

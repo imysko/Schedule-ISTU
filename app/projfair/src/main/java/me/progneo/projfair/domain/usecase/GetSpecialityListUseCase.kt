@@ -8,7 +8,7 @@ class GetSpecialityListUseCase @Inject constructor(
     private val filtersDataRepository: FiltersDataRepository
 ) {
 
-    suspend operator fun invoke(token: String): Result<List<Speciality>> {
-        return filtersDataRepository.getSpecialities(token)
+    suspend operator fun invoke(): Result<List<Speciality>> {
+        return filtersDataRepository.getSpecialities()
     }
 }

@@ -5,10 +5,10 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Named
-import me.progneo.campus.data.service.AuthService
-import me.progneo.campus.data.service.BlogPostService
-import me.progneo.campus.data.service.CountersService
-import me.progneo.campus.data.service.UserService
+import me.progneo.campus.data.api.service.AuthService
+import me.progneo.campus.data.api.service.BlogPostService
+import me.progneo.campus.data.api.service.CountersService
+import me.progneo.campus.data.api.service.UserService
 import retrofit2.Retrofit
 
 @Module

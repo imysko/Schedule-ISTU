@@ -8,7 +8,7 @@ class GetParticipationListUseCase @Inject constructor(
     private val participationRepository: ParticipationRepository
 ) {
 
-    suspend operator fun invoke(token: String): Result<List<Participation>> {
-        return participationRepository.getParticipationList(token)
+    suspend operator fun invoke(): Result<List<Participation>> {
+        return participationRepository.getParticipationList()
     }
 }

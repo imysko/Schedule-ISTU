@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import me.progneo.campus.data.repository.AuthRepositoryImpl
-import me.progneo.campus.data.repository.BlogPostRepositoryImpl
-import me.progneo.campus.data.repository.CountersRepositoryImpl
-import me.progneo.campus.data.repository.UserRepositoryImpl
+import me.progneo.campus.data.api.repository.AuthRepositoryImpl
+import me.progneo.campus.data.api.repository.BlogPostRepositoryImpl
+import me.progneo.campus.data.api.repository.CountersRepositoryImpl
+import me.progneo.campus.data.api.repository.UserRepositoryImpl
 import me.progneo.campus.domain.repository.AuthRepository
 import me.progneo.campus.domain.repository.BlogPostRepository
 import me.progneo.campus.domain.repository.CountersRepository

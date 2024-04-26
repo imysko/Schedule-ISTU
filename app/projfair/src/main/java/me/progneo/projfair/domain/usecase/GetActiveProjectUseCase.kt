@@ -8,7 +8,7 @@ class GetActiveProjectUseCase @Inject constructor(
     private val projectRepository: ProjectRepository
 ) {
 
-    suspend operator fun invoke(token: String): Result<Project> {
-        return projectRepository.getActiveProject(token)
+    suspend operator fun invoke(): Result<Project> {
+        return projectRepository.getActiveProject()
     }
 }

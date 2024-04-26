@@ -46,7 +46,7 @@ fun LanguagePage(
             TopBar(
                 title = stringResource(id = R.string.application_language),
                 isShowBackButton = true,
-                onBackPressed = { onBackClick() }
+                onBackClick = { onBackClick() }
             )
         },
         content = {

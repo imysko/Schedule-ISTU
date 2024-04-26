@@ -2,18 +2,17 @@ package com.istu.schedule.ui.page.newsfeed
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.istu.schedule.R
@@ -30,30 +29,29 @@ fun LoginPage(
         modifier = modifier
             .fillMaxSize()
             .clip(ShapeTop15)
-            .background(AppTheme.colorScheme.backgroundSecondary),
-        verticalArrangement = Arrangement.Center,
+            .background(AppTheme.colorScheme.backgroundSecondary)
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = stringResource(R.string.login_to_account),
+            text = stringResource(R.string.newsfeed_screen_login_hint),
+            textAlign = TextAlign.Center,
             style = AppTheme.typography.title.copy(
                 color = AppTheme.colorScheme.textPrimary
             )
         )
         FilledButton(
-            modifier = Modifier.padding(top = 25.dp).width(250.dp),
-            text = stringResource(R.string.authorize_via_campus),
+            text = stringResource(R.string.login),
             onClick = { onLoginClick() }
         )
     }
 }
 
-@Preview
+@Preview(device = Devices.PIXEL_4, locale = "ru")
 @Composable
 fun PreviewLoginPage() {
     AppTheme {
-        Box(Modifier.size(500.dp)) {
-            LoginPage()
-        }
+        LoginPage()
     }
 }

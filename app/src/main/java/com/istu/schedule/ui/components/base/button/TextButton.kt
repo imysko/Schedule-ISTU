@@ -29,7 +29,7 @@ fun TextButton(
     Column(
         modifier = modifier
             .height(56.dp)
-            .clip(RoundedCornerShape(4.dp))
+            .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
             .padding(horizontal = 5.dp),
         verticalArrangement = Arrangement.Center,

@@ -203,6 +203,7 @@
     <string name="services">Сервисы</string>
     <string name="moodle">Электронное обучение</string>
     <string name="campus">Кампус</string>
+    <string name="notifications_count_zero">Нет новых уведомлений</string>
     <plurals name="notifications_count">
         <item quantity="one">%1$d новое уведомление</item>
         <item quantity="few">%1$d новых уведомления</item>

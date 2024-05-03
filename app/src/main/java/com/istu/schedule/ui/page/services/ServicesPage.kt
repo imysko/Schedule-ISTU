@@ -138,11 +138,17 @@ fun ServicesPage(
                 ServiceItem(
                     title = stringResource(R.string.campus),
                     description = when (campusUiState) {
-                        is ServicesUiState.Content -> pluralStringResource(
-                            id = R.plurals.notifications_count,
-                            count = campusUiState.data.toInt(),
-                            campusUiState.data.toInt()
-                        )
+                        is ServicesUiState.Content -> {
+                            if (campusUiState.data.toInt() != 0) {
+                                pluralStringResource(
+                                    id = R.plurals.notifications_count,
+                                    count = campusUiState.data.toInt(),
+                                    campusUiState.data.toInt()
+                                )
+                            } else {
+                                stringResource(id = R.string.notifications_count_zero)
+                            }
+                        }
 
                         ServicesUiState.Error -> stringResource(R.string.service_message_error)
                         ServicesUiState.Loading -> stringResource(R.string.service_message_loading)

@@ -210,6 +210,7 @@
     <string name="service_message_error">Something went wrong</string>
     <string name="service_message_loading">Updating…</string>
     <string name="newsfeed_screen_login_hint">You must be logged in to the Campus to view the announcement feed</string>
+    <string name="notifications_count_zero">No unread notifications</string>
     <plurals name="notifications_count">
         <item quantity="one">%1$d unread notification</item>
         <item quantity="other">%1$d unread notifications</item>

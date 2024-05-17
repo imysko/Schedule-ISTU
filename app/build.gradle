@@ -60,6 +60,7 @@ android {
 dependencies {
     implementation project(':app:projfair')
     implementation project(':app:campus')
+    implementation project(':app:moodle')
 
     implementation "androidx.core:core-ktx:$ktx"
     implementation "androidx.tracing:tracing:$tracing"

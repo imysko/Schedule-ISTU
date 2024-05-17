@@ -13,7 +13,7 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object EncryptedSharedPreferencesModule {
+internal object EncryptedSharedPreferencesModule {
 
     private const val FILE_NAME = "campus_secret_shared_prefs"
 

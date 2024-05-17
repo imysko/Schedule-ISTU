@@ -17,3 +17,4 @@ rootProject.name = "Schedule-ISTU"
 include ':app'
 include ':app:projfair'
 include ':app:campus'
+include ':app:moodle'

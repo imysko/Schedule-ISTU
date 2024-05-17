@@ -7,6 +7,9 @@ import android.view.inputmethod.InputMethodManager
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -22,51 +25,60 @@ fun LoginCampusPage(
         "https://int.istu.edu/oauth/authorize/?login=yes&client_id=local.660a7aeddc2e07.46112865"
     val context = LocalContext.current
 
-    AndroidView(
-        factory = {
-            WebView(it).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-                )
+    val uiState by viewModel.uiState.collectAsState()
 
-                webViewClient = object : WebViewClient() {
-                    var currentUrl = ""
+    LaunchedEffect(uiState) {
+        if (uiState is LoginCampusUiState.Success) {
+            navController.navigate(NavDestinations.MAIN) {
+                popUpTo(0)
+            }
+        }
+    }
 
-                    @Deprecated("Deprecated in Java")
-                    override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
-                        view.loadUrl(url)
-                        return true
-                    }
+    if (uiState is LoginCampusUiState.Unauthorized) {
+        AndroidView(
+            factory = {
+                WebView(it).apply {
+                    layoutParams = ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                    )
 
-                    override fun onPageFinished(view: WebView, url: String) {
-                        if (currentUrl != url) {
-                            val imm = context.getSystemService(
-                                Context.INPUT_METHOD_SERVICE
-                            ) as InputMethodManager
+                    webViewClient = object : WebViewClient() {
+                        var currentUrl = ""
 
-                            if (url.contains("https://int.istu.edu/oauth/authorize")) {
-                                imm.showSoftInput(view, 0)
-                                view.visibility = View.VISIBLE
-                            }
-                            if (url.contains("?code=")) {
-                                view.visibility = View.INVISIBLE
-                                viewModel.login(url)
-                                navController.navigate(NavDestinations.MAIN) {
-                                    popUpTo(0)
-                                }
-                            }
+                        @Deprecated("Deprecated in Java")
+                        override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+                            view.loadUrl(url)
+                            return true
                         }
 
-                        currentUrl = url
-                    }
-                }
+                        override fun onPageFinished(view: WebView, url: String) {
+                            if (currentUrl != url) {
+                                val imm = context.getSystemService(
+                                    Context.INPUT_METHOD_SERVICE
+                                ) as InputMethodManager
 
-                loadUrl(loginUrl)
+                                if (url.contains("https://int.istu.edu/oauth/authorize")) {
+                                    imm.showSoftInput(view, 0)
+                                    view.visibility = View.VISIBLE
+                                }
+                                if (url.contains("?code=")) {
+                                    view.visibility = View.INVISIBLE
+                                    viewModel.login(url)
+                                }
+                            }
+
+                            currentUrl = url
+                        }
+                    }
+
+                    loadUrl(loginUrl)
+                }
+            },
+            update = {
+                it.loadUrl(loginUrl)
             }
-        },
-        update = {
-            it.loadUrl(loginUrl)
-        }
-    )
+        )
+    }
 }

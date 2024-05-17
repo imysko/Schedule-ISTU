@@ -9,6 +9,8 @@ import me.progneo.campus.domain.usecase.GetBlogPostListUseCase
 import me.progneo.campus.domain.usecase.GetBlogPostListUseCaseImpl
 import me.progneo.campus.domain.usecase.GetCountersUseCase
 import me.progneo.campus.domain.usecase.GetCountersUseCaseImpl
+import me.progneo.campus.domain.usecase.GetCurrentUserUseCase
+import me.progneo.campus.domain.usecase.GetCurrentUserUseCaseImpl
 import me.progneo.campus.domain.usecase.GetLastBlogPostIdUseCase
 import me.progneo.campus.domain.usecase.GetTokenUseCase
 import me.progneo.campus.domain.usecase.GetTokenUseCaseImpl
@@ -44,6 +46,12 @@ internal abstract class UseCaseModule {
     internal abstract fun bindGetUserByIdUseCase(
         getUserByIdUseCaseImpl: GetUserByIdUseCaseImpl
     ): GetUserByIdUseCase
+
+    @Binds
+    @Singleton
+    internal abstract fun bindGetCurrentUserUseCase(
+        getCurrentUserUseCaseImpl: GetCurrentUserUseCaseImpl
+    ): GetCurrentUserUseCase
 
     @Binds
     @Singleton

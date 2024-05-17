@@ -13,10 +13,7 @@ internal class UserRepositoryImpl @Inject constructor(
 
     private val cachedList: MutableList<User> = mutableListOf()
 
-    override suspend fun getUserList(
-        userIdList: List<Int>
-
-    ): Result<List<User>> {
+    override suspend fun getUserList(userIdList: List<Int>): Result<List<User>> {
         val apiResponse = userService.getUserList(userIdList = userIdList)
 
         if (apiResponse.code() == HttpURLConnection.HTTP_OK) {
@@ -60,5 +57,22 @@ internal class UserRepositoryImpl @Inject constructor(
                 )
             )
         }
+    }
+
+    override suspend fun getCurrentUser(): Result<User> {
+        val apiResponse = userService.getCurrentUser()
+
+        if (apiResponse.code() == HttpURLConnection.HTTP_OK) {
+            apiResponse.body()?.let { response ->
+                return Result.success(response.result)
+            }
+        }
+
+        return Result.failure(
+            RequestException(
+                code = apiResponse.code(),
+                message = apiResponse.message()
+            )
+        )
     }
 }

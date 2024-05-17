@@ -54,7 +54,12 @@ fun ServicesPage(
 
     val campusUiState by viewModel.campusUiState.collectAsState()
     val projfairUiState by viewModel.projfairUiState.collectAsState()
+    val moodleUiState by viewModel.moodleUiState.collectAsState()
     val notificationList by viewModel.notificationList.collectAsState()
+
+    val moodleAccountIntent = remember {
+        Intent(Intent.ACTION_VIEW, Uri.parse("https://el.istu.edu/"))
+    }
 
     val campusAccountIntent = remember {
         Intent(Intent.ACTION_VIEW, Uri.parse("https://int.istu.edu/"))
@@ -63,13 +68,16 @@ fun ServicesPage(
     LaunchedEffect(Unit) {
         viewModel.getCampusInfo()
         viewModel.getProjfairInfo()
+        // viewModel.getMoodleInfo() // TODO: enable when retrofit is implemented
     }
 
     ServicesPage(
         campusUiState = campusUiState,
         projfairUiState = projfairUiState,
+        moodleUiState = moodleUiState,
         notificationList = notificationList,
         onSettingsClick = { bottomNavController.navigate(NavDestinations.SETTINGS) },
+        onMoodleAccountClick = { context.startActivity(moodleAccountIntent) },
         onCampusLoginClick = { navController.navigate(NavDestinations.CAMPUS_LOGIN) },
         onCampusAccountClick = { context.startActivity(campusAccountIntent) },
         onCampusNotificationClick = { bottomNavController.navigate(NavDestinations.NEWSFEED) },
@@ -83,8 +91,10 @@ fun ServicesPage(
 fun ServicesPage(
     campusUiState: ServicesUiState,
     projfairUiState: ServicesUiState,
+    moodleUiState: ServicesUiState,
     notificationList: List<Notification>,
     onSettingsClick: () -> Unit,
+    onMoodleAccountClick: () -> Unit,
     onCampusLoginClick: () -> Unit,
     onCampusAccountClick: () -> Unit,
     onCampusNotificationClick: () -> Unit,
@@ -131,7 +141,27 @@ fun ServicesPage(
                 )
                 ServiceItem(
                     title = stringResource(R.string.moodle),
-                    description = stringResource(R.string.login),
+                    description = when (moodleUiState) {
+                        is ServicesUiState.Content -> {
+                            if (moodleUiState.data.toInt() != 0) {
+                                pluralStringResource(
+                                    id = R.plurals.notifications_count,
+                                    count = moodleUiState.data.toInt(),
+                                    moodleUiState.data.toInt()
+                                )
+                            } else {
+                                stringResource(id = R.string.notifications_count_zero)
+                            }
+                        }
+
+                        ServicesUiState.Error -> stringResource(R.string.service_message_error)
+                        ServicesUiState.Loading -> stringResource(R.string.service_message_loading)
+                        ServicesUiState.NetworkUnavailable -> stringResource(
+                            R.string.no_internet_connection
+                        )
+
+                        ServicesUiState.Unauthorized -> stringResource(R.string.login)
+                    },
                     modifier = Modifier.decreasePadding(15.dp)
                 )
                 HorizontalDivider(color = HalfGray)
@@ -248,9 +278,11 @@ fun PreviewServicesPage() {
     AppTheme {
         ServicesPage(
             campusUiState = ServicesUiState.Content("10"),
+            moodleUiState = ServicesUiState.Content("5"),
             projfairUiState = ServicesUiState.Content("Иванов Иван Иванович"),
             notificationList = listOf(Notification.Campus, Notification.Projfair),
             onSettingsClick = {},
+            onMoodleAccountClick = {},
             onCampusLoginClick = {},
             onCampusAccountClick = {},
             onCampusNotificationClick = {},

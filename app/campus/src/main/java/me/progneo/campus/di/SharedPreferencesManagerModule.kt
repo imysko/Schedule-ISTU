@@ -10,6 +10,8 @@ import me.progneo.campus.data.preference.LastSeenBlogPostIdManager
 import me.progneo.campus.data.preference.LastSeenBlogPostIdManagerImpl
 import me.progneo.campus.data.preference.RefreshTokenManager
 import me.progneo.campus.data.preference.RefreshTokenManagerImpl
+import me.progneo.campus.data.preference.UserIdManager
+import me.progneo.campus.data.preference.UserIdManagerImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -29,4 +31,7 @@ internal abstract class SharedPreferencesManagerModule {
     internal abstract fun lastBlogPostIdManager(
         lastBlogPostIdManagerImpl: LastSeenBlogPostIdManagerImpl
     ): LastSeenBlogPostIdManager
+
+    @Binds
+    internal abstract fun userIdManager(userIdManagerImpl: UserIdManagerImpl): UserIdManager
 }
